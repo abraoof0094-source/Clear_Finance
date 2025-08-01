@@ -177,6 +177,14 @@ export function Categories() {
     setExpandedCategories(newExpanded);
   };
 
+  const toggleMenu = (categoryId: number) => {
+    const newOpenMenus = new Set<number>();
+    if (!openMenus.has(categoryId)) {
+      newOpenMenus.add(categoryId);
+    }
+    setOpenMenus(newOpenMenus);
+  };
+
   const handleEditMainCategory = (category: any) => {
     setSelectedMainCategory(category);
     setNewCategoryName(category.name);
