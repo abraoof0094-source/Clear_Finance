@@ -538,7 +538,9 @@ export function Categories() {
 interface ExpandableCategoryItemProps {
   category: { id: number; name: string; icon: string; type: "income" | "expense"; subcategories: any[] };
   isExpanded: boolean;
+  isMenuOpen: boolean;
   onToggle: () => void;
+  onToggleMenu: () => void;
   onEditMain: () => void;
   onDeleteMain: () => void;
   onAddSubcategory: () => void;
@@ -546,17 +548,18 @@ interface ExpandableCategoryItemProps {
   onDeleteSubcategory: (subcategory: any) => void;
 }
 
-function ExpandableCategoryItem({ 
-  category, 
-  isExpanded, 
+function ExpandableCategoryItem({
+  category,
+  isExpanded,
+  isMenuOpen,
   onToggle,
+  onToggleMenu,
   onEditMain,
   onDeleteMain,
   onAddSubcategory,
   onEditSubcategory,
-  onDeleteSubcategory 
+  onDeleteSubcategory
 }: ExpandableCategoryItemProps) {
-  const [showMainMenu, setShowMainMenu] = useState(false);
 
   return (
     <Card className="overflow-hidden">
