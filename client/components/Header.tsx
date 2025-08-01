@@ -7,7 +7,7 @@ interface HeaderProps {
   showSearch?: boolean;
 }
 
-export function Header({ title = "FinClear", showMenu = true, showSearch = true }: HeaderProps) {
+export function Header({ title = "Clear Finance", showMenu = true, showSearch = true }: HeaderProps) {
   return (
     <header className="sticky top-0 z-50 w-full bg-background border-b border-border">
       <div className="flex items-center justify-between p-4">
