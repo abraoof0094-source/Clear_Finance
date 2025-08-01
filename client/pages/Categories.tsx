@@ -149,17 +149,18 @@ const allCategories = [
 
 export function Categories() {
   const [expandedCategories, setExpandedCategories] = useState<Set<number>>(new Set());
+  const [openMenus, setOpenMenus] = useState<Set<number>>(new Set());
   const [showAddMainDialog, setShowAddMainDialog] = useState(false);
   const [showEditMainDialog, setShowEditMainDialog] = useState(false);
   const [showDeleteMainDialog, setShowDeleteMainDialog] = useState(false);
   const [showAddSubDialog, setShowAddSubDialog] = useState(false);
   const [showEditSubDialog, setShowEditSubDialog] = useState(false);
   const [showDeleteSubDialog, setShowDeleteSubDialog] = useState(false);
-  
+
   const [selectedMainCategory, setSelectedMainCategory] = useState<any>(null);
   const [selectedSubcategory, setSelectedSubcategory] = useState<any>(null);
   const [activeMainCategoryId, setActiveMainCategoryId] = useState<number | null>(null);
-  
+
   const [newCategoryName, setNewCategoryName] = useState("Untitled");
   const [selectedIcon, setSelectedIcon] = useState("🏷️");
   const [categoryType, setCategoryType] = useState<"income" | "expense">("expense");
