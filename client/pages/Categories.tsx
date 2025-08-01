@@ -585,12 +585,16 @@ function ExpandableCategoryItem({
           
           {/* Main Category Menu */}
           <div className="relative ml-2">
-            <Button 
-              variant="ghost" 
-              size="sm"
-              onClick={() => setShowMainMenu(!showMainMenu)}
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-8 w-8 hover:bg-muted"
+              onClick={(e) => {
+                e.stopPropagation();
+                setShowMainMenu(!showMainMenu);
+              }}
             >
-              <span className="text-muted-foreground">⋯</span>
+              <span className="text-foreground font-bold text-lg">⋯</span>
             </Button>
             {showMainMenu && (
               <div className="absolute right-0 top-full mt-1 bg-card border border-border rounded-md shadow-lg z-10 py-1 min-w-[120px]">
