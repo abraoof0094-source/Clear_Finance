@@ -562,7 +562,7 @@ function ExpandableCategoryItem({
 }: ExpandableCategoryItemProps) {
 
   return (
-    <Card className="overflow-hidden">
+    <Card className="relative">
       {/* Main Category Header */}
       <div className="p-4">
         <div className="flex items-center justify-between">
