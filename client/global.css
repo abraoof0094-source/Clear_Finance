@@ -9,51 +9,44 @@
    * A different format will require also updating the theme in tailwind.config.ts.
   */
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --background: 45 5% 15%;
+    --foreground: 60 30% 85%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card: 45 5% 20%;
+    --card-foreground: 60 30% 85%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover: 45 5% 15%;
+    --popover-foreground: 60 30% 85%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 60 85% 60%;
+    --primary-foreground: 45 5% 15%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 45 5% 25%;
+    --secondary-foreground: 60 30% 85%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 45 5% 25%;
+    --muted-foreground: 60 15% 65%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 60 85% 60%;
+    --accent-foreground: 45 5% 15%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 60 30% 85%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 45 5% 30%;
+    --input: 45 5% 30%;
+    --ring: 60 85% 60%;
 
     --radius: 0.5rem;
 
-    --sidebar-background: 0 0% 98%;
-
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-background: 45 5% 15%;
+    --sidebar-foreground: 60 30% 85%;
+    --sidebar-primary: 60 85% 60%;
+    --sidebar-primary-foreground: 45 5% 15%;
+    --sidebar-accent: 45 5% 25%;
+    --sidebar-accent-foreground: 60 30% 85%;
+    --sidebar-border: 45 5% 30%;
+    --sidebar-ring: 60 85% 60%;
   }
 
   .dark {
