@@ -5,7 +5,7 @@ import { Button } from "../components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../components/ui/dialog";
 import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
-import { Plus, ChevronRight, ArrowLeft } from "lucide-react";
+import { Plus, ChevronDown, ChevronRight } from "lucide-react";
 
 // Income Categories
 const incomeCategories = [
@@ -55,7 +55,7 @@ const expenseCategories = [
       { name: "Indoor Play / Recreation", icon: "🎳", description: "Bowling, escape rooms, indoor parks" },
       { name: "Shopping & Clothing", icon: "👕", description: "Malls, Myntra, Amazon" },
       { name: "Electronics & Gadgets", icon: "📱", description: "Phones, laptops, smartwatches" },
-      { name: "Education / Courses", icon: "📚", description: "Online certifications, skill upgrades" },
+      { name: "Education / Courses", icon: "���", description: "Online certifications, skill upgrades" },
       { name: "Kids' Education", icon: "🎓", description: "School fees, tuition, activities" },
       { name: "Pets", icon: "🐕", description: "Food, vet visits, grooming" },
     ]
@@ -143,7 +143,7 @@ const expenseCategories = [
 ];
 
 export function Categories() {
-  const [selectedMainCategory, setSelectedMainCategory] = useState<any>(null);
+  const [expandedCategories, setExpandedCategories] = useState<Set<number>>(new Set());
   const [showAddDialog, setShowAddDialog] = useState(false);
   const [showEditDialog, setShowEditDialog] = useState(false);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
@@ -154,12 +154,14 @@ export function Categories() {
 
   const availableIcons = ["💰", "🏠", "🍽️", "🚗", "📱", "❤️", "🎓", "🛒", "🎯", "📊"];
 
-  const handleMainCategoryClick = (category: any) => {
-    setSelectedMainCategory(category);
-  };
-
-  const handleBackToMain = () => {
-    setSelectedMainCategory(null);
+  const toggleCategory = (categoryId: number) => {
+    const newExpanded = new Set(expandedCategories);
+    if (newExpanded.has(categoryId)) {
+      newExpanded.delete(categoryId);
+    } else {
+      newExpanded.add(categoryId);
+    }
+    setExpandedCategories(newExpanded);
   };
 
   const handleEditSubcategory = (subcategory: any) => {
@@ -173,51 +175,6 @@ export function Categories() {
     setSelectedSubcategory(subcategory);
     setShowDeleteDialog(true);
   };
-
-  if (selectedMainCategory) {
-    return (
-      <Layout>
-        <div className="space-y-6 py-4">
-          {/* Back Button and Category Header */}
-          <div className="flex items-center gap-3 mb-6">
-            <Button variant="ghost" size="icon" onClick={handleBackToMain}>
-              <ArrowLeft className="h-5 w-5" />
-            </Button>
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-primary/20 rounded-full flex items-center justify-center text-lg">
-                {selectedMainCategory.icon}
-              </div>
-              <h2 className="text-xl font-semibold">{selectedMainCategory.name}</h2>
-            </div>
-          </div>
-
-          {/* Subcategories */}
-          <div className="space-y-3">
-            {selectedMainCategory.subcategories.map((subcategory: any, index: number) => (
-              <SubcategoryItem 
-                key={index}
-                subcategory={subcategory} 
-                onEdit={handleEditSubcategory}
-                onDelete={handleDeleteSubcategory}
-              />
-            ))}
-          </div>
-
-          {/* Add New Subcategory Button */}
-          <Card className="p-4">
-            <Button 
-              variant="outline" 
-              className="w-full flex items-center gap-2"
-              onClick={() => setShowAddDialog(true)}
-            >
-              <Plus className="h-4 w-4" />
-              ADD NEW SUBCATEGORY
-            </Button>
-          </Card>
-        </div>
-      </Layout>
-    );
-  }
 
   return (
     <Layout>
@@ -246,11 +203,15 @@ export function Categories() {
           <h3 className="text-lg font-semibold mb-4">Income Categories</h3>
           <div className="space-y-3">
             {incomeCategories.map((category) => (
-              <MainCategoryItem 
-                key={category.id}
-                category={category} 
-                onClick={() => handleMainCategoryClick(category)}
-              />
+              <div key={category.id}>
+                <ExpandableCategoryItem 
+                  category={category} 
+                  isExpanded={expandedCategories.has(category.id)}
+                  onToggle={() => toggleCategory(category.id)}
+                  onEditSubcategory={handleEditSubcategory}
+                  onDeleteSubcategory={handleDeleteSubcategory}
+                />
+              </div>
             ))}
           </div>
         </div>
@@ -260,11 +221,15 @@ export function Categories() {
           <h3 className="text-lg font-semibold mb-4">Expense Categories</h3>
           <div className="space-y-3">
             {expenseCategories.map((category) => (
-              <MainCategoryItem 
-                key={category.id}
-                category={category} 
-                onClick={() => handleMainCategoryClick(category)}
-              />
+              <div key={category.id}>
+                <ExpandableCategoryItem 
+                  category={category} 
+                  isExpanded={expandedCategories.has(category.id)}
+                  onToggle={() => toggleCategory(category.id)}
+                  onEditSubcategory={handleEditSubcategory}
+                  onDeleteSubcategory={handleDeleteSubcategory}
+                />
+              </div>
             ))}
           </div>
         </div>
@@ -426,28 +391,77 @@ export function Categories() {
   );
 }
 
-interface MainCategoryItemProps {
-  category: { name: string; icon: string; subcategories: any[] };
-  onClick: () => void;
+interface ExpandableCategoryItemProps {
+  category: { id: number; name: string; icon: string; subcategories: any[] };
+  isExpanded: boolean;
+  onToggle: () => void;
+  onEditSubcategory: (subcategory: any) => void;
+  onDeleteSubcategory: (subcategory: any) => void;
 }
 
-function MainCategoryItem({ category, onClick }: MainCategoryItemProps) {
+function ExpandableCategoryItem({ 
+  category, 
+  isExpanded, 
+  onToggle,
+  onEditSubcategory,
+  onDeleteSubcategory 
+}: ExpandableCategoryItemProps) {
   return (
-    <Card className="p-4 cursor-pointer hover:bg-muted/50 transition-colors" onClick={onClick}>
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-primary/20 rounded-full flex items-center justify-center text-lg">
-            {category.icon}
+    <Card className="overflow-hidden">
+      {/* Main Category Header */}
+      <div 
+        className="p-4 cursor-pointer hover:bg-muted/50 transition-colors"
+        onClick={onToggle}
+      >
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-primary/20 rounded-full flex items-center justify-center text-lg">
+              {category.icon}
+            </div>
+            <div>
+              <span className="font-medium">{category.name}</span>
+              <div className="text-sm text-muted-foreground">
+                {category.subcategories.length} subcategories
+              </div>
+            </div>
           </div>
-          <div>
-            <span className="font-medium">{category.name}</span>
-            <div className="text-sm text-muted-foreground">
-              {category.subcategories.length} subcategories
+          <div className="transition-transform duration-200">
+            {isExpanded ? (
+              <ChevronDown className="h-5 w-5 text-muted-foreground" />
+            ) : (
+              <ChevronRight className="h-5 w-5 text-muted-foreground" />
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* Subcategories - Expandable */}
+      {isExpanded && (
+        <div className="border-t border-border bg-muted/20">
+          <div className="space-y-1 p-2">
+            {category.subcategories.map((subcategory, index) => (
+              <SubcategoryItem 
+                key={index}
+                subcategory={subcategory} 
+                onEdit={onEditSubcategory}
+                onDelete={onDeleteSubcategory}
+              />
+            ))}
+            
+            {/* Add Subcategory Button */}
+            <div className="p-2">
+              <Button 
+                variant="ghost" 
+                size="sm"
+                className="w-full justify-start text-muted-foreground hover:text-foreground"
+              >
+                <Plus className="h-4 w-4 mr-2" />
+                Add subcategory
+              </Button>
             </div>
           </div>
         </div>
-        <ChevronRight className="h-5 w-5 text-muted-foreground" />
-      </div>
+      )}
     </Card>
   );
 }
@@ -462,15 +476,15 @@ function SubcategoryItem({ subcategory, onEdit, onDelete }: SubcategoryItemProps
   const [showMenu, setShowMenu] = useState(false);
 
   return (
-    <Card className="p-4 relative">
+    <div className="bg-background rounded-md p-3 relative">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-primary/20 rounded-full flex items-center justify-center text-lg">
+          <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center text-sm">
             {subcategory.icon}
           </div>
-          <div>
-            <div className="font-medium">{subcategory.name}</div>
-            <div className="text-sm text-muted-foreground">{subcategory.description}</div>
+          <div className="flex-1">
+            <div className="font-medium text-sm">{subcategory.name}</div>
+            <div className="text-xs text-muted-foreground">{subcategory.description}</div>
           </div>
         </div>
         <div className="relative">
@@ -505,6 +519,6 @@ function SubcategoryItem({ subcategory, onEdit, onDelete }: SubcategoryItemProps
           )}
         </div>
       </div>
-    </Card>
+    </div>
   );
 }
