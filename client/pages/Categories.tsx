@@ -228,10 +228,12 @@ export function Categories() {
           <div className="space-y-3">
             {allCategories.map((category) => (
               <div key={category.id}>
-                <ExpandableCategoryItem 
-                  category={category} 
+                <ExpandableCategoryItem
+                  category={category}
                   isExpanded={expandedCategories.has(category.id)}
+                  isMenuOpen={openMenus.has(category.id)}
                   onToggle={() => toggleCategory(category.id)}
+                  onToggleMenu={() => toggleMenu(category.id)}
                   onEditMain={() => handleEditMainCategory(category)}
                   onDeleteMain={() => handleDeleteMainCategory(category)}
                   onAddSubcategory={() => handleAddSubcategory(category.id)}
