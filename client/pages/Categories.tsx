@@ -5,14 +5,15 @@ import { Button } from "../components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../components/ui/dialog";
 import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
-import { Plus, ChevronDown, ChevronRight } from "lucide-react";
+import { Plus, ChevronDown, ChevronRight, Edit, Trash2 } from "lucide-react";
 
-// Income Categories
-const incomeCategories = [
+// All Categories (Income + Expense combined)
+const allCategories = [
   {
     id: 1,
     name: "Income Sources",
     icon: "💰",
+    type: "income" as const,
     subcategories: [
       { name: "Fixed Salary", icon: "💼", description: "Monthly take-home salary" },
       { name: "Variable Pay", icon: "📈", description: "Performance bonus, annual bonus" },
@@ -21,15 +22,12 @@ const incomeCategories = [
       { name: "Passive Income", icon: "📊", description: "Dividends, rental income" },
       { name: "Others", icon: "🎯", description: "ESOPs, stock sales" },
     ]
-  }
-];
-
-// Expense Categories
-const expenseCategories = [
+  },
   {
     id: 2,
     name: "Fixed Household Expenses",
     icon: "🏠",
+    type: "expense" as const,
     subcategories: [
       { name: "Rent / Home Loan EMI", icon: "🏡", description: "Apartment rent or housing EMI" },
       { name: "Maintenance / Society Charges", icon: "🏢", description: "Gated community maintenance fees" },
@@ -46,6 +44,7 @@ const expenseCategories = [
     id: 3,
     name: "Family & Personal Living",
     icon: "👨‍👩‍👧‍👦",
+    type: "expense" as const,
     subcategories: [
       { name: "Food & Dining", icon: "🍽️", description: "Restaurants, weekend dinners, Swiggy/Zomato" },
       { name: "Weekend Chills / Drinks", icon: "🍻", description: "Pubs, bars, liquor store purchases" },
@@ -55,7 +54,7 @@ const expenseCategories = [
       { name: "Indoor Play / Recreation", icon: "🎳", description: "Bowling, escape rooms, indoor parks" },
       { name: "Shopping & Clothing", icon: "👕", description: "Malls, Myntra, Amazon" },
       { name: "Electronics & Gadgets", icon: "📱", description: "Phones, laptops, smartwatches" },
-      { name: "Education / Courses", icon: "���", description: "Online certifications, skill upgrades" },
+      { name: "Education / Courses", icon: "📚", description: "Online certifications, skill upgrades" },
       { name: "Kids' Education", icon: "🎓", description: "School fees, tuition, activities" },
       { name: "Pets", icon: "🐕", description: "Food, vet visits, grooming" },
     ]
@@ -64,6 +63,7 @@ const expenseCategories = [
     id: 4,
     name: "Insurance",
     icon: "🛡️",
+    type: "expense" as const,
     subcategories: [
       { name: "Term Insurance", icon: "📋", description: "₹5–7.5 Cr cover, 10-year premium" },
       { name: "Health Insurance", icon: "❤️", description: "Family floater policy" },
@@ -76,6 +76,7 @@ const expenseCategories = [
     id: 5,
     name: "Investments",
     icon: "📈",
+    type: "expense" as const,
     subcategories: [
       { name: "Mutual Funds (SIP)", icon: "📊", description: "Equity, hybrid, index funds" },
       { name: "Mutual Funds (Lumpsum)", icon: "💹", description: "Opportunistic investing" },
@@ -93,6 +94,7 @@ const expenseCategories = [
     id: 6,
     name: "Loans & EMI Payments",
     icon: "💳",
+    type: "expense" as const,
     subcategories: [
       { name: "Home Loan", icon: "🏠", description: "Bank EMI" },
       { name: "Car Loan", icon: "🚗", description: "EMI for sedan/SUV" },
@@ -106,6 +108,7 @@ const expenseCategories = [
     id: 7,
     name: "Lifestyle & Discretionary",
     icon: "🎪",
+    type: "expense" as const,
     subcategories: [
       { name: "Weekend Getaways", icon: "🏔️", description: "Coorg, Ooty, Goa trips" },
       { name: "Vacations / Travel Abroad", icon: "✈️", description: "Family holidays" },
@@ -120,6 +123,7 @@ const expenseCategories = [
     id: 8,
     name: "Savings & Emergency Funds",
     icon: "🏦",
+    type: "expense" as const,
     subcategories: [
       { name: "Emergency Fund", icon: "🚨", description: "6–12 months' expenses" },
       { name: "Opportunity Fund", icon: "💡", description: "For sudden investments" },
@@ -131,6 +135,7 @@ const expenseCategories = [
     id: 9,
     name: "Miscellaneous / One-Time",
     icon: "📦",
+    type: "expense" as const,
     subcategories: [
       { name: "Festivals / Gifts", icon: "🎁", description: "Diwali, weddings" },
       { name: "Charity / Donations", icon: "❤️", description: "80G deductions" },
@@ -144,15 +149,22 @@ const expenseCategories = [
 
 export function Categories() {
   const [expandedCategories, setExpandedCategories] = useState<Set<number>>(new Set());
-  const [showAddDialog, setShowAddDialog] = useState(false);
-  const [showEditDialog, setShowEditDialog] = useState(false);
-  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [showAddMainDialog, setShowAddMainDialog] = useState(false);
+  const [showEditMainDialog, setShowEditMainDialog] = useState(false);
+  const [showDeleteMainDialog, setShowDeleteMainDialog] = useState(false);
+  const [showAddSubDialog, setShowAddSubDialog] = useState(false);
+  const [showEditSubDialog, setShowEditSubDialog] = useState(false);
+  const [showDeleteSubDialog, setShowDeleteSubDialog] = useState(false);
+  
+  const [selectedMainCategory, setSelectedMainCategory] = useState<any>(null);
   const [selectedSubcategory, setSelectedSubcategory] = useState<any>(null);
+  const [activeMainCategoryId, setActiveMainCategoryId] = useState<number | null>(null);
+  
   const [newCategoryName, setNewCategoryName] = useState("Untitled");
   const [selectedIcon, setSelectedIcon] = useState("🏷️");
-  const [categoryType, setCategoryType] = useState<"INCOME" | "EXPENSE">("EXPENSE");
+  const [categoryType, setCategoryType] = useState<"income" | "expense">("expense");
 
-  const availableIcons = ["💰", "🏠", "🍽️", "🚗", "📱", "❤️", "🎓", "🛒", "🎯", "📊"];
+  const availableIcons = ["💰", "🏠", "🍽️", "🚗", "📱", "❤️", "🎓", "🛒", "🎯", "📊", "💳", "🛡️", "📈", "🎪", "🏦", "📦"];
 
   const toggleCategory = (categoryId: number) => {
     const newExpanded = new Set(expandedCategories);
@@ -164,16 +176,36 @@ export function Categories() {
     setExpandedCategories(newExpanded);
   };
 
+  const handleEditMainCategory = (category: any) => {
+    setSelectedMainCategory(category);
+    setNewCategoryName(category.name);
+    setSelectedIcon(category.icon);
+    setCategoryType(category.type);
+    setShowEditMainDialog(true);
+  };
+
+  const handleDeleteMainCategory = (category: any) => {
+    setSelectedMainCategory(category);
+    setShowDeleteMainDialog(true);
+  };
+
+  const handleAddSubcategory = (mainCategoryId: number) => {
+    setActiveMainCategoryId(mainCategoryId);
+    setNewCategoryName("");
+    setSelectedIcon("🏷️");
+    setShowAddSubDialog(true);
+  };
+
   const handleEditSubcategory = (subcategory: any) => {
     setSelectedSubcategory(subcategory);
     setNewCategoryName(subcategory.name);
     setSelectedIcon(subcategory.icon);
-    setShowEditDialog(true);
+    setShowEditSubDialog(true);
   };
 
   const handleDeleteSubcategory = (subcategory: any) => {
     setSelectedSubcategory(subcategory);
-    setShowDeleteDialog(true);
+    setShowDeleteSubDialog(true);
   };
 
   return (
@@ -198,34 +230,19 @@ export function Categories() {
           </div>
         </Card>
 
-        {/* Income Categories */}
+        {/* All Categories */}
         <div>
-          <h3 className="text-lg font-semibold mb-4">Income Categories</h3>
+          <h3 className="text-lg font-semibold mb-4">All Categories</h3>
           <div className="space-y-3">
-            {incomeCategories.map((category) => (
+            {allCategories.map((category) => (
               <div key={category.id}>
                 <ExpandableCategoryItem 
                   category={category} 
                   isExpanded={expandedCategories.has(category.id)}
                   onToggle={() => toggleCategory(category.id)}
-                  onEditSubcategory={handleEditSubcategory}
-                  onDeleteSubcategory={handleDeleteSubcategory}
-                />
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Expense Categories */}
-        <div>
-          <h3 className="text-lg font-semibold mb-4">Expense Categories</h3>
-          <div className="space-y-3">
-            {expenseCategories.map((category) => (
-              <div key={category.id}>
-                <ExpandableCategoryItem 
-                  category={category} 
-                  isExpanded={expandedCategories.has(category.id)}
-                  onToggle={() => toggleCategory(category.id)}
+                  onEditMain={() => handleEditMainCategory(category)}
+                  onDeleteMain={() => handleDeleteMainCategory(category)}
+                  onAddSubcategory={() => handleAddSubcategory(category.id)}
                   onEditSubcategory={handleEditSubcategory}
                   onDeleteSubcategory={handleDeleteSubcategory}
                 />
@@ -239,7 +256,7 @@ export function Categories() {
           <Button 
             variant="outline" 
             className="w-full flex items-center gap-2"
-            onClick={() => setShowAddDialog(true)}
+            onClick={() => setShowAddMainDialog(true)}
           >
             <Plus className="h-4 w-4" />
             ADD NEW MAIN CATEGORY
@@ -250,17 +267,17 @@ export function Categories() {
         <Button 
           size="icon" 
           className="fixed bottom-24 right-6 h-14 w-14 rounded-full shadow-lg"
-          onClick={() => setShowAddDialog(true)}
+          onClick={() => setShowAddMainDialog(true)}
         >
           <Plus className="h-6 w-6" />
         </Button>
       </div>
 
-      {/* Add Category Dialog */}
-      <Dialog open={showAddDialog} onOpenChange={setShowAddDialog}>
+      {/* Add Main Category Dialog */}
+      <Dialog open={showAddMainDialog} onOpenChange={setShowAddMainDialog}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle>Add new category</DialogTitle>
+            <DialogTitle>Add new main category</DialogTitle>
           </DialogHeader>
           <div className="space-y-4">
             <div className="flex gap-4">
@@ -269,18 +286,18 @@ export function Categories() {
                 <label className="flex items-center gap-2">
                   <input
                     type="radio"
-                    value="INCOME"
-                    checked={categoryType === "INCOME"}
-                    onChange={(e) => setCategoryType(e.target.value as "INCOME")}
+                    value="income"
+                    checked={categoryType === "income"}
+                    onChange={(e) => setCategoryType(e.target.value as "income")}
                   />
                   INCOME
                 </label>
                 <label className="flex items-center gap-2">
                   <input
                     type="radio"
-                    value="EXPENSE"
-                    checked={categoryType === "EXPENSE"}
-                    onChange={(e) => setCategoryType(e.target.value as "EXPENSE")}
+                    value="expense"
+                    checked={categoryType === "expense"}
+                    onChange={(e) => setCategoryType(e.target.value as "expense")}
                   />
                   ✓ EXPENSE
                 </label>
@@ -297,7 +314,7 @@ export function Categories() {
 
             <div className="space-y-2">
               <Label>Icon</Label>
-              <div className="grid grid-cols-5 gap-2">
+              <div className="grid grid-cols-6 gap-2">
                 {availableIcons.map((icon) => (
                   <Button
                     key={icon}
@@ -312,10 +329,10 @@ export function Categories() {
             </div>
 
             <div className="flex gap-2 pt-4">
-              <Button variant="outline" onClick={() => setShowAddDialog(false)}>
+              <Button variant="outline" onClick={() => setShowAddMainDialog(false)}>
                 CANCEL
               </Button>
-              <Button onClick={() => setShowAddDialog(false)}>
+              <Button onClick={() => setShowAddMainDialog(false)}>
                 SAVE
               </Button>
             </div>
@@ -323,8 +340,141 @@ export function Categories() {
         </DialogContent>
       </Dialog>
 
-      {/* Edit Category Dialog */}
-      <Dialog open={showEditDialog} onOpenChange={setShowEditDialog}>
+      {/* Edit Main Category Dialog */}
+      <Dialog open={showEditMainDialog} onOpenChange={setShowEditMainDialog}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Edit main category</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div className="flex gap-4">
+              <Label>Type:</Label>
+              <div className="flex gap-4">
+                <label className="flex items-center gap-2">
+                  <input
+                    type="radio"
+                    value="income"
+                    checked={categoryType === "income"}
+                    onChange={(e) => setCategoryType(e.target.value as "income")}
+                  />
+                  INCOME
+                </label>
+                <label className="flex items-center gap-2">
+                  <input
+                    type="radio"
+                    value="expense"
+                    checked={categoryType === "expense"}
+                    onChange={(e) => setCategoryType(e.target.value as "expense")}
+                  />
+                  ✓ EXPENSE
+                </label>
+              </div>
+            </div>
+            
+            <div className="space-y-2">
+              <Label>Name</Label>
+              <Input
+                value={newCategoryName}
+                onChange={(e) => setNewCategoryName(e.target.value)}
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label>Icon</Label>
+              <div className="grid grid-cols-6 gap-2">
+                {availableIcons.map((icon) => (
+                  <Button
+                    key={icon}
+                    variant={selectedIcon === icon ? "default" : "outline"}
+                    size="icon"
+                    onClick={() => setSelectedIcon(icon)}
+                  >
+                    {icon}
+                  </Button>
+                ))}
+              </div>
+            </div>
+
+            <div className="flex gap-2 pt-4">
+              <Button variant="outline" onClick={() => setShowEditMainDialog(false)}>
+                CANCEL
+              </Button>
+              <Button onClick={() => setShowEditMainDialog(false)}>
+                SAVE
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Delete Main Category Dialog */}
+      <Dialog open={showDeleteMainDialog} onOpenChange={setShowDeleteMainDialog}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Delete this main category?</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <p>
+              Deleting this main category will also delete all its subcategories, records, and budgets. Are you sure?
+            </p>
+            <div className="flex gap-2 pt-4">
+              <Button variant="outline" onClick={() => setShowDeleteMainDialog(false)}>
+                NO
+              </Button>
+              <Button variant="destructive" onClick={() => setShowDeleteMainDialog(false)}>
+                YES
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Add Subcategory Dialog */}
+      <Dialog open={showAddSubDialog} onOpenChange={setShowAddSubDialog}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Add new subcategory</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <Label>Name</Label>
+              <Input
+                value={newCategoryName}
+                onChange={(e) => setNewCategoryName(e.target.value)}
+                placeholder="Enter subcategory name"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label>Icon</Label>
+              <div className="grid grid-cols-6 gap-2">
+                {availableIcons.map((icon) => (
+                  <Button
+                    key={icon}
+                    variant={selectedIcon === icon ? "default" : "outline"}
+                    size="icon"
+                    onClick={() => setSelectedIcon(icon)}
+                  >
+                    {icon}
+                  </Button>
+                ))}
+              </div>
+            </div>
+
+            <div className="flex gap-2 pt-4">
+              <Button variant="outline" onClick={() => setShowAddSubDialog(false)}>
+                CANCEL
+              </Button>
+              <Button onClick={() => setShowAddSubDialog(false)}>
+                SAVE
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Edit Subcategory Dialog */}
+      <Dialog open={showEditSubDialog} onOpenChange={setShowEditSubDialog}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
             <DialogTitle>Edit subcategory</DialogTitle>
@@ -340,7 +490,7 @@ export function Categories() {
 
             <div className="space-y-2">
               <Label>Icon</Label>
-              <div className="grid grid-cols-5 gap-2">
+              <div className="grid grid-cols-6 gap-2">
                 {availableIcons.map((icon) => (
                   <Button
                     key={icon}
@@ -355,10 +505,10 @@ export function Categories() {
             </div>
 
             <div className="flex gap-2 pt-4">
-              <Button variant="outline" onClick={() => setShowEditDialog(false)}>
+              <Button variant="outline" onClick={() => setShowEditSubDialog(false)}>
                 CANCEL
               </Button>
-              <Button onClick={() => setShowEditDialog(false)}>
+              <Button onClick={() => setShowEditSubDialog(false)}>
                 SAVE
               </Button>
             </div>
@@ -366,8 +516,8 @@ export function Categories() {
         </DialogContent>
       </Dialog>
 
-      {/* Delete Category Dialog */}
-      <Dialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
+      {/* Delete Subcategory Dialog */}
+      <Dialog open={showDeleteSubDialog} onOpenChange={setShowDeleteSubDialog}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
             <DialogTitle>Delete this subcategory?</DialogTitle>
@@ -377,10 +527,10 @@ export function Categories() {
               Deleting this subcategory will also delete all records and budgets for this subcategory. Are you sure?
             </p>
             <div className="flex gap-2 pt-4">
-              <Button variant="outline" onClick={() => setShowDeleteDialog(false)}>
+              <Button variant="outline" onClick={() => setShowDeleteSubDialog(false)}>
                 NO
               </Button>
-              <Button variant="destructive" onClick={() => setShowDeleteDialog(false)}>
+              <Button variant="destructive" onClick={() => setShowDeleteSubDialog(false)}>
                 YES
               </Button>
             </div>
@@ -392,9 +542,12 @@ export function Categories() {
 }
 
 interface ExpandableCategoryItemProps {
-  category: { id: number; name: string; icon: string; subcategories: any[] };
+  category: { id: number; name: string; icon: string; type: "income" | "expense"; subcategories: any[] };
   isExpanded: boolean;
   onToggle: () => void;
+  onEditMain: () => void;
+  onDeleteMain: () => void;
+  onAddSubcategory: () => void;
   onEditSubcategory: (subcategory: any) => void;
   onDeleteSubcategory: (subcategory: any) => void;
 }
@@ -403,33 +556,82 @@ function ExpandableCategoryItem({
   category, 
   isExpanded, 
   onToggle,
+  onEditMain,
+  onDeleteMain,
+  onAddSubcategory,
   onEditSubcategory,
   onDeleteSubcategory 
 }: ExpandableCategoryItemProps) {
+  const [showMainMenu, setShowMainMenu] = useState(false);
+
   return (
     <Card className="overflow-hidden">
       {/* Main Category Header */}
-      <div 
-        className="p-4 cursor-pointer hover:bg-muted/50 transition-colors"
-        onClick={onToggle}
-      >
+      <div className="p-4">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
+          <div 
+            className="flex items-center gap-3 cursor-pointer flex-1"
+            onClick={onToggle}
+          >
             <div className="w-10 h-10 bg-primary/20 rounded-full flex items-center justify-center text-lg">
               {category.icon}
             </div>
-            <div>
-              <span className="font-medium">{category.name}</span>
+            <div className="flex-1">
+              <div className="flex items-center gap-2">
+                <span className="font-medium">{category.name}</span>
+                <span className={`text-xs px-2 py-1 rounded-full ${
+                  category.type === 'income' 
+                    ? 'bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300' 
+                    : 'bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-300'
+                }`}>
+                  {category.type.toUpperCase()}
+                </span>
+              </div>
               <div className="text-sm text-muted-foreground">
                 {category.subcategories.length} subcategories
               </div>
             </div>
+            <div className="transition-transform duration-200">
+              {isExpanded ? (
+                <ChevronDown className="h-5 w-5 text-muted-foreground" />
+              ) : (
+                <ChevronRight className="h-5 w-5 text-muted-foreground" />
+              )}
+            </div>
           </div>
-          <div className="transition-transform duration-200">
-            {isExpanded ? (
-              <ChevronDown className="h-5 w-5 text-muted-foreground" />
-            ) : (
-              <ChevronRight className="h-5 w-5 text-muted-foreground" />
+          
+          {/* Main Category Menu */}
+          <div className="relative ml-2">
+            <Button 
+              variant="ghost" 
+              size="sm"
+              onClick={() => setShowMainMenu(!showMainMenu)}
+            >
+              <span className="text-muted-foreground">⋯</span>
+            </Button>
+            {showMainMenu && (
+              <div className="absolute right-0 top-full mt-1 bg-card border border-border rounded-md shadow-lg z-10 py-1 min-w-[120px]">
+                <button 
+                  className="w-full text-left px-3 py-2 hover:bg-muted text-sm flex items-center gap-2"
+                  onClick={() => {
+                    onEditMain();
+                    setShowMainMenu(false);
+                  }}
+                >
+                  <Edit className="h-3 w-3" />
+                  Edit Category
+                </button>
+                <button 
+                  className="w-full text-left px-3 py-2 hover:bg-muted text-sm flex items-center gap-2 text-red-600"
+                  onClick={() => {
+                    onDeleteMain();
+                    setShowMainMenu(false);
+                  }}
+                >
+                  <Trash2 className="h-3 w-3" />
+                  Delete Category
+                </button>
+              </div>
             )}
           </div>
         </div>
@@ -454,6 +656,7 @@ function ExpandableCategoryItem({
                 variant="ghost" 
                 size="sm"
                 className="w-full justify-start text-muted-foreground hover:text-foreground"
+                onClick={onAddSubcategory}
               >
                 <Plus className="h-4 w-4 mr-2" />
                 Add subcategory
@@ -498,21 +701,23 @@ function SubcategoryItem({ subcategory, onEdit, onDelete }: SubcategoryItemProps
           {showMenu && (
             <div className="absolute right-0 top-full mt-1 bg-card border border-border rounded-md shadow-lg z-10 py-1 min-w-[100px]">
               <button 
-                className="w-full text-left px-3 py-2 hover:bg-muted text-sm"
+                className="w-full text-left px-3 py-2 hover:bg-muted text-sm flex items-center gap-2"
                 onClick={() => {
                   onEdit(subcategory);
                   setShowMenu(false);
                 }}
               >
+                <Edit className="h-3 w-3" />
                 Edit
               </button>
               <button 
-                className="w-full text-left px-3 py-2 hover:bg-muted text-sm"
+                className="w-full text-left px-3 py-2 hover:bg-muted text-sm flex items-center gap-2 text-red-600"
                 onClick={() => {
                   onDelete(subcategory);
                   setShowMenu(false);
                 }}
               >
+                <Trash2 className="h-3 w-3" />
                 Delete
               </button>
             </div>
