@@ -611,7 +611,7 @@ function ExpandableCategoryItem({
               <span className="text-foreground font-bold text-lg">⋯</span>
             </Button>
             {isMenuOpen && (
-              <div className="absolute right-0 top-full mt-1 bg-card border border-border rounded-md shadow-lg z-10 py-1 min-w-[120px]">
+              <div className="absolute right-0 top-full mt-1 bg-card border border-border rounded-md shadow-lg z-50 py-1 min-w-[120px]">
                 <button
                   className="w-full text-left px-3 py-2 hover:bg-muted text-sm flex items-center gap-2"
                   onClick={() => {
