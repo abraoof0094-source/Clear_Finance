@@ -211,24 +211,7 @@ export function Categories() {
   return (
     <Layout>
       <div className="space-y-6 py-4">
-        {/* Account Balance Summary */}
-        <Card className="p-6 text-center">
-          <div className="space-y-2">
-            <h2 className="text-sm text-muted-foreground">All Accounts</h2>
-            <div className="text-2xl font-bold text-foreground">₹257,200.00</div>
-          </div>
-          
-          <div className="grid grid-cols-2 gap-4 mt-6">
-            <div className="text-center">
-              <div className="text-sm text-muted-foreground">EXPENSE SO FAR</div>
-              <div className="text-lg font-semibold text-red-400">₹10,000.00</div>
-            </div>
-            <div className="text-center">
-              <div className="text-sm text-muted-foreground">INCOME SO FAR</div>
-              <div className="text-lg font-semibold text-green-400">₹267,200.00</div>
-            </div>
-          </div>
-        </Card>
+
 
         {/* All Categories */}
         <div>
