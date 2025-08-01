@@ -10,7 +10,8 @@ export function NotFound() {
         <div className="text-6xl">💸</div>
         <h1 className="text-2xl font-bold">Page Not Found</h1>
         <p className="text-muted-foreground max-w-md">
-          This page hasn't been implemented yet. Check back later or navigate to an existing page.
+          This page hasn't been implemented yet. Check back later or navigate to
+          an existing page.
         </p>
         <Link to="/">
           <Button className="flex items-center gap-2">

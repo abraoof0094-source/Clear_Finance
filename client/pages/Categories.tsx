@@ -2,7 +2,12 @@ import { useState, useEffect, useRef } from "react";
 import { Layout } from "../components/Layout";
 import { Card } from "../components/ui/card";
 import { Button } from "../components/ui/button";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "../components/ui/dialog";
 import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
 import { Plus, ChevronDown, ChevronRight, Edit, Trash2 } from "lucide-react";
@@ -15,13 +20,33 @@ const allCategories = [
     icon: "💰",
     type: "income" as const,
     subcategories: [
-      { name: "Fixed Salary", icon: "💼", description: "Monthly take-home salary" },
-      { name: "Variable Pay", icon: "📈", description: "Performance bonus, annual bonus" },
-      { name: "Reimbursements", icon: "🧾", description: "Travel allowance, food coupons" },
-      { name: "Freelance/Side Income", icon: "💻", description: "Consulting, online gigs" },
-      { name: "Passive Income", icon: "📊", description: "Dividends, rental income" },
+      {
+        name: "Fixed Salary",
+        icon: "💼",
+        description: "Monthly take-home salary",
+      },
+      {
+        name: "Variable Pay",
+        icon: "📈",
+        description: "Performance bonus, annual bonus",
+      },
+      {
+        name: "Reimbursements",
+        icon: "🧾",
+        description: "Travel allowance, food coupons",
+      },
+      {
+        name: "Freelance/Side Income",
+        icon: "💻",
+        description: "Consulting, online gigs",
+      },
+      {
+        name: "Passive Income",
+        icon: "📊",
+        description: "Dividends, rental income",
+      },
       { name: "Others", icon: "🎯", description: "ESOPs, stock sales" },
-    ]
+    ],
   },
   {
     id: 2,
@@ -29,16 +54,44 @@ const allCategories = [
     icon: "🏠",
     type: "expense" as const,
     subcategories: [
-      { name: "Rent / Home Loan EMI", icon: "🏡", description: "Apartment rent or housing EMI" },
-      { name: "Maintenance / Society Charges", icon: "🏢", description: "Gated community maintenance fees" },
+      {
+        name: "Rent / Home Loan EMI",
+        icon: "🏡",
+        description: "Apartment rent or housing EMI",
+      },
+      {
+        name: "Maintenance / Society Charges",
+        icon: "🏢",
+        description: "Gated community maintenance fees",
+      },
       { name: "Utilities", icon: "⚡", description: "Electricity, water, gas" },
-      { name: "Internet / Broadband", icon: "🌐", description: "JioFiber, Airtel, ACT" },
+      {
+        name: "Internet / Broadband",
+        icon: "🌐",
+        description: "JioFiber, Airtel, ACT",
+      },
       { name: "Mobile Bills", icon: "📱", description: "Jio, Airtel postpaid" },
-      { name: "DTH / OTT Subscriptions", icon: "📺", description: "Netflix, Amazon, Hotstar" },
-      { name: "Groceries & Daily Essentials", icon: "🛒", description: "BigBasket, local supermarket" },
-      { name: "House Help / Cook / Maid", icon: "👩‍🍳", description: "Monthly salaries" },
-      { name: "Child Care / Nanny", icon: "👶", description: "Play school, babysitter fees" },
-    ]
+      {
+        name: "DTH / OTT Subscriptions",
+        icon: "📺",
+        description: "Netflix, Amazon, Hotstar",
+      },
+      {
+        name: "Groceries & Daily Essentials",
+        icon: "🛒",
+        description: "BigBasket, local supermarket",
+      },
+      {
+        name: "House Help / Cook / Maid",
+        icon: "👩‍🍳",
+        description: "Monthly salaries",
+      },
+      {
+        name: "Child Care / Nanny",
+        icon: "👶",
+        description: "Play school, babysitter fees",
+      },
+    ],
   },
   {
     id: 3,
@@ -46,18 +99,58 @@ const allCategories = [
     icon: "👨‍👩‍👧‍👦",
     type: "expense" as const,
     subcategories: [
-      { name: "Food & Dining", icon: "🍽️", description: "Restaurants, weekend dinners, Swiggy/Zomato" },
-      { name: "Weekend Chills / Drinks", icon: "🍻", description: "Pubs, bars, liquor store purchases" },
-      { name: "Travel & Commute", icon: "🚗", description: "Uber/Ola, metro, fuel, tolls" },
-      { name: "Medical / Healthcare", icon: "⚕️", description: "Doctor visits, medicines" },
-      { name: "Fitness / Gym / Swimming", icon: "💪", description: "Gym memberships, fitness classes" },
-      { name: "Indoor Play / Recreation", icon: "🎳", description: "Bowling, escape rooms, indoor parks" },
-      { name: "Shopping & Clothing", icon: "👕", description: "Malls, Myntra, Amazon" },
-      { name: "Electronics & Gadgets", icon: "📱", description: "Phones, laptops, smartwatches" },
-      { name: "Education / Courses", icon: "📚", description: "Online certifications, skill upgrades" },
-      { name: "Kids' Education", icon: "🎓", description: "School fees, tuition, activities" },
+      {
+        name: "Food & Dining",
+        icon: "🍽️",
+        description: "Restaurants, weekend dinners, Swiggy/Zomato",
+      },
+      {
+        name: "Weekend Chills / Drinks",
+        icon: "🍻",
+        description: "Pubs, bars, liquor store purchases",
+      },
+      {
+        name: "Travel & Commute",
+        icon: "🚗",
+        description: "Uber/Ola, metro, fuel, tolls",
+      },
+      {
+        name: "Medical / Healthcare",
+        icon: "⚕️",
+        description: "Doctor visits, medicines",
+      },
+      {
+        name: "Fitness / Gym / Swimming",
+        icon: "💪",
+        description: "Gym memberships, fitness classes",
+      },
+      {
+        name: "Indoor Play / Recreation",
+        icon: "🎳",
+        description: "Bowling, escape rooms, indoor parks",
+      },
+      {
+        name: "Shopping & Clothing",
+        icon: "👕",
+        description: "Malls, Myntra, Amazon",
+      },
+      {
+        name: "Electronics & Gadgets",
+        icon: "📱",
+        description: "Phones, laptops, smartwatches",
+      },
+      {
+        name: "Education / Courses",
+        icon: "📚",
+        description: "Online certifications, skill upgrades",
+      },
+      {
+        name: "Kids' Education",
+        icon: "🎓",
+        description: "School fees, tuition, activities",
+      },
       { name: "Pets", icon: "🐕", description: "Food, vet visits, grooming" },
-    ]
+    ],
   },
   {
     id: 4,
@@ -65,12 +158,28 @@ const allCategories = [
     icon: "🛡️",
     type: "expense" as const,
     subcategories: [
-      { name: "Term Insurance", icon: "📋", description: "₹5–7.5 Cr cover, 10-year premium" },
-      { name: "Health Insurance", icon: "❤️", description: "Family floater policy" },
+      {
+        name: "Term Insurance",
+        icon: "📋",
+        description: "₹5–7.5 Cr cover, 10-year premium",
+      },
+      {
+        name: "Health Insurance",
+        icon: "❤️",
+        description: "Family floater policy",
+      },
       { name: "Vehicle Insurance", icon: "🚗", description: "Bike, car" },
-      { name: "Gadget Insurance", icon: "📱", description: "Mobile/laptop protection" },
-      { name: "Accidental / Disability Cover", icon: "🏥", description: "Standalone rider or add-on" },
-    ]
+      {
+        name: "Gadget Insurance",
+        icon: "📱",
+        description: "Mobile/laptop protection",
+      },
+      {
+        name: "Accidental / Disability Cover",
+        icon: "🏥",
+        description: "Standalone rider or add-on",
+      },
+    ],
   },
   {
     id: 5,
@@ -78,17 +187,49 @@ const allCategories = [
     icon: "📈",
     type: "expense" as const,
     subcategories: [
-      { name: "Mutual Funds (SIP)", icon: "📊", description: "Equity, hybrid, index funds" },
-      { name: "Mutual Funds (Lumpsum)", icon: "💹", description: "Opportunistic investing" },
-      { name: "Stocks / ETFs", icon: "📈", description: "Direct equity, MSCI World, REITs" },
-      { name: "PPF / EPF / VPF", icon: "🏛️", description: "Provident fund contributions" },
+      {
+        name: "Mutual Funds (SIP)",
+        icon: "📊",
+        description: "Equity, hybrid, index funds",
+      },
+      {
+        name: "Mutual Funds (Lumpsum)",
+        icon: "💹",
+        description: "Opportunistic investing",
+      },
+      {
+        name: "Stocks / ETFs",
+        icon: "📈",
+        description: "Direct equity, MSCI World, REITs",
+      },
+      {
+        name: "PPF / EPF / VPF",
+        icon: "🏛️",
+        description: "Provident fund contributions",
+      },
       { name: "NPS", icon: "👴", description: "Retirement-focused" },
       { name: "FD / RD", icon: "🏪", description: "Bank fixed deposits" },
-      { name: "Gold", icon: "🥇", description: "Gold ETFs, sovereign gold bonds" },
-      { name: "Crypto / Alternative Assets", icon: "₿", description: "Bitcoin, US stocks (optional)" },
-      { name: "Real Estate Investment", icon: "🏘️", description: "Plot, apartment" },
-      { name: "Children's Education Fund", icon: "🎓", description: "Separate mutual fund or FD" },
-    ]
+      {
+        name: "Gold",
+        icon: "🥇",
+        description: "Gold ETFs, sovereign gold bonds",
+      },
+      {
+        name: "Crypto / Alternative Assets",
+        icon: "₿",
+        description: "Bitcoin, US stocks (optional)",
+      },
+      {
+        name: "Real Estate Investment",
+        icon: "🏘️",
+        description: "Plot, apartment",
+      },
+      {
+        name: "Children's Education Fund",
+        icon: "🎓",
+        description: "Separate mutual fund or FD",
+      },
+    ],
   },
   {
     id: 6,
@@ -99,10 +240,22 @@ const allCategories = [
       { name: "Home Loan", icon: "🏠", description: "Bank EMI" },
       { name: "Car Loan", icon: "🚗", description: "EMI for sedan/SUV" },
       { name: "Bike Loan", icon: "🏍️", description: "EMI for two-wheeler" },
-      { name: "Personal Loan", icon: "💰", description: "For gadgets or emergencies" },
-      { name: "Credit Card Bill", icon: "💳", description: "Monthly repayment" },
-      { name: "Consumer Durable Loan", icon: "📺", description: "TVs, washing machines" },
-    ]
+      {
+        name: "Personal Loan",
+        icon: "💰",
+        description: "For gadgets or emergencies",
+      },
+      {
+        name: "Credit Card Bill",
+        icon: "💳",
+        description: "Monthly repayment",
+      },
+      {
+        name: "Consumer Durable Loan",
+        icon: "📺",
+        description: "TVs, washing machines",
+      },
+    ],
   },
   {
     id: 7,
@@ -110,14 +263,38 @@ const allCategories = [
     icon: "🎪",
     type: "expense" as const,
     subcategories: [
-      { name: "Weekend Getaways", icon: "🏔️", description: "Coorg, Ooty, Goa trips" },
-      { name: "Vacations / Travel Abroad", icon: "✈️", description: "Family holidays" },
-      { name: "Social Gatherings / Parties", icon: "🎉", description: "Clubbing, friends' dinners" },
-      { name: "Events / Concerts", icon: "🎵", description: "Music shows, IPL matches" },
+      {
+        name: "Weekend Getaways",
+        icon: "🏔️",
+        description: "Coorg, Ooty, Goa trips",
+      },
+      {
+        name: "Vacations / Travel Abroad",
+        icon: "✈️",
+        description: "Family holidays",
+      },
+      {
+        name: "Social Gatherings / Parties",
+        icon: "🎉",
+        description: "Clubbing, friends' dinners",
+      },
+      {
+        name: "Events / Concerts",
+        icon: "🎵",
+        description: "Music shows, IPL matches",
+      },
       { name: "Hobbies", icon: "📸", description: "Photography, art supplies" },
-      { name: "Gaming / Indoor Entertainment", icon: "🎮", description: "PlayStation, VR sets" },
-      { name: "Luxury Purchases", icon: "💎", description: "Watches, designer clothes" },
-    ]
+      {
+        name: "Gaming / Indoor Entertainment",
+        icon: "🎮",
+        description: "PlayStation, VR sets",
+      },
+      {
+        name: "Luxury Purchases",
+        icon: "💎",
+        description: "Watches, designer clothes",
+      },
+    ],
   },
   {
     id: 8,
@@ -125,11 +302,27 @@ const allCategories = [
     icon: "🏦",
     type: "expense" as const,
     subcategories: [
-      { name: "Emergency Fund", icon: "🚨", description: "6–12 months' expenses" },
-      { name: "Opportunity Fund", icon: "💡", description: "For sudden investments" },
-      { name: "Short-Term Goals", icon: "🎯", description: "New gadget, vacation" },
-      { name: "Child Education Lumpsum", icon: "🎓", description: "Dedicated savings" },
-    ]
+      {
+        name: "Emergency Fund",
+        icon: "🚨",
+        description: "6–12 months' expenses",
+      },
+      {
+        name: "Opportunity Fund",
+        icon: "💡",
+        description: "For sudden investments",
+      },
+      {
+        name: "Short-Term Goals",
+        icon: "🎯",
+        description: "New gadget, vacation",
+      },
+      {
+        name: "Child Education Lumpsum",
+        icon: "🎓",
+        description: "Dedicated savings",
+      },
+    ],
   },
   {
     id: 9,
@@ -137,18 +330,44 @@ const allCategories = [
     icon: "📦",
     type: "expense" as const,
     subcategories: [
-      { name: "Festivals / Gifts", icon: "🎁", description: "Diwali, weddings" },
-      { name: "Charity / Donations", icon: "❤️", description: "80G deductions" },
-      { name: "Home Interiors / Furnishing", icon: "🛋️", description: "Sofa, modular kitchen" },
-      { name: "Vehicle Maintenance", icon: "🔧", description: "Servicing, accessories" },
-      { name: "Household Appliances", icon: "❄️", description: "AC, fridge upgrades" },
-      { name: "Memberships", icon: "🏃", description: "Clubs, co-working spaces" },
-    ]
+      {
+        name: "Festivals / Gifts",
+        icon: "🎁",
+        description: "Diwali, weddings",
+      },
+      {
+        name: "Charity / Donations",
+        icon: "❤️",
+        description: "80G deductions",
+      },
+      {
+        name: "Home Interiors / Furnishing",
+        icon: "🛋️",
+        description: "Sofa, modular kitchen",
+      },
+      {
+        name: "Vehicle Maintenance",
+        icon: "🔧",
+        description: "Servicing, accessories",
+      },
+      {
+        name: "Household Appliances",
+        icon: "❄️",
+        description: "AC, fridge upgrades",
+      },
+      {
+        name: "Memberships",
+        icon: "🏃",
+        description: "Clubs, co-working spaces",
+      },
+    ],
   },
 ];
 
 export function Categories() {
-  const [expandedCategories, setExpandedCategories] = useState<Set<number>>(new Set());
+  const [expandedCategories, setExpandedCategories] = useState<Set<number>>(
+    new Set(),
+  );
   const [openMenus, setOpenMenus] = useState<Set<number>>(new Set());
   const [showAddMainDialog, setShowAddMainDialog] = useState(false);
   const [showEditMainDialog, setShowEditMainDialog] = useState(false);
@@ -159,13 +378,34 @@ export function Categories() {
 
   const [selectedMainCategory, setSelectedMainCategory] = useState<any>(null);
   const [selectedSubcategory, setSelectedSubcategory] = useState<any>(null);
-  const [activeMainCategoryId, setActiveMainCategoryId] = useState<number | null>(null);
+  const [activeMainCategoryId, setActiveMainCategoryId] = useState<
+    number | null
+  >(null);
 
   const [newCategoryName, setNewCategoryName] = useState("Untitled");
   const [selectedIcon, setSelectedIcon] = useState("🏷️");
-  const [categoryType, setCategoryType] = useState<"income" | "expense">("expense");
+  const [categoryType, setCategoryType] = useState<"income" | "expense">(
+    "expense",
+  );
 
-  const availableIcons = ["💰", "🏠", "🍽️", "🚗", "📱", "❤️", "🎓", "🛒", "🎯", "📊", "💳", "🛡️", "📈", "🎪", "🏦", "📦"];
+  const availableIcons = [
+    "💰",
+    "🏠",
+    "🍽️",
+    "🚗",
+    "📱",
+    "❤️",
+    "🎓",
+    "🛒",
+    "🎯",
+    "📊",
+    "💳",
+    "🛡️",
+    "📈",
+    "🎪",
+    "🏦",
+    "📦",
+  ];
 
   // Close menus when clicking outside
   useEffect(() => {
@@ -174,11 +414,11 @@ export function Categories() {
     };
 
     if (openMenus.size > 0) {
-      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener("mousedown", handleClickOutside);
     }
 
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [openMenus]);
 
@@ -235,8 +475,6 @@ export function Categories() {
   return (
     <Layout>
       <div className="space-y-6 py-4">
-
-
         {/* All Categories */}
         <div>
           <h3 className="text-lg font-semibold mb-4">All Categories</h3>
@@ -262,8 +500,8 @@ export function Categories() {
 
         {/* Add New Main Category Button */}
         <Card className="p-4">
-          <Button 
-            variant="outline" 
+          <Button
+            variant="outline"
             className="w-full flex items-center gap-2"
             onClick={() => setShowAddMainDialog(true)}
           >
@@ -273,8 +511,8 @@ export function Categories() {
         </Card>
 
         {/* Floating Add Button */}
-        <Button 
-          size="icon" 
+        <Button
+          size="icon"
           className="fixed bottom-24 right-6 h-14 w-14 rounded-full shadow-lg"
           onClick={() => setShowAddMainDialog(true)}
         >
@@ -297,7 +535,9 @@ export function Categories() {
                     type="radio"
                     value="income"
                     checked={categoryType === "income"}
-                    onChange={(e) => setCategoryType(e.target.value as "income")}
+                    onChange={(e) =>
+                      setCategoryType(e.target.value as "income")
+                    }
                   />
                   INCOME
                 </label>
@@ -306,13 +546,15 @@ export function Categories() {
                     type="radio"
                     value="expense"
                     checked={categoryType === "expense"}
-                    onChange={(e) => setCategoryType(e.target.value as "expense")}
+                    onChange={(e) =>
+                      setCategoryType(e.target.value as "expense")
+                    }
                   />
                   ✓ EXPENSE
                 </label>
               </div>
             </div>
-            
+
             <div className="space-y-2">
               <Label>Name</Label>
               <Input
@@ -338,12 +580,13 @@ export function Categories() {
             </div>
 
             <div className="flex gap-2 pt-4">
-              <Button variant="outline" onClick={() => setShowAddMainDialog(false)}>
+              <Button
+                variant="outline"
+                onClick={() => setShowAddMainDialog(false)}
+              >
                 CANCEL
               </Button>
-              <Button onClick={() => setShowAddMainDialog(false)}>
-                SAVE
-              </Button>
+              <Button onClick={() => setShowAddMainDialog(false)}>SAVE</Button>
             </div>
           </div>
         </DialogContent>
@@ -364,7 +607,9 @@ export function Categories() {
                     type="radio"
                     value="income"
                     checked={categoryType === "income"}
-                    onChange={(e) => setCategoryType(e.target.value as "income")}
+                    onChange={(e) =>
+                      setCategoryType(e.target.value as "income")
+                    }
                   />
                   INCOME
                 </label>
@@ -373,13 +618,15 @@ export function Categories() {
                     type="radio"
                     value="expense"
                     checked={categoryType === "expense"}
-                    onChange={(e) => setCategoryType(e.target.value as "expense")}
+                    onChange={(e) =>
+                      setCategoryType(e.target.value as "expense")
+                    }
                   />
                   ✓ EXPENSE
                 </label>
               </div>
             </div>
-            
+
             <div className="space-y-2">
               <Label>Name</Label>
               <Input
@@ -405,32 +652,43 @@ export function Categories() {
             </div>
 
             <div className="flex gap-2 pt-4">
-              <Button variant="outline" onClick={() => setShowEditMainDialog(false)}>
+              <Button
+                variant="outline"
+                onClick={() => setShowEditMainDialog(false)}
+              >
                 CANCEL
               </Button>
-              <Button onClick={() => setShowEditMainDialog(false)}>
-                SAVE
-              </Button>
+              <Button onClick={() => setShowEditMainDialog(false)}>SAVE</Button>
             </div>
           </div>
         </DialogContent>
       </Dialog>
 
       {/* Delete Main Category Dialog */}
-      <Dialog open={showDeleteMainDialog} onOpenChange={setShowDeleteMainDialog}>
+      <Dialog
+        open={showDeleteMainDialog}
+        onOpenChange={setShowDeleteMainDialog}
+      >
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
             <DialogTitle>Delete this main category?</DialogTitle>
           </DialogHeader>
           <div className="space-y-4">
             <p>
-              Deleting this main category will also delete all its subcategories, records, and budgets. Are you sure?
+              Deleting this main category will also delete all its
+              subcategories, records, and budgets. Are you sure?
             </p>
             <div className="flex gap-2 pt-4">
-              <Button variant="outline" onClick={() => setShowDeleteMainDialog(false)}>
+              <Button
+                variant="outline"
+                onClick={() => setShowDeleteMainDialog(false)}
+              >
                 NO
               </Button>
-              <Button variant="destructive" onClick={() => setShowDeleteMainDialog(false)}>
+              <Button
+                variant="destructive"
+                onClick={() => setShowDeleteMainDialog(false)}
+              >
                 YES
               </Button>
             </div>
@@ -471,12 +729,13 @@ export function Categories() {
             </div>
 
             <div className="flex gap-2 pt-4">
-              <Button variant="outline" onClick={() => setShowAddSubDialog(false)}>
+              <Button
+                variant="outline"
+                onClick={() => setShowAddSubDialog(false)}
+              >
                 CANCEL
               </Button>
-              <Button onClick={() => setShowAddSubDialog(false)}>
-                SAVE
-              </Button>
+              <Button onClick={() => setShowAddSubDialog(false)}>SAVE</Button>
             </div>
           </div>
         </DialogContent>
@@ -514,12 +773,13 @@ export function Categories() {
             </div>
 
             <div className="flex gap-2 pt-4">
-              <Button variant="outline" onClick={() => setShowEditSubDialog(false)}>
+              <Button
+                variant="outline"
+                onClick={() => setShowEditSubDialog(false)}
+              >
                 CANCEL
               </Button>
-              <Button onClick={() => setShowEditSubDialog(false)}>
-                SAVE
-              </Button>
+              <Button onClick={() => setShowEditSubDialog(false)}>SAVE</Button>
             </div>
           </div>
         </DialogContent>
@@ -533,13 +793,20 @@ export function Categories() {
           </DialogHeader>
           <div className="space-y-4">
             <p>
-              Deleting this subcategory will also delete all records and budgets for this subcategory. Are you sure?
+              Deleting this subcategory will also delete all records and budgets
+              for this subcategory. Are you sure?
             </p>
             <div className="flex gap-2 pt-4">
-              <Button variant="outline" onClick={() => setShowDeleteSubDialog(false)}>
+              <Button
+                variant="outline"
+                onClick={() => setShowDeleteSubDialog(false)}
+              >
                 NO
               </Button>
-              <Button variant="destructive" onClick={() => setShowDeleteSubDialog(false)}>
+              <Button
+                variant="destructive"
+                onClick={() => setShowDeleteSubDialog(false)}
+              >
                 YES
               </Button>
             </div>
@@ -551,7 +818,13 @@ export function Categories() {
 }
 
 interface ExpandableCategoryItemProps {
-  category: { id: number; name: string; icon: string; type: "income" | "expense"; subcategories: any[] };
+  category: {
+    id: number;
+    name: string;
+    icon: string;
+    type: "income" | "expense";
+    subcategories: any[];
+  };
   isExpanded: boolean;
   isMenuOpen: boolean;
   onToggle: () => void;
@@ -573,15 +846,14 @@ function ExpandableCategoryItem({
   onDeleteMain,
   onAddSubcategory,
   onEditSubcategory,
-  onDeleteSubcategory
+  onDeleteSubcategory,
 }: ExpandableCategoryItemProps) {
-
   return (
     <Card className="relative">
       {/* Main Category Header */}
       <div className="p-4">
         <div className="flex items-center justify-between">
-          <div 
+          <div
             className="flex items-center gap-3 cursor-pointer flex-1"
             onClick={onToggle}
           >
@@ -591,11 +863,13 @@ function ExpandableCategoryItem({
             <div className="flex-1">
               <div className="flex items-center gap-2">
                 <span className="font-medium">{category.name}</span>
-                <span className={`text-xs px-2 py-1 rounded-full ${
-                  category.type === 'income' 
-                    ? 'bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300' 
-                    : 'bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-300'
-                }`}>
+                <span
+                  className={`text-xs px-2 py-1 rounded-full ${
+                    category.type === "income"
+                      ? "bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300"
+                      : "bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-300"
+                  }`}
+                >
                   {category.type.toUpperCase()}
                 </span>
               </div>
@@ -611,7 +885,7 @@ function ExpandableCategoryItem({
               )}
             </div>
           </div>
-          
+
           {/* Main Category Menu */}
           <div className="relative ml-2">
             <Button
@@ -658,18 +932,18 @@ function ExpandableCategoryItem({
         <div className="border-t border-border bg-muted/20">
           <div className="space-y-1 p-2">
             {category.subcategories.map((subcategory, index) => (
-              <SubcategoryItem 
+              <SubcategoryItem
                 key={index}
-                subcategory={subcategory} 
+                subcategory={subcategory}
                 onEdit={onEditSubcategory}
                 onDelete={onDeleteSubcategory}
               />
             ))}
-            
+
             {/* Add Subcategory Button */}
             <div className="p-2">
-              <Button 
-                variant="ghost" 
+              <Button
+                variant="ghost"
                 size="sm"
                 className="w-full justify-start text-muted-foreground hover:text-foreground"
                 onClick={onAddSubcategory}
@@ -691,7 +965,11 @@ interface SubcategoryItemProps {
   onDelete: (subcategory: any) => void;
 }
 
-function SubcategoryItem({ subcategory, onEdit, onDelete }: SubcategoryItemProps) {
+function SubcategoryItem({
+  subcategory,
+  onEdit,
+  onDelete,
+}: SubcategoryItemProps) {
   const [showMenu, setShowMenu] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
@@ -703,11 +981,11 @@ function SubcategoryItem({ subcategory, onEdit, onDelete }: SubcategoryItemProps
     };
 
     if (showMenu) {
-      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener("mousedown", handleClickOutside);
     }
 
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [showMenu]);
 
@@ -720,7 +998,9 @@ function SubcategoryItem({ subcategory, onEdit, onDelete }: SubcategoryItemProps
           </div>
           <div className="flex-1">
             <div className="font-medium text-sm">{subcategory.name}</div>
-            <div className="text-xs text-muted-foreground">{subcategory.description}</div>
+            <div className="text-xs text-muted-foreground">
+              {subcategory.description}
+            </div>
           </div>
         </div>
         <div className="relative" ref={menuRef}>
@@ -733,7 +1013,7 @@ function SubcategoryItem({ subcategory, onEdit, onDelete }: SubcategoryItemProps
           </Button>
           {showMenu && (
             <div className="absolute right-0 top-full mt-1 bg-card border border-border rounded-md shadow-lg z-50 py-1 min-w-[100px]">
-              <button 
+              <button
                 className="w-full text-left px-3 py-2 hover:bg-muted text-sm flex items-center gap-2"
                 onClick={() => {
                   onEdit(subcategory);
@@ -743,7 +1023,7 @@ function SubcategoryItem({ subcategory, onEdit, onDelete }: SubcategoryItemProps
                 <Edit className="h-3 w-3" />
                 Edit
               </button>
-              <button 
+              <button
                 className="w-full text-left px-3 py-2 hover:bg-muted text-sm flex items-center gap-2 text-red-600"
                 onClick={() => {
                   onDelete(subcategory);
