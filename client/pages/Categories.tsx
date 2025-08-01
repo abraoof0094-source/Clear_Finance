@@ -605,28 +605,28 @@ function ExpandableCategoryItem({
               className="h-8 w-8 hover:bg-muted"
               onClick={(e) => {
                 e.stopPropagation();
-                setShowMainMenu(!showMainMenu);
+                onToggleMenu();
               }}
             >
               <span className="text-foreground font-bold text-lg">⋯</span>
             </Button>
-            {showMainMenu && (
+            {isMenuOpen && (
               <div className="absolute right-0 top-full mt-1 bg-card border border-border rounded-md shadow-lg z-10 py-1 min-w-[120px]">
-                <button 
+                <button
                   className="w-full text-left px-3 py-2 hover:bg-muted text-sm flex items-center gap-2"
                   onClick={() => {
                     onEditMain();
-                    setShowMainMenu(false);
+                    onToggleMenu();
                   }}
                 >
                   <Edit className="h-3 w-3" />
                   Edit Category
                 </button>
-                <button 
+                <button
                   className="w-full text-left px-3 py-2 hover:bg-muted text-sm flex items-center gap-2 text-red-600"
                   onClick={() => {
                     onDeleteMain();
-                    setShowMainMenu(false);
+                    onToggleMenu();
                   }}
                 >
                   <Trash2 className="h-3 w-3" />
