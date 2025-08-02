@@ -213,7 +213,7 @@ export function Preferences() {
 
         {/* Phone Storage Status Section */}
         <div>
-          <h2 className="text-lg font-semibold text-yellow-500 mb-4">Phone Storage</h2>
+          <h2 className="text-lg font-semibold section-header mb-4">Phone Storage</h2>
           <PhoneStorageStatus />
         </div>
 
