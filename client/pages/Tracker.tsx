@@ -643,10 +643,10 @@ export function Tracker() {
                   </Button>
                   <Button
                     variant="ghost"
-                    onClick={clearCalculator}
-                    className="h-10 text-base font-medium bg-gray-600 hover:bg-gray-500 text-orange-400 rounded-3xl border-0"
+                    onClick={() => inputOperation("+")}
+                    className="h-10 text-lg font-medium bg-gray-600 hover:bg-gray-500 text-orange-400 rounded-3xl border-0"
                   >
-                    C
+                    +
                   </Button>
                 </div>
               </div>
