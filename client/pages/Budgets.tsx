@@ -113,6 +113,29 @@ export function Budgets() {
     return date.toLocaleString('default', { month: 'long', year: 'numeric' });
   };
 
+  // Navigate copy dialog months
+  const goToPreviousCopyMonth = () => {
+    setCopyFromMonth(new Date(copyFromMonth.getFullYear(), copyFromMonth.getMonth() - 1));
+  };
+
+  const goToNextCopyMonth = () => {
+    const nextMonth = new Date(copyFromMonth.getFullYear(), copyFromMonth.getMonth() + 1);
+    // Don't allow copying from current month or future months
+    if (nextMonth < currentMonth) {
+      setCopyFromMonth(nextMonth);
+    }
+  };
+
+  // Check if copy month has budgets
+  const getCopyMonthKey = () => {
+    return `${copyFromMonth.getFullYear()}-${copyFromMonth.getMonth()}`;
+  };
+
+  const copyMonthHasBudgets = () => {
+    const copyBudgets = budgets[getCopyMonthKey()];
+    return copyBudgets && Object.keys(copyBudgets).length > 0;
+  };
+
   // Calculate allocated budget for a main category
   const getCategoryAllocatedBudget = (category: any) => {
     const currentBudgets = getCurrentMonthBudgets();
