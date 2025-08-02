@@ -144,7 +144,7 @@ export function Preferences() {
             <div className="p-4">
               <div className="font-medium">Passcode protection (Pro version)</div>
               <div className="text-sm text-muted-foreground mt-1">
-                Requires a Passcode to enter MyMoney app
+                Requires a Passcode to enter Clear Finance app
               </div>
             </div>
           </Card>
