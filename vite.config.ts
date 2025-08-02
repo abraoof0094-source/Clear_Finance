@@ -24,10 +24,7 @@ export default defineConfig(({ mode }) => ({
       "@shared": path.resolve(__dirname, "./shared"),
     },
   },
-  define: {
-    // Make environment variables available in browser
-    __GOOGLE_CLIENT_ID__: JSON.stringify(process.env.REACT_APP_GOOGLE_CLIENT_ID || ''),
-  },
+
 }));
 
 function expressPlugin(): Plugin {
