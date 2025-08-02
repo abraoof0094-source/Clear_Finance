@@ -2,6 +2,7 @@ import { Link, useLocation } from "react-router-dom";
 import {
   ClipboardList,
   PieChart,
+  Target,
   Calculator,
   FolderOpen,
 } from "lucide-react";
@@ -12,6 +13,7 @@ export function BottomNavigation() {
   const navItems = [
     { path: "/", icon: ClipboardList, label: "Records" },
     { path: "/analysis", icon: PieChart, label: "Analysis" },
+    { path: "/tracker", icon: Target, label: "Tracker" },
     { path: "/budgets", icon: Calculator, label: "Budgets" },
     { path: "/categories", icon: FolderOpen, label: "Categories" },
   ];

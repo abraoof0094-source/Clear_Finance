@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Dashboard } from "./pages/Dashboard";
 import { Analysis } from "./pages/Analysis";
+import { Tracker } from "./pages/Tracker";
 import { Budgets } from "./pages/Budgets";
 import { Categories } from "./pages/Categories";
 import { Settings } from "./pages/Settings";
@@ -14,6 +15,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Dashboard />} />
           <Route path="/analysis" element={<Analysis />} />
+          <Route path="/tracker" element={<Tracker />} />
           <Route path="/budgets" element={<Budgets />} />
           <Route path="/categories" element={<Categories />} />
           <Route path="/settings" element={<Settings />} />
