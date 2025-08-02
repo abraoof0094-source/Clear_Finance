@@ -32,6 +32,7 @@ export function Preferences() {
   const [crashReporting, setCrashReporting] = useState(false);
   const [showThemeDialog, setShowThemeDialog] = useState(false);
   const [showUIModeDialog, setShowUIModeDialog] = useState(false);
+  const [showDecimalPlacesDialog, setShowDecimalPlacesDialog] = useState(false);
 
   // Theme options
   const themes = [
