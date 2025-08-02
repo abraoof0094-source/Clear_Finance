@@ -41,7 +41,7 @@ export function ExportRecords() {
 
     // Only allow swiping to the left (negative diff means swiping left to close)
     if (diff < 0 && containerRef.current) {
-      const translateX = Math.max(diff, -window.innerWidth * 0.75);
+      const translateX = Math.max(diff, -window.innerWidth * 0.5);
       containerRef.current.style.transform = `translateX(${translateX}px)`;
     }
   };
@@ -237,7 +237,7 @@ export function ExportRecords() {
       {/* Slide Panel */}
       <div
         ref={containerRef}
-        className="fixed top-0 left-0 h-full w-3/4 bg-background border-r border-border z-50 transform transition-transform duration-300 ease-out overflow-y-auto"
+        className="fixed top-0 left-0 h-full w-1/2 bg-background border-r border-border z-50 transform transition-transform duration-300 ease-out overflow-y-auto"
         style={{
           transform: "translateX(0)",
         }}
