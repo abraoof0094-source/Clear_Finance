@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Layout } from "../components/Layout";
 import { Card } from "../components/ui/card";
 import { Button } from '../components/ui/button';
-import { ArrowLeft, Download, Upload, FileUp, Check, AlertCircle, Shield, RotateCcw } from 'lucide-react';
+import { Download, Upload, FileUp, Check, AlertCircle, Shield, RotateCcw } from 'lucide-react';
 import { useNavigate } from "react-router-dom";
 import { phoneStorage } from "../utils/phoneStorage";
 import { themeManager } from "../utils/themeColors";
