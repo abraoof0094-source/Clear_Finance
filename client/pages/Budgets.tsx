@@ -84,13 +84,38 @@ export function Budgets() {
   const [budgetAmount, setBudgetAmount] = useState("");
   const [budgets, setBudgets] = useState<Record<string, Record<string, number>>>({});
 
-  // Calculate total budget
-  const totalBudget = Object.values(budgets).reduce((sum, amount) => sum + amount, 0);
+  // Get current month key
+  const getCurrentMonthKey = () => {
+    return `${currentMonth.getFullYear()}-${currentMonth.getMonth()}`;
+  };
+
+  // Get current month's budgets
+  const getCurrentMonthBudgets = () => {
+    return budgets[getCurrentMonthKey()] || {};
+  };
+
+  // Calculate total budget for current month
+  const totalBudget = Object.values(getCurrentMonthBudgets()).reduce((sum, amount) => sum + amount, 0);
+
+  // Navigate months
+  const goToPreviousMonth = () => {
+    setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1));
+  };
+
+  const goToNextMonth = () => {
+    setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1));
+  };
+
+  // Format month display
+  const formatMonth = (date: Date) => {
+    return date.toLocaleString('default', { month: 'long', year: 'numeric' });
+  };
 
   // Calculate allocated budget for a main category
   const getCategoryAllocatedBudget = (category: any) => {
+    const currentBudgets = getCurrentMonthBudgets();
     return category.subcategories.reduce((sum: number, subcategory: any) => {
-      return sum + (getBudgetForCategory(subcategory.name) || 0);
+      return sum + (currentBudgets[subcategory.name] || 0);
     }, 0);
   };
 
