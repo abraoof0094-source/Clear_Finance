@@ -266,21 +266,47 @@ export function ManualDataSyncComponent() {
             <Monitor className="h-4 w-4 text-blue-500" />
             Import Data (From Phone/Other Device)
           </div>
-          
+
+          {/* File Upload Option */}
+          <div className="flex gap-2">
+            <Button
+              onClick={() => fileInputRef.current?.click()}
+              variant="outline"
+              className="flex-1"
+            >
+              <FileUp className="h-4 w-4 mr-2" />
+              Upload File
+            </Button>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept=".json"
+              onChange={handleFileUpload}
+              className="hidden"
+            />
+            <div className="flex-1 text-center text-xs text-muted-foreground self-center">
+              OR
+            </div>
+            <div className="flex-1 text-xs text-muted-foreground self-center">
+              Paste data below ↓
+            </div>
+          </div>
+
           <textarea
             value={importData}
             onChange={(e) => setImportData(e.target.value)}
             className="w-full h-32 p-2 text-xs bg-muted rounded font-mono"
-            placeholder="Paste your backup data here..."
+            placeholder="Paste your backup data here, or use 'Upload File' button above..."
           />
-          
-          <Button 
+
+          <Button
             onClick={handleImport}
             disabled={!importData.trim()}
             className="w-full"
+            variant={importData.trim() ? "default" : "outline"}
           >
             <Upload className="h-4 w-4 mr-2" />
-            Import Data
+            {importData.trim() ? 'Import Data' : 'Paste Data First'}
           </Button>
         </div>
 
