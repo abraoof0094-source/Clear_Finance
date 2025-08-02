@@ -151,6 +151,8 @@ export function Tracker() {
         return String(first * second);
       case "÷":
         return second !== 0 ? String(first / second) : "Error";
+      case "%":
+        return String(first * (second / 100));
       case "=":
         return secondOperand;
       default:
@@ -444,8 +446,8 @@ export function Tracker() {
                   </Button>
                   <Button
                     variant="ghost"
+                    onClick={() => inputOperation("%")}
                     className="h-16 text-xl font-medium bg-gray-600 hover:bg-gray-500 text-orange-400 rounded-3xl border-0"
-                    disabled
                   >
                     %
                   </Button>
@@ -547,7 +549,7 @@ export function Tracker() {
                     =
                   </Button>
 
-                  {/* Row 5: Save, 0, ., = */}
+                  {/* Row 5: Save, 0, . */}
                   <Button
                     variant="ghost"
                     onClick={handleSave}
@@ -558,7 +560,7 @@ export function Tracker() {
                   <Button
                     variant="ghost"
                     onClick={() => inputNumber("0")}
-                    className="h-16 text-2xl font-medium bg-gray-800 hover:bg-gray-700 text-white rounded-3xl border-0"
+                    className="h-16 text-2xl font-medium bg-gray-800 hover:bg-gray-700 text-white rounded-3xl border-0 col-span-2"
                   >
                     0
                   </Button>
@@ -568,13 +570,6 @@ export function Tracker() {
                     className="h-16 text-2xl font-medium bg-gray-800 hover:bg-gray-700 text-white rounded-3xl border-0"
                   >
                     .
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    className="h-16 text-xl font-medium bg-gray-600 hover:bg-gray-500 text-orange-400 rounded-3xl border-0"
-                    disabled
-                  >
-                    +/-
                   </Button>
                 </div>
               </div>
