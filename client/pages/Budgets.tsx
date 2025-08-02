@@ -167,29 +167,23 @@ export function Budgets() {
     }
   };
 
-  const handleCopyFromPreviousMonth = () => {
-    const currentMonthKey = getCurrentMonthKey();
-    const prevMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1);
-    const prevMonthKey = `${prevMonth.getFullYear()}-${prevMonth.getMonth()}`;
+  const handleOpenCopyDialog = () => {
+    // Set copy month to previous month by default
+    setCopyFromMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1));
+    setShowCopyBudgetDialog(true);
+  };
 
-    if (budgets[prevMonthKey]) {
+  const handleCopyBudgets = () => {
+    const currentMonthKey = getCurrentMonthKey();
+    const copyMonthKey = getCopyMonthKey();
+
+    if (budgets[copyMonthKey]) {
       setBudgets(prev => ({
         ...prev,
-        [currentMonthKey]: { ...budgets[prevMonthKey] }
-      }));
-    } else {
-      // No previous month data, set some example budgets
-      setBudgets(prev => ({
-        ...prev,
-        [currentMonthKey]: {
-          "Rent / Home Loan EMI": 25000,
-          "Groceries & Daily Essentials": 8000,
-          "Food & Dining": 5000,
-          "Travel & Commute": 3000,
-          "Health Insurance": 2000,
-        }
+        [currentMonthKey]: { ...budgets[copyMonthKey] }
       }));
     }
+    setShowCopyBudgetDialog(false);
   };
 
   const getBudgetForCategory = (categoryName: string) => {
