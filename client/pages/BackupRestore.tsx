@@ -294,9 +294,8 @@ export function BackupRestore() {
                 </div>
               </div>
 
-              <Button 
+              <Button
                 onClick={() => fileInputRef.current?.click()}
-                variant="outline"
                 className="w-full"
                 size="lg"
               >
