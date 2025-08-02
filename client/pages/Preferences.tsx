@@ -205,7 +205,7 @@ export function Preferences() {
 
               {/* App Version */}
               <div className="p-4 border-t border-border">
-                <div className="font-medium">MyMoney : 5.8-free</div>
+                <div className="font-medium">Clear Finance: 1.0</div>
                 <div className="text-sm text-muted-foreground mt-1">
                   Developed by Ananta Raha
                 </div>
