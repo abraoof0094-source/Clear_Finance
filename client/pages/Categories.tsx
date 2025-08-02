@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { useState, useEffect } from "react";
+=======
+import { useState, useEffect, useRef } from "react";
+>>>>>>> 893fd020560f127bf2ae682df00dca4a782d7a14
 import { Layout } from "../components/Layout";
 import { Card } from "../components/ui/card";
 import { Button } from "../components/ui/button";
@@ -410,6 +414,7 @@ export function Categories() {
   // Close menus when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
+<<<<<<< HEAD
       // Check if click is outside any menu
       const target = event.target as Element;
       if (!target.closest(".menu-container")) {
@@ -422,6 +427,19 @@ export function Categories() {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+=======
+      setOpenMenus(new Set());
+    };
+
+    if (openMenus.size > 0) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [openMenus]);
+>>>>>>> 893fd020560f127bf2ae682df00dca4a782d7a14
 
   const toggleCategory = (categoryId: number) => {
     const newExpanded = new Set(expandedCategories);
@@ -499,6 +517,21 @@ export function Categories() {
           </div>
         </div>
 
+<<<<<<< HEAD
+=======
+        {/* Add New Main Category Button */}
+        <Card className="p-4">
+          <Button
+            variant="outline"
+            className="w-full flex items-center gap-2"
+            onClick={() => setShowAddMainDialog(true)}
+          >
+            <Plus className="h-4 w-4" />
+            ADD NEW MAIN CATEGORY
+          </Button>
+        </Card>
+
+>>>>>>> 893fd020560f127bf2ae682df00dca4a782d7a14
         {/* Floating Add Button */}
         <Button
           size="icon"
@@ -960,6 +993,23 @@ function SubcategoryItem({
   onDelete,
 }: SubcategoryItemProps) {
   const [showMenu, setShowMenu] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setShowMenu(false);
+      }
+    };
+
+    if (showMenu) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showMenu]);
 
   // Close menu when clicking outside
   useEffect(() => {
@@ -992,7 +1042,11 @@ function SubcategoryItem({
             </div>
           </div>
         </div>
+<<<<<<< HEAD
         <div className="relative submenu-container">
+=======
+        <div className="relative" ref={menuRef}>
+>>>>>>> 893fd020560f127bf2ae682df00dca4a782d7a14
           <Button
             variant="ghost"
             size="sm"

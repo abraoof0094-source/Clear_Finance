@@ -1,10 +1,10 @@
 import { Link, useLocation } from "react-router-dom";
-import { 
-  ClipboardList, 
-  PieChart, 
-  Calculator, 
-  CreditCard, 
-  FolderOpen 
+import {
+  ClipboardList,
+  PieChart,
+  Calculator,
+  CreditCard,
+  FolderOpen,
 } from "lucide-react";
 
 export function BottomNavigation() {
@@ -23,14 +23,14 @@ export function BottomNavigation() {
       <div className="flex justify-around items-center py-2 px-4">
         {navItems.map(({ path, icon: Icon, label }) => {
           const isActive = location.pathname === path;
-          
+
           return (
             <Link
               key={path}
               to={path}
               className={`flex flex-col items-center py-2 px-3 rounded-lg transition-colors ${
-                isActive 
-                  ? "text-primary" 
+                isActive
+                  ? "text-primary"
                   : "text-muted-foreground hover:text-foreground"
               }`}
             >

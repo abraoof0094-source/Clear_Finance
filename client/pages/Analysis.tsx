@@ -5,7 +5,7 @@ import { ChevronLeft, ChevronRight, Menu } from "lucide-react";
 
 export function Analysis() {
   const currentMonth = "August, 2025";
-  
+
   // Calendar data for August 2025
   const calendarDays = Array.from({ length: 31 }, (_, i) => i + 1);
   const startDay = 5; // August 1st, 2025 is a Friday (0=Sunday, 1=Monday, etc.)
@@ -38,11 +38,15 @@ export function Analysis() {
             </div>
             <div>
               <div className="text-sm text-muted-foreground">INCOME</div>
-              <div className="text-lg font-bold text-green-400">₹267,200.00</div>
+              <div className="text-lg font-bold text-green-400">
+                ₹267,200.00
+              </div>
             </div>
             <div>
               <div className="text-sm text-muted-foreground">TOTAL</div>
-              <div className="text-lg font-bold text-green-400">₹257,200.00</div>
+              <div className="text-lg font-bold text-green-400">
+                ₹257,200.00
+              </div>
             </div>
           </div>
         </Card>
@@ -52,11 +56,14 @@ export function Analysis() {
           <Button variant="outline" className="w-full mb-4">
             EXPENSE FLOW
           </Button>
-          
+
           {/* Simple chart representation */}
           <div className="h-48 bg-muted rounded-lg flex items-end justify-center p-4">
             <div className="flex items-end h-full w-full">
-              <div className="w-2 bg-red-400 rounded-t" style={{ height: '80%' }}></div>
+              <div
+                className="w-2 bg-red-400 rounded-t"
+                style={{ height: "80%" }}
+              ></div>
               <div className="flex-1 flex items-center justify-center">
                 <div className="text-xs text-muted-foreground">Aug 01</div>
               </div>
@@ -74,7 +81,7 @@ export function Analysis() {
               </div>
             </div>
           </div>
-          
+
           <div className="mt-2 text-center">
             <div className="text-sm text-muted-foreground">-₹11,000.00</div>
             <div className="text-sm text-muted-foreground">-₹7,333.00</div>
@@ -89,24 +96,30 @@ export function Analysis() {
           <Card className="p-4">
             {/* Calendar Header */}
             <div className="grid grid-cols-7 gap-1 mb-2">
-              {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day) => (
-                <div key={day} className="text-center text-sm font-medium text-muted-foreground p-2">
+              {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
+                <div
+                  key={day}
+                  className="text-center text-sm font-medium text-muted-foreground p-2"
+                >
                   {day}
                 </div>
               ))}
             </div>
-            
+
             {/* Calendar Days */}
             <div className="grid grid-cols-7 gap-1">
               {/* Empty cells for days before month starts */}
               {Array.from({ length: startDay }, (_, i) => (
                 <div key={`empty-${i}`} className="h-10"></div>
               ))}
-              
+
               {/* Calendar days */}
               {calendarDays.map((day) => (
-                <div key={day} className="h-10 flex items-center justify-center relative">
-                  <span className={`text-sm ${day === 1 ? 'font-bold' : ''}`}>
+                <div
+                  key={day}
+                  className="h-10 flex items-center justify-center relative"
+                >
+                  <span className={`text-sm ${day === 1 ? "font-bold" : ""}`}>
                     {day}
                   </span>
                   {day === 1 && (
@@ -129,14 +142,14 @@ export function Analysis() {
         <div>
           <h3 className="text-lg font-semibold mb-4">Aug 01, Friday</h3>
           <div className="space-y-3">
-            <TransactionItem 
+            <TransactionItem
               icon="💼"
               category="Salary"
               account="Savings"
               amount="₹267,200.00"
               type="income"
             />
-            <TransactionItem 
+            <TransactionItem
               icon="✅"
               category="Insurance"
               account="Savings"
@@ -158,7 +171,13 @@ interface TransactionItemProps {
   type: "income" | "expense";
 }
 
-function TransactionItem({ icon, category, account, amount, type }: TransactionItemProps) {
+function TransactionItem({
+  icon,
+  category,
+  account,
+  amount,
+  type,
+}: TransactionItemProps) {
   return (
     <Card className="p-4">
       <div className="flex items-center justify-between">
@@ -174,7 +193,9 @@ function TransactionItem({ icon, category, account, amount, type }: TransactionI
             </div>
           </div>
         </div>
-        <div className={`font-semibold ${type === 'income' ? 'text-green-400' : 'text-red-400'}`}>
+        <div
+          className={`font-semibold ${type === "income" ? "text-green-400" : "text-red-400"}`}
+        >
           {amount}
         </div>
       </div>
