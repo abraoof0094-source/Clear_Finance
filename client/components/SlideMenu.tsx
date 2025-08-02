@@ -26,6 +26,7 @@ export function SlideMenu({ isOpen, onClose }: SlideMenuProps) {
   const menuRef = useRef<HTMLDivElement>(null);
   const startXRef = useRef<number>(0);
   const currentXRef = useRef<number>(0);
+  const navigate = useNavigate();
 
   const handleThemeToggle = () => {
     setIsDarkMode(!isDarkMode);
