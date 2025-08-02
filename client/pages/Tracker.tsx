@@ -447,40 +447,57 @@ export function Tracker() {
                 </Button>
               </div>
 
-              {/* Category Dropdowns - No Labels */}
-              <div className="grid grid-cols-2 gap-4">
-                <Select value={selectedMainCategory} onValueChange={(value) => {
-                  setSelectedMainCategory(value);
-                  setSelectedSubCategory("");
-                }}>
-                  <SelectTrigger className="bg-muted h-12 text-sm">
-                    <SelectValue placeholder="🏷️ Main Category" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {filteredCategories.map((category) => (
-                      <SelectItem key={category.id} value={category.name}>
-                        {category.icon} {category.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+              {/* Category Selection */}
+              <div className="space-y-4">
+                {/* Aesthetic Headers */}
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="text-center">
+                    <h4 className="text-sm font-semibold text-foreground mb-2 bg-primary/10 rounded-lg py-2">
+                      🏷️ Main Category
+                    </h4>
+                  </div>
+                  <div className="text-center">
+                    <h4 className="text-sm font-semibold text-foreground mb-2 bg-primary/10 rounded-lg py-2">
+                      📂 Sub Category
+                    </h4>
+                  </div>
+                </div>
 
-                <Select
-                  value={selectedSubCategory}
-                  onValueChange={setSelectedSubCategory}
-                  disabled={!selectedMainCategory}
-                >
-                  <SelectTrigger className="bg-muted h-12 text-sm">
-                    <SelectValue placeholder="📂 Sub Category" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {subCategories.map((sub, index) => (
-                      <SelectItem key={index} value={sub.name}>
-                        {sub.icon} {sub.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                {/* Dropdowns */}
+                <div className="grid grid-cols-2 gap-4">
+                  <Select value={selectedMainCategory} onValueChange={(value) => {
+                    setSelectedMainCategory(value);
+                    setSelectedSubCategory("");
+                  }}>
+                    <SelectTrigger className="bg-muted h-12 text-sm text-left">
+                      <SelectValue placeholder="Select category..." />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {filteredCategories.map((category) => (
+                        <SelectItem key={category.id} value={category.name}>
+                          {category.icon} {category.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+
+                  <Select
+                    value={selectedSubCategory}
+                    onValueChange={setSelectedSubCategory}
+                    disabled={!selectedMainCategory}
+                  >
+                    <SelectTrigger className="bg-muted h-12 text-sm text-left">
+                      <SelectValue placeholder="Select sub category..." />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {subCategories.map((sub, index) => (
+                        <SelectItem key={index} value={sub.name}>
+                          {sub.icon} {sub.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
 
               {/* Amount Display - More Prominent */}
