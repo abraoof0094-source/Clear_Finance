@@ -467,21 +467,14 @@ export function Tracker() {
               {/* Category Selection */}
               <div className="space-y-2">
                 {/* Aesthetic Headers */}
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 gap-2">
                   <div className="text-center">
                     <h4 className="text-xs font-medium text-foreground mb-1 bg-primary/10 rounded-lg py-1">
                       🏷️ Main Category
                     </h4>
                   </div>
-                  <div className="text-center">
-                    <h4 className="text-xs font-medium text-foreground mb-1 bg-primary/10 rounded-lg py-1">
-                      📂 Sub Category
-                    </h4>
-                  </div>
-                </div>
 
-                {/* Dropdowns */}
-                <div className="grid grid-cols-2 gap-4">
+                  {/* Main Category Dropdown */}
                   <Select
                     value={selectedMainCategory}
                     onValueChange={(value) => {
@@ -489,7 +482,7 @@ export function Tracker() {
                       setSelectedSubCategory("");
                     }}
                   >
-                    <SelectTrigger className="bg-muted h-10 text-sm text-left">
+                    <SelectTrigger className="bg-muted h-10 text-sm text-left w-full">
                       <SelectValue placeholder="Select category..." />
                     </SelectTrigger>
                     <SelectContent>
@@ -501,12 +494,19 @@ export function Tracker() {
                     </SelectContent>
                   </Select>
 
+                  <div className="text-center">
+                    <h4 className="text-xs font-medium text-foreground mb-1 bg-primary/10 rounded-lg py-1">
+                      📂 Sub Category
+                    </h4>
+                  </div>
+
+                  {/* Sub Category Dropdown */}
                   <Select
                     value={selectedSubCategory}
                     onValueChange={setSelectedSubCategory}
                     disabled={!selectedMainCategory}
                   >
-                    <SelectTrigger className="bg-muted h-10 text-sm text-left">
+                    <SelectTrigger className="bg-muted h-10 text-sm text-left w-full">
                       <SelectValue placeholder="Select sub category..." />
                     </SelectTrigger>
                     <SelectContent>
