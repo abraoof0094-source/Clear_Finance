@@ -19,6 +19,7 @@ import {
 import { ArrowLeft, ChevronRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { ManualDataSyncComponent } from "../components/ManualDataSync";
+import { SyncCodeSyncComponent } from "../components/SyncCodeSync";
 
 export function Preferences() {
   const navigate = useNavigate();
