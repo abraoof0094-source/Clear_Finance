@@ -366,7 +366,7 @@ export function Tracker() {
                   setSelectedMainCategory(value);
                   setSelectedSubCategory("");
                 }}>
-                  <SelectTrigger className="bg-muted h-12 text-base">
+                  <SelectTrigger className="bg-muted h-12 text-sm">
                     <SelectValue placeholder="🏷️ Main Category" />
                   </SelectTrigger>
                   <SelectContent>
@@ -383,7 +383,7 @@ export function Tracker() {
                   onValueChange={setSelectedSubCategory}
                   disabled={!selectedMainCategory}
                 >
-                  <SelectTrigger className="bg-muted h-12 text-base">
+                  <SelectTrigger className="bg-muted h-12 text-sm">
                     <SelectValue placeholder="📂 Sub Category" />
                   </SelectTrigger>
                   <SelectContent>
@@ -397,7 +397,7 @@ export function Tracker() {
               </div>
 
               {/* Amount Display - More Prominent */}
-              <div className="bg-gradient-to-r from-muted to-muted/50 rounded-xl p-6 relative border-2 border-primary/20">
+              <div className="bg-gradient-to-r from-muted to-muted/50 rounded-xl p-6 border-2 border-primary/20">
                 <div className="text-center">
                   <div className="text-sm text-muted-foreground mb-1">Amount</div>
                   <div className={`text-4xl font-bold font-mono ${
@@ -406,14 +406,6 @@ export function Tracker() {
                     ₹{displayValue}
                   </div>
                 </div>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="absolute top-2 right-2 h-8 w-8"
-                  onClick={clearCalculator}
-                >
-                  <X className="h-4 w-4" />
-                </Button>
               </div>
 
               {/* Notes - More Compact */}
