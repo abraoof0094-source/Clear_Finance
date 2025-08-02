@@ -10,6 +10,7 @@ export function GoogleDriveSyncComponent() {
   const [lastBackup, setLastBackup] = useState<string | null>(null);
   const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const [statusMessage, setStatusMessage] = useState('');
+  const [isConfigured, setIsConfigured] = useState(false);
 
   useEffect(() => {
     checkSignInStatus();
