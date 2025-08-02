@@ -285,7 +285,7 @@ export function Budgets() {
         <Button
           variant="outline"
           className="w-full flex items-center gap-2"
-          onClick={handleCopyFromPreviousMonth}
+          onClick={handleOpenCopyDialog}
         >
           <Copy className="h-4 w-4" />
           Copy from Previous Month
