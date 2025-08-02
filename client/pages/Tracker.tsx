@@ -620,19 +620,19 @@ export function Tracker() {
                   </Button>
                   <Button
                     variant="ghost"
-                    onClick={backspace}
+                    onClick={() => inputOperation("+")}
                     className="h-10 text-lg font-medium bg-gray-600 hover:bg-gray-500 text-orange-400 rounded-3xl border-0"
                   >
-                    ⌫
+                    +
                   </Button>
 
                   {/* Row 5: Save, =, C */}
                   <Button
                     variant="ghost"
-                    onClick={handleSave}
-                    className="h-10 text-sm font-medium bg-green-600 hover:bg-green-500 text-white rounded-3xl border-0"
+                    onClick={backspace}
+                    className="h-10 text-lg font-medium bg-gray-600 hover:bg-gray-500 text-orange-400 rounded-3xl border-0"
                   >
-                    Save
+                    ⌫
                   </Button>
                   <Button
                     variant="ghost"
