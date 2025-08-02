@@ -167,6 +167,22 @@ export function Categories() {
 
   const availableIcons = ["💰", "🏠", "🍽️", "🚗", "📱", "❤️", "🎓", "🛒", "🎯", "📊", "💳", "🛡️", "📈", "🎪", "🏦", "📦"];
 
+  // Close menus when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      // Check if click is outside any menu
+      const target = event.target as Element;
+      if (!target.closest('.menu-container')) {
+        setOpenMenus(new Set());
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
   const toggleCategory = (categoryId: number) => {
     const newExpanded = new Set(expandedCategories);
     if (newExpanded.has(categoryId)) {
