@@ -1,6 +1,7 @@
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 import { Header } from "./Header";
 import { BottomNavigation } from "./BottomNavigation";
+import { SlideMenu } from "./SlideMenu";
 
 interface LayoutProps {
   children: ReactNode;
