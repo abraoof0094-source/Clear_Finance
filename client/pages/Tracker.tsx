@@ -529,28 +529,28 @@ export function Tracker() {
                   <Button
                     variant="ghost"
                     onClick={clearCalculator}
-                    className="h-16 text-xl font-medium bg-gray-600 hover:bg-gray-500 text-orange-400 rounded-3xl border-0"
+                    className="h-12 text-lg font-medium bg-gray-600 hover:bg-gray-500 text-orange-400 rounded-3xl border-0"
                   >
                     C
                   </Button>
                   <Button
                     variant="ghost"
                     onClick={() => inputOperation("×")}
-                    className="h-16 text-xl font-medium bg-gray-600 hover:bg-gray-500 text-orange-400 rounded-3xl border-0"
+                    className="h-12 text-lg font-medium bg-gray-600 hover:bg-gray-500 text-orange-400 rounded-3xl border-0"
                   >
                     ×
                   </Button>
                   <Button
                     variant="ghost"
                     onClick={() => inputOperation("%")}
-                    className="h-16 text-xl font-medium bg-gray-600 hover:bg-gray-500 text-orange-400 rounded-3xl border-0"
+                    className="h-12 text-lg font-medium bg-gray-600 hover:bg-gray-500 text-orange-400 rounded-3xl border-0"
                   >
                     %
                   </Button>
                   <Button
                     variant="ghost"
                     onClick={() => inputOperation("÷")}
-                    className="h-16 text-xl font-medium bg-gray-600 hover:bg-gray-500 text-orange-400 rounded-3xl border-0"
+                    className="h-12 text-lg font-medium bg-gray-600 hover:bg-gray-500 text-orange-400 rounded-3xl border-0"
                   >
                     ÷
                   </Button>
