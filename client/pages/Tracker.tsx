@@ -392,24 +392,10 @@ export function Tracker() {
         {/* Add Transaction Dialog */}
         <Dialog open={showAddDialog} onOpenChange={setShowAddDialog}>
           <DialogContent className="max-w-sm mx-auto bg-card border-2 border-primary/20">
-            <DialogHeader className="flex flex-row items-center justify-between pb-2 border-b border-border">
-              <Button
-                variant="ghost"
-                onClick={handleCancel}
-                className="text-red-400 hover:text-red-300 p-0 h-auto font-bold text-base"
-              >
-                ✕ CANCEL
-              </Button>
-              <DialogTitle className="text-center flex-1 text-xl font-bold">
-                💰 Add Transaction
+            <DialogHeader className="pb-2 border-b border-border">
+              <DialogTitle className="text-center text-xl font-bold">
+                💰 Add Entry
               </DialogTitle>
-              <Button
-                variant="ghost"
-                onClick={handleSave}
-                className="text-green-400 hover:text-green-300 p-0 h-auto font-bold text-base"
-              >
-                ✓ SAVE
-              </Button>
             </DialogHeader>
 
             <div className="space-y-3 pt-3">
