@@ -101,11 +101,11 @@ export function SlideMenu({ isOpen, onClose }: SlideMenuProps) {
       />
       
       {/* Slide Menu */}
-      <div 
+      <div
         ref={menuRef}
-        className="fixed top-0 right-0 h-full w-3/4 bg-background border-l border-border z-50 transform transition-transform duration-300 ease-out overflow-y-auto"
-        style={{ 
-          transform: isOpen ? 'translateX(0)' : 'translateX(100%)',
+        className="fixed top-0 left-0 h-full w-3/4 bg-background border-r border-border z-50 transform transition-transform duration-300 ease-out overflow-y-auto"
+        style={{
+          transform: isOpen ? 'translateX(0)' : 'translateX(-100%)',
         }}
       >
         {/* Header */}
