@@ -186,6 +186,39 @@ export function Preferences() {
             </div>
           </Card>
         </div>
+
+        {/* Theme Selection Dialog */}
+        <Dialog open={showThemeDialog} onOpenChange={setShowThemeDialog}>
+          <DialogContent className="max-w-md">
+            <DialogHeader>
+              <DialogTitle>Select Theme</DialogTitle>
+            </DialogHeader>
+            <div className="space-y-2">
+              {themes.map((themeOption) => (
+                <button
+                  key={themeOption.id}
+                  onClick={() => {
+                    setTheme(themeOption.id);
+                    setShowThemeDialog(false);
+                  }}
+                  className="w-full flex items-center justify-between p-4 text-left hover:bg-muted/50 rounded-lg transition-colors border border-border"
+                >
+                  <div>
+                    <div className="font-medium">{themeOption.name}</div>
+                    <div className="text-sm text-muted-foreground">
+                      {themeOption.description}
+                    </div>
+                  </div>
+                  {theme === themeOption.id && (
+                    <div className="w-4 h-4 rounded-full bg-primary flex items-center justify-center">
+                      <div className="w-2 h-2 rounded-full bg-primary-foreground"></div>
+                    </div>
+                  )}
+                </button>
+              ))}
+            </div>
+          </DialogContent>
+        </Dialog>
       </div>
     </Layout>
   );
