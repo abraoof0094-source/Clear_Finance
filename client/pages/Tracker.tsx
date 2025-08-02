@@ -235,9 +235,16 @@ export function Tracker() {
     console.log(`✅ Loaded ${storedTransactions.length} transactions and ${Object.keys(storedBudgets).length} budget entries from phone storage`);
   }, []);
 
-  // Save transactions to localStorage whenever transactions change
+  // Save transactions to phone storage whenever transactions change
   useEffect(() => {
-    localStorage.setItem("tracker-transactions", JSON.stringify(transactions));
+    if (transactions.length > 0) {
+      const saved = phoneStorage.saveTransactions(transactions);
+      if (saved) {
+        console.log("💾 Transactions automatically saved to phone storage");
+      } else {
+        console.error("❌ Failed to save transactions to phone storage");
+      }
+    }
   }, [transactions]);
 
   // Get budget for a specific subcategory and month
