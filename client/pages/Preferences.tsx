@@ -22,6 +22,7 @@ import { ManualDataSyncComponent } from "../components/ManualDataSync";
 import { SyncCodeSyncComponent } from "../components/SyncCodeSync";
 import { GoogleDriveSyncComponent } from "../components/GoogleDriveSync";
 import { GoogleDriveSetupComponent } from "../components/GoogleDriveSetup";
+import { GoogleAuthTestComponent } from "../components/GoogleAuthTest";
 
 export function Preferences() {
   const navigate = useNavigate();
