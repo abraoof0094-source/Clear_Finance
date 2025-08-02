@@ -214,14 +214,9 @@ export function BackupRestore() {
     <Layout>
       <div className="max-w-md mx-auto space-y-6 py-4">
         {/* Header */}
-        <div className="flex items-center gap-4">
-          <Button variant="ghost" size="icon" onClick={handleBack}>
-            <ArrowLeft className="h-5 w-5" />
-          </Button>
-          <div>
-            <h1 className="text-xl font-semibold">Backup & Restore</h1>
-            <p className="text-sm text-muted-foreground">Protect and transfer your data</p>
-          </div>
+        <div className="text-center">
+          <h1 class="text-xl font-semibold">Backup & Restore</h1>
+          <p className="text-sm text-muted-foreground">Protect and transfer your data</p>
         </div>
 
         {/* Status Message */}
