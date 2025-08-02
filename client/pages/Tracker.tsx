@@ -18,6 +18,7 @@ import {
 
 import { ChevronLeft, ChevronRight, Plus, X } from "lucide-react";
 import { phoneStorage } from "../utils/phoneStorage";
+import { themeManager } from "../utils/themeColors";
 
 // All Categories (from Categories page)
 const allCategories = [
