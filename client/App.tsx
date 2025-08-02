@@ -23,6 +23,8 @@ export default function App() {
           <Route path="/categories" element={<Categories />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/preferences" element={<Preferences />} />
+          <Route path="/export-records" element={<ExportRecords />} />
+          <Route path="/backup-restore" element={<BackupRestore />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
