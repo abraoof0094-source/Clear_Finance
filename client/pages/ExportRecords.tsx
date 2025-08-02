@@ -151,7 +151,7 @@ export function ExportRecords() {
 
   return (
     <Layout>
-      <div className="space-y-6 py-4">
+      <div className="max-w-md mx-auto space-y-6 py-4">
         {/* Header */}
         <div className="flex items-center gap-4">
           <Button variant="ghost" size="icon" onClick={handleBack}>
