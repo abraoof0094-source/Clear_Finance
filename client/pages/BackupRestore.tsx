@@ -258,25 +258,7 @@ export function BackupRestore() {
 
 
 
-              <Button 
-                onClick={handleRestore}
-                disabled={!importData.trim() || isRestoring}
-                className="w-full"
-                size="lg"
-                variant={importData.trim() ? "default" : "outline"}
-              >
-                {isRestoring ? (
-                  <>
-                    <Upload className="h-5 w-5 mr-2 animate-spin" />
-                    Restoring...
-                  </>
-                ) : (
-                  <>
-                    <Upload className="h-5 w-5 mr-2" />
-                    {importData.trim() ? 'Restore Data' : 'Select File First'}
-                  </>
-                )}
-              </Button>
+
             </div>
           </Card>
         </div>
