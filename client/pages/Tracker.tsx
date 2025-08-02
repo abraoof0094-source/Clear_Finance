@@ -317,6 +317,14 @@ export function Tracker() {
     }
   };
 
+  const backspace = () => {
+    if (displayValue.length > 1) {
+      setDisplayValue(displayValue.slice(0, -1));
+    } else {
+      setDisplayValue("0");
+    }
+  };
+
   const handleSave = () => {
     if (
       !selectedMainCategory ||
@@ -612,10 +620,10 @@ export function Tracker() {
                   </Button>
                   <Button
                     variant="ghost"
-                    onClick={() => inputOperation("-")}
+                    onClick={backspace}
                     className="h-10 text-lg font-medium bg-gray-600 hover:bg-gray-500 text-orange-400 rounded-3xl border-0"
                   >
-                    -
+                    ⌫
                   </Button>
 
                   {/* Row 5: C, =, Save */}
