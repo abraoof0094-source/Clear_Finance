@@ -298,28 +298,30 @@ export function Tracker() {
 
         {/* Add Transaction Dialog */}
         <Dialog open={showAddDialog} onOpenChange={setShowAddDialog}>
-          <DialogContent className="max-w-sm mx-auto bg-card">
-            <DialogHeader className="flex flex-row items-center justify-between">
-              <Button 
-                variant="ghost" 
+          <DialogContent className="max-w-sm mx-auto bg-card border-2 border-primary/20">
+            <DialogHeader className="flex flex-row items-center justify-between pb-2 border-b border-border">
+              <Button
+                variant="ghost"
                 onClick={handleCancel}
-                className="text-yellow-400 p-0 h-auto font-semibold"
+                className="text-red-400 hover:text-red-300 p-0 h-auto font-bold text-base"
               >
                 ✕ CANCEL
               </Button>
-              <DialogTitle className="text-center flex-1">Add Transaction</DialogTitle>
-              <Button 
-                variant="ghost" 
+              <DialogTitle className="text-center flex-1 text-xl font-bold">
+                💰 Add Transaction
+              </DialogTitle>
+              <Button
+                variant="ghost"
                 onClick={handleSave}
-                className="text-yellow-400 p-0 h-auto font-semibold"
+                className="text-green-400 hover:text-green-300 p-0 h-auto font-bold text-base"
               >
                 ✓ SAVE
               </Button>
             </DialogHeader>
 
-            <div className="space-y-4 pt-4">
-              {/* Income/Expense Toggle */}
-              <div className="flex justify-center gap-1">
+            <div className="space-y-6 pt-6">
+              {/* Income/Expense Toggle - Full Width Split */}
+              <div className="grid grid-cols-2 gap-0 rounded-lg overflow-hidden border">
                 <Button
                   variant={transactionType === "income" ? "default" : "ghost"}
                   onClick={() => {
@@ -327,9 +329,13 @@ export function Tracker() {
                     setSelectedMainCategory("");
                     setSelectedSubCategory("");
                   }}
-                  className="text-sm"
+                  className={`h-14 text-lg font-semibold rounded-none ${
+                    transactionType === "income"
+                      ? "bg-green-600 hover:bg-green-700 text-white"
+                      : "bg-muted hover:bg-muted/80"
+                  }`}
                 >
-                  INCOME
+                  💰 INCOME
                 </Button>
                 <Button
                   variant={transactionType === "expense" ? "default" : "ghost"}
@@ -338,201 +344,206 @@ export function Tracker() {
                     setSelectedMainCategory("");
                     setSelectedSubCategory("");
                   }}
-                  className="text-sm"
+                  className={`h-14 text-lg font-semibold rounded-none ${
+                    transactionType === "expense"
+                      ? "bg-red-600 hover:bg-red-700 text-white"
+                      : "bg-muted hover:bg-muted/80"
+                  }`}
                 >
-                  EXPENSE
+                  💸 EXPENSE
                 </Button>
               </div>
 
-              {/* Category Dropdowns */}
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="text-sm text-muted-foreground mb-2 block">Main Category</label>
-                  <Select value={selectedMainCategory} onValueChange={(value) => {
-                    setSelectedMainCategory(value);
-                    setSelectedSubCategory("");
-                  }}>
-                    <SelectTrigger className="bg-muted">
-                      <SelectValue placeholder="Category" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {filteredCategories.map((category) => (
-                        <SelectItem key={category.id} value={category.name}>
-                          {category.icon} {category.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
+              {/* Category Dropdowns - No Labels */}
+              <div className="grid grid-cols-2 gap-4">
+                <Select value={selectedMainCategory} onValueChange={(value) => {
+                  setSelectedMainCategory(value);
+                  setSelectedSubCategory("");
+                }}>
+                  <SelectTrigger className="bg-muted h-12 text-base">
+                    <SelectValue placeholder="🏷️ Main Category" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {filteredCategories.map((category) => (
+                      <SelectItem key={category.id} value={category.name}>
+                        {category.icon} {category.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
 
-                <div>
-                  <label className="text-sm text-muted-foreground mb-2 block">Sub Category</label>
-                  <Select 
-                    value={selectedSubCategory} 
-                    onValueChange={setSelectedSubCategory}
-                    disabled={!selectedMainCategory}
-                  >
-                    <SelectTrigger className="bg-muted">
-                      <SelectValue placeholder="Sub Category" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {subCategories.map((sub, index) => (
-                        <SelectItem key={index} value={sub.name}>
-                          {sub.icon} {sub.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
+                <Select
+                  value={selectedSubCategory}
+                  onValueChange={setSelectedSubCategory}
+                  disabled={!selectedMainCategory}
+                >
+                  <SelectTrigger className="bg-muted h-12 text-base">
+                    <SelectValue placeholder="📂 Sub Category" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {subCategories.map((sub, index) => (
+                      <SelectItem key={index} value={sub.name}>
+                        {sub.icon} {sub.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
 
-              {/* Notes */}
-              <div>
-                <Textarea
-                  placeholder="Add notes"
-                  value={notes}
-                  onChange={(e) => setNotes(e.target.value)}
-                  className="bg-muted min-h-[80px]"
-                />
-              </div>
-
-              {/* Calculator Display */}
-              <div className="bg-muted rounded-lg p-4 relative">
-                <div className="text-right text-2xl font-mono mb-2">
-                  {displayValue}
+              {/* Amount Display - More Prominent */}
+              <div className="bg-gradient-to-r from-muted to-muted/50 rounded-xl p-6 relative border-2 border-primary/20">
+                <div className="text-center">
+                  <div className="text-sm text-muted-foreground mb-1">Amount</div>
+                  <div className={`text-4xl font-bold font-mono ${
+                    transactionType === "income" ? "text-green-400" : "text-red-400"
+                  }`}>
+                    ₹{displayValue}
+                  </div>
                 </div>
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="absolute top-2 right-2 h-6 w-6"
+                  className="absolute top-2 right-2 h-8 w-8"
                   onClick={clearCalculator}
                 >
                   <X className="h-4 w-4" />
                 </Button>
               </div>
 
-              {/* Calculator */}
-              <div className="grid grid-cols-4 gap-2">
-                <Button
-                  variant="secondary"
-                  onClick={() => inputOperation("+")}
-                  className="h-12 text-lg"
-                >
-                  +
-                </Button>
-                <Button
-                  variant="outline"
-                  onClick={() => inputNumber("7")}
-                  className="h-12 text-lg"
-                >
-                  7
-                </Button>
-                <Button
-                  variant="outline"
-                  onClick={() => inputNumber("8")}
-                  className="h-12 text-lg"
-                >
-                  8
-                </Button>
-                <Button
-                  variant="outline"
-                  onClick={() => inputNumber("9")}
-                  className="h-12 text-lg"
-                >
-                  9
-                </Button>
+              {/* Notes - More Compact */}
+              <div>
+                <Textarea
+                  placeholder="💭 Add notes (optional)"
+                  value={notes}
+                  onChange={(e) => setNotes(e.target.value)}
+                  className="bg-muted min-h-[60px] text-base"
+                />
+              </div>
 
-                <Button
-                  variant="secondary"
-                  onClick={() => inputOperation("-")}
-                  className="h-12 text-lg"
-                >
-                  -
-                </Button>
-                <Button
-                  variant="outline"
-                  onClick={() => inputNumber("4")}
-                  className="h-12 text-lg"
-                >
-                  4
-                </Button>
-                <Button
-                  variant="outline"
-                  onClick={() => inputNumber("5")}
-                  className="h-12 text-lg"
-                >
-                  5
-                </Button>
-                <Button
-                  variant="outline"
-                  onClick={() => inputNumber("6")}
-                  className="h-12 text-lg"
-                >
-                  6
-                </Button>
+              {/* Calculator - Enhanced Design */}
+              <div className="bg-muted/30 p-4 rounded-xl">
+                <div className="grid grid-cols-4 gap-3">
+                  <Button
+                    variant="secondary"
+                    onClick={() => inputOperation("+")}
+                    className="h-14 text-xl font-semibold bg-blue-600 hover:bg-blue-700 text-white"
+                  >
+                    +
+                  </Button>
+                  <Button
+                    variant="outline"
+                    onClick={() => inputNumber("7")}
+                    className="h-14 text-xl font-semibold bg-card hover:bg-muted"
+                  >
+                    7
+                  </Button>
+                  <Button
+                    variant="outline"
+                    onClick={() => inputNumber("8")}
+                    className="h-14 text-xl font-semibold bg-card hover:bg-muted"
+                  >
+                    8
+                  </Button>
+                  <Button
+                    variant="outline"
+                    onClick={() => inputNumber("9")}
+                    className="h-14 text-xl font-semibold bg-card hover:bg-muted"
+                  >
+                    9
+                  </Button>
 
-                <Button
-                  variant="ghost"
-                  className="h-12 text-lg text-muted-foreground"
-                  disabled
-                >
-                  ×
-                </Button>
-                <Button
-                  variant="outline"
-                  onClick={() => inputNumber("1")}
-                  className="h-12 text-lg"
-                >
-                  1
-                </Button>
-                <Button
-                  variant="outline"
-                  onClick={() => inputNumber("2")}
-                  className="h-12 text-lg"
-                >
-                  2
-                </Button>
-                <Button
-                  variant="outline"
-                  onClick={() => inputNumber("3")}
-                  className="h-12 text-lg"
-                >
-                  3
-                </Button>
+                  <Button
+                    variant="secondary"
+                    onClick={() => inputOperation("-")}
+                    className="h-14 text-xl font-semibold bg-blue-600 hover:bg-blue-700 text-white"
+                  >
+                    -
+                  </Button>
+                  <Button
+                    variant="outline"
+                    onClick={() => inputNumber("4")}
+                    className="h-14 text-xl font-semibold bg-card hover:bg-muted"
+                  >
+                    4
+                  </Button>
+                  <Button
+                    variant="outline"
+                    onClick={() => inputNumber("5")}
+                    className="h-14 text-xl font-semibold bg-card hover:bg-muted"
+                  >
+                    5
+                  </Button>
+                  <Button
+                    variant="outline"
+                    onClick={() => inputNumber("6")}
+                    className="h-14 text-xl font-semibold bg-card hover:bg-muted"
+                  >
+                    6
+                  </Button>
 
-                <Button
-                  variant="ghost"
-                  className="h-12 text-lg text-muted-foreground"
-                  disabled
-                >
-                  ÷
-                </Button>
-                <Button
-                  variant="outline"
-                  onClick={() => inputNumber("0")}
-                  className="h-12 text-lg"
-                >
-                  0
-                </Button>
-                <Button
-                  variant="outline"
-                  onClick={addDecimal}
-                  className="h-12 text-lg"
-                >
-                  .
-                </Button>
-                <Button
-                  variant="default"
-                  onClick={inputEquals}
-                  className="h-12 text-lg bg-yellow-600 hover:bg-yellow-700"
-                >
-                  =
-                </Button>
+                  <Button
+                    variant="ghost"
+                    className="h-14 text-xl text-muted-foreground/30"
+                    disabled
+                  >
+                    ×
+                  </Button>
+                  <Button
+                    variant="outline"
+                    onClick={() => inputNumber("1")}
+                    className="h-14 text-xl font-semibold bg-card hover:bg-muted"
+                  >
+                    1
+                  </Button>
+                  <Button
+                    variant="outline"
+                    onClick={() => inputNumber("2")}
+                    className="h-14 text-xl font-semibold bg-card hover:bg-muted"
+                  >
+                    2
+                  </Button>
+                  <Button
+                    variant="outline"
+                    onClick={() => inputNumber("3")}
+                    className="h-14 text-xl font-semibold bg-card hover:bg-muted"
+                  >
+                    3
+                  </Button>
+
+                  <Button
+                    variant="ghost"
+                    className="h-14 text-xl text-muted-foreground/30"
+                    disabled
+                  >
+                    ÷
+                  </Button>
+                  <Button
+                    variant="outline"
+                    onClick={() => inputNumber("0")}
+                    className="h-14 text-xl font-semibold bg-card hover:bg-muted"
+                  >
+                    0
+                  </Button>
+                  <Button
+                    variant="outline"
+                    onClick={addDecimal}
+                    className="h-14 text-xl font-semibold bg-card hover:bg-muted"
+                  >
+                    .
+                  </Button>
+                  <Button
+                    variant="default"
+                    onClick={inputEquals}
+                    className="h-14 text-xl font-semibold bg-green-600 hover:bg-green-700 text-white"
+                  >
+                    =
+                  </Button>
+                </div>
               </div>
 
               {/* Date/Time */}
-              <div className="text-center text-sm text-muted-foreground border-t pt-4">
-                {formatMonth(currentMonth)} | {new Date().toLocaleTimeString('en-US', {
+              <div className="text-center text-base font-medium text-muted-foreground border-t border-border pt-4 mt-6">
+                📅 {formatMonth(currentMonth)} • 🕐 {new Date().toLocaleTimeString('en-US', {
                   hour: '2-digit',
                   minute: '2-digit',
                   hour12: true
