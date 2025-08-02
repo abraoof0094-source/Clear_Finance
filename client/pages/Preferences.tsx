@@ -294,6 +294,51 @@ export function Preferences() {
             </div>
           </DialogContent>
         </Dialog>
+
+        {/* Decimal Places Selection Dialog */}
+        <Dialog open={showDecimalPlacesDialog} onOpenChange={setShowDecimalPlacesDialog}>
+          <DialogContent className="max-w-md">
+            <DialogHeader>
+              <DialogTitle>Decimal places</DialogTitle>
+            </DialogHeader>
+            <div className="space-y-4">
+              {decimalOptions.map((decimalOption) => (
+                <button
+                  key={decimalOption.id}
+                  onClick={() => {
+                    setDecimalPlaces(decimalOption.id);
+                    setShowDecimalPlacesDialog(false);
+                  }}
+                  className="w-full flex items-center gap-4 p-4 text-left hover:bg-muted/50 rounded-lg transition-colors"
+                >
+                  <div className="relative">
+                    <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
+                      decimalPlaces === decimalOption.id
+                        ? 'border-primary bg-primary'
+                        : 'border-muted-foreground'
+                    }`}>
+                      {decimalPlaces === decimalOption.id && (
+                        <div className="w-2 h-2 rounded-full bg-primary-foreground"></div>
+                      )}
+                    </div>
+                  </div>
+                  <div className="font-medium">{decimalOption.name}</div>
+                </button>
+              ))}
+
+              {/* Cancel Button */}
+              <div className="flex justify-end pt-4">
+                <Button
+                  variant="outline"
+                  onClick={() => setShowDecimalPlacesDialog(false)}
+                  className="px-8"
+                >
+                  CANCEL
+                </Button>
+              </div>
+            </div>
+          </DialogContent>
+        </Dialog>
       </div>
     </Layout>
   );
