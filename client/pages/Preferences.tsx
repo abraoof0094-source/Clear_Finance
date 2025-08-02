@@ -49,6 +49,13 @@ export function Preferences() {
     { id: "system", name: "System default" },
   ];
 
+  // Decimal places options
+  const decimalOptions = [
+    { id: "0", name: "0 (eg. 10)" },
+    { id: "1", name: "1 (eg. 10.1)" },
+    { id: "2", name: "2 (eg. 10.45)" },
+  ];
+
   const currentTheme = themes.find(t => t.id === theme) || themes[0];
   const currentUIMode = uiModes.find(m => m.id === uiMode) || uiModes[2];
 
