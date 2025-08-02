@@ -203,12 +203,12 @@ export function Budgets() {
                             )}
                           </div>
                         </div>
-                        <Button 
-                          variant="outline" 
+                        <Button
+                          variant="outline"
                           size="sm"
-                          onClick={() => handleSetBudget(category, subcategory)}
+                          onClick={() => handleSetBudget(subcategory)}
                         >
-                          {budget > 0 ? "EDIT" : "SET BUDGET"}
+                          {budget > 0 ? "Edit" : "Set Budget"}
                         </Button>
                       </div>
                     </Card>
