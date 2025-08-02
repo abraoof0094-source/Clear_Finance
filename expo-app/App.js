@@ -9,7 +9,7 @@ const Tab = createBottomTabNavigator();
 // Sample data matching your web app
 const expenseData = [
   { id: 1, title: 'Grocery Shopping', category: 'Food', amount: 45.67, date: 'Today' },
-  { id: 2, 'Gas Station', category: 'Transport', amount: 32.50, date: 'Yesterday' },
+  { id: 2, title: 'Gas Station', category: 'Transport', amount: 32.50, date: 'Yesterday' },
   { id: 3, title: 'Restaurant', category: 'Food', amount: 28.90, date: '2 days ago' },
   { id: 4, title: 'Coffee Shop', category: 'Food', amount: 5.75, date: '3 days ago' }
 ];
