@@ -104,7 +104,7 @@ const allCategories = [
   {
     id: 6,
     name: "Loans & EMI Payments",
-    icon: "💳",
+    icon: "����",
     type: "expense" as const,
     subcategories: [
       { name: "Home Loan", icon: "🏠" },
@@ -643,10 +643,10 @@ export function Tracker() {
                   </Button>
                   <Button
                     variant="ghost"
-                    onClick={() => inputOperation("+")}
-                    className="h-10 text-lg font-medium bg-gray-600 hover:bg-gray-500 text-orange-400 rounded-3xl border-0"
+                    onClick={handleSave}
+                    className="h-10 text-sm font-medium bg-green-600 hover:bg-green-500 text-white rounded-3xl border-0"
                   >
-                    +
+                    Save
                   </Button>
                 </div>
               </div>
