@@ -111,13 +111,13 @@ export function SyncCodeSyncComponent() {
       const { data } = payload;
 
       // Confirm before importing
+      const currentStats = getDataStats();
       const confirmed = window.confirm(
         `🔄 Import Data from Sync Code?\n\n` +
-        `This will replace your current data with:\n` +
-        `• ${data.transactions.length} transactions\n` +
-        `• ${Object.keys(data.budgets || {}).length} budget entries\n` +
-        `• Synced: ${new Date(data.syncedAt).toLocaleString()}\n\n` +
-        `Your current data will be overwritten. Continue?`
+        `Replace current data (${currentStats.transactions} transactions, ${currentStats.budgets} budgets)\n` +
+        `With synced data (${data.transactions.length} transactions, ${Object.keys(data.budgets || {}).length} budgets)\n\n` +
+        `Synced: ${new Date(data.syncedAt).toLocaleString()}\n\n` +
+        `Continue?`
       );
 
       if (confirmed) {
