@@ -115,31 +115,34 @@ export function ExportRecords() {
     }).length;
   };
 
-  const setQuickRange = (range: 'thisMonth' | 'lastMonth' | 'last3Months' | 'thisYear') => {
+  const setQuickRange = (range: 'lastMonth' | 'last3' | 'last6' | 'lastYear') => {
     const now = new Date();
     let fromYear: number, fromMonth: number, toYear: number, toMonth: number;
 
+    // Set to month to current month for all ranges
+    toYear = now.getFullYear();
+    toMonth = now.getMonth() + 1;
+
     switch (range) {
-      case 'thisMonth':
-        fromYear = toYear = now.getFullYear();
-        fromMonth = toMonth = now.getMonth() + 1;
-        break;
       case 'lastMonth':
         const lastMonth = new Date(now.getFullYear(), now.getMonth() - 1);
         fromYear = toYear = lastMonth.getFullYear();
         fromMonth = toMonth = lastMonth.getMonth() + 1;
         break;
-      case 'last3Months':
+      case 'last3':
         const threeMonthsAgo = new Date(now.getFullYear(), now.getMonth() - 2);
         fromYear = threeMonthsAgo.getFullYear();
         fromMonth = threeMonthsAgo.getMonth() + 1;
-        toYear = now.getFullYear();
-        toMonth = now.getMonth() + 1;
         break;
-      case 'thisYear':
-        fromYear = toYear = now.getFullYear();
-        fromMonth = 1;
-        toMonth = 12;
+      case 'last6':
+        const sixMonthsAgo = new Date(now.getFullYear(), now.getMonth() - 5);
+        fromYear = sixMonthsAgo.getFullYear();
+        fromMonth = sixMonthsAgo.getMonth() + 1;
+        break;
+      case 'lastYear':
+        const twelveMonthsAgo = new Date(now.getFullYear(), now.getMonth() - 11);
+        fromYear = twelveMonthsAgo.getFullYear();
+        fromMonth = twelveMonthsAgo.getMonth() + 1;
         break;
     }
 
