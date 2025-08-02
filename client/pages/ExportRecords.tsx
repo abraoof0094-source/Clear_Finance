@@ -3,7 +3,7 @@ import { Layout } from "../components/Layout";
 import { Card } from "../components/ui/card";
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
-import { ArrowLeft, Download, Calendar, BarChart3, Check, AlertCircle, ChevronLeft, ChevronRight } from "lucide-react";
+import { Download, Calendar, BarChart3, Check, AlertCircle, ChevronLeft, ChevronRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { phoneStorage } from "../utils/phoneStorage";
 import { themeManager } from "../utils/themeColors";
