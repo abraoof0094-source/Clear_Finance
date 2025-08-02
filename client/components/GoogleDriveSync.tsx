@@ -118,6 +118,25 @@ export function GoogleDriveSyncComponent() {
     return new Date(dateString).toLocaleString();
   };
 
+  // Show configuration required message if not configured
+  if (!isConfigured) {
+    return (
+      <Card className="p-6 border-orange-500/20 bg-orange-500/5">
+        <div className="flex items-center gap-3">
+          <div className="p-2 rounded-full bg-orange-500/20">
+            <CloudOff className="h-5 w-5 text-orange-500" />
+          </div>
+          <div>
+            <h3 className="text-lg font-semibold">Google Drive Not Configured</h3>
+            <p className="text-sm text-muted-foreground">
+              Please configure your Google OAuth Client ID above to enable Google Drive sync
+            </p>
+          </div>
+        </div>
+      </Card>
+    );
+  }
+
   return (
     <Card className="p-6">
       <div className="space-y-4">
