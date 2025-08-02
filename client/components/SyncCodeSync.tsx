@@ -35,9 +35,12 @@ export function SyncCodeSyncComponent() {
 
   // Generate a simple sync code using timestamp + random
   const generateSyncCode = (): string => {
-    const timestamp = Date.now().toString(36);
-    const random = Math.random().toString(36).substring(2, 6);
-    return `CF${timestamp}${random}`.toUpperCase();
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    let result = 'CF';
+    for (let i = 0; i < 6; i++) {
+      result += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return result;
   };
 
   // Create sync code and upload data
