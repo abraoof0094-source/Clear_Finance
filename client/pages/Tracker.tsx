@@ -83,7 +83,7 @@ interface Transaction {
 }
 
 export function Tracker() {
-  const [currentMonth, setCurrentMonth] = useState(new Date(2025, 7)); // August 2025
+  const [currentMonth, setCurrentMonth] = useState(new Date()); // Current month
   const [showAddDialog, setShowAddDialog] = useState(false);
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   

@@ -1,26 +1,44 @@
+import { useState } from "react";
 import { Layout } from "../components/Layout";
 import { Card } from "../components/ui/card";
 import { Button } from "../components/ui/button";
 import { ChevronLeft, ChevronRight, Menu } from "lucide-react";
 
 export function Analysis() {
-  const currentMonth = "August, 2025";
+  const [currentMonth, setCurrentMonth] = useState(new Date()); // Current month
 
-  // Calendar data for August 2025
-  const calendarDays = Array.from({ length: 31 }, (_, i) => i + 1);
-  const startDay = 5; // August 1st, 2025 is a Friday (0=Sunday, 1=Monday, etc.)
+  // Navigate months
+  const goToPreviousMonth = () => {
+    setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1));
+  };
+
+  const goToNextMonth = () => {
+    setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1));
+  };
+
+  // Format month display
+  const formatMonth = (date: Date) => {
+    return date.toLocaleString('default', { month: 'long', year: 'numeric' });
+  };
+
+  // Calendar data for current month
+  const year = currentMonth.getFullYear();
+  const month = currentMonth.getMonth();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const calendarDays = Array.from({ length: daysInMonth }, (_, i) => i + 1);
+  const startDay = new Date(year, month, 1).getDay(); // First day of month (0=Sunday, 1=Monday, etc.)
 
   return (
     <Layout>
       <div className="space-y-6 py-4">
         {/* Month Navigation */}
         <div className="flex items-center justify-between">
-          <Button variant="ghost" size="icon">
+          <Button variant="ghost" size="icon" onClick={goToPreviousMonth}>
             <ChevronLeft className="h-5 w-5" />
           </Button>
-          <h2 className="text-lg font-semibold">{currentMonth}</h2>
+          <h2 className="text-lg font-semibold">{formatMonth(currentMonth)}</h2>
           <div className="flex items-center gap-2">
-            <Button variant="ghost" size="icon">
+            <Button variant="ghost" size="icon" onClick={goToNextMonth}>
               <ChevronRight className="h-5 w-5" />
             </Button>
             <Button variant="ghost" size="icon">
@@ -92,7 +110,7 @@ export function Analysis() {
 
         {/* Calendar */}
         <div>
-          <h3 className="text-lg font-semibold mb-4">{currentMonth}</h3>
+          <h3 className="text-lg font-semibold mb-4">{formatMonth(currentMonth)}</h3>
           <Card className="p-4">
             {/* Calendar Header */}
             <div className="grid grid-cols-7 gap-1 mb-2">
@@ -140,7 +158,7 @@ export function Analysis() {
 
         {/* Transaction Details */}
         <div>
-          <h3 className="text-lg font-semibold mb-4">Aug 01, Friday</h3>
+          <h3 className="text-lg font-semibold mb-4">{formatMonth(currentMonth).substring(0, 3)} 01, {new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1).toLocaleDateString('en-US', { weekday: 'long' })}</h3>
           <div className="space-y-3">
             <TransactionItem
               icon="💼"

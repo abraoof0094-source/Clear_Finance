@@ -78,13 +78,17 @@ const expenseCategories = [
 ];
 
 export function Budgets() {
-  const [currentMonth, setCurrentMonth] = useState(new Date(2025, 7)); // August 2025
+  const [currentMonth, setCurrentMonth] = useState(new Date()); // Current month
   const [showSetBudgetDialog, setShowSetBudgetDialog] = useState(false);
   const [showCopyBudgetDialog, setShowCopyBudgetDialog] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<any>(null);
   const [budgetAmount, setBudgetAmount] = useState("");
   const [budgets, setBudgets] = useState<Record<string, Record<string, number>>>({});
-  const [copyFromMonth, setCopyFromMonth] = useState(new Date(2025, 6)); // July 2025 as default
+  const [copyFromMonth, setCopyFromMonth] = useState(() => {
+    const prevMonth = new Date();
+    prevMonth.setMonth(prevMonth.getMonth() - 1);
+    return prevMonth;
+  }); // Previous month as default
 
   // Get current month key
   const getCurrentMonthKey = () => {
