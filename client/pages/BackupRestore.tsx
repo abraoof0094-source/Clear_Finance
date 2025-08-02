@@ -17,6 +17,10 @@ export function BackupRestore() {
   const [statusMessage, setStatusMessage] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  useEffect(() => {
+    themeManager.setTheme(localStorage.getItem('selected-theme') || 'original');
+  }, []);
+
   const handleBack = () => {
     navigate(-1);
   };
