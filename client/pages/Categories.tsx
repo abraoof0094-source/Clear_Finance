@@ -478,7 +478,7 @@ export function Categories() {
       <div className="space-y-6 py-4">
         {/* All Categories */}
         <div>
-          <h3 className="text-lg font-semibold mb-4">All Categories</h3>
+          <h3 className="text-lg font-semibold text-yellow-500 mb-4">All Categories</h3>
           <div className="space-y-3">
             {allCategories.map((category) => (
               <div key={category.id}>
