@@ -57,7 +57,11 @@ export function Analysis() {
             <Button variant="ghost" size="icon" onClick={goToNextMonth}>
               <ChevronRight className="h-5 w-5" />
             </Button>
-            <Button variant="ghost" size="icon">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setShowDisplayOptions(true)}
+            >
               <Menu className="h-5 w-5" />
             </Button>
           </div>
