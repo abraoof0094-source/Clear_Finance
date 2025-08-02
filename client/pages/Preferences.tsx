@@ -199,9 +199,15 @@ export function Preferences() {
           </Card>
         </div>
 
-        {/* Manual Data Sync Section */}
+        {/* Sync Code Data Sync Section */}
         <div>
           <h2 className="text-lg font-semibold text-yellow-500 mb-4">Data Sync</h2>
+          <SyncCodeSyncComponent />
+        </div>
+
+        {/* Manual Data Sync Section */}
+        <div>
+          <h2 className="text-lg font-semibold text-yellow-500 mb-4">Manual Backup</h2>
           <ManualDataSyncComponent />
         </div>
 
