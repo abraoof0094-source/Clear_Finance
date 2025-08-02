@@ -43,12 +43,17 @@ export function GoogleAuthTestComponent() {
       console.log('Google API available:', !!window.gapi);
 
       // Initialize Google API
+      setTestMessage('Initializing Google Auth...');
       await new Promise((resolve, reject) => {
         window.gapi.load('auth2', () => {
+          console.log('Auth2 library loaded');
+          console.log('Testing Client ID:', testClientId.substring(0, 20) + '...');
+
           window.gapi.auth2.init({
             client_id: testClientId,
             scope: 'https://www.googleapis.com/auth/drive.file'
           }).then(() => {
+            console.log('Google Auth2 initialized successfully');
             setTestResult('success');
             setTestMessage('✅ Google OAuth configuration is valid! Authentication should work.');
             resolve(true);
