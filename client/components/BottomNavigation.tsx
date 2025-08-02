@@ -14,7 +14,6 @@ export function BottomNavigation() {
     { path: "/", icon: ClipboardList, label: "Records" },
     { path: "/analysis", icon: PieChart, label: "Analysis" },
     { path: "/budgets", icon: Calculator, label: "Budgets" },
-    { path: "/accounts", icon: CreditCard, label: "Accounts" },
     { path: "/categories", icon: FolderOpen, label: "Categories" },
   ];
 
