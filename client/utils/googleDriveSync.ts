@@ -23,6 +23,36 @@ class GoogleDriveSync {
     this.loadAccessToken();
   }
 
+  private getClientId(): string {
+    // Try to get from environment variables (if available)
+    if (typeof window !== 'undefined' && (window as any).__GOOGLE_CLIENT_ID__) {
+      return (window as any).__GOOGLE_CLIENT_ID__;
+    }
+
+    // Try to get from localStorage (user configured)
+    if (typeof window !== 'undefined') {
+      const stored = localStorage.getItem('google-client-id');
+      if (stored) return stored;
+    }
+
+    // Fallback - will need manual configuration
+    return 'your-google-client-id';
+  }
+
+  // Method to set client ID manually
+  public setClientId(clientId: string): void {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('google-client-id', clientId);
+      (window as any).__GOOGLE_CLIENT_ID__ = clientId;
+    }
+  }
+
+  // Check if client ID is configured
+  public isConfigured(): boolean {
+    const clientId = this.getClientId();
+    return clientId !== 'your-google-client-id' && clientId.includes('.apps.googleusercontent.com');
+  }
+
   private loadAccessToken() {
     this.accessToken = localStorage.getItem('google-drive-token');
   }
