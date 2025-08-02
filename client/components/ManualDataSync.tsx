@@ -75,6 +75,25 @@ export function ManualDataSyncComponent() {
     }
   };
 
+  // Handle file upload
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const content = e.target?.result as string;
+      setImportData(content);
+      setStatus('success');
+      setStatusMessage(`File "${file.name}" loaded. Click "Import Data" to proceed.`);
+    };
+    reader.onerror = () => {
+      setStatus('error');
+      setStatusMessage('Failed to read file');
+    };
+    reader.readAsText(file);
+  };
+
   // Import data from JSON string
   const handleImport = () => {
     if (!importData.trim()) {
