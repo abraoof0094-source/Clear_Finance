@@ -226,20 +226,20 @@ export function ExportRecords() {
             
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="text-sm font-medium text-muted-foreground">From</label>
+                <label className="text-sm font-medium text-muted-foreground">From Month</label>
                 <Input
-                  type="date"
-                  value={fromDate}
-                  onChange={(e) => setFromDate(e.target.value)}
+                  type="month"
+                  value={fromMonth}
+                  onChange={(e) => setFromMonth(e.target.value)}
                   className="mt-1"
                 />
               </div>
               <div>
-                <label className="text-sm font-medium text-muted-foreground">To</label>
+                <label className="text-sm font-medium text-muted-foreground">To Month</label>
                 <Input
-                  type="date"
-                  value={toDate}
-                  onChange={(e) => setToDate(e.target.value)}
+                  type="month"
+                  value={toMonth}
+                  onChange={(e) => setToMonth(e.target.value)}
                   className="mt-1"
                 />
               </div>
