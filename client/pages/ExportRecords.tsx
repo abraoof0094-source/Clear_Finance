@@ -99,12 +99,19 @@ export function ExportRecords() {
 
   const getTransactionCount = () => {
     const allTransactions = phoneStorage.loadTransactions();
-    const fromDateObj = new Date(fromDate);
-    const toDateObj = new Date(toDate);
-    
+    const [fromYear, fromMonthNum] = fromMonth.split('-').map(Number);
+    const [toYear, toMonthNum] = toMonth.split('-').map(Number);
+
     return allTransactions.filter(transaction => {
       const transactionDate = new Date(transaction.date);
-      return transactionDate >= fromDateObj && transactionDate <= toDateObj;
+      const transactionYear = transactionDate.getFullYear();
+      const transactionMonth = transactionDate.getMonth() + 1;
+
+      const transactionYearMonth = transactionYear * 100 + transactionMonth;
+      const fromYearMonth = fromYear * 100 + fromMonthNum;
+      const toYearMonth = toYear * 100 + toMonthNum;
+
+      return transactionYearMonth >= fromYearMonth && transactionYearMonth <= toYearMonth;
     }).length;
   };
 
