@@ -37,6 +37,54 @@ export function ExportRecords() {
     themeManager.setTheme(localStorage.getItem("selected-theme") || "original");
   }, []);
 
+  // Touch event handlers for swipe gestures
+  const handleTouchStart = (e: TouchEvent) => {
+    startXRef.current = e.touches[0].clientX;
+    currentXRef.current = startXRef.current;
+  };
+
+  const handleTouchMove = (e: TouchEvent) => {
+    currentXRef.current = e.touches[0].clientX;
+    const diff = currentXRef.current - startXRef.current;
+
+    // Only allow swiping to the left (negative diff means swiping left to close)
+    if (diff < 0 && containerRef.current) {
+      const translateX = Math.max(diff, -window.innerWidth * 0.75);
+      containerRef.current.style.transform = `translateX(${translateX}px)`;
+    }
+  };
+
+  const handleTouchEnd = () => {
+    if (!containerRef.current) return;
+
+    const diff = currentXRef.current - startXRef.current;
+    const threshold = -window.innerWidth * 0.15; // 15% of screen width (negative for left swipe)
+
+    if (diff < threshold) {
+      // Swipe was far enough, close the page
+      navigate(-1);
+    } else {
+      // Snap back to original position
+      containerRef.current.style.transform = "translateX(0)";
+    }
+  };
+
+  // Add touch event listeners
+  useEffect(() => {
+    const container = containerRef.current;
+    if (container) {
+      container.addEventListener("touchstart", handleTouchStart);
+      container.addEventListener("touchmove", handleTouchMove);
+      container.addEventListener("touchend", handleTouchEnd);
+
+      return () => {
+        container.removeEventListener("touchstart", handleTouchStart);
+        container.removeEventListener("touchmove", handleTouchMove);
+        container.removeEventListener("touchend", handleTouchEnd);
+      };
+    }
+  }, []);
+
   const exportToCSV = async () => {
     setIsExporting(true);
     setStatus("idle");
