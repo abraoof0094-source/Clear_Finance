@@ -127,10 +127,14 @@ export function Budgets() {
 
   const handleSaveBudget = () => {
     if (selectedCategory && budgetAmount) {
-      const key = selectedCategory.name;
+      const monthKey = getCurrentMonthKey();
+      const categoryName = selectedCategory.name;
       setBudgets(prev => ({
         ...prev,
-        [key]: parseFloat(budgetAmount) || 0
+        [monthKey]: {
+          ...prev[monthKey],
+          [categoryName]: parseFloat(budgetAmount) || 0
+        }
       }));
       setShowSetBudgetDialog(false);
       setBudgetAmount("");
@@ -139,19 +143,33 @@ export function Budgets() {
   };
 
   const handleCopyFromPreviousMonth = () => {
-    // This would copy budgets from previous month
-    // For now, let's simulate by setting some example budgets
-    setBudgets({
-      "Rent / Home Loan EMI": 25000,
-      "Groceries & Daily Essentials": 8000,
-      "Food & Dining": 5000,
-      "Travel & Commute": 3000,
-      "Health Insurance": 2000,
-    });
+    const currentMonthKey = getCurrentMonthKey();
+    const prevMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1);
+    const prevMonthKey = `${prevMonth.getFullYear()}-${prevMonth.getMonth()}`;
+
+    if (budgets[prevMonthKey]) {
+      setBudgets(prev => ({
+        ...prev,
+        [currentMonthKey]: { ...budgets[prevMonthKey] }
+      }));
+    } else {
+      // No previous month data, set some example budgets
+      setBudgets(prev => ({
+        ...prev,
+        [currentMonthKey]: {
+          "Rent / Home Loan EMI": 25000,
+          "Groceries & Daily Essentials": 8000,
+          "Food & Dining": 5000,
+          "Travel & Commute": 3000,
+          "Health Insurance": 2000,
+        }
+      }));
+    }
   };
 
   const getBudgetForCategory = (categoryName: string) => {
-    return budgets[categoryName] || 0;
+    const currentBudgets = getCurrentMonthBudgets();
+    return currentBudgets[categoryName] || 0;
   };
 
   return (
