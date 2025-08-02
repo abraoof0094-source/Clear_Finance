@@ -147,11 +147,11 @@ export function Budgets() {
         <Card className="p-6">
           <div className="grid grid-cols-2 gap-4 text-center">
             <div>
-              <div className="text-sm text-muted-foreground">TOTAL BUDGET</div>
+              <div className="text-sm text-muted-foreground">Total Budget</div>
               <div className="text-xl font-bold">₹{totalBudget.toLocaleString()}</div>
             </div>
             <div>
-              <div className="text-sm text-muted-foreground">TOTAL SPENT</div>
+              <div className="text-sm text-muted-foreground">Total Spent</div>
               <div className="text-xl font-bold text-red-400">₹0.00</div>
             </div>
           </div>
