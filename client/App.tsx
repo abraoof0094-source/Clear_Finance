@@ -8,6 +8,7 @@ import { Settings } from "./pages/Settings";
 import { Preferences } from "./pages/Preferences";
 import { ExportRecords } from "./pages/ExportRecords";
 import { BackupRestore } from "./pages/BackupRestore";
+import { More } from "./pages/More";
 import { NotFound } from "./pages/NotFound";
 import "./global.css";
 
