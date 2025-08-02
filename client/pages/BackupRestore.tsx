@@ -182,26 +182,7 @@ export function BackupRestore() {
           </div>
         )}
 
-        {/* Current Data Summary */}
-        <Card className="p-4">
-          <div className="flex items-center gap-3 mb-3">
-            <Shield className="h-5 w-5 theme-accent" />
-            <span className="font-medium">Your Data</span>
-          </div>
-          <div className="grid grid-cols-2 gap-4 mb-3">
-            <div className="text-center">
-              <div className="text-2xl font-bold amount-income">{stats.transactions}</div>
-              <div className="text-xs text-muted-foreground">Transactions</div>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold theme-accent">{stats.budgets}</div>
-              <div className="text-xs text-muted-foreground">Budget entries</div>
-            </div>
-          </div>
-          <div className="text-xs text-muted-foreground text-center">
-            Last restore: {getLastRestoreInfo()}
-          </div>
-        </Card>
+
 
         {/* Backup Section */}
         <div>
