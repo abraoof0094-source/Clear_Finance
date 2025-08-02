@@ -215,37 +215,37 @@ export function ExportRecords() {
         <div>
           <h2 className="text-lg font-semibold section-header mb-3">Quick Date Ranges</h2>
           <div className="grid grid-cols-2 gap-2">
-            <Button 
-              variant="outline" 
-              size="sm"
-              onClick={() => setQuickRange('thisMonth')}
-              className="text-xs"
-            >
-              This Month
-            </Button>
-            <Button 
-              variant="outline" 
+            <Button
+              variant="outline"
               size="sm"
               onClick={() => setQuickRange('lastMonth')}
               className="text-xs"
             >
               Last Month
             </Button>
-            <Button 
-              variant="outline" 
+            <Button
+              variant="outline"
               size="sm"
-              onClick={() => setQuickRange('last3Months')}
+              onClick={() => setQuickRange('last3')}
               className="text-xs"
             >
               Last 3 Months
             </Button>
-            <Button 
-              variant="outline" 
+            <Button
+              variant="outline"
               size="sm"
-              onClick={() => setQuickRange('thisYear')}
+              onClick={() => setQuickRange('last6')}
               className="text-xs"
             >
-              This Year
+              Last 6 Months
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setQuickRange('lastYear')}
+              className="text-xs"
+            >
+              Last Year
             </Button>
           </div>
         </div>
