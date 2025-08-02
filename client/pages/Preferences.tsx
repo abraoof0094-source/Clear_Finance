@@ -218,41 +218,7 @@ export function Preferences() {
           <PhoneStorageStatus />
         </div>
 
-        {/* Data Management Section */}
-        <div>
-          <h2 className="text-lg font-semibold section-header mb-4">Data Management</h2>
-          <Card className="p-1">
-            <div className="space-y-1">
-              {/* Export Records */}
-              <button
-                className="flex items-center justify-between p-4 w-full text-left hover:bg-muted/50 rounded-md transition-colors"
-                onClick={() => navigate('/export-records')}
-              >
-                <div>
-                  <div className="font-medium">Export Records</div>
-                  <div className="text-sm text-muted-foreground">
-                    Export transactions as CSV/Excel files
-                  </div>
-                </div>
-                <ChevronRight className="h-4 w-4 text-muted-foreground" />
-              </button>
 
-              {/* Backup & Restore */}
-              <button
-                className="flex items-center justify-between p-4 w-full text-left hover:bg-muted/50 rounded-md transition-colors border-t border-border"
-                onClick={() => navigate('/backup-restore')}
-              >
-                <div>
-                  <div className="font-medium">Backup & Restore</div>
-                  <div className="text-sm text-muted-foreground">
-                    Create backups and restore data
-                  </div>
-                </div>
-                <ChevronRight className="h-4 w-4 text-muted-foreground" />
-              </button>
-            </div>
-          </Card>
-        </div>
 
         {/* About Section */}
         <div>
