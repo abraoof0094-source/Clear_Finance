@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from './ui/button';
 import { Card } from './ui/card';
 import { Input } from './ui/input';
 import { Settings, CheckCircle, AlertCircle, ExternalLink } from 'lucide-react';
+import { googleDriveSync } from '../utils/googleDriveSync';
 
 export function GoogleDriveSetupComponent() {
   const [clientId, setClientId] = useState('');
