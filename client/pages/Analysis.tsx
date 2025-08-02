@@ -66,27 +66,7 @@ export function Analysis() {
           </div>
         </div>
 
-        {/* Financial Summary */}
-        <Card className="p-6">
-          <div className="grid grid-cols-3 gap-4 text-center">
-            <div>
-              <div className="text-sm text-muted-foreground">EXPENSE</div>
-              <div className="text-lg font-bold text-red-400">₹10,000.00</div>
-            </div>
-            <div>
-              <div className="text-sm text-muted-foreground">INCOME</div>
-              <div className="text-lg font-bold text-green-400">
-                ₹267,200.00
-              </div>
-            </div>
-            <div>
-              <div className="text-sm text-muted-foreground">TOTAL</div>
-              <div className="text-lg font-bold text-green-400">
-                ₹257,200.00
-              </div>
-            </div>
-          </div>
-        </Card>
+
 
         {/* Expense Flow Chart */}
         <Card className="p-4">
