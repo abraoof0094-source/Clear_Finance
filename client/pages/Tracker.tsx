@@ -523,7 +523,7 @@ export function Tracker() {
 
         {/* Recent Transactions */}
         <div>
-          <h3 className="text-lg font-semibold text-yellow-500 mb-4">
+          <h3 className="text-lg font-semibold section-header mb-4">
             Recent Transactions
           </h3>
           <div className="space-y-3">
