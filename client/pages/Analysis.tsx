@@ -2,7 +2,13 @@ import { useState } from "react";
 import { Layout } from "../components/Layout";
 import { Card } from "../components/ui/card";
 import { Button } from "../components/ui/button";
-import { ChevronLeft, ChevronRight, Menu } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "../components/ui/dialog";
+import { ChevronLeft, ChevronRight, Menu, Check, Star } from "lucide-react";
 
 export function Analysis() {
   const [currentMonth, setCurrentMonth] = useState(new Date()); // Current month
