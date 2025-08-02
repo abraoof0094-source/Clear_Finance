@@ -290,7 +290,7 @@ export function Analysis() {
         {/* Category Analysis */}
         {periodTransactions.length > 0 ? (
           <div>
-            <h3 className="text-lg font-semibold mb-4">Category Breakdown</h3>
+            <h3 className="text-lg font-semibold text-yellow-500 mb-4">Category Breakdown</h3>
             <div className="space-y-3">
               {categoryAnalysis.map((category) => (
                 <Card key={category.name} className="p-4">
