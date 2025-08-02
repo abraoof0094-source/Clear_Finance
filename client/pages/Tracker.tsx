@@ -147,6 +147,10 @@ export function Tracker() {
         return String(first + second);
       case "-":
         return String(first - second);
+      case "×":
+        return String(first * second);
+      case "÷":
+        return second !== 0 ? String(first / second) : "Error";
       case "=":
         return secondOperand;
       default:
@@ -426,34 +430,34 @@ export function Tracker() {
                   {/* Row 1: Operations */}
                   <Button
                     variant="ghost"
-                    className="h-16 text-xl font-medium bg-gray-600 hover:bg-gray-500 text-white rounded-3xl border-0"
-                    disabled
+                    onClick={clearCalculator}
+                    className="h-16 text-xl font-medium bg-gray-600 hover:bg-gray-500 text-orange-400 rounded-3xl border-0"
                   >
                     C
                   </Button>
                   <Button
                     variant="ghost"
-                    className="h-16 text-xl font-medium bg-gray-600 hover:bg-gray-500 text-white rounded-3xl border-0"
-                    disabled
+                    onClick={() => inputOperation("×")}
+                    className="h-16 text-xl font-medium bg-gray-600 hover:bg-gray-500 text-orange-400 rounded-3xl border-0"
                   >
                     ×
                   </Button>
                   <Button
                     variant="ghost"
-                    className="h-16 text-xl font-medium bg-gray-600 hover:bg-gray-500 text-white rounded-3xl border-0"
+                    className="h-16 text-xl font-medium bg-gray-600 hover:bg-gray-500 text-orange-400 rounded-3xl border-0"
                     disabled
                   >
                     %
                   </Button>
                   <Button
                     variant="ghost"
-                    className="h-16 text-xl font-medium bg-gray-600 hover:bg-gray-500 text-white rounded-3xl border-0"
-                    disabled
+                    onClick={() => inputOperation("÷")}
+                    className="h-16 text-xl font-medium bg-gray-600 hover:bg-gray-500 text-orange-400 rounded-3xl border-0"
                   >
                     ÷
                   </Button>
 
-                  {/* Row 2: 7, 8, 9, × */}
+                  {/* Row 2: 7, 8, 9, + */}
                   <Button
                     variant="ghost"
                     onClick={() => inputNumber("7")}
@@ -478,7 +482,7 @@ export function Tracker() {
                   <Button
                     variant="ghost"
                     onClick={() => inputOperation("+")}
-                    className="h-16 text-2xl font-medium bg-orange-500 hover:bg-orange-400 text-white rounded-3xl border-0"
+                    className="h-16 text-2xl font-medium bg-gray-600 hover:bg-gray-500 text-orange-400 rounded-3xl border-0"
                   >
                     +
                   </Button>
@@ -508,12 +512,12 @@ export function Tracker() {
                   <Button
                     variant="ghost"
                     onClick={() => inputOperation("-")}
-                    className="h-16 text-2xl font-medium bg-orange-500 hover:bg-orange-400 text-white rounded-3xl border-0"
+                    className="h-16 text-2xl font-medium bg-gray-600 hover:bg-gray-500 text-orange-400 rounded-3xl border-0"
                   >
                     -
                   </Button>
 
-                  {/* Row 4: 1, 2, 3, + */}
+                  {/* Row 4: 1, 2, 3, = */}
                   <Button
                     variant="ghost"
                     onClick={() => inputNumber("1")}
@@ -537,19 +541,19 @@ export function Tracker() {
                   </Button>
                   <Button
                     variant="ghost"
-                    className="h-16 text-xl font-medium bg-gray-600 hover:bg-gray-500 text-white rounded-3xl border-0"
-                    disabled
+                    onClick={inputEquals}
+                    className="h-16 text-2xl font-medium bg-orange-500 hover:bg-orange-400 text-white rounded-3xl border-0"
                   >
-                    ×
+                    =
                   </Button>
 
-                  {/* Row 5: 0, ., = */}
+                  {/* Row 5: Save, 0, ., = */}
                   <Button
                     variant="ghost"
-                    className="h-16 text-xl font-medium bg-gray-600 hover:bg-gray-500 text-white rounded-3xl border-0"
-                    disabled
+                    onClick={handleSave}
+                    className="h-16 text-sm font-medium bg-green-600 hover:bg-green-500 text-white rounded-3xl border-0"
                   >
-                    +/-
+                    Save
                   </Button>
                   <Button
                     variant="ghost"
@@ -567,10 +571,10 @@ export function Tracker() {
                   </Button>
                   <Button
                     variant="ghost"
-                    onClick={inputEquals}
-                    className="h-16 text-2xl font-medium bg-orange-500 hover:bg-orange-400 text-white rounded-3xl border-0"
+                    className="h-16 text-xl font-medium bg-gray-600 hover:bg-gray-500 text-orange-400 rounded-3xl border-0"
+                    disabled
                   >
-                    =
+                    +/-
                   </Button>
                 </div>
               </div>
