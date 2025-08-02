@@ -256,24 +256,7 @@ export function BackupRestore() {
                 className="hidden"
               />
 
-              {/* Manual Input */}
-              {!importData && (
-                <div className="relative">
-                  <div className="absolute inset-0 flex items-center">
-                    <span className="w-full border-t border-border" />
-                  </div>
-                  <div className="relative flex justify-center text-xs uppercase">
-                    <span className="bg-background px-2 text-muted-foreground">or paste data</span>
-                  </div>
-                </div>
-              )}
 
-              <textarea
-                value={importData}
-                onChange={(e) => setImportData(e.target.value)}
-                className="w-full h-24 p-3 text-xs bg-muted rounded-lg font-mono resize-none"
-                placeholder="Paste backup data here..."
-              />
 
               <Button 
                 onClick={handleRestore}
