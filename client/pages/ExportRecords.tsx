@@ -315,14 +315,7 @@ export function ExportRecords() {
               </div>
             </div>
 
-            {/* Transaction Count */}
-            <div className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
-              <div className="flex items-center gap-2">
-                <BarChart3 className="h-4 w-4 theme-accent" />
-                <span className="text-sm font-medium">Transactions to export</span>
-              </div>
-              <span className="text-lg font-bold theme-primary">{transactionCount}</span>
-            </div>
+
           </div>
         </Card>
 
