@@ -614,7 +614,7 @@ function ExpandableCategoryItem({
           </div>
           
           {/* Main Category Menu */}
-          <div className="relative ml-2">
+          <div className="relative ml-2 menu-container">
             <Button
               variant="ghost"
               size="icon"
