@@ -218,7 +218,7 @@ export function BackupRestore() {
       <div className="relative z-20 max-w-md mx-auto space-y-6 py-4 bg-background">
         {/* Header */}
         <div className="text-center">
-          <h1 class="text-xl font-semibold">Backup & Restore</h1>
+          <h1 className="text-xl font-semibold">Backup & Restore</h1>
           <p className="text-sm text-muted-foreground">Protect and transfer your data</p>
         </div>
 
