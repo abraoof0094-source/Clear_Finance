@@ -249,7 +249,7 @@ export function Tracker() {
         return String(first + second);
       case "-":
         return String(first - second);
-      case "×":
+      case "*":
         return String(first * second);
       case "÷":
         return second !== 0 ? String(first / second) : "Error";
@@ -259,6 +259,15 @@ export function Tracker() {
         return secondOperand;
       default:
         return secondOperand;
+    }
+  };
+
+  const addDecimal = () => {
+    if (waitingForOperand) {
+      setDisplayValue("0.");
+      setWaitingForOperand(false);
+    } else if (displayValue.indexOf(".") === -1) {
+      setDisplayValue(displayValue + ".");
     }
   };
 
@@ -514,7 +523,7 @@ export function Tracker() {
               </div>
 
               {/* Amount Display - More Prominent */}
-              <div className="bg-gradient-to-r from-muted to-muted/50 rounded-xl p-3 border-2 border-primary/20">
+              <div className="bg-gradient-to-r from-muted to-muted/50 rounded-xl p-3 border-2 border-primary/20 relative">
                 <div className="text-center">
                   <div className="text-xs text-muted-foreground mb-1">
                     Amount
@@ -529,12 +538,18 @@ export function Tracker() {
                     ₹{displayValue}
                   </div>
                 </div>
+                <button
+                  onClick={backspace}
+                  className="absolute top-2 right-2 h-8 w-8 bg-gray-600 hover:bg-gray-500 text-orange-400 rounded-full flex items-center justify-center text-sm"
+                >
+                  ⌫
+                </button>
               </div>
 
               {/* Calculator - Standard 4x4 Layout */}
               <div className="bg-black/20 p-2 rounded-xl">
                 <div className="grid grid-cols-4 gap-2">
-                  {/* Row 1: C, ⌫, +, Save */}
+                  {/* Row 1: C, %, +, - */}
                   <Button
                     variant="ghost"
                     onClick={clearCalculator}
@@ -544,10 +559,10 @@ export function Tracker() {
                   </Button>
                   <Button
                     variant="ghost"
-                    onClick={backspace}
+                    onClick={() => inputOperation("%")}
                     className="h-10 text-lg font-medium bg-gray-600 hover:bg-gray-500 text-orange-400 rounded-3xl border-0"
                   >
-                    ⌫
+                    %
                   </Button>
                   <Button
                     variant="ghost"
@@ -558,13 +573,13 @@ export function Tracker() {
                   </Button>
                   <Button
                     variant="ghost"
-                    onClick={handleSave}
-                    className="h-10 text-sm font-medium bg-green-600 hover:bg-green-500 text-white rounded-3xl border-0"
+                    onClick={() => inputOperation("-")}
+                    className="h-10 text-lg font-medium bg-gray-600 hover:bg-gray-500 text-orange-400 rounded-3xl border-0"
                   >
-                    Save
+                    -
                   </Button>
 
-                  {/* Row 2: 7, 8, 9, = */}
+                  {/* Row 2: 7, 8, 9, * */}
                   <Button
                     variant="ghost"
                     onClick={() => inputNumber("7")}
@@ -588,10 +603,10 @@ export function Tracker() {
                   </Button>
                   <Button
                     variant="ghost"
-                    onClick={inputEquals}
-                    className="h-22 text-lg font-medium bg-orange-500 hover:bg-orange-400 text-white rounded-3xl border-0 row-span-2"
+                    onClick={() => inputOperation("*")}
+                    className="h-10 text-lg font-medium bg-gray-600 hover:bg-gray-500 text-orange-400 rounded-3xl border-0"
                   >
-                    =
+                    ×
                   </Button>
 
                   {/* Row 3: 4, 5, 6 */}
@@ -617,7 +632,7 @@ export function Tracker() {
                     6
                   </Button>
 
-                  {/* Row 4: 1, 2, 3 */}
+                  {/* Row 4: 1, 2, 3, = */}
                   <Button
                     variant="ghost"
                     onClick={() => inputNumber("1")}
@@ -641,10 +656,40 @@ export function Tracker() {
                   </Button>
                   <Button
                     variant="ghost"
+                    onClick={inputEquals}
+                    className="h-10 text-lg font-medium bg-orange-500 hover:bg-orange-400 text-white rounded-3xl border-0"
+                  >
+                    =
+                  </Button>
+
+                  {/* Row 5: Save, 0, ., = */}
+                  <Button
+                    variant="ghost"
+                    onClick={handleSave}
+                    className="h-10 text-sm font-medium bg-green-600 hover:bg-green-500 text-white rounded-3xl border-0"
+                  >
+                    Save
+                  </Button>
+                  <Button
+                    variant="ghost"
                     onClick={() => inputNumber("0")}
-                    className="h-10 text-lg font-medium bg-gray-800 hover:bg-gray-700 text-white rounded-3xl border-0 col-span-2"
+                    className="h-10 text-lg font-medium bg-gray-800 hover:bg-gray-700 text-white rounded-3xl border-0"
                   >
                     0
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    onClick={addDecimal}
+                    className="h-10 text-lg font-medium bg-gray-800 hover:bg-gray-700 text-white rounded-3xl border-0"
+                  >
+                    .
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    onClick={() => inputOperation("÷")}
+                    className="h-10 text-lg font-medium bg-gray-600 hover:bg-gray-500 text-orange-400 rounded-3xl border-0"
+                  >
+                    ÷
                   </Button>
                 </div>
               </div>
