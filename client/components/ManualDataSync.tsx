@@ -313,11 +313,17 @@ export function ManualDataSyncComponent() {
         {/* Instructions */}
         <div className="text-xs text-muted-foreground bg-muted/50 p-3 rounded-lg">
           <p className="font-medium mb-1">📱➡️💻 How to sync:</p>
-          <ol className="space-y-1">
+          <p className="font-medium mb-2">Method 1 - Copy & Paste:</p>
+          <ol className="space-y-1 mb-3">
             <li>1. On your <strong>phone</strong>: Click "Export My Data" → Copy the text</li>
             <li>2. Send the text to yourself (WhatsApp, email, etc.)</li>
             <li>3. On your <strong>computer</strong>: Paste the text → Click "Import Data"</li>
-            <li>4. Your data will sync! 🎉</li>
+          </ol>
+          <p className="font-medium mb-2">Method 2 - File Upload:</p>
+          <ol className="space-y-1">
+            <li>1. On your <strong>phone</strong>: Click "Export My Data" → "Download File"</li>
+            <li>2. Save the .json file to cloud storage (Google Drive, etc.)</li>
+            <li>3. On your <strong>computer</strong>: Download file → Click "Upload File"</li>
           </ol>
         </div>
       </div>
