@@ -97,7 +97,6 @@ export function Budgets() {
     return prevMonth;
   }); // Previous month as default
 
-<<<<<<< HEAD
   // Get current month key
   const getCurrentMonthKey = () => {
     return `${currentMonth.getFullYear()}-${currentMonth.getMonth()}`;
@@ -150,16 +149,6 @@ export function Budgets() {
     }
   };
 
-  // Check if copy month has budgets
-  const getCopyMonthKey = () => {
-    return `${copyFromMonth.getFullYear()}-${copyFromMonth.getMonth()}`;
-  };
-
-  const copyMonthHasBudgets = () => {
-    const copyBudgets = budgets[getCopyMonthKey()];
-    return copyBudgets && Object.keys(copyBudgets).length > 0;
-  };
-
   // Calculate allocated budget for a main category
   const getCategoryAllocatedBudget = (category: any) => {
     const currentBudgets = getCurrentMonthBudgets();
@@ -169,62 +158,38 @@ export function Budgets() {
   };
 
   const handleSetBudget = (category: any, subcategory: any) => {
-=======
-  // Calculate total budget
-  const totalBudget = Object.values(budgets).reduce(
-    (sum, amount) => sum + amount,
-    0,
-  );
-
-  // Calculate budget sum for a main category
-  const getCategoryBudgetSum = (category: any) => {
-    return category.subcategories.reduce((sum: number, subcategory: any) => {
-      return sum + (budgets[subcategory.name] || 0);
-    }, 0);
-  };
-
-  const handleSetBudget = (subcategory: any) => {
->>>>>>> 71b40541cbcd7b79e433e49ba0b4b91b21d15cf4
     setSelectedCategory(subcategory);
-    setBudgetAmount("");
     setShowSetBudgetDialog(true);
   };
 
   const handleSaveBudget = () => {
     if (selectedCategory && budgetAmount) {
-<<<<<<< HEAD
       const monthKey = getCurrentMonthKey();
       const categoryName = selectedCategory.name;
+
       setBudgets((prev) => ({
         ...prev,
         [monthKey]: {
           ...prev[monthKey],
           [categoryName]: parseFloat(budgetAmount) || 0,
         },
-=======
-      const key = selectedCategory.name;
-      setBudgets((prev) => ({
-        ...prev,
-        [key]: parseFloat(budgetAmount) || 0,
->>>>>>> 71b40541cbcd7b79e433e49ba0b4b91b21d15cf4
       }));
+
       setShowSetBudgetDialog(false);
       setBudgetAmount("");
       setSelectedCategory(null);
     }
   };
 
-  const handleOpenCopyDialog = () => {
-    // Set copy month to previous month by default
+  const resetCopyDialog = () => {
     setCopyFromMonth(
       new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1),
     );
-    setShowCopyBudgetDialog(true);
   };
 
-  const handleCopyBudgets = () => {
+  const handleCopyBudget = () => {
+    const copyMonthKey = `${copyFromMonth.getFullYear()}-${copyFromMonth.getMonth()}`;
     const currentMonthKey = getCurrentMonthKey();
-    const copyMonthKey = getCopyMonthKey();
 
     if (budgets[copyMonthKey]) {
       setBudgets((prev) => ({
@@ -254,84 +219,64 @@ export function Budgets() {
           </Button>
         </div>
 
-<<<<<<< HEAD
         {/* No Budget Notification */}
         {totalBudget === 0 && (
           <Card className="p-4 mb-4 bg-muted/50 border-primary/20">
-            <div className="text-center">
-              <p className="text-sm text-muted-foreground mb-2">
-                No budgets set for {formatMonth(currentMonth)}
-              </p>
-              <p className="text-xs text-muted-foreground">
-                Set budgets for subcategories to start planning your monthly
-                expenses
-              </p>
+            <div className="flex items-center justify-between">
+              <div className="flex-1">
+                <h3 className="font-medium text-foreground">
+                  No budget set for {formatMonth(currentMonth)}
+                </h3>
+                <p className="text-sm text-muted-foreground mt-1">
+                  Set budgets for subcategories to start planning your monthly
+                  expenses
+                </p>
+              </div>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setShowCopyBudgetDialog(true)}
+                className="ml-4"
+              >
+                <Copy className="h-4 w-4 mr-2" />
+                Copy Budget
+              </Button>
             </div>
           </Card>
         )}
-=======
-        {/* Budget Summary */}
-        <Card className="p-6">
-          <div className="grid grid-cols-2 gap-4 text-center">
-            <div>
-              <div className="text-sm text-muted-foreground">Total Budget</div>
-              <div className="text-xl font-bold">
-                ₹{totalBudget.toLocaleString()}
-              </div>
-            </div>
-            <div>
-              <div className="text-sm text-muted-foreground">Total Spent</div>
-              <div className="text-xl font-bold text-red-400">₹0.00</div>
-            </div>
-          </div>
-        </Card>
->>>>>>> 71b40541cbcd7b79e433e49ba0b4b91b21d15cf4
 
-        {/* Budget Categories */}
+        {/* Categories */}
         <div className="space-y-4">
           {expenseCategories.map((category) => (
-            <div key={category.id}>
-              {/* Main Category */}
-              <Card className="p-4 mb-2">
-                <div className="flex items-center justify-between">
+            <Card key={category.id} className="overflow-hidden">
+              <div className="p-4">
+                <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-primary/20 rounded-full flex items-center justify-center text-lg">
+                    <div className="w-8 h-8 bg-primary/20 rounded-full flex items-center justify-center text-lg">
                       {category.icon}
                     </div>
-                    <div>
-                      <span className="font-medium">{category.name}</span>
-                      <div className="text-sm text-muted-foreground">
-                        {category.subcategories.length} subcategories
-                      </div>
-                    </div>
+                    <h3 className="font-semibold text-lg">{category.name}</h3>
                   </div>
                   <div className="text-right">
-<<<<<<< HEAD
                     {getCategoryAllocatedBudget(category) > 0 && (
                       <div className="text-sm font-medium text-primary">
                         Allocated: ₹
                         {getCategoryAllocatedBudget(category).toLocaleString()}
-=======
-                    {getCategoryBudgetSum(category) > 0 && (
-                      <div className="text-sm font-medium text-primary">
-                        Total: ₹
-                        {getCategoryBudgetSum(category).toLocaleString()}
->>>>>>> 71b40541cbcd7b79e433e49ba0b4b91b21d15cf4
                       </div>
                     )}
                   </div>
                 </div>
-              </Card>
 
-              {/* Subcategories */}
-              <div className="space-y-2 ml-4">
-                {category.subcategories.map((subcategory, index) => {
-                  const budget = getBudgetForCategory(subcategory.name);
-                  return (
-                    <Card key={index} className="p-3">
-                      <div className="flex items-center justify-between">
+                <div className="space-y-3">
+                  {category.subcategories.map((subcategory: any, index: number) => {
+                    const budget = getBudgetForCategory(subcategory.name);
+                    return (
+                      <div
+                        key={index}
+                        className="flex items-center justify-between py-2 px-3 bg-muted/30 rounded-lg"
+                      >
                         <div className="flex items-center gap-3">
-                          <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center text-sm">
+                          <div className="w-6 h-6 bg-primary/20 rounded-full flex items-center justify-center text-sm">
                             {subcategory.icon}
                           </div>
                           <div>
@@ -348,28 +293,18 @@ export function Budgets() {
                         <Button
                           variant="outline"
                           size="sm"
-                          onClick={() => handleSetBudget(subcategory)}
+                          onClick={() => handleSetBudget(category, subcategory)}
                         >
-                          {budget > 0 ? "Edit" : "Set Budget"}
+                          Set Budget
                         </Button>
                       </div>
-                    </Card>
-                  );
-                })}
+                    );
+                  })}
+                </div>
               </div>
-            </div>
+            </Card>
           ))}
         </div>
-
-        {/* Copy from Previous Month Button */}
-        <Button
-          variant="outline"
-          className="w-full flex items-center gap-2"
-          onClick={handleOpenCopyDialog}
-        >
-          <Copy className="h-4 w-4" />
-          Copy from Previous Month
-        </Button>
       </div>
 
       {/* Copy Budget Dialog */}
@@ -377,24 +312,20 @@ export function Budgets() {
         open={showCopyBudgetDialog}
         onOpenChange={setShowCopyBudgetDialog}
       >
-        <DialogContent className="sm:max-w-md">
+        <DialogContent className="max-w-md">
           <DialogHeader>
-            <DialogTitle className="text-center">Copy budget</DialogTitle>
+            <DialogTitle>Copy Budget</DialogTitle>
           </DialogHeader>
-          <div className="space-y-6">
-            <div className="text-center">
+          <div className="space-y-4">
+            <div>
               <div className="text-sm text-muted-foreground">
                 Month: {formatMonth(currentMonth)}
               </div>
             </div>
 
-            <div>
-              <div className="text-center text-sm mb-4">
-                Select a previous month you want to copy from:
-              </div>
-
-              {/* Month Navigation */}
-              <div className="flex items-center justify-between mb-4">
+            <div className="space-y-2">
+              <Label>Copy from month:</Label>
+              <div className="flex items-center justify-between p-3 border rounded-lg">
                 <Button
                   variant="ghost"
                   size="icon"
@@ -419,51 +350,47 @@ export function Budgets() {
                   <ChevronRight className="h-4 w-4" />
                 </Button>
               </div>
-
-              {/* Budget Status */}
-              <div className="min-h-[120px] border-2 border-dashed border-border rounded-lg flex items-center justify-center p-6">
-                {copyMonthHasBudgets() ? (
-                  <div className="text-center">
-                    <div className="text-2xl mb-2">💰</div>
-                    <div className="text-sm text-primary font-medium">
-                      Budget data available
-                    </div>
-                  </div>
-                ) : (
-                  <div className="text-center">
-                    <div className="text-2xl mb-2">📊</div>
-                    <div className="text-sm text-muted-foreground">
-                      No budget applied in this month.
-                    </div>
-                  </div>
-                )}
-              </div>
             </div>
 
-            {/* Warning */}
-            <div className="bg-muted/50 p-3 rounded-lg">
-              <div className="flex items-start gap-2">
-                <div className="text-muted-foreground text-sm">ℹ️</div>
-                <div className="text-xs text-muted-foreground">
-                  Copying will overwrite all previously applied budget-limits
-                  for this month.
-                </div>
-              </div>
-            </div>
+            {/* Check if source month has budgets */}
+            {(() => {
+              const copyMonthKey = `${copyFromMonth.getFullYear()}-${copyFromMonth.getMonth()}`;
+              const hasSourceBudgets = budgets[copyMonthKey] && Object.keys(budgets[copyMonthKey]).length > 0;
+              const hasCurrentBudgets = Object.keys(getCurrentMonthBudgets()).length > 0;
+
+              if (!hasSourceBudgets) {
+                return (
+                  <div className="p-3 bg-muted rounded-lg">
+                    <p className="text-sm text-muted-foreground">
+                      No budgets found for {formatMonth(copyFromMonth)}.
+                    </p>
+                  </div>
+                );
+              }
+
+              return (
+                <>
+                  {hasCurrentBudgets && (
+                    <div className="p-3 bg-yellow-500/10 border border-yellow-500/20 rounded-lg">
+                      <p className="text-sm text-yellow-700 dark:text-yellow-300">
+                        ⚠️ Warning: 
+                        Copying will overwrite all previously applied budget-limits
+                        for this month.
+                      </p>
+                    </div>
+                  )}
+                </>
+              );
+            })()}
 
             <div className="flex gap-2 pt-4">
               <Button
                 variant="outline"
                 onClick={() => setShowCopyBudgetDialog(false)}
               >
-                Close
+                Cancel
               </Button>
-              <Button
-                onClick={handleCopyBudgets}
-                disabled={!copyMonthHasBudgets()}
-              >
-                Copy All
-              </Button>
+              <Button onClick={handleCopyBudget}>Copy Budget</Button>
             </div>
           </div>
         </DialogContent>
@@ -471,7 +398,7 @@ export function Budgets() {
 
       {/* Set Budget Dialog */}
       <Dialog open={showSetBudgetDialog} onOpenChange={setShowSetBudgetDialog}>
-        <DialogContent className="sm:max-w-md">
+        <DialogContent className="max-w-md">
           <DialogHeader>
             <DialogTitle>Set Budget</DialogTitle>
           </DialogHeader>
@@ -486,13 +413,12 @@ export function Budgets() {
             </div>
 
             <div className="space-y-2">
-              <Label>Amount (₹)</Label>
+              <Label>Budget Amount (₹)</Label>
               <Input
                 type="number"
+                placeholder="Enter amount"
                 value={budgetAmount}
                 onChange={(e) => setBudgetAmount(e.target.value)}
-                placeholder="Enter budget amount"
-                className="text-center text-lg"
               />
             </div>
 
