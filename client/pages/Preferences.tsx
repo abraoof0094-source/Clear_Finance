@@ -303,7 +303,7 @@ export function Preferences() {
                 <button
                   key={themeOption.id}
                   onClick={() => {
-                    setTheme(themeOption.id);
+                    handleThemeChange(themeOption.id);
                     setShowThemeDialog(false);
                   }}
                   className="w-full flex items-center justify-between p-4 text-left hover:bg-muted/50 rounded-lg transition-colors border border-border"
