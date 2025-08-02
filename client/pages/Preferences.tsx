@@ -20,11 +20,6 @@ import { ArrowLeft, ChevronRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { ManualDataSyncComponent } from "../components/ManualDataSync";
 import { SyncCodeSyncComponent } from "../components/SyncCodeSync";
-import { GoogleDriveSyncComponent } from "../components/GoogleDriveSync";
-import { GoogleDriveSetupComponent } from "../components/GoogleDriveSetup";
-import { GoogleAuthDiagnosticComponent } from "../components/GoogleAuthDiagnostic";
-import { SimpleGoogleTestComponent } from "../components/SimpleGoogleTest";
-import { DirectOAuthTestComponent } from "../components/DirectOAuthTest";
 
 export function Preferences() {
   const navigate = useNavigate();
