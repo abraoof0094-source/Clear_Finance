@@ -24,6 +24,7 @@ import { GoogleDriveSyncComponent } from "../components/GoogleDriveSync";
 import { GoogleDriveSetupComponent } from "../components/GoogleDriveSetup";
 import { GoogleAuthDiagnosticComponent } from "../components/GoogleAuthDiagnostic";
 import { SimpleGoogleTestComponent } from "../components/SimpleGoogleTest";
+import { DirectOAuthTestComponent } from "../components/DirectOAuthTest";
 
 export function Preferences() {
   const navigate = useNavigate();
