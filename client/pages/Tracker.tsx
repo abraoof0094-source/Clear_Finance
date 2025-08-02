@@ -17,6 +17,7 @@ import {
 } from "../components/ui/select";
 
 import { ChevronLeft, ChevronRight, Plus, X } from "lucide-react";
+import { setupAutoSync } from "../utils/googleDriveSync";
 
 // All Categories (from Categories page)
 const allCategories = [
