@@ -1,17 +1,17 @@
 import { useState, useEffect, useRef } from "react";
 import { Button } from "./ui/button";
 import { Switch } from "./ui/switch";
-import { 
-  Settings as SettingsIcon, 
-  Download, 
-  Database, 
-  Trash2, 
-  Heart, 
-  HelpCircle, 
+import {
+  Settings as SettingsIcon,
+  Download,
+  Database,
+  Trash2,
+  Heart,
+  HelpCircle,
   MessageSquare,
   Moon,
   Sun,
-  X
+  X,
 } from "lucide-react";
 
 interface SlideMenuProps {
@@ -59,21 +59,21 @@ export function SlideMenu({ isOpen, onClose }: SlideMenuProps) {
       onClose();
     } else {
       // Snap back to original position
-      menuRef.current.style.transform = 'translateX(0)';
+      menuRef.current.style.transform = "translateX(0)";
     }
   };
 
   // Add touch event listeners
   useEffect(() => {
     if (isOpen) {
-      document.addEventListener('touchstart', handleTouchStart);
-      document.addEventListener('touchmove', handleTouchMove);
-      document.addEventListener('touchend', handleTouchEnd);
-      
+      document.addEventListener("touchstart", handleTouchStart);
+      document.addEventListener("touchmove", handleTouchMove);
+      document.addEventListener("touchend", handleTouchEnd);
+
       return () => {
-        document.removeEventListener('touchstart', handleTouchStart);
-        document.removeEventListener('touchmove', handleTouchMove);
-        document.removeEventListener('touchend', handleTouchEnd);
+        document.removeEventListener("touchstart", handleTouchStart);
+        document.removeEventListener("touchmove", handleTouchMove);
+        document.removeEventListener("touchend", handleTouchEnd);
       };
     }
   }, [isOpen]);
@@ -81,13 +81,13 @@ export function SlideMenu({ isOpen, onClose }: SlideMenuProps) {
   // Close menu on escape key
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && isOpen) {
+      if (e.key === "Escape" && isOpen) {
         onClose();
       }
     };
 
-    document.addEventListener('keydown', handleEscape);
-    return () => document.removeEventListener('keydown', handleEscape);
+    document.addEventListener("keydown", handleEscape);
+    return () => document.removeEventListener("keydown", handleEscape);
   }, [isOpen, onClose]);
 
   if (!isOpen) return null;
@@ -95,17 +95,17 @@ export function SlideMenu({ isOpen, onClose }: SlideMenuProps) {
   return (
     <>
       {/* Backdrop */}
-      <div 
+      <div
         className="fixed inset-0 bg-black/50 z-40 transition-opacity duration-300"
         onClick={onClose}
       />
-      
+
       {/* Slide Menu */}
       <div
         ref={menuRef}
         className="fixed top-0 left-0 h-full w-3/4 bg-background border-r border-border z-50 transform transition-transform duration-300 ease-out overflow-y-auto"
         style={{
-          transform: isOpen ? 'translateX(0)' : 'translateX(-100%)',
+          transform: isOpen ? "translateX(0)" : "translateX(-100%)",
         }}
       >
         {/* Header */}
@@ -127,7 +127,7 @@ export function SlideMenu({ isOpen, onClose }: SlideMenuProps) {
               <SettingsIcon className="h-5 w-5 text-primary" />
               <h2 className="text-lg font-semibold">Preferences</h2>
             </div>
-            
+
             <div className="rounded-lg border bg-card p-1">
               <div className="space-y-1">
                 {/* Dark Theme Toggle */}
@@ -140,8 +140,8 @@ export function SlideMenu({ isOpen, onClose }: SlideMenuProps) {
                     )}
                     <span className="font-medium">Dark Theme</span>
                   </div>
-                  <Switch 
-                    checked={isDarkMode} 
+                  <Switch
+                    checked={isDarkMode}
                     onCheckedChange={handleThemeToggle}
                   />
                 </div>
@@ -151,27 +151,29 @@ export function SlideMenu({ isOpen, onClose }: SlideMenuProps) {
 
           {/* Management Section */}
           <div>
-            <h3 className="text-sm font-medium text-muted-foreground mb-3 px-1">Management</h3>
+            <h3 className="text-sm font-medium text-muted-foreground mb-3 px-1">
+              Management
+            </h3>
             <div className="rounded-lg border bg-card p-1">
               <div className="space-y-1">
-                <Button 
-                  variant="ghost" 
+                <Button
+                  variant="ghost"
                   className="w-full justify-start p-3 h-auto"
                 >
                   <Download className="h-5 w-5 mr-3 text-muted-foreground" />
                   <span>Export records</span>
                 </Button>
-                
-                <Button 
-                  variant="ghost" 
+
+                <Button
+                  variant="ghost"
                   className="w-full justify-start p-3 h-auto"
                 >
                   <Database className="h-5 w-5 mr-3 text-muted-foreground" />
                   <span>Backup & Restore</span>
                 </Button>
-                
-                <Button 
-                  variant="ghost" 
+
+                <Button
+                  variant="ghost"
                   className="w-full justify-start p-3 h-auto"
                 >
                   <Trash2 className="h-5 w-5 mr-3 text-muted-foreground" />
@@ -183,27 +185,29 @@ export function SlideMenu({ isOpen, onClose }: SlideMenuProps) {
 
           {/* Application Section */}
           <div>
-            <h3 className="text-sm font-medium text-muted-foreground mb-3 px-1">Application</h3>
+            <h3 className="text-sm font-medium text-muted-foreground mb-3 px-1">
+              Application
+            </h3>
             <div className="rounded-lg border bg-card p-1">
               <div className="space-y-1">
-                <Button 
-                  variant="ghost" 
+                <Button
+                  variant="ghost"
                   className="w-full justify-start p-3 h-auto"
                 >
                   <Heart className="h-5 w-5 mr-3 text-muted-foreground" />
                   <span>Like Clear Finance</span>
                 </Button>
-                
-                <Button 
-                  variant="ghost" 
+
+                <Button
+                  variant="ghost"
                   className="w-full justify-start p-3 h-auto"
                 >
                   <HelpCircle className="h-5 w-5 mr-3 text-muted-foreground" />
                   <span>Help</span>
                 </Button>
-                
-                <Button 
-                  variant="ghost" 
+
+                <Button
+                  variant="ghost"
                   className="w-full justify-start p-3 h-auto"
                 >
                   <MessageSquare className="h-5 w-5 mr-3 text-muted-foreground" />

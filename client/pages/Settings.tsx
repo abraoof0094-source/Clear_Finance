@@ -3,16 +3,16 @@ import { Layout } from "../components/Layout";
 import { Card } from "../components/ui/card";
 import { Button } from "../components/ui/button";
 import { Switch } from "../components/ui/switch";
-import { 
-  Settings as SettingsIcon, 
-  Download, 
-  Database, 
-  Trash2, 
-  Heart, 
-  HelpCircle, 
+import {
+  Settings as SettingsIcon,
+  Download,
+  Database,
+  Trash2,
+  Heart,
+  HelpCircle,
   MessageSquare,
   Moon,
-  Sun
+  Sun,
 } from "lucide-react";
 
 export function Settings() {
@@ -28,7 +28,9 @@ export function Settings() {
       <div className="space-y-6 py-4">
         {/* App Info */}
         <div className="text-center py-4">
-          <h1 className="text-2xl font-bold text-primary mb-2">Clear Finance</h1>
+          <h1 className="text-2xl font-bold text-primary mb-2">
+            Clear Finance
+          </h1>
           <p className="text-sm text-muted-foreground">5.8-free</p>
         </div>
 
@@ -38,7 +40,7 @@ export function Settings() {
             <SettingsIcon className="h-5 w-5 text-primary" />
             <h2 className="text-lg font-semibold">Preferences</h2>
           </div>
-          
+
           <Card className="p-1">
             <div className="space-y-1">
               {/* Dark Theme Toggle */}
@@ -51,8 +53,8 @@ export function Settings() {
                   )}
                   <span className="font-medium">Dark Theme</span>
                 </div>
-                <Switch 
-                  checked={isDarkMode} 
+                <Switch
+                  checked={isDarkMode}
                   onCheckedChange={handleThemeToggle}
                 />
               </div>
@@ -62,27 +64,29 @@ export function Settings() {
 
         {/* Management Section */}
         <div>
-          <h3 className="text-sm font-medium text-muted-foreground mb-3 px-1">Management</h3>
+          <h3 className="text-sm font-medium text-muted-foreground mb-3 px-1">
+            Management
+          </h3>
           <Card className="p-1">
             <div className="space-y-1">
-              <Button 
-                variant="ghost" 
+              <Button
+                variant="ghost"
                 className="w-full justify-start p-3 h-auto"
               >
                 <Download className="h-5 w-5 mr-3 text-muted-foreground" />
                 <span>Export records</span>
               </Button>
-              
-              <Button 
-                variant="ghost" 
+
+              <Button
+                variant="ghost"
                 className="w-full justify-start p-3 h-auto"
               >
                 <Database className="h-5 w-5 mr-3 text-muted-foreground" />
                 <span>Backup & Restore</span>
               </Button>
-              
-              <Button 
-                variant="ghost" 
+
+              <Button
+                variant="ghost"
                 className="w-full justify-start p-3 h-auto"
               >
                 <Trash2 className="h-5 w-5 mr-3 text-muted-foreground" />
@@ -94,27 +98,29 @@ export function Settings() {
 
         {/* Application Section */}
         <div>
-          <h3 className="text-sm font-medium text-muted-foreground mb-3 px-1">Application</h3>
+          <h3 className="text-sm font-medium text-muted-foreground mb-3 px-1">
+            Application
+          </h3>
           <Card className="p-1">
             <div className="space-y-1">
-              <Button 
-                variant="ghost" 
+              <Button
+                variant="ghost"
                 className="w-full justify-start p-3 h-auto"
               >
                 <Heart className="h-5 w-5 mr-3 text-muted-foreground" />
                 <span>Like Clear Finance</span>
               </Button>
-              
-              <Button 
-                variant="ghost" 
+
+              <Button
+                variant="ghost"
                 className="w-full justify-start p-3 h-auto"
               >
                 <HelpCircle className="h-5 w-5 mr-3 text-muted-foreground" />
                 <span>Help</span>
               </Button>
-              
-              <Button 
-                variant="ghost" 
+
+              <Button
+                variant="ghost"
                 className="w-full justify-start p-3 h-auto"
               >
                 <MessageSquare className="h-5 w-5 mr-3 text-muted-foreground" />
