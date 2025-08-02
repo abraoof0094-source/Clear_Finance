@@ -45,6 +45,8 @@ export function SyncCodeSyncComponent() {
 
   // Create sync code and upload data
   const createSyncCode = async () => {
+    setStatus('idle');
+    setStatusMessage('');
     setIsLoading(true);
     try {
       const data = getCurrentData();
