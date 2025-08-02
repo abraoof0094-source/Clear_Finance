@@ -94,8 +94,8 @@ export function Budgets() {
     }, 0);
   };
 
-  const handleSetBudget = (category: any, subcategory?: any) => {
-    setSelectedCategory(subcategory || category);
+  const handleSetBudget = (category: any, subcategory: any) => {
+    setSelectedCategory(subcategory);
     setBudgetAmount("");
     setShowSetBudgetDialog(true);
   };
