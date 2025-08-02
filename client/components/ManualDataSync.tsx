@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Button } from './ui/button';
 import { Card } from './ui/card';
-import { Download, Upload, Copy, Check, FileText, Smartphone, Monitor } from 'lucide-react';
+import { Download, Upload, Copy, Check, FileText, Smartphone, Monitor, FileUp } from 'lucide-react';
 
 export function ManualDataSyncComponent() {
   const [exportData, setExportData] = useState<string>('');
