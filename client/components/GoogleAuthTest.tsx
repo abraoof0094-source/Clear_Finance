@@ -24,14 +24,23 @@ export function GoogleAuthTestComponent() {
     try {
       // Load Google API script if not already loaded
       if (!window.gapi) {
+        setTestMessage('Loading Google API...');
         await new Promise((resolve, reject) => {
           const script = document.createElement('script');
           script.src = 'https://apis.google.com/js/api.js';
-          script.onload = () => resolve(true);
-          script.onerror = () => reject(new Error('Failed to load Google API'));
+          script.onload = () => {
+            console.log('Google API script loaded successfully');
+            resolve(true);
+          };
+          script.onerror = () => {
+            console.error('Failed to load Google API script');
+            reject(new Error('Failed to load Google API script'));
+          };
           document.body.appendChild(script);
         });
       }
+
+      console.log('Google API available:', !!window.gapi);
 
       // Initialize Google API
       await new Promise((resolve, reject) => {
