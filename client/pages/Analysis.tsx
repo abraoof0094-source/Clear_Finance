@@ -9,16 +9,20 @@ export function Analysis() {
 
   // Navigate months
   const goToPreviousMonth = () => {
-    setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1));
+    setCurrentMonth(
+      new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1),
+    );
   };
 
   const goToNextMonth = () => {
-    setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1));
+    setCurrentMonth(
+      new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1),
+    );
   };
 
   // Format month display
   const formatMonth = (date: Date) => {
-    return date.toLocaleString('default', { month: 'long', year: 'numeric' });
+    return date.toLocaleString("default", { month: "long", year: "numeric" });
   };
 
   // Calendar data for current month
@@ -110,7 +114,9 @@ export function Analysis() {
 
         {/* Calendar */}
         <div>
-          <h3 className="text-lg font-semibold mb-4">{formatMonth(currentMonth)}</h3>
+          <h3 className="text-lg font-semibold mb-4">
+            {formatMonth(currentMonth)}
+          </h3>
           <Card className="p-4">
             {/* Calendar Header */}
             <div className="grid grid-cols-7 gap-1 mb-2">
@@ -158,7 +164,14 @@ export function Analysis() {
 
         {/* Transaction Details */}
         <div>
-          <h3 className="text-lg font-semibold mb-4">{formatMonth(currentMonth).substring(0, 3)} 01, {new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1).toLocaleDateString('en-US', { weekday: 'long' })}</h3>
+          <h3 className="text-lg font-semibold mb-4">
+            {formatMonth(currentMonth).substring(0, 3)} 01,{" "}
+            {new Date(
+              currentMonth.getFullYear(),
+              currentMonth.getMonth(),
+              1,
+            ).toLocaleDateString("en-US", { weekday: "long" })}
+          </h3>
           <div className="space-y-3">
             <TransactionItem
               icon="💼"

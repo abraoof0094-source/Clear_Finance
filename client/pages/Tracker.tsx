@@ -173,13 +173,14 @@ export function Tracker() {
   const [currentMonth, setCurrentMonth] = useState(new Date()); // Current month
   const [showAddDialog, setShowAddDialog] = useState(false);
   const [transactions, setTransactions] = useState<Transaction[]>([]);
-  
+
   // Form states
-  const [transactionType, setTransactionType] = useState<"income" | "expense">("expense");
+  const [transactionType, setTransactionType] = useState<"income" | "expense">(
+    "expense",
+  );
   const [selectedMainCategory, setSelectedMainCategory] = useState("");
   const [selectedSubCategory, setSelectedSubCategory] = useState("");
   const [amount, setAmount] = useState("0");
-
 
   // Calculator states
   const [displayValue, setDisplayValue] = useState("0");
@@ -187,22 +188,30 @@ export function Tracker() {
   const [previousValue, setPreviousValue] = useState<string | null>(null);
   const [waitingForOperand, setWaitingForOperand] = useState(false);
 
-  const filteredCategories = allCategories.filter(cat => cat.type === transactionType);
-  const selectedCategory = allCategories.find(cat => cat.name === selectedMainCategory);
+  const filteredCategories = allCategories.filter(
+    (cat) => cat.type === transactionType,
+  );
+  const selectedCategory = allCategories.find(
+    (cat) => cat.name === selectedMainCategory,
+  );
   const subCategories = selectedCategory?.subcategories || [];
 
   // Navigate months
   const goToPreviousMonth = () => {
-    setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1));
+    setCurrentMonth(
+      new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1),
+    );
   };
 
   const goToNextMonth = () => {
-    setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1));
+    setCurrentMonth(
+      new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1),
+    );
   };
 
   // Format month display
   const formatMonth = (date: Date) => {
-    return date.toLocaleString('default', { month: 'long', year: 'numeric' });
+    return date.toLocaleString("default", { month: "long", year: "numeric" });
   };
 
   // Get current month key for filtering transactions
@@ -211,21 +220,27 @@ export function Tracker() {
   };
 
   // Filter transactions for current month
-  const currentMonthTransactions = transactions.filter(t => {
+  const currentMonthTransactions = transactions.filter((t) => {
     const transactionDate = new Date(t.date);
-    return transactionDate.getMonth() === currentMonth.getMonth() &&
-           transactionDate.getFullYear() === currentMonth.getFullYear();
+    return (
+      transactionDate.getMonth() === currentMonth.getMonth() &&
+      transactionDate.getFullYear() === currentMonth.getFullYear()
+    );
   });
 
   const totalIncome = currentMonthTransactions
-    .filter(t => t.type === "income")
+    .filter((t) => t.type === "income")
     .reduce((sum, t) => sum + t.amount, 0);
 
   const totalExpense = currentMonthTransactions
-    .filter(t => t.type === "expense")
+    .filter((t) => t.type === "expense")
     .reduce((sum, t) => sum + t.amount, 0);
 
-  const calculate = (firstOperand: string, secondOperand: string, operation: string): string => {
+  const calculate = (
+    firstOperand: string,
+    secondOperand: string,
+    operation: string,
+  ): string => {
     const first = parseFloat(firstOperand);
     const second = parseFloat(secondOperand);
 
@@ -303,7 +318,11 @@ export function Tracker() {
   };
 
   const handleSave = () => {
-    if (!selectedMainCategory || !selectedSubCategory || parseFloat(displayValue) <= 0) {
+    if (
+      !selectedMainCategory ||
+      !selectedSubCategory ||
+      parseFloat(displayValue) <= 0
+    ) {
       return;
     }
 
@@ -314,15 +333,15 @@ export function Tracker() {
       subCategory: selectedSubCategory,
       amount: parseFloat(displayValue),
       notes: "",
-      date: currentMonth.toLocaleDateString('en-GB', {
-        day: '2-digit',
-        month: 'short',
-        year: 'numeric'
+      date: currentMonth.toLocaleDateString("en-GB", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
       }),
-      time: new Date().toLocaleTimeString('en-US', {
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: true
+      time: new Date().toLocaleTimeString("en-US", {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true,
       }),
     };
 
@@ -357,15 +376,21 @@ export function Tracker() {
           <div className="grid grid-cols-3 gap-4 text-center">
             <div>
               <div className="text-sm text-muted-foreground">INCOME</div>
-              <div className="text-lg font-bold text-green-400">₹{totalIncome.toLocaleString()}</div>
+              <div className="text-lg font-bold text-green-400">
+                ₹{totalIncome.toLocaleString()}
+              </div>
             </div>
             <div>
               <div className="text-sm text-muted-foreground">EXPENSE</div>
-              <div className="text-lg font-bold text-red-400">₹{totalExpense.toLocaleString()}</div>
+              <div className="text-lg font-bold text-red-400">
+                ₹{totalExpense.toLocaleString()}
+              </div>
             </div>
             <div>
               <div className="text-sm text-muted-foreground">BALANCE</div>
-              <div className={`text-lg font-bold ${totalIncome - totalExpense >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+              <div
+                className={`text-lg font-bold ${totalIncome - totalExpense >= 0 ? "text-green-400" : "text-red-400"}`}
+              >
                 ₹{(totalIncome - totalExpense).toLocaleString()}
               </div>
             </div>
@@ -378,12 +403,19 @@ export function Tracker() {
           <div className="space-y-3">
             {currentMonthTransactions.length === 0 ? (
               <Card className="p-6 text-center text-muted-foreground">
-                No transactions for {formatMonth(currentMonth)}. Click the + button to add your first transaction.
+                No transactions for {formatMonth(currentMonth)}. Click the +
+                button to add your first transaction.
               </Card>
             ) : (
-              currentMonthTransactions.slice(-5).reverse().map((transaction) => (
-                <TransactionItem key={transaction.id} transaction={transaction} />
-              ))
+              currentMonthTransactions
+                .slice(-5)
+                .reverse()
+                .map((transaction) => (
+                  <TransactionItem
+                    key={transaction.id}
+                    transaction={transaction}
+                  />
+                ))
             )}
           </div>
         </div>
@@ -450,10 +482,13 @@ export function Tracker() {
 
                 {/* Dropdowns */}
                 <div className="grid grid-cols-2 gap-4">
-                  <Select value={selectedMainCategory} onValueChange={(value) => {
-                    setSelectedMainCategory(value);
-                    setSelectedSubCategory("");
-                  }}>
+                  <Select
+                    value={selectedMainCategory}
+                    onValueChange={(value) => {
+                      setSelectedMainCategory(value);
+                      setSelectedSubCategory("");
+                    }}
+                  >
                     <SelectTrigger className="bg-muted h-10 text-sm text-left">
                       <SelectValue placeholder="Select category..." />
                     </SelectTrigger>
@@ -488,16 +523,20 @@ export function Tracker() {
               {/* Amount Display - More Prominent */}
               <div className="bg-gradient-to-r from-muted to-muted/50 rounded-xl p-3 border-2 border-primary/20">
                 <div className="text-center">
-                  <div className="text-xs text-muted-foreground mb-1">Amount</div>
-                  <div className={`text-2xl font-bold font-mono ${
-                    transactionType === "income" ? "text-green-400" : "text-red-400"
-                  }`}>
+                  <div className="text-xs text-muted-foreground mb-1">
+                    Amount
+                  </div>
+                  <div
+                    className={`text-2xl font-bold font-mono ${
+                      transactionType === "income"
+                        ? "text-green-400"
+                        : "text-red-400"
+                    }`}
+                  >
                     ₹{displayValue}
                   </div>
                 </div>
               </div>
-
-
 
               {/* Calculator - iOS Style Design */}
               <div className="bg-black/20 p-2 rounded-xl">
@@ -649,10 +688,11 @@ export function Tracker() {
 
               {/* Date/Time */}
               <div className="text-center text-sm font-medium text-muted-foreground border-t border-border pt-2 mt-3">
-                📅 {formatMonth(currentMonth)} • 🕐 {new Date().toLocaleTimeString('en-US', {
-                  hour: '2-digit',
-                  minute: '2-digit',
-                  hour12: true
+                📅 {formatMonth(currentMonth)} • 🕐{" "}
+                {new Date().toLocaleTimeString("en-US", {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                  hour12: true,
                 })}
               </div>
             </div>
@@ -677,8 +717,12 @@ interface TransactionItemProps {
 }
 
 function TransactionItem({ transaction }: TransactionItemProps) {
-  const category = allCategories.find(cat => cat.name === transaction.mainCategory);
-  const subCategory = category?.subcategories.find(sub => sub.name === transaction.subCategory);
+  const category = allCategories.find(
+    (cat) => cat.name === transaction.mainCategory,
+  );
+  const subCategory = category?.subcategories.find(
+    (sub) => sub.name === transaction.subCategory,
+  );
 
   return (
     <Card className="p-4">
@@ -693,7 +737,9 @@ function TransactionItem({ transaction }: TransactionItemProps) {
               {transaction.mainCategory}
             </div>
             {transaction.notes && (
-              <div className="text-xs text-muted-foreground">{transaction.notes}</div>
+              <div className="text-xs text-muted-foreground">
+                {transaction.notes}
+              </div>
             )}
             <div className="text-xs text-muted-foreground">
               {transaction.date} • {transaction.time}
@@ -703,7 +749,8 @@ function TransactionItem({ transaction }: TransactionItemProps) {
         <div
           className={`font-semibold ${transaction.type === "income" ? "text-green-400" : "text-red-400"}`}
         >
-          {transaction.type === "income" ? "+" : "-"}₹{transaction.amount.toLocaleString()}
+          {transaction.type === "income" ? "+" : "-"}₹
+          {transaction.amount.toLocaleString()}
         </div>
       </div>
     </Card>

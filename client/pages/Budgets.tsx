@@ -2,7 +2,12 @@ import { useState } from "react";
 import { Layout } from "../components/Layout";
 import { Card } from "../components/ui/card";
 import { Button } from "../components/ui/button";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "../components/ui/dialog";
 import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
 import { ChevronLeft, ChevronRight, Copy } from "lucide-react";
@@ -20,7 +25,7 @@ const expenseCategories = [
       { name: "Mobile Bills", icon: "📱" },
       { name: "DTH / OTT Subscriptions", icon: "📺" },
       { name: "Groceries & Daily Essentials", icon: "🛒" },
-    ]
+    ],
   },
   {
     id: 3,
@@ -33,7 +38,7 @@ const expenseCategories = [
       { name: "Fitness / Gym / Swimming", icon: "💪" },
       { name: "Shopping & Clothing", icon: "👕" },
       { name: "Electronics & Gadgets", icon: "📱" },
-    ]
+    ],
   },
   {
     id: 4,
@@ -43,7 +48,7 @@ const expenseCategories = [
       { name: "Term Insurance", icon: "📋" },
       { name: "Health Insurance", icon: "❤️" },
       { name: "Vehicle Insurance", icon: "🚗" },
-    ]
+    ],
   },
   {
     id: 5,
@@ -53,7 +58,7 @@ const expenseCategories = [
       { name: "Mutual Funds (SIP)", icon: "📊" },
       { name: "Stocks / ETFs", icon: "📈" },
       { name: "PPF / EPF / VPF", icon: "🏛️" },
-    ]
+    ],
   },
   {
     id: 6,
@@ -63,7 +68,7 @@ const expenseCategories = [
       { name: "Home Loan", icon: "🏠" },
       { name: "Car Loan", icon: "🚗" },
       { name: "Credit Card Bill", icon: "💳" },
-    ]
+    ],
   },
   {
     id: 7,
@@ -73,7 +78,7 @@ const expenseCategories = [
       { name: "Weekend Getaways", icon: "🏔️" },
       { name: "Events / Concerts", icon: "🎵" },
       { name: "Gaming / Indoor Entertainment", icon: "🎮" },
-    ]
+    ],
   },
 ];
 
@@ -83,7 +88,9 @@ export function Budgets() {
   const [showCopyBudgetDialog, setShowCopyBudgetDialog] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<any>(null);
   const [budgetAmount, setBudgetAmount] = useState("");
-  const [budgets, setBudgets] = useState<Record<string, Record<string, number>>>({});
+  const [budgets, setBudgets] = useState<
+    Record<string, Record<string, number>>
+  >({});
   const [copyFromMonth, setCopyFromMonth] = useState(() => {
     const prevMonth = new Date();
     prevMonth.setMonth(prevMonth.getMonth() - 1);
@@ -101,29 +108,41 @@ export function Budgets() {
   };
 
   // Calculate total budget for current month
-  const totalBudget = Object.values(getCurrentMonthBudgets()).reduce((sum, amount) => sum + amount, 0);
+  const totalBudget = Object.values(getCurrentMonthBudgets()).reduce(
+    (sum, amount) => sum + amount,
+    0,
+  );
 
   // Navigate months
   const goToPreviousMonth = () => {
-    setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1));
+    setCurrentMonth(
+      new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1),
+    );
   };
 
   const goToNextMonth = () => {
-    setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1));
+    setCurrentMonth(
+      new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1),
+    );
   };
 
   // Format month display
   const formatMonth = (date: Date) => {
-    return date.toLocaleString('default', { month: 'long', year: 'numeric' });
+    return date.toLocaleString("default", { month: "long", year: "numeric" });
   };
 
   // Navigate copy dialog months
   const goToPreviousCopyMonth = () => {
-    setCopyFromMonth(new Date(copyFromMonth.getFullYear(), copyFromMonth.getMonth() - 1));
+    setCopyFromMonth(
+      new Date(copyFromMonth.getFullYear(), copyFromMonth.getMonth() - 1),
+    );
   };
 
   const goToNextCopyMonth = () => {
-    const nextMonth = new Date(copyFromMonth.getFullYear(), copyFromMonth.getMonth() + 1);
+    const nextMonth = new Date(
+      copyFromMonth.getFullYear(),
+      copyFromMonth.getMonth() + 1,
+    );
     // Don't allow copying from current month or future months
     if (nextMonth < currentMonth) {
       setCopyFromMonth(nextMonth);
@@ -158,12 +177,12 @@ export function Budgets() {
     if (selectedCategory && budgetAmount) {
       const monthKey = getCurrentMonthKey();
       const categoryName = selectedCategory.name;
-      setBudgets(prev => ({
+      setBudgets((prev) => ({
         ...prev,
         [monthKey]: {
           ...prev[monthKey],
-          [categoryName]: parseFloat(budgetAmount) || 0
-        }
+          [categoryName]: parseFloat(budgetAmount) || 0,
+        },
       }));
       setShowSetBudgetDialog(false);
       setBudgetAmount("");
@@ -173,7 +192,9 @@ export function Budgets() {
 
   const handleOpenCopyDialog = () => {
     // Set copy month to previous month by default
-    setCopyFromMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1));
+    setCopyFromMonth(
+      new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1),
+    );
     setShowCopyBudgetDialog(true);
   };
 
@@ -182,9 +203,9 @@ export function Budgets() {
     const copyMonthKey = getCopyMonthKey();
 
     if (budgets[copyMonthKey]) {
-      setBudgets(prev => ({
+      setBudgets((prev) => ({
         ...prev,
-        [currentMonthKey]: { ...budgets[copyMonthKey] }
+        [currentMonthKey]: { ...budgets[copyMonthKey] },
       }));
     }
     setShowCopyBudgetDialog(false);
@@ -217,7 +238,8 @@ export function Budgets() {
                 No budgets set for {formatMonth(currentMonth)}
               </p>
               <p className="text-xs text-muted-foreground">
-                Set budgets for subcategories to start planning your monthly expenses
+                Set budgets for subcategories to start planning your monthly
+                expenses
               </p>
             </div>
           </Card>
@@ -244,7 +266,8 @@ export function Budgets() {
                   <div className="text-right">
                     {getCategoryAllocatedBudget(category) > 0 && (
                       <div className="text-sm font-medium text-primary">
-                        Allocated: ₹{getCategoryAllocatedBudget(category).toLocaleString()}
+                        Allocated: ₹
+                        {getCategoryAllocatedBudget(category).toLocaleString()}
                       </div>
                     )}
                   </div>
@@ -263,9 +286,13 @@ export function Budgets() {
                             {subcategory.icon}
                           </div>
                           <div>
-                            <span className="font-medium text-sm">{subcategory.name}</span>
+                            <span className="font-medium text-sm">
+                              {subcategory.name}
+                            </span>
                             {budget > 0 && (
-                              <div className="text-xs text-primary">Budget: ₹{budget.toLocaleString()}</div>
+                              <div className="text-xs text-primary">
+                                Budget: ₹{budget.toLocaleString()}
+                              </div>
                             )}
                           </div>
                         </div>
@@ -297,14 +324,19 @@ export function Budgets() {
       </div>
 
       {/* Copy Budget Dialog */}
-      <Dialog open={showCopyBudgetDialog} onOpenChange={setShowCopyBudgetDialog}>
+      <Dialog
+        open={showCopyBudgetDialog}
+        onOpenChange={setShowCopyBudgetDialog}
+      >
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
             <DialogTitle className="text-center">Copy budget</DialogTitle>
           </DialogHeader>
           <div className="space-y-6">
             <div className="text-center">
-              <div className="text-sm text-muted-foreground">Month: {formatMonth(currentMonth)}</div>
+              <div className="text-sm text-muted-foreground">
+                Month: {formatMonth(currentMonth)}
+              </div>
             </div>
 
             <div>
@@ -321,12 +353,19 @@ export function Budgets() {
                 >
                   <ChevronLeft className="h-4 w-4" />
                 </Button>
-                <div className="text-lg font-medium">{formatMonth(copyFromMonth)}</div>
+                <div className="text-lg font-medium">
+                  {formatMonth(copyFromMonth)}
+                </div>
                 <Button
                   variant="ghost"
                   size="icon"
                   onClick={goToNextCopyMonth}
-                  disabled={new Date(copyFromMonth.getFullYear(), copyFromMonth.getMonth() + 1) >= currentMonth}
+                  disabled={
+                    new Date(
+                      copyFromMonth.getFullYear(),
+                      copyFromMonth.getMonth() + 1,
+                    ) >= currentMonth
+                  }
                 >
                   <ChevronRight className="h-4 w-4" />
                 </Button>
@@ -357,13 +396,17 @@ export function Budgets() {
               <div className="flex items-start gap-2">
                 <div className="text-muted-foreground text-sm">ℹ️</div>
                 <div className="text-xs text-muted-foreground">
-                  Copying will overwrite all previously applied budget-limits for this month.
+                  Copying will overwrite all previously applied budget-limits
+                  for this month.
                 </div>
               </div>
             </div>
 
             <div className="flex gap-2 pt-4">
-              <Button variant="outline" onClick={() => setShowCopyBudgetDialog(false)}>
+              <Button
+                variant="outline"
+                onClick={() => setShowCopyBudgetDialog(false)}
+              >
                 Close
               </Button>
               <Button
@@ -385,10 +428,14 @@ export function Budgets() {
           </DialogHeader>
           <div className="space-y-4">
             <div className="text-center">
-              <div className="text-lg font-medium">{selectedCategory?.name}</div>
-              <div className="text-sm text-muted-foreground">Monthly Budget</div>
+              <div className="text-lg font-medium">
+                {selectedCategory?.name}
+              </div>
+              <div className="text-sm text-muted-foreground">
+                Monthly Budget
+              </div>
             </div>
-            
+
             <div className="space-y-2">
               <Label>Amount (₹)</Label>
               <Input
@@ -401,12 +448,13 @@ export function Budgets() {
             </div>
 
             <div className="flex gap-2 pt-4">
-              <Button variant="outline" onClick={() => setShowSetBudgetDialog(false)}>
+              <Button
+                variant="outline"
+                onClick={() => setShowSetBudgetDialog(false)}
+              >
                 Cancel
               </Button>
-              <Button onClick={handleSaveBudget}>
-                Save Budget
-              </Button>
+              <Button onClick={handleSaveBudget}>Save Budget</Button>
             </div>
           </div>
         </DialogContent>
