@@ -259,7 +259,7 @@ export function ExportRecords() {
         {/* Export Button */}
         <Button
           onClick={exportToCSV}
-          disabled={isExporting || !fromDate || !toDate || transactionCount === 0}
+          disabled={isExporting || !fromMonth || !toMonth || transactionCount === 0}
           className="w-full py-4 text-lg font-semibold"
           size="lg"
         >
