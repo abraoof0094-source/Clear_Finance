@@ -15,7 +15,6 @@ export default function App() {
           <Route path="/" element={<Dashboard />} />
           <Route path="/analysis" element={<Analysis />} />
           <Route path="/budgets" element={<Budgets />} />
-          <Route path="/accounts" element={<Accounts />} />
           <Route path="/categories" element={<Categories />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="*" element={<NotFound />} />
