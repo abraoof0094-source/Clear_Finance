@@ -6,6 +6,8 @@ import { Budgets } from "./pages/Budgets";
 import { Categories } from "./pages/Categories";
 import { Settings } from "./pages/Settings";
 import { Preferences } from "./pages/Preferences";
+import { ExportRecords } from "./pages/ExportRecords";
+import { BackupRestore } from "./pages/BackupRestore";
 import { NotFound } from "./pages/NotFound";
 import "./global.css";
 
