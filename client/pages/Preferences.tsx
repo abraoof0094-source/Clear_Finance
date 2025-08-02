@@ -20,6 +20,7 @@ import {
 import { ArrowLeft, ChevronRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { PhoneStorageStatus } from "../components/PhoneStorageStatus";
+import { ThemePreview } from "../components/ThemePreview";
 
 export function Preferences() {
   const navigate = useNavigate();
