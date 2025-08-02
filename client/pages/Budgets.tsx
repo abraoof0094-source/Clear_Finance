@@ -97,6 +97,7 @@ export function Budgets() {
     return prevMonth;
   }); // Previous month as default
 
+<<<<<<< HEAD
   // Get current month key
   const getCurrentMonthKey = () => {
     return `${currentMonth.getFullYear()}-${currentMonth.getMonth()}`;
@@ -168,6 +169,22 @@ export function Budgets() {
   };
 
   const handleSetBudget = (category: any, subcategory: any) => {
+=======
+  // Calculate total budget
+  const totalBudget = Object.values(budgets).reduce(
+    (sum, amount) => sum + amount,
+    0,
+  );
+
+  // Calculate budget sum for a main category
+  const getCategoryBudgetSum = (category: any) => {
+    return category.subcategories.reduce((sum: number, subcategory: any) => {
+      return sum + (budgets[subcategory.name] || 0);
+    }, 0);
+  };
+
+  const handleSetBudget = (subcategory: any) => {
+>>>>>>> 71b40541cbcd7b79e433e49ba0b4b91b21d15cf4
     setSelectedCategory(subcategory);
     setBudgetAmount("");
     setShowSetBudgetDialog(true);
@@ -175,6 +192,7 @@ export function Budgets() {
 
   const handleSaveBudget = () => {
     if (selectedCategory && budgetAmount) {
+<<<<<<< HEAD
       const monthKey = getCurrentMonthKey();
       const categoryName = selectedCategory.name;
       setBudgets((prev) => ({
@@ -183,6 +201,12 @@ export function Budgets() {
           ...prev[monthKey],
           [categoryName]: parseFloat(budgetAmount) || 0,
         },
+=======
+      const key = selectedCategory.name;
+      setBudgets((prev) => ({
+        ...prev,
+        [key]: parseFloat(budgetAmount) || 0,
+>>>>>>> 71b40541cbcd7b79e433e49ba0b4b91b21d15cf4
       }));
       setShowSetBudgetDialog(false);
       setBudgetAmount("");
@@ -230,6 +254,7 @@ export function Budgets() {
           </Button>
         </div>
 
+<<<<<<< HEAD
         {/* No Budget Notification */}
         {totalBudget === 0 && (
           <Card className="p-4 mb-4 bg-muted/50 border-primary/20">
@@ -244,6 +269,23 @@ export function Budgets() {
             </div>
           </Card>
         )}
+=======
+        {/* Budget Summary */}
+        <Card className="p-6">
+          <div className="grid grid-cols-2 gap-4 text-center">
+            <div>
+              <div className="text-sm text-muted-foreground">Total Budget</div>
+              <div className="text-xl font-bold">
+                ₹{totalBudget.toLocaleString()}
+              </div>
+            </div>
+            <div>
+              <div className="text-sm text-muted-foreground">Total Spent</div>
+              <div className="text-xl font-bold text-red-400">₹0.00</div>
+            </div>
+          </div>
+        </Card>
+>>>>>>> 71b40541cbcd7b79e433e49ba0b4b91b21d15cf4
 
         {/* Budget Categories */}
         <div className="space-y-4">
@@ -264,10 +306,17 @@ export function Budgets() {
                     </div>
                   </div>
                   <div className="text-right">
+<<<<<<< HEAD
                     {getCategoryAllocatedBudget(category) > 0 && (
                       <div className="text-sm font-medium text-primary">
                         Allocated: ₹
                         {getCategoryAllocatedBudget(category).toLocaleString()}
+=======
+                    {getCategoryBudgetSum(category) > 0 && (
+                      <div className="text-sm font-medium text-primary">
+                        Total: ₹
+                        {getCategoryBudgetSum(category).toLocaleString()}
+>>>>>>> 71b40541cbcd7b79e433e49ba0b4b91b21d15cf4
                       </div>
                     )}
                   </div>
@@ -299,7 +348,7 @@ export function Budgets() {
                         <Button
                           variant="outline"
                           size="sm"
-                          onClick={() => handleSetBudget(category, subcategory)}
+                          onClick={() => handleSetBudget(subcategory)}
                         >
                           {budget > 0 ? "Edit" : "Set Budget"}
                         </Button>
