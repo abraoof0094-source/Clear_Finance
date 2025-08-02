@@ -436,6 +436,10 @@ export function Tracker() {
     };
 
     setTransactions([...transactions, newTransaction]);
+
+    // Show brief success message
+    console.log("✅ Transaction added and saved to phone storage");
+
     handleCancel();
   };
 
