@@ -78,11 +78,11 @@ const expenseCategories = [
 ];
 
 export function Budgets() {
-  const [currentMonth, setCurrentMonth] = useState("August, 2025");
+  const [currentMonth, setCurrentMonth] = useState(new Date(2025, 7)); // August 2025
   const [showSetBudgetDialog, setShowSetBudgetDialog] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<any>(null);
   const [budgetAmount, setBudgetAmount] = useState("");
-  const [budgets, setBudgets] = useState<Record<string, number>>({});
+  const [budgets, setBudgets] = useState<Record<string, Record<string, number>>>({});
 
   // Calculate total budget
   const totalBudget = Object.values(budgets).reduce((sum, amount) => sum + amount, 0);
