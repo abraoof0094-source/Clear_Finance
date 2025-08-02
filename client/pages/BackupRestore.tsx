@@ -210,12 +210,22 @@ export function BackupRestore() {
     <Layout>
       {/* Click outside overlay */}
       <div
-        className="fixed inset-0 bg-transparent z-10"
-        onClick={() => navigate(-1)}
+        className="fixed inset-0 bg-black/5 z-30"
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          navigate(-1);
+        }}
       />
 
       {/* Content container */}
-      <div className="relative z-20 max-w-md mx-auto space-y-6 py-4 bg-background">
+      <div
+        className="relative z-40 max-w-md mx-auto space-y-6 py-4 bg-background rounded-lg shadow-lg"
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+        }}
+      >
         {/* Header */}
         <div className="text-center">
           <h1 className="text-xl font-semibold">Backup & Restore</h1>
