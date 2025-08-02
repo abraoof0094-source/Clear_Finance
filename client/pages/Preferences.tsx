@@ -207,7 +207,7 @@ export function Preferences() {
           <h2 className="text-lg font-semibold text-yellow-500 mb-4">Google Drive Sync</h2>
           <div className="space-y-4">
             <GoogleDriveSetupComponent />
-            <GoogleAuthTestComponent />
+            <GoogleAuthDiagnosticComponent />
             <GoogleDriveSyncComponent />
           </div>
         </div>
