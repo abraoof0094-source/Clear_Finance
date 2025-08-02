@@ -61,52 +61,56 @@ export function SimpleGoogleTestComponent() {
   const testGAPILoad = async () => {
     setIsLoading(true);
     setResult('idle');
-    setMessage('Testing Google API script loading...');
+    setMessage('Testing Google API availability...');
 
     try {
-      // Remove existing script if any
-      const existingScript = document.querySelector('script[src*="apis.google.com"]');
-      if (existingScript) {
-        existingScript.remove();
-        // Clear gapi
-        (window as any).gapi = undefined;
+      // Check if gapi is already loaded
+      if (window.gapi) {
+        setResult('success');
+        setMessage('✅ Google API (gapi) is already loaded and available!');
+        return;
       }
 
-      // Load fresh
+      // Try to load Google API script
+      setMessage('Loading Google API script...');
+
+      const script = document.createElement('script');
+      script.src = 'https://apis.google.com/js/api.js';
+
       await new Promise((resolve, reject) => {
-        const script = document.createElement('script');
-        script.src = 'https://apis.google.com/js/api.js';
         script.onload = () => {
-          console.log('Google API script loaded');
-          setMessage('Google API script loaded successfully');
+          console.log('Google API script loaded successfully');
           resolve(true);
         };
         script.onerror = (e) => {
           console.error('Script load error:', e);
-          reject(new Error('Failed to load Google API script'));
+          reject(new Error('Failed to load Google API script - network or CORS issue'));
         };
-        
-        // Add timeout
+
+        // 8 second timeout
         setTimeout(() => {
-          reject(new Error('Script load timeout'));
-        }, 10000);
-        
+          reject(new Error('Script load timeout - slow connection or blocked'));
+        }, 8000);
+
         document.head.appendChild(script);
       });
+
+      // Give a moment for gapi to become available
+      await new Promise(resolve => setTimeout(resolve, 500));
 
       // Test if gapi is available
       if (window.gapi) {
         setResult('success');
-        setMessage('✅ Google API script loaded and gapi is available!');
+        setMessage('✅ Google API script loaded and gapi is available! OAuth should work.');
       } else {
         setResult('error');
-        setMessage('❌ Google API script loaded but gapi is not available');
+        setMessage('❌ Script loaded but gapi is not available - possible conflict with other scripts');
       }
 
     } catch (error: any) {
       console.error('GAPI load test failed:', error);
       setResult('error');
-      setMessage(`❌ Script loading failed: ${error.message}`);
+      setMessage(`❌ Google API loading failed: ${error.message}`);
     } finally {
       setIsLoading(false);
     }
