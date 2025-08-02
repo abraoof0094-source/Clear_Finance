@@ -84,13 +84,16 @@ export function Preferences() {
               </button>
 
               {/* UI Mode */}
-              <div className="flex items-center justify-between p-4 border-t border-border">
+              <button
+                className="flex items-center justify-between p-4 w-full text-left hover:bg-muted/50 rounded-md transition-colors border-t border-border"
+                onClick={() => setShowUIModeDialog(true)}
+              >
                 <div>
                   <div className="font-medium">UI mode</div>
-                  <div className="text-sm text-muted-foreground">System default</div>
+                  <div className="text-sm text-muted-foreground">{currentUIMode.name}</div>
                 </div>
                 <ChevronRight className="h-4 w-4 text-muted-foreground" />
-              </div>
+              </button>
 
               {/* Currency Sign */}
               <div className="flex items-center justify-between p-4 border-t border-border">
