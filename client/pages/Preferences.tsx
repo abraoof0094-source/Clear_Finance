@@ -198,10 +198,10 @@ export function Preferences() {
           </Card>
         </div>
 
-        {/* Google Drive Sync Section */}
+        {/* Manual Data Sync Section */}
         <div>
           <h2 className="text-lg font-semibold text-yellow-500 mb-4">Data Sync</h2>
-          <GoogleDriveSyncComponent />
+          <ManualDataSyncComponent />
         </div>
 
         {/* About Section */}
