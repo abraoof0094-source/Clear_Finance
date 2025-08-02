@@ -657,7 +657,7 @@ export function Tracker() {
                   <Button
                     variant="ghost"
                     onClick={() => inputNumber("0")}
-                    className="h-16 text-2xl font-medium bg-gray-800 hover:bg-gray-700 text-white rounded-3xl border-0 col-span-2"
+                    className="h-10 text-lg font-medium bg-gray-800 hover:bg-gray-700 text-white rounded-3xl border-0"
                   >
                     0
                   </Button>
