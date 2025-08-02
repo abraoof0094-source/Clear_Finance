@@ -11,7 +11,15 @@ export function GoogleDriveSetupComponent() {
 
   useEffect(() => {
     // Check if already configured
-    setIsConfigured(googleDriveSync.isConfigured());
+    const configured = googleDriveSync.isConfigured();
+    setIsConfigured(configured);
+
+    // Debug: Log current configuration status
+    console.log('Google Drive Setup - Configuration status:', {
+      isConfigured: configured,
+      hasStoredClientId: !!localStorage.getItem('google-client-id'),
+      storedClientId: localStorage.getItem('google-client-id')?.substring(0, 20) + '...'
+    });
   }, []);
 
   const handleSaveClientId = () => {
