@@ -17,7 +17,7 @@ class GoogleDriveSync {
   private accessToken: string | null = null;
   private readonly BACKUP_FILENAME = 'clear-finance-backup.json';
   private readonly SCOPES = 'https://www.googleapis.com/auth/drive.file';
-  private readonly CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID || 'your-google-client-id';
+  private readonly CLIENT_ID = this.getClientId();
 
   constructor() {
     this.loadAccessToken();
