@@ -25,22 +25,22 @@ export interface Budget {
 
 class PhoneStorageManager {
   private storageKeys = {
-    transactions: 'tracker-transactions',
-    budgets: 'budgets',
-    categories: 'categories',
-    lastBackup: 'last-backup-date',
-    storageInfo: 'storage-info'
+    transactions: "tracker-transactions",
+    budgets: "budgets",
+    categories: "categories",
+    lastBackup: "last-backup-date",
+    storageInfo: "storage-info",
   };
 
   // Check if storage is available
   isStorageAvailable(): boolean {
     try {
-      const test = '__storage_test__';
+      const test = "__storage_test__";
       localStorage.setItem(test, test);
       localStorage.removeItem(test);
       return true;
     } catch (e) {
-      console.error('Phone storage not available:', e);
+      console.error("Phone storage not available:", e);
       return false;
     }
   }
@@ -49,30 +49,35 @@ class PhoneStorageManager {
   getStorageInfo() {
     let totalSize = 0;
     let itemCount = 0;
-    
+
     for (let key in localStorage) {
       if (localStorage.hasOwnProperty(key)) {
         totalSize += localStorage[key].length;
         itemCount++;
       }
     }
-    
+
     return {
       totalSize: Math.round(totalSize / 1024), // KB
       itemCount,
       available: this.isStorageAvailable(),
-      lastBackup: localStorage.getItem(this.storageKeys.lastBackup) || 'Never'
+      lastBackup: localStorage.getItem(this.storageKeys.lastBackup) || "Never",
     };
   }
 
   // Save transactions to phone storage
   saveTransactions(transactions: Transaction[]): boolean {
     try {
-      localStorage.setItem(this.storageKeys.transactions, JSON.stringify(transactions));
-      console.log(`💾 Saved ${transactions.length} transactions to phone storage`);
+      localStorage.setItem(
+        this.storageKeys.transactions,
+        JSON.stringify(transactions),
+      );
+      console.log(
+        `💾 Saved ${transactions.length} transactions to phone storage`,
+      );
       return true;
     } catch (error) {
-      console.error('Failed to save transactions to phone storage:', error);
+      console.error("Failed to save transactions to phone storage:", error);
       return false;
     }
   }
@@ -83,12 +88,14 @@ class PhoneStorageManager {
       const stored = localStorage.getItem(this.storageKeys.transactions);
       if (stored) {
         const transactions = JSON.parse(stored);
-        console.log(`📱 Loaded ${transactions.length} transactions from phone storage`);
+        console.log(
+          `📱 Loaded ${transactions.length} transactions from phone storage`,
+        );
         return transactions;
       }
       return [];
     } catch (error) {
-      console.error('Failed to load transactions from phone storage:', error);
+      console.error("Failed to load transactions from phone storage:", error);
       return [];
     }
   }
@@ -97,10 +104,10 @@ class PhoneStorageManager {
   saveBudgets(budgets: Budget): boolean {
     try {
       localStorage.setItem(this.storageKeys.budgets, JSON.stringify(budgets));
-      console.log('💾 Saved budgets to phone storage');
+      console.log("💾 Saved budgets to phone storage");
       return true;
     } catch (error) {
-      console.error('Failed to save budgets to phone storage:', error);
+      console.error("Failed to save budgets to phone storage:", error);
       return false;
     }
   }
@@ -111,12 +118,12 @@ class PhoneStorageManager {
       const stored = localStorage.getItem(this.storageKeys.budgets);
       if (stored) {
         const budgets = JSON.parse(stored);
-        console.log('📱 Loaded budgets from phone storage');
+        console.log("📱 Loaded budgets from phone storage");
         return budgets;
       }
       return {};
     } catch (error) {
-      console.error('Failed to load budgets from phone storage:', error);
+      console.error("Failed to load budgets from phone storage:", error);
       return {};
     }
   }
@@ -131,7 +138,7 @@ class PhoneStorageManager {
   // Remove a transaction by ID
   removeTransaction(transactionId: string): boolean {
     const transactions = this.loadTransactions();
-    const filtered = transactions.filter(t => t.id !== transactionId);
+    const filtered = transactions.filter((t) => t.id !== transactionId);
     return this.saveTransactions(filtered);
   }
 
@@ -141,10 +148,10 @@ class PhoneStorageManager {
       localStorage.removeItem(this.storageKeys.transactions);
       localStorage.removeItem(this.storageKeys.budgets);
       localStorage.removeItem(this.storageKeys.categories);
-      console.log('🗑️ Cleared all data from phone storage');
+      console.log("🗑️ Cleared all data from phone storage");
       return true;
     } catch (error) {
-      console.error('Failed to clear data:', error);
+      console.error("Failed to clear data:", error);
       return false;
     }
   }
@@ -154,11 +161,13 @@ class PhoneStorageManager {
     const data = {
       transactions: this.loadTransactions(),
       budgets: this.loadBudgets(),
-      categories: JSON.parse(localStorage.getItem(this.storageKeys.categories) || '[]'),
+      categories: JSON.parse(
+        localStorage.getItem(this.storageKeys.categories) || "[]",
+      ),
       backupDate: new Date().toISOString(),
-      version: '1.0'
+      version: "1.0",
     };
-    
+
     localStorage.setItem(this.storageKeys.lastBackup, data.backupDate);
     return data;
   }
@@ -173,13 +182,19 @@ class PhoneStorageManager {
         this.saveBudgets(backupData.budgets);
       }
       if (backupData.categories) {
-        localStorage.setItem(this.storageKeys.categories, JSON.stringify(backupData.categories));
+        localStorage.setItem(
+          this.storageKeys.categories,
+          JSON.stringify(backupData.categories),
+        );
       }
-      localStorage.setItem(this.storageKeys.lastBackup, new Date().toISOString());
-      console.log('📥 Restored data from backup');
+      localStorage.setItem(
+        this.storageKeys.lastBackup,
+        new Date().toISOString(),
+      );
+      console.log("📥 Restored data from backup");
       return true;
     } catch (error) {
-      console.error('Failed to restore from backup:', error);
+      console.error("Failed to restore from backup:", error);
       return false;
     }
   }
@@ -193,10 +208,10 @@ export const getDataStats = () => {
   const transactions = phoneStorage.loadTransactions();
   const budgets = phoneStorage.loadBudgets();
   const storageInfo = phoneStorage.getStorageInfo();
-  
+
   return {
     transactions: transactions.length,
     budgets: Object.keys(budgets).length,
-    storage: storageInfo
+    storage: storageInfo,
   };
 };

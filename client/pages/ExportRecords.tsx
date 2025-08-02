@@ -3,7 +3,15 @@ import { Layout } from "../components/Layout";
 import { Card } from "../components/ui/card";
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
-import { Download, Calendar, BarChart3, Check, AlertCircle, ChevronLeft, ChevronRight } from "lucide-react";
+import {
+  Download,
+  Calendar,
+  BarChart3,
+  Check,
+  AlertCircle,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { phoneStorage } from "../utils/phoneStorage";
 import { themeManager } from "../utils/themeColors";
@@ -12,32 +20,32 @@ export function ExportRecords() {
   const navigate = useNavigate();
   const [fromMonth, setFromMonth] = useState(() => {
     const now = new Date();
-    return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+    return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
   });
   const [toMonth, setToMonth] = useState(() => {
     const now = new Date();
-    return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+    return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
   });
   const [isExporting, setIsExporting] = useState(false);
-  const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
-  const [statusMessage, setStatusMessage] = useState('');
+  const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
+  const [statusMessage, setStatusMessage] = useState("");
 
   useEffect(() => {
-    themeManager.setTheme(localStorage.getItem('selected-theme') || 'original');
+    themeManager.setTheme(localStorage.getItem("selected-theme") || "original");
   }, []);
 
   const exportToCSV = async () => {
     setIsExporting(true);
-    setStatus('idle');
-    
+    setStatus("idle");
+
     try {
       const allTransactions = phoneStorage.loadTransactions();
 
       // Create month range from MM-YY inputs
-      const [fromYear, fromMonthNum] = fromMonth.split('-').map(Number);
-      const [toYear, toMonthNum] = toMonth.split('-').map(Number);
+      const [fromYear, fromMonthNum] = fromMonth.split("-").map(Number);
+      const [toYear, toMonthNum] = toMonth.split("-").map(Number);
 
-      const filteredTransactions = allTransactions.filter(transaction => {
+      const filteredTransactions = allTransactions.filter((transaction) => {
         const transactionDate = new Date(transaction.date);
         const transactionYear = transactionDate.getFullYear();
         const transactionMonth = transactionDate.getMonth() + 1;
@@ -46,48 +54,65 @@ export function ExportRecords() {
         const fromYearMonth = fromYear * 100 + fromMonthNum;
         const toYearMonth = toYear * 100 + toMonthNum;
 
-        return transactionYearMonth >= fromYearMonth && transactionYearMonth <= toYearMonth;
+        return (
+          transactionYearMonth >= fromYearMonth &&
+          transactionYearMonth <= toYearMonth
+        );
       });
 
       if (filteredTransactions.length === 0) {
-        setStatus('error');
-        setStatusMessage('No transactions found in selected date range');
-        setTimeout(() => setStatus('idle'), 3000);
+        setStatus("error");
+        setStatusMessage("No transactions found in selected date range");
+        setTimeout(() => setStatus("idle"), 3000);
         return;
       }
 
-      const headers = ['Date', 'Time', 'Type', 'Main Category', 'Sub Category', 'Amount', 'Notes'];
+      const headers = [
+        "Date",
+        "Time",
+        "Type",
+        "Main Category",
+        "Sub Category",
+        "Amount",
+        "Notes",
+      ];
       const csvContent = [
-        headers.join(','),
-        ...filteredTransactions.map(transaction => [
-          `"${transaction.date}"`,
-          `"${transaction.time}"`,
-          `"${transaction.type}"`,
-          `"${transaction.mainCategory}"`,
-          `"${transaction.subCategory}"`,
-          transaction.amount,
-          `"${transaction.notes || ''}"`
-        ].join(','))
-      ].join('\n');
+        headers.join(","),
+        ...filteredTransactions.map((transaction) =>
+          [
+            `"${transaction.date}"`,
+            `"${transaction.time}"`,
+            `"${transaction.type}"`,
+            `"${transaction.mainCategory}"`,
+            `"${transaction.subCategory}"`,
+            transaction.amount,
+            `"${transaction.notes || ""}"`,
+          ].join(","),
+        ),
+      ].join("\n");
 
-      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-      const link = document.createElement('a');
+      const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+      const link = document.createElement("a");
       const url = URL.createObjectURL(blob);
-      link.setAttribute('href', url);
-      link.setAttribute('download', `clear-finance-export-${fromMonth}-to-${toMonth}.csv`);
-      link.style.visibility = 'hidden';
+      link.setAttribute("href", url);
+      link.setAttribute(
+        "download",
+        `clear-finance-export-${fromMonth}-to-${toMonth}.csv`,
+      );
+      link.style.visibility = "hidden";
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
 
-      setStatus('success');
-      setStatusMessage(`Successfully exported ${filteredTransactions.length} transactions`);
-      setTimeout(() => setStatus('idle'), 3000);
-      
+      setStatus("success");
+      setStatusMessage(
+        `Successfully exported ${filteredTransactions.length} transactions`,
+      );
+      setTimeout(() => setStatus("idle"), 3000);
     } catch (error) {
-      setStatus('error');
-      setStatusMessage('Export failed. Please try again.');
-      setTimeout(() => setStatus('idle'), 3000);
+      setStatus("error");
+      setStatusMessage("Export failed. Please try again.");
+      setTimeout(() => setStatus("idle"), 3000);
     } finally {
       setIsExporting(false);
     }
@@ -95,10 +120,10 @@ export function ExportRecords() {
 
   const getTransactionCount = () => {
     const allTransactions = phoneStorage.loadTransactions();
-    const [fromYear, fromMonthNum] = fromMonth.split('-').map(Number);
-    const [toYear, toMonthNum] = toMonth.split('-').map(Number);
+    const [fromYear, fromMonthNum] = fromMonth.split("-").map(Number);
+    const [toYear, toMonthNum] = toMonth.split("-").map(Number);
 
-    return allTransactions.filter(transaction => {
+    return allTransactions.filter((transaction) => {
       const transactionDate = new Date(transaction.date);
       const transactionYear = transactionDate.getFullYear();
       const transactionMonth = transactionDate.getMonth() + 1;
@@ -107,11 +132,16 @@ export function ExportRecords() {
       const fromYearMonth = fromYear * 100 + fromMonthNum;
       const toYearMonth = toYear * 100 + toMonthNum;
 
-      return transactionYearMonth >= fromYearMonth && transactionYearMonth <= toYearMonth;
+      return (
+        transactionYearMonth >= fromYearMonth &&
+        transactionYearMonth <= toYearMonth
+      );
     }).length;
   };
 
-  const setQuickRange = (range: 'lastMonth' | 'last3' | 'last6' | 'lastYear') => {
+  const setQuickRange = (
+    range: "lastMonth" | "last3" | "last6" | "lastYear",
+  ) => {
     const now = new Date();
     let fromYear: number, fromMonth: number, toYear: number, toMonth: number;
 
@@ -120,41 +150,47 @@ export function ExportRecords() {
     toMonth = now.getMonth() + 1;
 
     switch (range) {
-      case 'lastMonth':
+      case "lastMonth":
         const lastMonth = new Date(now.getFullYear(), now.getMonth() - 1);
         fromYear = toYear = lastMonth.getFullYear();
         fromMonth = toMonth = lastMonth.getMonth() + 1;
         break;
-      case 'last3':
+      case "last3":
         const threeMonthsAgo = new Date(now.getFullYear(), now.getMonth() - 2);
         fromYear = threeMonthsAgo.getFullYear();
         fromMonth = threeMonthsAgo.getMonth() + 1;
         break;
-      case 'last6':
+      case "last6":
         const sixMonthsAgo = new Date(now.getFullYear(), now.getMonth() - 5);
         fromYear = sixMonthsAgo.getFullYear();
         fromMonth = sixMonthsAgo.getMonth() + 1;
         break;
-      case 'lastYear':
-        const twelveMonthsAgo = new Date(now.getFullYear(), now.getMonth() - 11);
+      case "lastYear":
+        const twelveMonthsAgo = new Date(
+          now.getFullYear(),
+          now.getMonth() - 11,
+        );
         fromYear = twelveMonthsAgo.getFullYear();
         fromMonth = twelveMonthsAgo.getMonth() + 1;
         break;
     }
 
-    setFromMonth(`${fromYear}-${String(fromMonth).padStart(2, '0')}`);
-    setToMonth(`${toYear}-${String(toMonth).padStart(2, '0')}`);
+    setFromMonth(`${fromYear}-${String(fromMonth).padStart(2, "0")}`);
+    setToMonth(`${toYear}-${String(toMonth).padStart(2, "0")}`);
   };
 
   // Navigation functions for month arrows
-  const navigateMonth = (direction: 'prev' | 'next', monthType: 'from' | 'to') => {
-    const currentMonth = monthType === 'from' ? fromMonth : toMonth;
-    const [year, month] = currentMonth.split('-').map(Number);
+  const navigateMonth = (
+    direction: "prev" | "next",
+    monthType: "from" | "to",
+  ) => {
+    const currentMonth = monthType === "from" ? fromMonth : toMonth;
+    const [year, month] = currentMonth.split("-").map(Number);
 
     let newYear = year;
     let newMonth = month;
 
-    if (direction === 'next') {
+    if (direction === "next") {
       newMonth += 1;
       if (newMonth > 12) {
         newMonth = 1;
@@ -168,9 +204,9 @@ export function ExportRecords() {
       }
     }
 
-    const newMonthStr = `${newYear}-${String(newMonth).padStart(2, '0')}`;
+    const newMonthStr = `${newYear}-${String(newMonth).padStart(2, "0")}`;
 
-    if (monthType === 'from') {
+    if (monthType === "from") {
       setFromMonth(newMonthStr);
     } else {
       setToMonth(newMonthStr);
@@ -202,15 +238,21 @@ export function ExportRecords() {
         {/* Header */}
         <div className="text-center">
           <h1 className="text-xl font-semibold">Export Records</h1>
-          <p className="text-sm text-muted-foreground">Export transactions as CSV spreadsheet</p>
+          <p className="text-sm text-muted-foreground">
+            Export transactions as CSV spreadsheet
+          </p>
         </div>
 
         {/* Status Message */}
-        {status !== 'idle' && statusMessage && (
-          <div className={`flex items-center gap-3 p-4 rounded-lg ${
-            status === 'success' ? 'bg-green-500/10 text-green-400 border border-green-500/20' : 'bg-red-500/10 text-red-400 border border-red-500/20'
-          }`}>
-            {status === 'success' ? (
+        {status !== "idle" && statusMessage && (
+          <div
+            className={`flex items-center gap-3 p-4 rounded-lg ${
+              status === "success"
+                ? "bg-green-500/10 text-green-400 border border-green-500/20"
+                : "bg-red-500/10 text-red-400 border border-red-500/20"
+            }`}
+          >
+            {status === "success" ? (
               <Check className="h-5 w-5" />
             ) : (
               <AlertCircle className="h-5 w-5" />
@@ -221,12 +263,14 @@ export function ExportRecords() {
 
         {/* Quick Range Buttons */}
         <div>
-          <h2 className="text-lg font-semibold section-header mb-3">Quick Date Ranges</h2>
+          <h2 className="text-lg font-semibold section-header mb-3">
+            Quick Date Ranges
+          </h2>
           <div className="grid grid-cols-2 gap-2">
             <Button
               variant="outline"
               size="sm"
-              onClick={() => setQuickRange('lastMonth')}
+              onClick={() => setQuickRange("lastMonth")}
               className="text-xs"
             >
               Last Month
@@ -234,7 +278,7 @@ export function ExportRecords() {
             <Button
               variant="outline"
               size="sm"
-              onClick={() => setQuickRange('last3')}
+              onClick={() => setQuickRange("last3")}
               className="text-xs"
             >
               Last 3 Months
@@ -242,7 +286,7 @@ export function ExportRecords() {
             <Button
               variant="outline"
               size="sm"
-              onClick={() => setQuickRange('last6')}
+              onClick={() => setQuickRange("last6")}
               className="text-xs"
             >
               Last 6 Months
@@ -250,7 +294,7 @@ export function ExportRecords() {
             <Button
               variant="outline"
               size="sm"
-              onClick={() => setQuickRange('lastYear')}
+              onClick={() => setQuickRange("lastYear")}
               className="text-xs"
             >
               Last Year
@@ -265,16 +309,18 @@ export function ExportRecords() {
               <Calendar className="h-4 w-4 theme-accent" />
               <span className="font-medium">Custom Date Range</span>
             </div>
-            
+
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="text-sm font-medium text-muted-foreground">From Month</label>
+                <label className="text-sm font-medium text-muted-foreground">
+                  From Month
+                </label>
                 <div className="flex items-center gap-1 mt-1">
                   <Button
                     variant="ghost"
                     size="icon"
                     className="h-8 w-8"
-                    onClick={() => navigateMonth('prev', 'from')}
+                    onClick={() => navigateMonth("prev", "from")}
                   >
                     <ChevronLeft className="h-4 w-4" />
                   </Button>
@@ -288,20 +334,22 @@ export function ExportRecords() {
                     variant="ghost"
                     size="icon"
                     className="h-8 w-8"
-                    onClick={() => navigateMonth('next', 'from')}
+                    onClick={() => navigateMonth("next", "from")}
                   >
                     <ChevronRight className="h-4 w-4" />
                   </Button>
                 </div>
               </div>
               <div>
-                <label className="text-sm font-medium text-muted-foreground">To Month</label>
+                <label className="text-sm font-medium text-muted-foreground">
+                  To Month
+                </label>
                 <div className="flex items-center gap-1 mt-1">
                   <Button
                     variant="ghost"
                     size="icon"
                     className="h-8 w-8"
-                    onClick={() => navigateMonth('prev', 'to')}
+                    onClick={() => navigateMonth("prev", "to")}
                   >
                     <ChevronLeft className="h-4 w-4" />
                   </Button>
@@ -315,22 +363,22 @@ export function ExportRecords() {
                     variant="ghost"
                     size="icon"
                     className="h-8 w-8"
-                    onClick={() => navigateMonth('next', 'to')}
+                    onClick={() => navigateMonth("next", "to")}
                   >
                     <ChevronRight className="h-4 w-4" />
                   </Button>
                 </div>
               </div>
             </div>
-
-
           </div>
         </Card>
 
         {/* Export Button */}
         <Button
           onClick={exportToCSV}
-          disabled={isExporting || !fromMonth || !toMonth || transactionCount === 0}
+          disabled={
+            isExporting || !fromMonth || !toMonth || transactionCount === 0
+          }
           className="w-full py-4 text-lg font-semibold"
           size="lg"
         >
@@ -355,7 +403,9 @@ export function ExportRecords() {
               Export Information
             </div>
             <ul className="space-y-1 text-blue-300">
-              <li>• CSV files can be opened in Excel, Google Sheets, or Numbers</li>
+              <li>
+                • CSV files can be opened in Excel, Google Sheets, or Numbers
+              </li>
               <li>• Files include date, time, category, amount, and notes</li>
               <li>• Perfect for tax reporting and financial analysis</li>
               <li>• CSV files cannot be imported back (use Backup for that)</li>

@@ -1,93 +1,123 @@
-import React, { useState } from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { 
-  StyleSheet, 
-  Text, 
-  View, 
-  ScrollView, 
-  StatusBar, 
+import React, { useState } from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import {
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+  StatusBar,
   TouchableOpacity,
-  SafeAreaView 
-} from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+  SafeAreaView,
+} from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 
 const Tab = createBottomTabNavigator();
 
 // Your exact categories from the web app
 const categories = [
-  { 
-    name: 'Income Sources', 
-    emoji: '💰', 
-    type: 'INCOME', 
+  {
+    name: "Income Sources",
+    emoji: "💰",
+    type: "INCOME",
     subcategories: 6,
-    color: 'green'
+    color: "green",
   },
-  { 
-    name: 'Fixed Household Expenses', 
-    emoji: '🏠', 
-    type: 'EXPENSE', 
+  {
+    name: "Fixed Household Expenses",
+    emoji: "🏠",
+    type: "EXPENSE",
     subcategories: 9,
-    color: 'red'
+    color: "red",
   },
-  { 
-    name: 'Family & Personal Living', 
-    emoji: '👨‍👩‍👧‍👦', 
-    type: 'EXPENSE', 
+  {
+    name: "Family & Personal Living",
+    emoji: "👨‍👩‍👧‍👦",
+    type: "EXPENSE",
     subcategories: 11,
-    color: 'red'
+    color: "red",
   },
-  { 
-    name: 'Insurance', 
-    emoji: '🛡️', 
-    type: 'EXPENSE', 
+  {
+    name: "Insurance",
+    emoji: "🛡️",
+    type: "EXPENSE",
     subcategories: 5,
-    color: 'red'
+    color: "red",
   },
-  { 
-    name: 'Investments', 
-    emoji: '📈', 
-    type: 'EXPENSE', 
+  {
+    name: "Investments",
+    emoji: "📈",
+    type: "EXPENSE",
     subcategories: 10,
-    color: 'red'
+    color: "red",
   },
-  { 
-    name: 'Loans & EMI Payments', 
-    emoji: '💳', 
-    type: 'EXPENSE', 
+  {
+    name: "Loans & EMI Payments",
+    emoji: "💳",
+    type: "EXPENSE",
     subcategories: 6,
-    color: 'red'
+    color: "red",
   },
-  { 
-    name: 'Lifestyle & Discretionary', 
-    emoji: '🎪', 
-    type: 'EXPENSE', 
+  {
+    name: "Lifestyle & Discretionary",
+    emoji: "🎪",
+    type: "EXPENSE",
     subcategories: 7,
-    color: 'red'
+    color: "red",
   },
-  { 
-    name: 'Savings & Emergency Funds', 
-    emoji: '🏦', 
-    type: 'EXPENSE', 
+  {
+    name: "Savings & Emergency Funds",
+    emoji: "🏦",
+    type: "EXPENSE",
     subcategories: 4,
-    color: 'red'
+    color: "red",
   },
-  { 
-    name: 'Miscellaneous / One-Time', 
-    emoji: '📦', 
-    type: 'EXPENSE', 
+  {
+    name: "Miscellaneous / One-Time",
+    emoji: "📦",
+    type: "EXPENSE",
     subcategories: 6,
-    color: 'red'
-  }
+    color: "red",
+  },
 ];
 
 // Sample expense data
 const expenseData = [
-  { id: 1, title: 'Grocery Shopping', category: 'Food', amount: 45.67, date: 'Today' },
-  { id: 2, title: 'Gas Station', category: 'Transport', amount: 32.50, date: 'Yesterday' },
-  { id: 3, title: 'Restaurant', category: 'Food', amount: 28.90, date: '2 days ago' },
-  { id: 4, title: 'Coffee Shop', category: 'Food', amount: 5.75, date: '3 days ago' },
-  { id: 5, title: 'Grocery Shopping', category: 'Food', amount: 67.23, date: '4 days ago' }
+  {
+    id: 1,
+    title: "Grocery Shopping",
+    category: "Food",
+    amount: 45.67,
+    date: "Today",
+  },
+  {
+    id: 2,
+    title: "Gas Station",
+    category: "Transport",
+    amount: 32.5,
+    date: "Yesterday",
+  },
+  {
+    id: 3,
+    title: "Restaurant",
+    category: "Food",
+    amount: 28.9,
+    date: "2 days ago",
+  },
+  {
+    id: 4,
+    title: "Coffee Shop",
+    category: "Food",
+    amount: 5.75,
+    date: "3 days ago",
+  },
+  {
+    id: 5,
+    title: "Grocery Shopping",
+    category: "Food",
+    amount: 67.23,
+    date: "4 days ago",
+  },
 ];
 
 function Header({ title }) {
@@ -110,22 +140,22 @@ function Header({ title }) {
 
 function RecordsScreen() {
   const totalSpent = expenseData.reduce((sum, item) => sum + item.amount, 0);
-  
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="white" />
       <Header title="Records" />
-      
+
       <ScrollView style={styles.content}>
         {/* Summary Card */}
         <View style={styles.summaryCard}>
           <Text style={styles.summaryLabel}>Total Spent This Month</Text>
           <Text style={styles.summaryAmount}>${totalSpent.toFixed(2)}</Text>
         </View>
-        
+
         {/* Recent Transactions */}
         <Text style={styles.sectionTitle}>Recent Transactions</Text>
-        
+
         {expenseData.map((item) => (
           <View key={item.id} style={styles.recordItem}>
             <View style={styles.recordIcon}>
@@ -133,13 +163,15 @@ function RecordsScreen() {
             </View>
             <View style={styles.recordDetails}>
               <Text style={styles.recordTitle}>{item.title}</Text>
-              <Text style={styles.recordSubtitle}>{item.category} • {item.date}</Text>
+              <Text style={styles.recordSubtitle}>
+                {item.category} • {item.date}
+              </Text>
             </View>
             <Text style={styles.recordAmount}>-${item.amount}</Text>
           </View>
         ))}
       </ScrollView>
-      
+
       {/* Add Button */}
       <TouchableOpacity style={styles.addButton}>
         <Ionicons name="add" size={24} color="white" />
@@ -154,7 +186,9 @@ function AnalysisScreen() {
       <Header title="Analysis" />
       <View style={styles.centerContainer}>
         <Text style={styles.screenTitle}>Analysis</Text>
-        <Text style={styles.screenSubtitle}>Charts and analytics coming soon!</Text>
+        <Text style={styles.screenSubtitle}>
+          Charts and analytics coming soon!
+        </Text>
       </View>
     </SafeAreaView>
   );
@@ -166,7 +200,9 @@ function TrackerScreen() {
       <Header title="Tracker" />
       <View style={styles.centerContainer}>
         <Text style={styles.screenTitle}>Tracker</Text>
-        <Text style={styles.screenSubtitle}>Expense tracking features coming soon!</Text>
+        <Text style={styles.screenSubtitle}>
+          Expense tracking features coming soon!
+        </Text>
       </View>
     </SafeAreaView>
   );
@@ -178,7 +214,9 @@ function BudgetsScreen() {
       <Header title="Budgets" />
       <View style={styles.centerContainer}>
         <Text style={styles.screenTitle}>Budgets</Text>
-        <Text style={styles.screenSubtitle}>Budget management coming soon!</Text>
+        <Text style={styles.screenSubtitle}>
+          Budget management coming soon!
+        </Text>
       </View>
     </SafeAreaView>
   );
@@ -188,10 +226,10 @@ function CategoriesScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <Header title="Categories" />
-      
+
       <ScrollView style={styles.content}>
         <Text style={styles.categoryHeader}>All Categories</Text>
-        
+
         {categories.map((category, index) => (
           <TouchableOpacity key={index} style={styles.categoryItem}>
             <View style={styles.categoryLeft}>
@@ -201,14 +239,22 @@ function CategoriesScreen() {
               <View style={styles.categoryDetails}>
                 <View style={styles.categoryTitleRow}>
                   <Text style={styles.categoryName}>{category.name}</Text>
-                  <View style={[
-                    styles.categoryBadge, 
-                    category.type === 'INCOME' ? styles.incomeBadge : styles.expenseBadge
-                  ]}>
-                    <Text style={[
-                      styles.categoryBadgeText,
-                      category.type === 'INCOME' ? styles.incomeBadgeText : styles.expenseBadgeText
-                    ]}>
+                  <View
+                    style={[
+                      styles.categoryBadge,
+                      category.type === "INCOME"
+                        ? styles.incomeBadge
+                        : styles.expenseBadge,
+                    ]}
+                  >
+                    <Text
+                      style={[
+                        styles.categoryBadgeText,
+                        category.type === "INCOME"
+                          ? styles.incomeBadgeText
+                          : styles.expenseBadgeText,
+                      ]}
+                    >
                       {category.type}
                     </Text>
                   </View>
@@ -227,7 +273,7 @@ function CategoriesScreen() {
           </TouchableOpacity>
         ))}
       </ScrollView>
-      
+
       {/* Add Button */}
       <TouchableOpacity style={styles.addButton}>
         <Ionicons name="add" size={24} color="white" />
@@ -243,28 +289,28 @@ export default function App() {
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
             let iconName;
-            
-            if (route.name === 'Records') {
-              iconName = 'clipboard-outline';
-            } else if (route.name === 'Analysis') {
-              iconName = 'pie-chart-outline';
-            } else if (route.name === 'Tracker') {
-              iconName = 'target-outline';
-            } else if (route.name === 'Budgets') {
-              iconName = 'wallet-outline';
-            } else if (route.name === 'Categories') {
-              iconName = 'folder-outline';
+
+            if (route.name === "Records") {
+              iconName = "clipboard-outline";
+            } else if (route.name === "Analysis") {
+              iconName = "pie-chart-outline";
+            } else if (route.name === "Tracker") {
+              iconName = "target-outline";
+            } else if (route.name === "Budgets") {
+              iconName = "wallet-outline";
+            } else if (route.name === "Categories") {
+              iconName = "folder-outline";
             }
-            
+
             return <Ionicons name={iconName} size={size} color={color} />;
           },
-          tabBarActiveTintColor: '#22C55E',
-          tabBarInactiveTintColor: '#999',
+          tabBarActiveTintColor: "#22C55E",
+          tabBarInactiveTintColor: "#999",
           headerShown: false,
           tabBarStyle: {
-            backgroundColor: 'white',
+            backgroundColor: "white",
             borderTopWidth: 1,
-            borderTopColor: '#e5e5e5',
+            borderTopColor: "#e5e5e5",
             paddingBottom: 5,
             height: 60,
           },
@@ -286,41 +332,41 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f8f9fa',
+    backgroundColor: "#f8f9fa",
   },
   centerContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#f8f9fa',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#f8f9fa",
   },
   header: {
-    backgroundColor: 'white',
+    backgroundColor: "white",
     borderBottomWidth: 1,
-    borderBottomColor: '#e5e5e5',
+    borderBottomColor: "#e5e5e5",
     paddingTop: 10,
   },
   headerContent: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     paddingHorizontal: 16,
     paddingVertical: 12,
   },
   headerLeft: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
   headerButton: {
     width: 40,
     height: 40,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   headerTitle: {
     fontSize: 20,
-    fontWeight: 'bold',
-    color: '#22C55E',
+    fontWeight: "bold",
+    color: "#22C55E",
     marginLeft: 12,
   },
   content: {
@@ -328,7 +374,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   summaryCard: {
-    backgroundColor: '#22C55E',
+    backgroundColor: "#22C55E",
     margin: 0,
     marginTop: 16,
     marginBottom: 16,
@@ -336,29 +382,29 @@ const styles = StyleSheet.create({
     borderRadius: 16,
   },
   summaryLabel: {
-    color: 'rgba(255,255,255,0.8)',
+    color: "rgba(255,255,255,0.8)",
     fontSize: 14,
   },
   summaryAmount: {
-    color: 'white',
+    color: "white",
     fontSize: 32,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginTop: 4,
   },
   sectionTitle: {
     fontSize: 18,
-    fontWeight: '600',
-    color: '#1f2937',
+    fontWeight: "600",
+    color: "#1f2937",
     marginVertical: 8,
   },
   recordItem: {
-    backgroundColor: 'white',
+    backgroundColor: "white",
     marginVertical: 6,
     padding: 16,
     borderRadius: 12,
-    flexDirection: 'row',
-    alignItems: 'center',
-    shadowColor: '#000',
+    flexDirection: "row",
+    alignItems: "center",
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.1,
     shadowRadius: 2,
@@ -368,9 +414,9 @@ const styles = StyleSheet.create({
     width: 48,
     height: 48,
     borderRadius: 24,
-    backgroundColor: 'rgba(34, 197, 94, 0.1)',
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: "rgba(34, 197, 94, 0.1)",
+    justifyContent: "center",
+    alignItems: "center",
     marginRight: 16,
   },
   recordDetails: {
@@ -378,30 +424,30 @@ const styles = StyleSheet.create({
   },
   recordTitle: {
     fontSize: 16,
-    fontWeight: '500',
-    color: '#1f2937',
+    fontWeight: "500",
+    color: "#1f2937",
   },
   recordSubtitle: {
     fontSize: 14,
-    color: '#6b7280',
+    color: "#6b7280",
     marginTop: 2,
   },
   recordAmount: {
     fontSize: 16,
-    fontWeight: '600',
-    color: '#ef4444',
+    fontWeight: "600",
+    color: "#ef4444",
   },
   addButton: {
-    position: 'absolute',
+    position: "absolute",
     bottom: 80,
     right: 20,
     width: 56,
     height: 56,
     borderRadius: 28,
-    backgroundColor: '#22C55E',
-    justifyContent: 'center',
-    alignItems: 'center',
-    shadowColor: '#000',
+    backgroundColor: "#22C55E",
+    justifyContent: "center",
+    alignItems: "center",
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
     shadowRadius: 4,
@@ -409,47 +455,47 @@ const styles = StyleSheet.create({
   },
   screenTitle: {
     fontSize: 20,
-    fontWeight: 'bold',
-    color: '#22C55E',
+    fontWeight: "bold",
+    color: "#22C55E",
   },
   screenSubtitle: {
     fontSize: 14,
-    color: '#6b7280',
+    color: "#6b7280",
     marginTop: 8,
   },
   categoryHeader: {
     fontSize: 18,
-    fontWeight: '600',
-    color: '#EAB308',
+    fontWeight: "600",
+    color: "#EAB308",
     marginTop: 16,
     marginBottom: 16,
   },
   categoryItem: {
-    backgroundColor: 'white',
+    backgroundColor: "white",
     marginVertical: 4,
     padding: 16,
     borderRadius: 12,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    shadowColor: '#000',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.1,
     shadowRadius: 2,
     elevation: 2,
   },
   categoryLeft: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     flex: 1,
   },
   categoryIcon: {
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: 'rgba(34, 197, 94, 0.1)',
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: "rgba(34, 197, 94, 0.1)",
+    justifyContent: "center",
+    alignItems: "center",
     marginRight: 12,
   },
   categoryEmoji: {
@@ -459,14 +505,14 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   categoryTitleRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginBottom: 4,
   },
   categoryName: {
     fontSize: 16,
-    fontWeight: '500',
-    color: '#1f2937',
+    fontWeight: "500",
+    color: "#1f2937",
     marginRight: 8,
   },
   categoryBadge: {
@@ -475,39 +521,39 @@ const styles = StyleSheet.create({
     borderRadius: 12,
   },
   incomeBadge: {
-    backgroundColor: '#dcfce7',
+    backgroundColor: "#dcfce7",
   },
   expenseBadge: {
-    backgroundColor: '#fee2e2',
+    backgroundColor: "#fee2e2",
   },
   categoryBadgeText: {
     fontSize: 10,
-    fontWeight: '500',
+    fontWeight: "500",
   },
   incomeBadgeText: {
-    color: '#166534',
+    color: "#166534",
   },
   expenseBadgeText: {
-    color: '#991b1b',
+    color: "#991b1b",
   },
   categorySubtitle: {
     fontSize: 14,
-    color: '#6b7280',
+    color: "#6b7280",
   },
   categoryRight: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
   menuButton: {
     marginLeft: 8,
     width: 32,
     height: 32,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   menuDots: {
     fontSize: 18,
-    color: '#1f2937',
-    fontWeight: 'bold',
+    color: "#1f2937",
+    fontWeight: "bold",
   },
 });

@@ -1,18 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import { Card } from './ui/card';
-import { Button } from './ui/button';
-import { Badge } from './ui/badge';
-import { 
-  Smartphone, 
-  HardDrive, 
-  CheckCircle, 
-  AlertCircle, 
+import React, { useState, useEffect } from "react";
+import { Card } from "./ui/card";
+import { Button } from "./ui/button";
+import { Badge } from "./ui/badge";
+import {
+  Smartphone,
+  HardDrive,
+  CheckCircle,
+  AlertCircle,
   RotateCcw,
   Trash2,
   Download,
-  Info
-} from 'lucide-react';
-import { phoneStorage, getDataStats } from '../utils/phoneStorage';
+  Info,
+} from "lucide-react";
+import { phoneStorage, getDataStats } from "../utils/phoneStorage";
 
 export function PhoneStorageStatus() {
   const [stats, setStats] = useState(getDataStats());
@@ -29,11 +29,11 @@ export function PhoneStorageStatus() {
 
   const handleClearData = () => {
     const confirmed = window.confirm(
-      '⚠️ Clear All Phone Data?\n\n' +
-      'This will permanently delete:\n' +
-      `• ${stats.transactions} transactions\n` +
-      `• ${stats.budgets} budget entries\n\n` +
-      'This action cannot be undone. Continue?'
+      "⚠️ Clear All Phone Data?\n\n" +
+        "This will permanently delete:\n" +
+        `• ${stats.transactions} transactions\n` +
+        `• ${stats.budgets} budget entries\n\n` +
+        "This action cannot be undone. Continue?",
     );
 
     if (confirmed) {
@@ -46,11 +46,11 @@ export function PhoneStorageStatus() {
   const handleBackup = () => {
     const backup = phoneStorage.createBackup();
     const dataStr = JSON.stringify(backup, null, 2);
-    const dataBlob = new Blob([dataStr], {type: 'application/json'});
-    
-    const link = document.createElement('a');
+    const dataBlob = new Blob([dataStr], { type: "application/json" });
+
+    const link = document.createElement("a");
     link.href = URL.createObjectURL(dataBlob);
-    link.download = `clear-finance-backup-${new Date().toISOString().split('T')[0]}.json`;
+    link.download = `clear-finance-backup-${new Date().toISOString().split("T")[0]}.json`;
     link.click();
   };
 
@@ -86,9 +86,7 @@ export function PhoneStorageStatus() {
             <div className="text-2xl font-bold text-blue-500">
               {stats.transactions}
             </div>
-            <div className="text-xs text-muted-foreground">
-              Saved to phone
-            </div>
+            <div className="text-xs text-muted-foreground">Saved to phone</div>
           </div>
 
           <div className="bg-muted/50 p-3 rounded-lg">
@@ -99,9 +97,7 @@ export function PhoneStorageStatus() {
             <div className="text-2xl font-bold text-purple-500">
               {stats.budgets}
             </div>
-            <div className="text-xs text-muted-foreground">
-              Saved to phone
-            </div>
+            <div className="text-xs text-muted-foreground">Saved to phone</div>
           </div>
         </div>
 
@@ -112,9 +108,15 @@ export function PhoneStorageStatus() {
             <div className="grid grid-cols-2 gap-2 text-xs">
               <div>Storage Size: {stats.storage.totalSize} KB</div>
               <div>Items: {stats.storage.itemCount}</div>
-              <div>Status: {stats.storage.available ? '✅ Available' : '❌ Error'}</div>
-              <div>Last Backup: {stats.storage.lastBackup !== 'Never' ? 
-                new Date(stats.storage.lastBackup).toLocaleDateString() : 'Never'}</div>
+              <div>
+                Status: {stats.storage.available ? "✅ Available" : "❌ Error"}
+              </div>
+              <div>
+                Last Backup:{" "}
+                {stats.storage.lastBackup !== "Never"
+                  ? new Date(stats.storage.lastBackup).toLocaleDateString()
+                  : "Never"}
+              </div>
             </div>
           </div>
         )}
@@ -123,8 +125,8 @@ export function PhoneStorageStatus() {
         <div className="flex items-center gap-2 p-3 rounded-lg bg-green-500/10 text-green-400">
           <CheckCircle className="h-4 w-4" />
           <span className="text-sm">
-            All your data is automatically saved to your phone's storage. 
-            It won't disappear when you reload or close the app.
+            All your data is automatically saved to your phone's storage. It
+            won't disappear when you reload or close the app.
           </span>
         </div>
 
@@ -137,9 +139,9 @@ export function PhoneStorageStatus() {
             className="flex-1"
           >
             <Info className="h-4 w-4 mr-2" />
-            {showDetails ? 'Hide' : 'Show'} Details
+            {showDetails ? "Hide" : "Show"} Details
           </Button>
-          
+
           <Button
             variant="outline"
             size="sm"
@@ -168,7 +170,9 @@ export function PhoneStorageStatus() {
             <li>• ✅ Data saves automatically when you add transactions</li>
             <li>• ✅ Persists when you reload or close the app</li>
             <li>• ✅ Stored locally on your device for privacy</li>
-            <li>• ⚠️ Data stays on this device only (use backup to transfer)</li>
+            <li>
+              • ⚠️ Data stays on this device only (use backup to transfer)
+            </li>
           </ul>
         </div>
       </div>

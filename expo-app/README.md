@@ -5,12 +5,14 @@ Your beautiful expense tracker app, now as a native mobile app!
 ## 🚀 Quick Start
 
 ### Install Dependencies
+
 ```bash
 cd expo-app
 npm install
 ```
 
 ### Run on Your Phone (EASIEST)
+
 1. **Install Expo Go** app from Play Store
 2. **Start the development server:**
    ```bash
@@ -20,6 +22,7 @@ npm install
 4. **Your app will load instantly!**
 
 ### Build APK for Production
+
 ```bash
 # Build APK
 npx expo build:android
@@ -41,8 +44,9 @@ eas build --platform android
 ## 📱 What You Get
 
 Your beautiful Clear Finance app will work perfectly on Android with:
+
 - Native performance
-- Smooth animations  
+- Smooth animations
 - Professional look
 - Easy updates via Expo
 

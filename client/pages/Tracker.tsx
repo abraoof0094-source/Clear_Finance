@@ -233,7 +233,9 @@ export function Tracker() {
     setTransactions(storedTransactions);
     setBudgets(storedBudgets);
 
-    console.log(`✅ Loaded ${storedTransactions.length} transactions and ${Object.keys(storedBudgets).length} budget entries from phone storage`);
+    console.log(
+      `✅ Loaded ${storedTransactions.length} transactions and ${Object.keys(storedBudgets).length} budget entries from phone storage`,
+    );
   }, []);
 
   // Save transactions to phone storage whenever transactions change

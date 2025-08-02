@@ -29,7 +29,7 @@ export function Preferences() {
   const [currencyPosition, setCurrencyPosition] = useState("start");
   const [decimalPlaces, setDecimalPlaces] = useState("2");
   const [theme, setTheme] = useState(() => {
-    return localStorage.getItem('selected-theme') || 'original';
+    return localStorage.getItem("selected-theme") || "original";
   });
   const [uiMode, setUiMode] = useState("system");
   const [currencySign, setCurrencySign] = useState("inr");
@@ -214,11 +214,11 @@ export function Preferences() {
 
         {/* Phone Storage Status Section */}
         <div>
-          <h2 className="text-lg font-semibold section-header mb-4">Phone Storage</h2>
+          <h2 className="text-lg font-semibold section-header mb-4">
+            Phone Storage
+          </h2>
           <PhoneStorageStatus />
         </div>
-
-
 
         {/* About Section */}
         <div>
