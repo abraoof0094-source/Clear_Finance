@@ -131,7 +131,7 @@ export function SlideMenu({ isOpen, onClose }: SlideMenuProps) {
                 variant="ghost"
                 className="w-full justify-between p-4 h-auto"
                 onClick={() => {
-                  navigate('/preferences');
+                  navigate("/preferences");
                   onClose();
                 }}
               >

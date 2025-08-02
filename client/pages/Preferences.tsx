@@ -21,7 +21,7 @@ import { useNavigate } from "react-router-dom";
 
 export function Preferences() {
   const navigate = useNavigate();
-  
+
   // State for various preferences
   const [currencyPosition, setCurrencyPosition] = useState("start");
   const [decimalPlaces, setDecimalPlaces] = useState("2");
@@ -56,9 +56,10 @@ export function Preferences() {
     { id: "2", name: "2 (eg. 10.45)" },
   ];
 
-  const currentTheme = themes.find(t => t.id === theme) || themes[0];
-  const currentUIMode = uiModes.find(m => m.id === uiMode) || uiModes[2];
-  const currentDecimalPlaces = decimalOptions.find(d => d.id === decimalPlaces) || decimalOptions[2];
+  const currentTheme = themes.find((t) => t.id === theme) || themes[0];
+  const currentUIMode = uiModes.find((m) => m.id === uiMode) || uiModes[2];
+  const currentDecimalPlaces =
+    decimalOptions.find((d) => d.id === decimalPlaces) || decimalOptions[2];
 
   const handleBack = () => {
     navigate(-1);
@@ -77,7 +78,9 @@ export function Preferences() {
 
         {/* Appearance Section */}
         <div>
-          <h2 className="text-lg font-semibold text-yellow-500 mb-4">Appearance</h2>
+          <h2 className="text-lg font-semibold text-yellow-500 mb-4">
+            Appearance
+          </h2>
           <Card className="p-1">
             <div className="space-y-1">
               {/* Theme */}
@@ -87,7 +90,9 @@ export function Preferences() {
               >
                 <div>
                   <div className="font-medium">Theme</div>
-                  <div className="text-sm text-muted-foreground">{currentTheme.name}</div>
+                  <div className="text-sm text-muted-foreground">
+                    {currentTheme.name}
+                  </div>
                 </div>
                 <ChevronRight className="h-4 w-4 text-muted-foreground" />
               </button>
@@ -99,7 +104,9 @@ export function Preferences() {
               >
                 <div>
                   <div className="font-medium">UI mode</div>
-                  <div className="text-sm text-muted-foreground">{currentUIMode.name}</div>
+                  <div className="text-sm text-muted-foreground">
+                    {currentUIMode.name}
+                  </div>
                 </div>
                 <ChevronRight className="h-4 w-4 text-muted-foreground" />
               </button>
@@ -108,7 +115,9 @@ export function Preferences() {
               <div className="flex items-center justify-between p-4 border-t border-border">
                 <div>
                   <div className="font-medium">Currency sign</div>
-                  <div className="text-sm text-muted-foreground">Indian Rupee - INR</div>
+                  <div className="text-sm text-muted-foreground">
+                    Indian Rupee - INR
+                  </div>
                 </div>
                 <ChevronRight className="h-4 w-4 text-muted-foreground" />
               </div>
@@ -117,7 +126,9 @@ export function Preferences() {
               <div className="flex items-center justify-between p-4 border-t border-border">
                 <div>
                   <div className="font-medium">Currency position</div>
-                  <div className="text-sm text-muted-foreground">At start of amount</div>
+                  <div className="text-sm text-muted-foreground">
+                    At start of amount
+                  </div>
                 </div>
                 <ChevronRight className="h-4 w-4 text-muted-foreground" />
               </div>
@@ -129,7 +140,9 @@ export function Preferences() {
               >
                 <div>
                   <div className="font-medium">Decimal places</div>
-                  <div className="text-sm text-muted-foreground">{currentDecimalPlaces.name}</div>
+                  <div className="text-sm text-muted-foreground">
+                    {currentDecimalPlaces.name}
+                  </div>
                 </div>
                 <ChevronRight className="h-4 w-4 text-muted-foreground" />
               </button>
@@ -139,10 +152,14 @@ export function Preferences() {
 
         {/* Security Section */}
         <div>
-          <h2 className="text-lg font-semibold text-yellow-500 mb-4">Security</h2>
+          <h2 className="text-lg font-semibold text-yellow-500 mb-4">
+            Security
+          </h2>
           <Card className="p-1">
             <div className="p-4">
-              <div className="font-medium">Passcode protection (Pro version)</div>
+              <div className="font-medium">
+                Passcode protection (Pro version)
+              </div>
               <div className="text-sm text-muted-foreground mt-1">
                 Requires a Passcode to enter Clear Finance app
               </div>
@@ -152,7 +169,9 @@ export function Preferences() {
 
         {/* Notification Section */}
         <div>
-          <h2 className="text-lg font-semibold text-yellow-500 mb-4">Notification</h2>
+          <h2 className="text-lg font-semibold text-yellow-500 mb-4">
+            Notification
+          </h2>
           <Card className="p-1">
             <div className="space-y-1">
               {/* Remind Everyday */}
@@ -186,9 +205,12 @@ export function Preferences() {
               {/* Crash and Usage Statistics */}
               <div className="flex items-center justify-between p-4">
                 <div>
-                  <div className="font-medium">Send crash and usage statistics</div>
+                  <div className="font-medium">
+                    Send crash and usage statistics
+                  </div>
                   <div className="text-sm text-muted-foreground">
-                    Automatically send crash and usage report to improve Clear Finance.
+                    Automatically send crash and usage report to improve Clear
+                    Finance.
                   </div>
                 </div>
                 <Switch
@@ -264,11 +286,13 @@ export function Preferences() {
                   className="w-full flex items-center gap-4 p-4 text-left hover:bg-muted/50 rounded-lg transition-colors"
                 >
                   <div className="relative">
-                    <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
-                      uiMode === modeOption.id
-                        ? 'border-primary bg-primary'
-                        : 'border-muted-foreground'
-                    }`}>
+                    <div
+                      className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
+                        uiMode === modeOption.id
+                          ? "border-primary bg-primary"
+                          : "border-muted-foreground"
+                      }`}
+                    >
                       {uiMode === modeOption.id && (
                         <div className="w-2 h-2 rounded-full bg-primary-foreground"></div>
                       )}
@@ -293,7 +317,10 @@ export function Preferences() {
         </Dialog>
 
         {/* Decimal Places Selection Dialog */}
-        <Dialog open={showDecimalPlacesDialog} onOpenChange={setShowDecimalPlacesDialog}>
+        <Dialog
+          open={showDecimalPlacesDialog}
+          onOpenChange={setShowDecimalPlacesDialog}
+        >
           <DialogContent className="max-w-md">
             <DialogHeader>
               <DialogTitle>Decimal places</DialogTitle>
@@ -309,11 +336,13 @@ export function Preferences() {
                   className="w-full flex items-center gap-4 p-4 text-left hover:bg-muted/50 rounded-lg transition-colors"
                 >
                   <div className="relative">
-                    <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
-                      decimalPlaces === decimalOption.id
-                        ? 'border-primary bg-primary'
-                        : 'border-muted-foreground'
-                    }`}>
+                    <div
+                      className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
+                        decimalPlaces === decimalOption.id
+                          ? "border-primary bg-primary"
+                          : "border-muted-foreground"
+                      }`}
+                    >
                       {decimalPlaces === decimalOption.id && (
                         <div className="w-2 h-2 rounded-full bg-primary-foreground"></div>
                       )}

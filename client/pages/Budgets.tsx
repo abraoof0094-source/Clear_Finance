@@ -268,38 +268,42 @@ export function Budgets() {
                 </div>
 
                 <div className="space-y-3">
-                  {category.subcategories.map((subcategory: any, index: number) => {
-                    const budget = getBudgetForCategory(subcategory.name);
-                    return (
-                      <div
-                        key={index}
-                        className="flex items-center justify-between py-2 px-3 bg-muted/30 rounded-lg"
-                      >
-                        <div className="flex items-center gap-3">
-                          <div className="w-6 h-6 bg-primary/20 rounded-full flex items-center justify-center text-sm">
-                            {subcategory.icon}
-                          </div>
-                          <div>
-                            <span className="font-medium text-sm">
-                              {subcategory.name}
-                            </span>
-                            {budget > 0 && (
-                              <div className="text-xs text-primary">
-                                Budget: ₹{budget.toLocaleString()}
-                              </div>
-                            )}
-                          </div>
-                        </div>
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => handleSetBudget(category, subcategory)}
+                  {category.subcategories.map(
+                    (subcategory: any, index: number) => {
+                      const budget = getBudgetForCategory(subcategory.name);
+                      return (
+                        <div
+                          key={index}
+                          className="flex items-center justify-between py-2 px-3 bg-muted/30 rounded-lg"
                         >
-                          Set Budget
-                        </Button>
-                      </div>
-                    );
-                  })}
+                          <div className="flex items-center gap-3">
+                            <div className="w-6 h-6 bg-primary/20 rounded-full flex items-center justify-center text-sm">
+                              {subcategory.icon}
+                            </div>
+                            <div>
+                              <span className="font-medium text-sm">
+                                {subcategory.name}
+                              </span>
+                              {budget > 0 && (
+                                <div className="text-xs text-primary">
+                                  Budget: ₹{budget.toLocaleString()}
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() =>
+                              handleSetBudget(category, subcategory)
+                            }
+                          >
+                            Set Budget
+                          </Button>
+                        </div>
+                      );
+                    },
+                  )}
                 </div>
               </div>
             </Card>
@@ -355,8 +359,11 @@ export function Budgets() {
             {/* Check if source month has budgets */}
             {(() => {
               const copyMonthKey = `${copyFromMonth.getFullYear()}-${copyFromMonth.getMonth()}`;
-              const hasSourceBudgets = budgets[copyMonthKey] && Object.keys(budgets[copyMonthKey]).length > 0;
-              const hasCurrentBudgets = Object.keys(getCurrentMonthBudgets()).length > 0;
+              const hasSourceBudgets =
+                budgets[copyMonthKey] &&
+                Object.keys(budgets[copyMonthKey]).length > 0;
+              const hasCurrentBudgets =
+                Object.keys(getCurrentMonthBudgets()).length > 0;
 
               if (!hasSourceBudgets) {
                 return (
@@ -373,9 +380,8 @@ export function Budgets() {
                   {hasCurrentBudgets && (
                     <div className="p-3 bg-yellow-500/10 border border-yellow-500/20 rounded-lg">
                       <p className="text-sm text-yellow-700 dark:text-yellow-300">
-                        ⚠️ Warning: 
-                        Copying will overwrite all previously applied budget-limits
-                        for this month.
+                        ⚠️ Warning: Copying will overwrite all previously
+                        applied budget-limits for this month.
                       </p>
                     </div>
                   )}

@@ -173,7 +173,9 @@ export function Tracker() {
   const [currentMonth, setCurrentMonth] = useState(new Date()); // Current month
   const [showAddDialog, setShowAddDialog] = useState(false);
   const [transactions, setTransactions] = useState<Transaction[]>([]);
-  const [budgets, setBudgets] = useState<Record<string, Record<string, number>>>({});
+  const [budgets, setBudgets] = useState<
+    Record<string, Record<string, number>>
+  >({});
 
   // Form states
   const [transactionType, setTransactionType] = useState<"income" | "expense">(
@@ -222,8 +224,8 @@ export function Tracker() {
 
   // Load stored data on component mount
   useEffect(() => {
-    const storedTransactions = localStorage.getItem('tracker-transactions');
-    const storedBudgets = localStorage.getItem('budgets');
+    const storedTransactions = localStorage.getItem("tracker-transactions");
+    const storedBudgets = localStorage.getItem("budgets");
 
     if (storedTransactions) {
       setTransactions(JSON.parse(storedTransactions));
@@ -236,7 +238,7 @@ export function Tracker() {
 
   // Save transactions to localStorage whenever transactions change
   useEffect(() => {
-    localStorage.setItem('tracker-transactions', JSON.stringify(transactions));
+    localStorage.setItem("tracker-transactions", JSON.stringify(transactions));
   }, [transactions]);
 
   // Get budget for a specific subcategory and month
@@ -248,7 +250,7 @@ export function Tracker() {
   // Get total expenses for a subcategory in current month
   const getExpensesForSubcategory = (subcategory: string) => {
     return currentMonthTransactions
-      .filter(t => t.type === "expense" && t.subCategory === subcategory)
+      .filter((t) => t.type === "expense" && t.subCategory === subcategory)
       .reduce((sum, t) => sum + t.amount, 0);
   };
 
@@ -393,13 +395,13 @@ export function Tracker() {
         const exceededAmount = newTotal - budget;
         const confirmed = window.confirm(
           `⚠️ Budget Alert!\n\n` +
-          `Category: ${selectedSubCategory}\n` +
-          `Budget: ₹${budget.toLocaleString()}\n` +
-          `Current Spent: ₹${currentExpenses.toLocaleString()}\n` +
-          `New Entry: ₹${amount.toLocaleString()}\n` +
-          `Total: ₹${newTotal.toLocaleString()}\n\n` +
-          `This will exceed your budget by ₹${exceededAmount.toLocaleString()}!\n\n` +
-          `Do you want to continue?`
+            `Category: ${selectedSubCategory}\n` +
+            `Budget: ₹${budget.toLocaleString()}\n` +
+            `Current Spent: ₹${currentExpenses.toLocaleString()}\n` +
+            `New Entry: ₹${amount.toLocaleString()}\n` +
+            `Total: ₹${newTotal.toLocaleString()}\n\n` +
+            `This will exceed your budget by ₹${exceededAmount.toLocaleString()}!\n\n` +
+            `Do you want to continue?`,
         );
 
         if (!confirmed) {
@@ -481,9 +483,9 @@ export function Tracker() {
           {/* Budget Alerts */}
           {(() => {
             const exceededCategories = allCategories
-              .filter(cat => cat.type === "expense")
-              .flatMap(cat => cat.subcategories)
-              .filter(sub => isBudgetExceeded(sub.name));
+              .filter((cat) => cat.type === "expense")
+              .flatMap((cat) => cat.subcategories)
+              .filter((sub) => isBudgetExceeded(sub.name));
 
             if (exceededCategories.length > 0) {
               return (
@@ -492,7 +494,7 @@ export function Tracker() {
                     ⚠️ Budget Exceeded ({exceededCategories.length} categories)
                   </div>
                   <div className="text-xs text-red-300 space-y-1">
-                    {exceededCategories.slice(0, 3).map(sub => (
+                    {exceededCategories.slice(0, 3).map((sub) => (
                       <div key={sub.name}>
                         {sub.name}: {getBudgetUtilization(sub.name)}% used
                       </div>
@@ -510,7 +512,9 @@ export function Tracker() {
 
         {/* Recent Transactions */}
         <div>
-          <h3 className="text-lg font-semibold text-yellow-500 mb-4">Recent Transactions</h3>
+          <h3 className="text-lg font-semibold text-yellow-500 mb-4">
+            Recent Transactions
+          </h3>
           <div className="space-y-3">
             {currentMonthTransactions.length === 0 ? (
               <Card className="p-6 text-center text-muted-foreground">

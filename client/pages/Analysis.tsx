@@ -8,7 +8,16 @@ import {
   DialogHeader,
   DialogTitle,
 } from "../components/ui/dialog";
-import { ChevronLeft, ChevronRight, Menu, Check, TrendingUp, TrendingDown, DollarSign, PieChart } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  Menu,
+  Check,
+  TrendingUp,
+  TrendingDown,
+  DollarSign,
+  PieChart,
+} from "lucide-react";
 
 type ViewMode = "MONTHLY" | "3_MONTHS" | "6_MONTHS" | "YEARLY";
 
@@ -43,12 +52,14 @@ export function Analysis() {
   const [viewMode, setViewMode] = useState<ViewMode>("MONTHLY");
   const [carryOver, setCarryOver] = useState(false);
   const [transactions, setTransactions] = useState<Transaction[]>([]);
-  const [budgets, setBudgets] = useState<Record<string, Record<string, number>>>({});
+  const [budgets, setBudgets] = useState<
+    Record<string, Record<string, number>>
+  >({});
 
   // Load stored data on component mount
   useEffect(() => {
-    const storedTransactions = localStorage.getItem('tracker-transactions');
-    const storedBudgets = localStorage.getItem('budgets');
+    const storedTransactions = localStorage.getItem("tracker-transactions");
+    const storedBudgets = localStorage.getItem("budgets");
 
     if (storedTransactions) {
       setTransactions(JSON.parse(storedTransactions));
@@ -79,15 +90,27 @@ export function Analysis() {
 
   // Get date range based on view mode
   const getDateRange = () => {
-    const endDate = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 0);
+    const endDate = new Date(
+      currentMonth.getFullYear(),
+      currentMonth.getMonth() + 1,
+      0,
+    );
     let startDate: Date;
 
     switch (viewMode) {
       case "3_MONTHS":
-        startDate = new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 2, 1);
+        startDate = new Date(
+          currentMonth.getFullYear(),
+          currentMonth.getMonth() - 2,
+          1,
+        );
         break;
       case "6_MONTHS":
-        startDate = new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 5, 1);
+        startDate = new Date(
+          currentMonth.getFullYear(),
+          currentMonth.getMonth() - 5,
+          1,
+        );
         break;
       case "YEARLY":
         // Financial year: April to March
@@ -95,14 +118,19 @@ export function Analysis() {
         const currentMonthNum = currentMonth.getMonth();
 
         // If current month is Jan, Feb, or Mar - we're in the second half of financial year
-        if (currentMonthNum < 3) { // Jan=0, Feb=1, Mar=2
+        if (currentMonthNum < 3) {
+          // Jan=0, Feb=1, Mar=2
           startDate = new Date(currentYear - 1, 3, 1); // April of previous calendar year
         } else {
           startDate = new Date(currentYear, 3, 1); // April of current calendar year
         }
         break;
       default: // MONTHLY
-        startDate = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1);
+        startDate = new Date(
+          currentMonth.getFullYear(),
+          currentMonth.getMonth(),
+          1,
+        );
     }
 
     return { startDate, endDate };
@@ -113,7 +141,7 @@ export function Analysis() {
     const { startDate, endDate } = getDateRange();
 
     return transactions.filter((t) => {
-      const transactionDate = new Date(t.date.split('/').reverse().join('-')); // Convert DD/MMM/YYYY to YYYY-MMM-DD
+      const transactionDate = new Date(t.date.split("/").reverse().join("-")); // Convert DD/MMM/YYYY to YYYY-MMM-DD
       return transactionDate >= startDate && transactionDate <= endDate;
     });
   };
@@ -133,23 +161,26 @@ export function Analysis() {
 
   // Calculate category-wise spending
   const getCategoryAnalysis = () => {
-    const categoryData = mainCategories.map(category => {
+    const categoryData = mainCategories.map((category) => {
       const categoryTransactions = periodTransactions.filter(
-        t => t.mainCategory === category.name
+        (t) => t.mainCategory === category.name,
       );
 
       const total = categoryTransactions.reduce((sum, t) => sum + t.amount, 0);
-      const percentage = totalIncome > 0 ? Math.round((total / totalIncome) * 100) : 0;
+      const percentage =
+        totalIncome > 0 ? Math.round((total / totalIncome) * 100) : 0;
 
       return {
         ...category,
         total,
         percentage,
-        transactions: categoryTransactions.length
+        transactions: categoryTransactions.length,
       };
     });
 
-    return categoryData.filter(cat => cat.total > 0).sort((a, b) => b.total - a.total);
+    return categoryData
+      .filter((cat) => cat.total > 0)
+      .sort((a, b) => b.total - a.total);
   };
 
   const categoryAnalysis = getCategoryAnalysis();
@@ -176,10 +207,10 @@ export function Analysis() {
   // Calculate average monthly values for multi-month views
   const getAverageMonthly = (amount: number) => {
     const months = {
-      "MONTHLY": 1,
+      MONTHLY: 1,
       "3_MONTHS": 3,
       "6_MONTHS": 6,
-      "YEARLY": 12
+      YEARLY: 12,
     }[viewMode];
 
     return amount / months;
@@ -215,8 +246,6 @@ export function Analysis() {
           </div>
         </div>
 
-
-
         {/* Financial Overview */}
         <Card className="p-6">
           <div className="grid grid-cols-3 gap-4 text-center">
@@ -227,7 +256,9 @@ export function Analysis() {
               </div>
               {viewMode !== "MONTHLY" && (
                 <div className="text-xs text-muted-foreground">
-                  Avg: ₹{Math.round(getAverageMonthly(totalIncome)).toLocaleString()}/mo
+                  Avg: ₹
+                  {Math.round(getAverageMonthly(totalIncome)).toLocaleString()}
+                  /mo
                 </div>
               )}
             </div>
@@ -238,20 +269,25 @@ export function Analysis() {
               </div>
               {viewMode !== "MONTHLY" && (
                 <div className="text-xs text-muted-foreground">
-                  Avg: ₹{Math.round(getAverageMonthly(totalExpense)).toLocaleString()}/mo
+                  Avg: ₹
+                  {Math.round(getAverageMonthly(totalExpense)).toLocaleString()}
+                  /mo
                 </div>
               )}
             </div>
             <div>
               <div className="text-sm text-muted-foreground">SURPLUS</div>
-              <div className={`text-xl font-bold ${
-                surplus >= 0 ? "text-green-400" : "text-red-400"
-              }`}>
+              <div
+                className={`text-xl font-bold ${
+                  surplus >= 0 ? "text-green-400" : "text-red-400"
+                }`}
+              >
                 ₹{surplus.toLocaleString()}
               </div>
               {viewMode !== "MONTHLY" && (
                 <div className="text-xs text-muted-foreground">
-                  Avg: ₹{Math.round(getAverageMonthly(surplus)).toLocaleString()}/mo
+                  Avg: ₹
+                  {Math.round(getAverageMonthly(surplus)).toLocaleString()}/mo
                 </div>
               )}
             </div>
@@ -278,9 +314,7 @@ export function Analysis() {
               <PieChart className="h-5 w-5 text-purple-500" />
               <h4 className="font-semibold">Categories</h4>
             </div>
-            <div className="text-2xl font-bold">
-              {categoryAnalysis.length}
-            </div>
+            <div className="text-2xl font-bold">{categoryAnalysis.length}</div>
             <div className="text-sm text-muted-foreground">
               Active spending categories
             </div>
@@ -290,7 +324,9 @@ export function Analysis() {
         {/* Category Analysis */}
         {periodTransactions.length > 0 ? (
           <div>
-            <h3 className="text-lg font-semibold text-yellow-500 mb-4">Category Breakdown</h3>
+            <h3 className="text-lg font-semibold text-yellow-500 mb-4">
+              Category Breakdown
+            </h3>
             <div className="space-y-3">
               {categoryAnalysis.map((category) => (
                 <Card key={category.name} className="p-4">
@@ -302,14 +338,19 @@ export function Analysis() {
                       <div>
                         <div className="font-medium">{category.name}</div>
                         <div className="text-sm text-muted-foreground">
-                          {category.transactions} transaction{category.transactions !== 1 ? 's' : ''}
+                          {category.transactions} transaction
+                          {category.transactions !== 1 ? "s" : ""}
                         </div>
                       </div>
                     </div>
                     <div className="text-right">
-                      <div className={`font-semibold text-lg ${
-                        category.type === "income" ? "text-green-400" : "text-red-400"
-                      }`}>
+                      <div
+                        className={`font-semibold text-lg ${
+                          category.type === "income"
+                            ? "text-green-400"
+                            : "text-red-400"
+                        }`}
+                      >
                         ₹{category.total.toLocaleString()}
                       </div>
                       <div className="text-sm text-muted-foreground">
@@ -322,9 +363,13 @@ export function Analysis() {
                   <div className="w-full bg-muted rounded-full h-2">
                     <div
                       className={`h-2 rounded-full ${
-                        category.type === "income" ? "bg-green-400" : "bg-red-400"
+                        category.type === "income"
+                          ? "bg-green-400"
+                          : "bg-red-400"
                       }`}
-                      style={{ width: `${Math.min(category.percentage, 100)}%` }}
+                      style={{
+                        width: `${Math.min(category.percentage, 100)}%`,
+                      }}
                     ></div>
                   </div>
                 </Card>
@@ -411,7 +456,8 @@ export function Analysis() {
                     <span className="text-xs font-bold text-blue-600">i</span>
                   </div>
                   <p className="text-xs text-muted-foreground">
-                    With Carry over enabled, monthly surplus will be added to the next month.
+                    With Carry over enabled, monthly surplus will be added to
+                    the next month.
                   </p>
                 </div>
               )}
