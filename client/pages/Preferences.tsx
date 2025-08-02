@@ -58,6 +58,7 @@ export function Preferences() {
 
   const currentTheme = themes.find(t => t.id === theme) || themes[0];
   const currentUIMode = uiModes.find(m => m.id === uiMode) || uiModes[2];
+  const currentDecimalPlaces = decimalOptions.find(d => d.id === decimalPlaces) || decimalOptions[2];
 
   const handleBack = () => {
     navigate(-1);
