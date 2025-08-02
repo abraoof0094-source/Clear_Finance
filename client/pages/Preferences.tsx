@@ -255,7 +255,7 @@ export function Preferences() {
 
         {/* About Section */}
         <div>
-          <h2 className="text-lg font-semibold text-yellow-500 mb-4">About</h2>
+          <h2 className="text-lg font-semibold section-header mb-4">About</h2>
           <Card className="p-1">
             <div className="space-y-1">
               {/* Crash and Usage Statistics */}
