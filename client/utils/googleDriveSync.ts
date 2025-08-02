@@ -323,9 +323,10 @@ export const setupAutoSync = () => {
   };
 };
 
-// Declare global types for Google API
+// Declare global types for Google API and Vite environment variables
 declare global {
   interface Window {
     gapi: any;
   }
+  const __GOOGLE_CLIENT_ID__: string;
 }
