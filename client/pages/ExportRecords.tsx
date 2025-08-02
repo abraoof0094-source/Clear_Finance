@@ -117,29 +117,34 @@ export function ExportRecords() {
 
   const setQuickRange = (range: 'thisMonth' | 'lastMonth' | 'last3Months' | 'thisYear') => {
     const now = new Date();
-    let start: Date, end: Date;
+    let fromYear: number, fromMonth: number, toYear: number, toMonth: number;
 
     switch (range) {
       case 'thisMonth':
-        start = new Date(now.getFullYear(), now.getMonth(), 1);
-        end = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+        fromYear = toYear = now.getFullYear();
+        fromMonth = toMonth = now.getMonth() + 1;
         break;
       case 'lastMonth':
-        start = new Date(now.getFullYear(), now.getMonth() - 1, 1);
-        end = new Date(now.getFullYear(), now.getMonth(), 0);
+        const lastMonth = new Date(now.getFullYear(), now.getMonth() - 1);
+        fromYear = toYear = lastMonth.getFullYear();
+        fromMonth = toMonth = lastMonth.getMonth() + 1;
         break;
       case 'last3Months':
-        start = new Date(now.getFullYear(), now.getMonth() - 2, 1);
-        end = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+        const threeMonthsAgo = new Date(now.getFullYear(), now.getMonth() - 2);
+        fromYear = threeMonthsAgo.getFullYear();
+        fromMonth = threeMonthsAgo.getMonth() + 1;
+        toYear = now.getFullYear();
+        toMonth = now.getMonth() + 1;
         break;
       case 'thisYear':
-        start = new Date(now.getFullYear(), 0, 1);
-        end = new Date(now.getFullYear(), 11, 31);
+        fromYear = toYear = now.getFullYear();
+        fromMonth = 1;
+        toMonth = 12;
         break;
     }
 
-    setFromDate(start.toISOString().split('T')[0]);
-    setToDate(end.toISOString().split('T')[0]);
+    setFromMonth(`${fromYear}-${String(fromMonth).padStart(2, '0')}`);
+    setToMonth(`${toYear}-${String(toMonth).padStart(2, '0')}`);
   };
 
   const transactionCount = getTransactionCount();
