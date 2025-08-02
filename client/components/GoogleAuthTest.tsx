@@ -70,7 +70,22 @@ export function GoogleAuthTestComponent() {
     } catch (error: any) {
       console.error('Test failed:', error);
       setTestResult('error');
-      setTestMessage(`❌ Test Failed: ${error.message || 'Unknown error'}`);
+
+      // Better error parsing for outer catch
+      let errorMsg = 'Unknown error';
+      if (error.details) {
+        errorMsg = error.details;
+      } else if (error.error) {
+        errorMsg = error.error;
+      } else if (error.message) {
+        errorMsg = error.message;
+      } else if (typeof error === 'string') {
+        errorMsg = error;
+      } else {
+        errorMsg = JSON.stringify(error);
+      }
+
+      setTestMessage(`❌ Test Failed: ${errorMsg}`);
     } finally {
       setIsLoading(false);
     }
