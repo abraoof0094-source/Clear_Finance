@@ -510,7 +510,7 @@ export function Tracker() {
 
         {/* Recent Transactions */}
         <div>
-          <h3 className="text-lg font-semibold mb-4">Recent Transactions</h3>
+          <h3 className="text-lg font-semibold text-yellow-500 mb-4">Recent Transactions</h3>
           <div className="space-y-3">
             {currentMonthTransactions.length === 0 ? (
               <Card className="p-6 text-center text-muted-foreground">
