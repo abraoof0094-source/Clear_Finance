@@ -80,9 +80,11 @@ export function SyncCodeSyncComponent() {
       setSyncCode(code);
       setStatus('success');
       setStatusMessage(`Sync code created! Share this code: ${code}`);
+      clearStatus();
     } catch (error) {
       setStatus('error');
       setStatusMessage('Failed to create sync code');
+      clearStatus();
     } finally {
       setIsLoading(false);
     }
