@@ -26,10 +26,6 @@ export function ExportRecords() {
     themeManager.setTheme(localStorage.getItem('selected-theme') || 'original');
   }, []);
 
-  const handleBack = () => {
-    navigate(-1);
-  };
-
   const exportToCSV = async () => {
     setIsExporting(true);
     setStatus('idle');
