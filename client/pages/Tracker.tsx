@@ -317,15 +317,6 @@ export function Tracker() {
     setWaitingForOperand(false);
   };
 
-  const addDecimal = () => {
-    if (waitingForOperand) {
-      setDisplayValue("0.");
-      setWaitingForOperand(false);
-    } else if (displayValue.indexOf(".") === -1) {
-      setDisplayValue(displayValue + ".");
-    }
-  };
-
   const backspace = () => {
     if (displayValue.length > 1) {
       setDisplayValue(displayValue.slice(0, -1));
