@@ -237,6 +237,51 @@ export function Preferences() {
             </div>
           </DialogContent>
         </Dialog>
+
+        {/* UI Mode Selection Dialog */}
+        <Dialog open={showUIModeDialog} onOpenChange={setShowUIModeDialog}>
+          <DialogContent className="max-w-md">
+            <DialogHeader>
+              <DialogTitle>UI mode</DialogTitle>
+            </DialogHeader>
+            <div className="space-y-4">
+              {uiModes.map((modeOption) => (
+                <button
+                  key={modeOption.id}
+                  onClick={() => {
+                    setUiMode(modeOption.id);
+                    setShowUIModeDialog(false);
+                  }}
+                  className="w-full flex items-center gap-4 p-4 text-left hover:bg-muted/50 rounded-lg transition-colors"
+                >
+                  <div className="relative">
+                    <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
+                      uiMode === modeOption.id
+                        ? 'border-primary bg-primary'
+                        : 'border-muted-foreground'
+                    }`}>
+                      {uiMode === modeOption.id && (
+                        <div className="w-2 h-2 rounded-full bg-primary-foreground"></div>
+                      )}
+                    </div>
+                  </div>
+                  <div className="font-medium">{modeOption.name}</div>
+                </button>
+              ))}
+
+              {/* Cancel Button */}
+              <div className="flex justify-end pt-4">
+                <Button
+                  variant="outline"
+                  onClick={() => setShowUIModeDialog(false)}
+                  className="px-8"
+                >
+                  CANCEL
+                </Button>
+              </div>
+            </div>
+          </DialogContent>
+        </Dialog>
       </div>
     </Layout>
   );
