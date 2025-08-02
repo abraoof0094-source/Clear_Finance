@@ -207,10 +207,7 @@ export function Preferences() {
               <div className="p-4 border-t border-border">
                 <div className="font-medium">Clear Finance: 1.0</div>
                 <div className="text-sm text-muted-foreground mt-1">
-                  Developed by Ananta Raha
-                </div>
-                <div className="text-sm text-muted-foreground">
-                  contact.ananta.raha@gmail.com
+                  Developed by Adam Asher
                 </div>
               </div>
             </div>
