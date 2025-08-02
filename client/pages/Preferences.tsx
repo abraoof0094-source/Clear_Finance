@@ -200,9 +200,15 @@ export function Preferences() {
           </Card>
         </div>
 
+        {/* Google Drive Sync Section */}
+        <div>
+          <h2 className="text-lg font-semibold text-yellow-500 mb-4">Google Drive Sync</h2>
+          <GoogleDriveSyncComponent />
+        </div>
+
         {/* Sync Code Data Sync Section */}
         <div>
-          <h2 className="text-lg font-semibold text-yellow-500 mb-4">Data Sync</h2>
+          <h2 className="text-lg font-semibold text-yellow-500 mb-4">Quick Sync (Alternative)</h2>
           <SyncCodeSyncComponent />
         </div>
 
