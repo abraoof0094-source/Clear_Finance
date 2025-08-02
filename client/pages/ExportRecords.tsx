@@ -29,6 +29,9 @@ export function ExportRecords() {
   const [isExporting, setIsExporting] = useState(false);
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
   const [statusMessage, setStatusMessage] = useState("");
+  const containerRef = useRef<HTMLDivElement>(null);
+  const startXRef = useRef<number>(0);
+  const currentXRef = useRef<number>(0);
 
   useEffect(() => {
     themeManager.setTheme(localStorage.getItem("selected-theme") || "original");
