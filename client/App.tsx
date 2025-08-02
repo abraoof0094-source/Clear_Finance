@@ -4,6 +4,7 @@ import { Analysis } from "./pages/Analysis";
 import { Budgets } from "./pages/Budgets";
 import { Accounts } from "./pages/Accounts";
 import { Categories } from "./pages/Categories";
+import { Settings } from "./pages/Settings";
 import { NotFound } from "./pages/NotFound";
 import "./global.css";
 
