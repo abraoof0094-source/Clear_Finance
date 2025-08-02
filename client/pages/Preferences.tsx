@@ -69,6 +69,16 @@ export function Preferences() {
     navigate(-1);
   };
 
+  const handleThemeChange = (newTheme: string) => {
+    setTheme(newTheme);
+    themeManager.setTheme(newTheme);
+  };
+
+  // Initialize theme on component mount
+  useEffect(() => {
+    themeManager.setTheme(theme);
+  }, []);
+
   return (
     <Layout>
       <div className="space-y-6 py-4">
