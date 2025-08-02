@@ -3,7 +3,14 @@ import { Layout } from "../components/Layout";
 import { Card } from "../components/ui/card";
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
-import { Download, Calendar, Check, AlertCircle, ChevronLeft, ChevronRight } from "lucide-react";
+import {
+  Download,
+  Calendar,
+  Check,
+  AlertCircle,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { phoneStorage } from "../utils/phoneStorage";
 import { themeManager } from "../utils/themeColors";
@@ -95,7 +102,10 @@ export function ExportRecords() {
         const fromYearMonth = fromYear * 100 + fromMonthNum;
         const toYearMonth = toYear * 100 + toMonthNum;
 
-        return transactionYearMonth >= fromYearMonth && transactionYearMonth <= toYearMonth;
+        return (
+          transactionYearMonth >= fromYearMonth &&
+          transactionYearMonth <= toYearMonth
+        );
       });
 
       if (filteredTransactions.length === 0) {
@@ -105,7 +115,15 @@ export function ExportRecords() {
         return;
       }
 
-      const headers = ["Date", "Time", "Type", "Main Category", "Sub Category", "Amount", "Notes"];
+      const headers = [
+        "Date",
+        "Time",
+        "Type",
+        "Main Category",
+        "Sub Category",
+        "Amount",
+        "Notes",
+      ];
       const csvContent = [
         headers.join(","),
         ...filteredTransactions.map((transaction) =>
@@ -117,7 +135,7 @@ export function ExportRecords() {
             `"${transaction.subCategory}"`,
             transaction.amount,
             `"${transaction.notes || ""}"`,
-          ].join(",")
+          ].join(","),
         ),
       ].join("\\n");
 
@@ -125,14 +143,19 @@ export function ExportRecords() {
       const link = document.createElement("a");
       const url = URL.createObjectURL(blob);
       link.setAttribute("href", url);
-      link.setAttribute("download", `clear-finance-export-${fromMonth}-to-${toMonth}.csv`);
+      link.setAttribute(
+        "download",
+        `clear-finance-export-${fromMonth}-to-${toMonth}.csv`,
+      );
       link.style.visibility = "hidden";
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
 
       setStatus("success");
-      setStatusMessage(`Successfully exported ${filteredTransactions.length} transactions`);
+      setStatusMessage(
+        `Successfully exported ${filteredTransactions.length} transactions`,
+      );
       setTimeout(() => setStatus("idle"), 3000);
     } catch (error) {
       setStatus("error");
@@ -157,11 +180,16 @@ export function ExportRecords() {
       const fromYearMonth = fromYear * 100 + fromMonthNum;
       const toYearMonth = toYear * 100 + toMonthNum;
 
-      return transactionYearMonth >= fromYearMonth && transactionYearMonth <= toYearMonth;
+      return (
+        transactionYearMonth >= fromYearMonth &&
+        transactionYearMonth <= toYearMonth
+      );
     }).length;
   };
 
-  const setQuickRange = (range: "lastMonth" | "last3" | "last6" | "lastYear") => {
+  const setQuickRange = (
+    range: "lastMonth" | "last3" | "last6" | "lastYear",
+  ) => {
     const now = new Date();
     let fromYear: number, fromMonth: number, toYear: number, toMonth: number;
 
@@ -186,7 +214,10 @@ export function ExportRecords() {
         fromMonth = sixMonthsAgo.getMonth() + 1;
         break;
       case "lastYear":
-        const twelveMonthsAgo = new Date(now.getFullYear(), now.getMonth() - 11);
+        const twelveMonthsAgo = new Date(
+          now.getFullYear(),
+          now.getMonth() - 11,
+        );
         fromYear = twelveMonthsAgo.getFullYear();
         fromMonth = twelveMonthsAgo.getMonth() + 1;
         break;
@@ -197,7 +228,10 @@ export function ExportRecords() {
   };
 
   // Navigation functions for month arrows
-  const navigateMonth = (direction: "prev" | "next", monthType: "from" | "to") => {
+  const navigateMonth = (
+    direction: "prev" | "next",
+    monthType: "from" | "to",
+  ) => {
     const currentMonth = monthType === "from" ? fromMonth : toMonth;
     const [year, month] = currentMonth.split("-").map(Number);
 
@@ -232,7 +266,10 @@ export function ExportRecords() {
   return (
     <Layout>
       {/* Backdrop */}
-      <div className="fixed inset-0 bg-black/50 z-40" onClick={() => navigate(-1)} />
+      <div
+        className="fixed inset-0 bg-black/50 z-40"
+        onClick={() => navigate(-1)}
+      />
 
       {/* Slide Panel */}
       <div
@@ -246,7 +283,9 @@ export function ExportRecords() {
           {/* Header */}
           <div className="text-center">
             <h1 className="text-lg font-semibold">Export Records</h1>
-            <p className="text-xs text-muted-foreground">Export transactions as CSV spreadsheet</p>
+            <p className="text-xs text-muted-foreground">
+              Export transactions as CSV spreadsheet
+            </p>
           </div>
 
           {/* Status Message */}
@@ -258,25 +297,51 @@ export function ExportRecords() {
                   : "bg-red-500/10 text-red-400 border border-red-500/20"
               }`}
             >
-              {status === "success" ? <Check className="h-3 w-3" /> : <AlertCircle className="h-3 w-3" />}
+              {status === "success" ? (
+                <Check className="h-3 w-3" />
+              ) : (
+                <AlertCircle className="h-3 w-3" />
+              )}
               <span className="text-xs font-medium">{statusMessage}</span>
             </div>
           )}
 
           {/* Quick Range Buttons */}
           <div>
-            <h2 className="text-sm font-semibold section-header mb-2">Quick Date Ranges</h2>
+            <h2 className="text-sm font-semibold section-header mb-2">
+              Quick Date Ranges
+            </h2>
             <div className="grid grid-cols-2 gap-2">
-              <Button variant="outline" size="sm" onClick={() => setQuickRange("lastMonth")} className="text-xs">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setQuickRange("lastMonth")}
+                className="text-xs"
+              >
                 Last Month
               </Button>
-              <Button variant="outline" size="sm" onClick={() => setQuickRange("last3")} className="text-xs">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setQuickRange("last3")}
+                className="text-xs"
+              >
                 Last 3 Months
               </Button>
-              <Button variant="outline" size="sm" onClick={() => setQuickRange("last6")} className="text-xs">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setQuickRange("last6")}
+                className="text-xs"
+              >
                 Last 6 Months
               </Button>
-              <Button variant="outline" size="sm" onClick={() => setQuickRange("lastYear")} className="text-xs">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setQuickRange("lastYear")}
+                className="text-xs"
+              >
                 Last Year
               </Button>
             </div>
@@ -292,7 +357,9 @@ export function ExportRecords() {
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="text-xs font-medium text-muted-foreground">From Month</label>
+                  <label className="text-xs font-medium text-muted-foreground">
+                    From Month
+                  </label>
                   <div className="flex items-center gap-1 mt-1">
                     <Button
                       variant="ghost"
@@ -319,7 +386,9 @@ export function ExportRecords() {
                   </div>
                 </div>
                 <div>
-                  <label className="text-xs font-medium text-muted-foreground">To Month</label>
+                  <label className="text-xs font-medium text-muted-foreground">
+                    To Month
+                  </label>
                   <div className="flex items-center gap-1 mt-1">
                     <Button
                       variant="ghost"
@@ -352,7 +421,9 @@ export function ExportRecords() {
           {/* Export Button */}
           <Button
             onClick={exportToCSV}
-            disabled={isExporting || !fromMonth || !toMonth || transactionCount === 0}
+            disabled={
+              isExporting || !fromMonth || !toMonth || transactionCount === 0
+            }
             className="w-full py-3 text-sm font-semibold"
             size="sm"
           >
