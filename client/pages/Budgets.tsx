@@ -18,7 +18,7 @@ const expenseCategories = [
       { name: "Utilities", icon: "⚡" },
       { name: "Internet / Broadband", icon: "🌐" },
       { name: "Mobile Bills", icon: "📱" },
-      { name: "DTH / OTT Subscriptions", icon: "����" },
+      { name: "DTH / OTT Subscriptions", icon: "📺" },
       { name: "Groceries & Daily Essentials", icon: "🛒" },
     ]
   },
@@ -175,13 +175,13 @@ export function Budgets() {
                       </div>
                     </div>
                   </div>
-                  <Button 
-                    variant="outline" 
-                    size="sm"
-                    onClick={() => handleSetBudget(category)}
-                  >
-                    SET BUDGET
-                  </Button>
+                  <div className="text-right">
+                    {getCategoryAllocatedBudget(category) > 0 && (
+                      <div className="text-sm font-medium text-primary">
+                        Allocated: ₹{getCategoryAllocatedBudget(category).toLocaleString()}
+                      </div>
+                    )}
+                  </div>
                 </div>
               </Card>
 
