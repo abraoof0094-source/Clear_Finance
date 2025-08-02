@@ -11,43 +11,48 @@ export function SimpleGoogleTestComponent() {
   const testBasicConnectivity = async () => {
     setIsLoading(true);
     setResult('idle');
-    setMessage('');
+    setMessage('Testing basic connectivity...');
 
     try {
-      // Test 1: Can we reach Google APIs?
-      setMessage('Testing Google API connectivity...');
-      
-      const response = await fetch('https://www.googleapis.com/oauth2/v2/userinfo', {
-        method: 'HEAD'
+      // Instead of direct fetch (which FullStory interferes with),
+      // test by loading Google API script directly
+      setMessage('Testing Google API script availability...');
+
+      // Create a test script element to check if Google APIs are accessible
+      const testScript = document.createElement('script');
+      testScript.src = 'https://apis.google.com/js/api.js';
+
+      const loadResult = await new Promise((resolve, reject) => {
+        testScript.onload = () => {
+          console.log('Google API script accessible');
+          resolve('success');
+        };
+        testScript.onerror = (e) => {
+          console.error('Google API script not accessible:', e);
+          reject(new Error('Cannot load Google API script'));
+        };
+
+        // Add timeout
+        setTimeout(() => {
+          reject(new Error('Script load timeout - connection issues'));
+        }, 8000);
+
+        // Don't actually add to DOM, just test the load
+        document.head.appendChild(testScript);
       });
-      
-      console.log('Google API HEAD request status:', response.status);
-      
-      if (response.status === 401) {
-        // 401 is expected without auth - means API is reachable
-        setResult('success');
-        setMessage('✅ Google APIs are reachable! The issue is likely with your OAuth configuration.');
-      } else if (response.ok) {
-        setResult('success');
-        setMessage('✅ Google APIs are accessible!');
-      } else {
-        setResult('error');
-        setMessage(`❌ Google API returned status: ${response.status}`);
+
+      // Clean up
+      if (testScript.parentNode) {
+        testScript.parentNode.removeChild(testScript);
       }
-      
+
+      setResult('success');
+      setMessage('✅ Google APIs are accessible! Your internet connection is working.');
+
     } catch (error: any) {
       console.error('Connectivity test failed:', error);
-      
-      if (error.name === 'TypeError' && error.message.includes('CORS')) {
-        setResult('success');
-        setMessage('✅ CORS error is normal - Google APIs are reachable!');
-      } else if (error.name === 'TypeError' && error.message.includes('Failed to fetch')) {
-        setResult('error');
-        setMessage('❌ Cannot reach Google APIs - check your internet connection');
-      } else {
-        setResult('error');
-        setMessage(`❌ Connectivity test failed: ${error.message}`);
-      }
+      setResult('error');
+      setMessage(`❌ Connection test failed: ${error.message}`);
     } finally {
       setIsLoading(false);
     }
