@@ -199,6 +199,12 @@ export function Preferences() {
           </Card>
         </div>
 
+        {/* Phone Storage Status Section */}
+        <div>
+          <h2 className="text-lg font-semibold text-yellow-500 mb-4">Phone Storage</h2>
+          <PhoneStorageStatus />
+        </div>
+
         {/* Manual Data Sync Section */}
         <div>
           <h2 className="text-lg font-semibold text-yellow-500 mb-4">Data Backup & Sync</h2>
