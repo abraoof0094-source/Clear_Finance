@@ -166,7 +166,7 @@ export function Preferences() {
 
         {/* Security Section */}
         <div>
-          <h2 className="text-lg font-semibold text-yellow-500 mb-4">
+          <h2 className="text-lg font-semibold section-header mb-4">
             Security
           </h2>
           <Card className="p-1">
