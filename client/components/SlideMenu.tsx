@@ -40,21 +40,21 @@ export function SlideMenu({ isOpen, onClose }: SlideMenuProps) {
     if (!isOpen) return;
     currentXRef.current = e.touches[0].clientX;
     const diff = currentXRef.current - startXRef.current;
-    
-    // Only allow swiping to the right (positive diff means swiping right)
-    if (diff > 0 && menuRef.current) {
-      const translateX = Math.min(diff, window.innerWidth * 0.75);
+
+    // Only allow swiping to the left (negative diff means swiping left to close)
+    if (diff < 0 && menuRef.current) {
+      const translateX = Math.max(diff, -window.innerWidth * 0.75);
       menuRef.current.style.transform = `translateX(${translateX}px)`;
     }
   };
 
   const handleTouchEnd = () => {
     if (!isOpen || !menuRef.current) return;
-    
+
     const diff = currentXRef.current - startXRef.current;
-    const threshold = window.innerWidth * 0.15; // 15% of screen width
-    
-    if (diff > threshold) {
+    const threshold = -window.innerWidth * 0.15; // 15% of screen width (negative for left swipe)
+
+    if (diff < threshold) {
       // Swipe was far enough, close the menu
       onClose();
     } else {
