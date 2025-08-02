@@ -126,29 +126,21 @@ export function SlideMenu({ isOpen, onClose }: SlideMenuProps) {
         <div className="p-4 space-y-6">
           {/* Preferences Section */}
           <div>
-            <div className="flex items-center gap-2 mb-4">
-              <SettingsIcon className="h-5 w-5 text-primary" />
-              <h2 className="text-lg font-semibold">Preferences</h2>
-            </div>
-
             <div className="rounded-lg border bg-card p-1">
-              <div className="space-y-1">
-                {/* Dark Theme Toggle */}
-                <div className="flex items-center justify-between p-3 hover:bg-muted/50 rounded-md">
-                  <div className="flex items-center gap-3">
-                    {isDarkMode ? (
-                      <Moon className="h-5 w-5 text-muted-foreground" />
-                    ) : (
-                      <Sun className="h-5 w-5 text-muted-foreground" />
-                    )}
-                    <span className="font-medium">Dark Theme</span>
-                  </div>
-                  <Switch
-                    checked={isDarkMode}
-                    onCheckedChange={handleThemeToggle}
-                  />
+              <Button
+                variant="ghost"
+                className="w-full justify-between p-4 h-auto"
+                onClick={() => {
+                  navigate('/preferences');
+                  onClose();
+                }}
+              >
+                <div className="flex items-center gap-3">
+                  <SettingsIcon className="h-5 w-5 text-muted-foreground" />
+                  <span className="font-medium">Preferences</span>
                 </div>
-              </div>
+                <ChevronRight className="h-4 w-4 text-muted-foreground" />
+              </Button>
             </div>
           </div>
 
