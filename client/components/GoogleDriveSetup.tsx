@@ -7,14 +7,20 @@ import { googleDriveSync } from '../utils/googleDriveSync';
 
 export function GoogleDriveSetupComponent() {
   const [clientId, setClientId] = useState('');
-  const [isConfigured, setIsConfigured] = useState(!!process.env.REACT_APP_GOOGLE_CLIENT_ID && process.env.REACT_APP_GOOGLE_CLIENT_ID !== 'your-google-client-id');
+  const [isConfigured, setIsConfigured] = useState(false);
+
+  useEffect(() => {
+    // Check if already configured
+    setIsConfigured(googleDriveSync.isConfigured());
+  }, []);
 
   const handleSaveClientId = () => {
     if (clientId.trim() && clientId.includes('.apps.googleusercontent.com')) {
-      // This would typically require a server restart to take effect
-      // For now, just show success message
+      // Save the client ID
+      googleDriveSync.setClientId(clientId);
       setIsConfigured(true);
-      alert(`✅ Client ID saved!\n\nTo complete setup:\n1. Add this to your .env file:\nREACT_APP_GOOGLE_CLIENT_ID=${clientId}\n2. Restart your app\n\nOr use environment variables in your hosting platform.`);
+      setClientId('');
+      alert(`✅ Client ID saved successfully!\n\nGoogle Drive sync is now ready to use!`);
     } else {
       alert('❌ Please enter a valid Google OAuth Client ID\n(should end with .apps.googleusercontent.com)');
     }
