@@ -188,7 +188,7 @@ export function Analysis() {
           <Button variant="ghost" size="icon" onClick={goToPreviousMonth}>
             <ChevronLeft className="h-5 w-5" />
           </Button>
-          <h2 className="text-lg font-semibold">{formatMonth(currentMonth)}</h2>
+          <h2 className="text-lg font-semibold">{getPeriodTitle()}</h2>
           <div className="flex items-center gap-2">
             <Button variant="ghost" size="icon" onClick={goToNextMonth}>
               <ChevronRight className="h-5 w-5" />
