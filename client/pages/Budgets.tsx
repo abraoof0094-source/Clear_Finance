@@ -2,7 +2,12 @@ import { useState } from "react";
 import { Layout } from "../components/Layout";
 import { Card } from "../components/ui/card";
 import { Button } from "../components/ui/button";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "../components/ui/dialog";
 import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
 import { ChevronLeft, ChevronRight, Copy } from "lucide-react";
@@ -20,7 +25,7 @@ const expenseCategories = [
       { name: "Mobile Bills", icon: "📱" },
       { name: "DTH / OTT Subscriptions", icon: "📺" },
       { name: "Groceries & Daily Essentials", icon: "🛒" },
-    ]
+    ],
   },
   {
     id: 3,
@@ -33,7 +38,7 @@ const expenseCategories = [
       { name: "Fitness / Gym / Swimming", icon: "💪" },
       { name: "Shopping & Clothing", icon: "👕" },
       { name: "Electronics & Gadgets", icon: "📱" },
-    ]
+    ],
   },
   {
     id: 4,
@@ -43,7 +48,7 @@ const expenseCategories = [
       { name: "Term Insurance", icon: "📋" },
       { name: "Health Insurance", icon: "❤️" },
       { name: "Vehicle Insurance", icon: "🚗" },
-    ]
+    ],
   },
   {
     id: 5,
@@ -53,7 +58,7 @@ const expenseCategories = [
       { name: "Mutual Funds (SIP)", icon: "📊" },
       { name: "Stocks / ETFs", icon: "📈" },
       { name: "PPF / EPF / VPF", icon: "🏛️" },
-    ]
+    ],
   },
   {
     id: 6,
@@ -63,7 +68,7 @@ const expenseCategories = [
       { name: "Home Loan", icon: "🏠" },
       { name: "Car Loan", icon: "🚗" },
       { name: "Credit Card Bill", icon: "💳" },
-    ]
+    ],
   },
   {
     id: 7,
@@ -73,7 +78,7 @@ const expenseCategories = [
       { name: "Weekend Getaways", icon: "🏔️" },
       { name: "Events / Concerts", icon: "🎵" },
       { name: "Gaming / Indoor Entertainment", icon: "🎮" },
-    ]
+    ],
   },
 ];
 
@@ -85,7 +90,10 @@ export function Budgets() {
   const [budgets, setBudgets] = useState<Record<string, number>>({});
 
   // Calculate total budget
-  const totalBudget = Object.values(budgets).reduce((sum, amount) => sum + amount, 0);
+  const totalBudget = Object.values(budgets).reduce(
+    (sum, amount) => sum + amount,
+    0,
+  );
 
   // Calculate budget sum for a main category
   const getCategoryBudgetSum = (category: any) => {
@@ -103,9 +111,9 @@ export function Budgets() {
   const handleSaveBudget = () => {
     if (selectedCategory && budgetAmount) {
       const key = selectedCategory.name;
-      setBudgets(prev => ({
+      setBudgets((prev) => ({
         ...prev,
-        [key]: parseFloat(budgetAmount) || 0
+        [key]: parseFloat(budgetAmount) || 0,
       }));
       setShowSetBudgetDialog(false);
       setBudgetAmount("");
@@ -148,7 +156,9 @@ export function Budgets() {
           <div className="grid grid-cols-2 gap-4 text-center">
             <div>
               <div className="text-sm text-muted-foreground">Total Budget</div>
-              <div className="text-xl font-bold">₹{totalBudget.toLocaleString()}</div>
+              <div className="text-xl font-bold">
+                ₹{totalBudget.toLocaleString()}
+              </div>
             </div>
             <div>
               <div className="text-sm text-muted-foreground">Total Spent</div>
@@ -178,7 +188,8 @@ export function Budgets() {
                   <div className="text-right">
                     {getCategoryBudgetSum(category) > 0 && (
                       <div className="text-sm font-medium text-primary">
-                        Total: ₹{getCategoryBudgetSum(category).toLocaleString()}
+                        Total: ₹
+                        {getCategoryBudgetSum(category).toLocaleString()}
                       </div>
                     )}
                   </div>
@@ -197,9 +208,13 @@ export function Budgets() {
                             {subcategory.icon}
                           </div>
                           <div>
-                            <span className="font-medium text-sm">{subcategory.name}</span>
+                            <span className="font-medium text-sm">
+                              {subcategory.name}
+                            </span>
                             {budget > 0 && (
-                              <div className="text-xs text-primary">Budget: ₹{budget.toLocaleString()}</div>
+                              <div className="text-xs text-primary">
+                                Budget: ₹{budget.toLocaleString()}
+                              </div>
                             )}
                           </div>
                         </div>
@@ -238,10 +253,14 @@ export function Budgets() {
           </DialogHeader>
           <div className="space-y-4">
             <div className="text-center">
-              <div className="text-lg font-medium">{selectedCategory?.name}</div>
-              <div className="text-sm text-muted-foreground">Monthly Budget</div>
+              <div className="text-lg font-medium">
+                {selectedCategory?.name}
+              </div>
+              <div className="text-sm text-muted-foreground">
+                Monthly Budget
+              </div>
             </div>
-            
+
             <div className="space-y-2">
               <Label>Amount (₹)</Label>
               <Input
@@ -254,12 +273,13 @@ export function Budgets() {
             </div>
 
             <div className="flex gap-2 pt-4">
-              <Button variant="outline" onClick={() => setShowSetBudgetDialog(false)}>
+              <Button
+                variant="outline"
+                onClick={() => setShowSetBudgetDialog(false)}
+              >
                 Cancel
               </Button>
-              <Button onClick={handleSaveBudget}>
-                Save Budget
-              </Button>
+              <Button onClick={handleSaveBudget}>Save Budget</Button>
             </div>
           </div>
         </DialogContent>

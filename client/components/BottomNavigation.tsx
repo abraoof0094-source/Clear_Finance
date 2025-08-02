@@ -1,10 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import {
-  ClipboardList,
-  PieChart,
-  Calculator,
-  FolderOpen,
-} from "lucide-react";
+import { ClipboardList, PieChart, Calculator, FolderOpen } from "lucide-react";
 
 export function BottomNavigation() {
   const location = useLocation();
