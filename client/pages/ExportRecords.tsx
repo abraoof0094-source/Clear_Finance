@@ -334,7 +334,7 @@ export function ExportRecords() {
           ) : (
             <>
               <Download className="h-5 w-5 mr-2" />
-              Export CSV ({transactionCount} transactions)
+              Export CSV
             </>
           )}
         </Button>
