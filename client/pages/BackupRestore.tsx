@@ -242,13 +242,12 @@ export function BackupRestore() {
         </div>
 
         {/* Compact Tips */}
-        <div className="text-xs text-muted-foreground bg-amber-500/10 border-amber-500/20 p-3 rounded-lg">
-          <div className="flex items-center gap-2 font-medium text-amber-400 mb-1">
-            💡 Tips
+        <div className="text-xs text-muted-foreground bg-amber-500/10 border-amber-500/20 p-2 rounded-lg">
+          <div className="flex items-center gap-1 font-medium text-amber-400 mb-1">
+            💡 <span className="text-xs">Tips</span>
           </div>
-          <div className="text-amber-300 space-y-1">
-            <div>• Create backups regularly to protect your data</div>
-            <div>• Store files in safe places (cloud storage, computer)</div>
+          <div className="text-amber-300 text-xs leading-tight">
+            • Create backups regularly • Store in safe places
           </div>
         </div>
       </div>
