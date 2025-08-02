@@ -3,7 +3,6 @@ import {
   ClipboardList,
   PieChart,
   Calculator,
-  CreditCard,
   FolderOpen,
 } from "lucide-react";
 
