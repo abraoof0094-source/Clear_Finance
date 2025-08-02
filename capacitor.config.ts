@@ -3,7 +3,10 @@ import type { CapacitorConfig } from '@capacitor/cli';
 const config: CapacitorConfig = {
   appId: 'com.clearfinance.app',
   appName: 'Clear Finance',
-  webDir: 'www'
+  webDir: 'dist/spa',
+  server: {
+    androidScheme: 'https'
+  }
 };
 
 export default config;
