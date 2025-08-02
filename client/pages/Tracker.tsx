@@ -511,7 +511,7 @@ export function Tracker() {
               </div>
 
               {/* Amount Display - More Prominent */}
-              <div className="bg-gradient-to-r from-muted to-muted/50 rounded-xl p-3 border-2 border-primary/20 relative">
+              <div className="bg-gradient-to-r from-muted to-muted/50 rounded-xl p-3 border-2 border-primary/20">
                 <div className="text-center">
                   <div className="text-xs text-muted-foreground mb-1">
                     Amount
@@ -526,24 +526,25 @@ export function Tracker() {
                     ₹{displayValue}
                   </div>
                 </div>
-                <button
-                  onClick={backspace}
-                  className="absolute top-2 right-2 h-8 w-8 bg-gray-600 hover:bg-gray-500 text-orange-400 rounded-full flex items-center justify-center text-sm"
-                >
-                  ⌫
-                </button>
               </div>
 
               {/* Calculator - Standard 4x4 Layout */}
               <div className="bg-black/20 p-2 rounded-xl">
                 <div className="grid grid-cols-4 gap-2">
-                  {/* Row 1: C, %, +, - */}
+                  {/* Row 1: C, ⌫, %, ÷ */}
                   <Button
                     variant="ghost"
                     onClick={clearCalculator}
                     className="h-10 text-base font-medium bg-gray-600 hover:bg-gray-500 text-orange-400 rounded-3xl border-0"
                   >
                     C
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    onClick={backspace}
+                    className="h-10 text-lg font-medium bg-gray-600 hover:bg-gray-500 text-orange-400 rounded-3xl border-0"
+                  >
+                    ⌫
                   </Button>
                   <Button
                     variant="ghost"
@@ -554,20 +555,13 @@ export function Tracker() {
                   </Button>
                   <Button
                     variant="ghost"
-                    onClick={() => inputOperation("+")}
+                    onClick={() => inputOperation("÷")}
                     className="h-10 text-lg font-medium bg-gray-600 hover:bg-gray-500 text-orange-400 rounded-3xl border-0"
                   >
-                    +
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    onClick={() => inputOperation("-")}
-                    className="h-10 text-lg font-medium bg-gray-600 hover:bg-gray-500 text-orange-400 rounded-3xl border-0"
-                  >
-                    -
+                    ÷
                   </Button>
 
-                  {/* Row 2: 7, 8, 9, * */}
+                  {/* Row 2: 7, 8, 9, × */}
                   <Button
                     variant="ghost"
                     onClick={() => inputNumber("7")}
@@ -597,7 +591,7 @@ export function Tracker() {
                     ×
                   </Button>
 
-                  {/* Row 3: 4, 5, 6 */}
+                  {/* Row 3: 4, 5, 6, - */}
                   <Button
                     variant="ghost"
                     onClick={() => inputNumber("4")}
@@ -619,8 +613,15 @@ export function Tracker() {
                   >
                     6
                   </Button>
+                  <Button
+                    variant="ghost"
+                    onClick={() => inputOperation("-")}
+                    className="h-10 text-lg font-medium bg-gray-600 hover:bg-gray-500 text-orange-400 rounded-3xl border-0"
+                  >
+                    -
+                  </Button>
 
-                  {/* Row 4: 1, 2, 3, = */}
+                  {/* Row 4: 1, 2, 3, + */}
                   <Button
                     variant="ghost"
                     onClick={() => inputNumber("1")}
@@ -644,10 +645,10 @@ export function Tracker() {
                   </Button>
                   <Button
                     variant="ghost"
-                    onClick={inputEquals}
-                    className="h-10 text-lg font-medium bg-orange-500 hover:bg-orange-400 text-white rounded-3xl border-0"
+                    onClick={() => inputOperation("+")}
+                    className="h-10 text-lg font-medium bg-gray-600 hover:bg-gray-500 text-orange-400 rounded-3xl border-0"
                   >
-                    =
+                    +
                   </Button>
 
                   {/* Row 5: Save, 0, ., = */}
@@ -674,10 +675,10 @@ export function Tracker() {
                   </Button>
                   <Button
                     variant="ghost"
-                    onClick={() => inputOperation("÷")}
-                    className="h-10 text-lg font-medium bg-gray-600 hover:bg-gray-500 text-orange-400 rounded-3xl border-0"
+                    onClick={inputEquals}
+                    className="h-10 text-lg font-medium bg-orange-500 hover:bg-orange-400 text-white rounded-3xl border-0"
                   >
-                    ÷
+                    =
                   </Button>
                 </div>
               </div>
