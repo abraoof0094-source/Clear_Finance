@@ -41,7 +41,15 @@ export function Preferences() {
     { id: "nature", name: "Nature", description: "Green and earth tones" },
   ];
 
+  // UI mode options
+  const uiModes = [
+    { id: "light", name: "Light" },
+    { id: "dark", name: "Dark" },
+    { id: "system", name: "System default" },
+  ];
+
   const currentTheme = themes.find(t => t.id === theme) || themes[0];
+  const currentUIMode = uiModes.find(m => m.id === uiMode) || uiModes[2];
 
   const handleBack = () => {
     navigate(-1);
