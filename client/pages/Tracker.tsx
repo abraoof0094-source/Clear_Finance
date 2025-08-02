@@ -223,18 +223,16 @@ export function Tracker() {
     return `${currentMonth.getFullYear()}-${currentMonth.getMonth()}`;
   };
 
-  // Load stored data on component mount
+  // Load stored data on component mount from phone storage
   useEffect(() => {
-    const storedTransactions = localStorage.getItem("tracker-transactions");
-    const storedBudgets = localStorage.getItem("budgets");
+    console.log("📱 Loading data from phone storage...");
+    const storedTransactions = phoneStorage.loadTransactions();
+    const storedBudgets = phoneStorage.loadBudgets();
 
-    if (storedTransactions) {
-      setTransactions(JSON.parse(storedTransactions));
-    }
+    setTransactions(storedTransactions);
+    setBudgets(storedBudgets);
 
-    if (storedBudgets) {
-      setBudgets(JSON.parse(storedBudgets));
-    }
+    console.log(`✅ Loaded ${storedTransactions.length} transactions and ${Object.keys(storedBudgets).length} budget entries from phone storage`);
   }, []);
 
   // Save transactions to localStorage whenever transactions change
