@@ -26,6 +26,7 @@ export default function App() {
           <Route path="/preferences" element={<Preferences />} />
           <Route path="/export-records" element={<ExportRecords />} />
           <Route path="/backup-restore" element={<BackupRestore />} />
+          <Route path="/more" element={<More />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
