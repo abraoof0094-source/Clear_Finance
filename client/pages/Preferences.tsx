@@ -123,13 +123,16 @@ export function Preferences() {
               </div>
 
               {/* Decimal Places */}
-              <div className="flex items-center justify-between p-4 border-t border-border">
+              <button
+                className="flex items-center justify-between p-4 w-full text-left hover:bg-muted/50 rounded-md transition-colors border-t border-border"
+                onClick={() => setShowDecimalPlacesDialog(true)}
+              >
                 <div>
                   <div className="font-medium">Decimal places</div>
-                  <div className="text-sm text-muted-foreground">2 (eg. 10.45)</div>
+                  <div className="text-sm text-muted-foreground">{currentDecimalPlaces.name}</div>
                 </div>
                 <ChevronRight className="h-4 w-4 text-muted-foreground" />
-              </div>
+              </button>
             </div>
           </Card>
         </div>
