@@ -27,7 +27,9 @@ export function Preferences() {
   // State for various preferences
   const [currencyPosition, setCurrencyPosition] = useState("start");
   const [decimalPlaces, setDecimalPlaces] = useState("2");
-  const [theme, setTheme] = useState("original");
+  const [theme, setTheme] = useState(() => {
+    return localStorage.getItem('selected-theme') || 'original';
+  });
   const [uiMode, setUiMode] = useState("system");
   const [currencySign, setCurrencySign] = useState("inr");
   const [remindEveryday, setRemindEveryday] = useState(true);
