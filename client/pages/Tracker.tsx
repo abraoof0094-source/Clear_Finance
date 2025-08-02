@@ -863,7 +863,7 @@ function TransactionItem({ transaction }: TransactionItemProps) {
         </div>
         <div className="text-right">
           <div
-            className={`font-semibold ${transaction.type === "income" ? "text-green-400" : "text-red-400"}`}
+            className={`font-semibold ${transaction.type === "income" ? "amount-income" : "amount-expense"}`}
           >
             {transaction.type === "income" ? "+" : "-"}₹
             {transaction.amount.toLocaleString()}
