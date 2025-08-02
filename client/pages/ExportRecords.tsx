@@ -10,15 +10,13 @@ import { themeManager } from "../utils/themeColors";
 
 export function ExportRecords() {
   const navigate = useNavigate();
-  const [fromDate, setFromDate] = useState(() => {
+  const [fromMonth, setFromMonth] = useState(() => {
     const now = new Date();
-    const firstDay = new Date(now.getFullYear(), now.getMonth(), 1);
-    return firstDay.toISOString().split('T')[0];
+    return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
   });
-  const [toDate, setToDate] = useState(() => {
+  const [toMonth, setToMonth] = useState(() => {
     const now = new Date();
-    const lastDay = new Date(now.getFullYear(), now.getMonth() + 1, 0);
-    return lastDay.toISOString().split('T')[0];
+    return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
   });
   const [isExporting, setIsExporting] = useState(false);
   const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
