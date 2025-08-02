@@ -176,32 +176,32 @@ export function BackupRestore() {
         {/* Main Content */}
         <div className="space-y-2">
           {/* Backup Card */}
-          <Card className="p-4">
-            <div className="flex items-center gap-3 mb-3">
-              <div className="p-2 rounded-full bg-green-500/20">
-                <Download className="h-5 w-5 text-green-500" />
+          <Card className="p-3">
+            <div className="flex items-center gap-2 mb-2">
+              <div className="p-1.5 rounded-full bg-green-500/20">
+                <Download className="h-4 w-4 text-green-500" />
               </div>
               <div className="flex-1">
-                <div className="font-medium">Complete Backup</div>
+                <div className="text-sm font-medium">Complete Backup</div>
                 <div className="text-xs text-muted-foreground">
-                  Saves all transactions, budgets, and settings
+                  Saves all your data
                 </div>
               </div>
             </div>
-            <Button 
+            <Button
               onClick={handleBackupNow}
               disabled={isBackingUp}
-              className="w-full"
+              className="w-full h-8"
               size="sm"
             >
               {isBackingUp ? (
                 <>
-                  <Download className="h-4 w-4 mr-2 animate-spin" />
+                  <Download className="h-3 w-3 mr-1 animate-spin" />
                   Creating...
                 </>
               ) : (
                 <>
-                  <Download className="h-4 w-4 mr-2" />
+                  <Download className="h-3 w-3 mr-1" />
                   Create Backup
                 </>
               )}
@@ -209,25 +209,25 @@ export function BackupRestore() {
           </Card>
 
           {/* Restore Card */}
-          <Card className="p-4">
-            <div className="flex items-center gap-3 mb-3">
-              <div className="p-2 rounded-full bg-blue-500/20">
-                <RotateCcw className="h-5 w-5 text-blue-500" />
+          <Card className="p-3">
+            <div className="flex items-center gap-2 mb-2">
+              <div className="p-1.5 rounded-full bg-blue-500/20">
+                <RotateCcw className="h-4 w-4 text-blue-500" />
               </div>
               <div className="flex-1">
-                <div className="font-medium">Restore from Backup</div>
+                <div className="text-sm font-medium">Restore from Backup</div>
                 <div className="text-xs text-muted-foreground">
-                  Upload a .mbak or .json backup file
+                  Upload .mbak or .json file
                 </div>
               </div>
             </div>
 
-            <Button 
+            <Button
               onClick={() => fileInputRef.current?.click()}
-              className="w-full"
+              className="w-full h-8"
               size="sm"
             >
-              <FileUp className="h-4 w-4 mr-2" />
+              <FileUp className="h-3 w-3 mr-1" />
               Select Backup File
             </Button>
 
