@@ -104,7 +104,7 @@ const allCategories = [
   {
     id: 6,
     name: "Loans & EMI Payments",
-    icon: "����",
+    icon: "💳",
     type: "expense" as const,
     subcategories: [
       { name: "Home Loan", icon: "🏠" },
@@ -125,7 +125,7 @@ const allCategories = [
       { name: "Vacations / Travel Abroad", icon: "✈️" },
       { name: "Social Gatherings / Parties", icon: "🎉" },
       { name: "Events / Concerts", icon: "🎵" },
-      { name: "Hobbies", icon: "📸" },
+      { name: "Hobbies", icon: "���" },
       { name: "Gaming / Indoor Entertainment", icon: "🎮" },
       { name: "Luxury Purchases", icon: "💎" },
     ],
@@ -636,17 +636,17 @@ export function Tracker() {
                   </Button>
                   <Button
                     variant="ghost"
-                    onClick={inputEquals}
-                    className="h-10 text-lg font-medium bg-orange-500 hover:bg-orange-400 text-white rounded-3xl border-0"
-                  >
-                    =
-                  </Button>
-                  <Button
-                    variant="ghost"
                     onClick={handleSave}
                     className="h-10 text-sm font-medium bg-green-600 hover:bg-green-500 text-white rounded-3xl border-0"
                   >
                     Save
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    onClick={inputEquals}
+                    className="h-10 text-lg font-medium bg-orange-500 hover:bg-orange-400 text-white rounded-3xl border-0"
+                  >
+                    =
                   </Button>
                 </div>
               </div>
