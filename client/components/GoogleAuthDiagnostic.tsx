@@ -161,11 +161,14 @@ export function GoogleAuthDiagnosticComponent() {
 
     } catch (error: any) {
       console.error('Diagnostic failed:', error);
+
+      const { message, details } = parseGoogleError(error);
+
       addResult({
         step: 'Error',
         status: 'error',
-        message: `Diagnostic failed: ${error.message || error}`,
-        details: 'Check browser console for more details'
+        message: `Diagnostic failed: ${message}`,
+        details: details
       });
     } finally {
       setIsRunning(false);
