@@ -17,7 +17,6 @@ import {
 } from "../components/ui/select";
 
 import { ChevronLeft, ChevronRight, Plus, X } from "lucide-react";
-import { setupAutoSync } from "../utils/googleDriveSync";
 
 // All Categories (from Categories page)
 const allCategories = [
@@ -44,7 +43,7 @@ const allCategories = [
       { name: "Rent / Home Loan EMI", icon: "🏡" },
       { name: "Maintenance / Society Charges", icon: "🏢" },
       { name: "Utilities", icon: "⚡" },
-      { name: "Internet / Broadband", icon: "����" },
+      { name: "Internet / Broadband", icon: "�����" },
       { name: "Mobile Bills", icon: "���" },
       { name: "DTH / OTT Subscriptions", icon: "📺" },
       { name: "Groceries & Daily Essentials", icon: "🛒" },
