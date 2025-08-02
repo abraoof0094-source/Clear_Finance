@@ -255,10 +255,10 @@ export function Budgets() {
 
             <div className="flex gap-2 pt-4">
               <Button variant="outline" onClick={() => setShowSetBudgetDialog(false)}>
-                CANCEL
+                Cancel
               </Button>
               <Button onClick={handleSaveBudget}>
-                SAVE BUDGET
+                Save Budget
               </Button>
             </div>
           </div>
