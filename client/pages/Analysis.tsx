@@ -211,7 +211,7 @@ export function Analysis() {
           <DialogHeader>
             <DialogTitle>Display options</DialogTitle>
           </DialogHeader>
-          <div className="space-y-6">
+          <div className="space-y-4">
             {/* View Mode */}
             <div className="space-y-3">
               <div className="text-sm font-medium text-muted-foreground">
@@ -219,96 +219,25 @@ export function Analysis() {
               </div>
               <div className="space-y-2">
                 {[
-                  { key: "DAILY", label: "DAILY" },
-                  { key: "WEEKLY", label: "WEEKLY" },
                   { key: "MONTHLY", label: "MONTHLY" },
-                  { key: "3_MONTHS", label: "3 MONTHS", premium: true },
-                  { key: "6_MONTHS", label: "6 MONTHS", premium: true },
-                  { key: "YEARLY", label: "YEARLY", premium: true },
+                  { key: "3_MONTHS", label: "3 MONTHS" },
+                  { key: "6_MONTHS", label: "6 MONTHS" },
+                  { key: "YEARLY", label: "YEARLY" },
                 ].map((option) => (
                   <button
                     key={option.key}
                     onClick={() => setViewMode(option.key as ViewMode)}
                     className="w-full flex items-center justify-between p-3 text-left hover:bg-muted/50 rounded-lg transition-colors"
                   >
-                    <div className="flex items-center gap-2">
-                      <span className="text-sm font-medium text-muted-foreground">
-                        {option.label}
-                      </span>
-                      {option.premium && (
-                        <Star className="h-4 w-4 text-yellow-500 fill-current" />
-                      )}
-                    </div>
+                    <span className="text-sm font-medium text-muted-foreground">
+                      {option.label}
+                    </span>
                     {viewMode === option.key && (
                       <Check className="h-4 w-4 text-primary" />
                     )}
                   </button>
                 ))}
               </div>
-            </div>
-
-            {/* Show Total */}
-            <div className="space-y-3">
-              <div className="text-sm font-medium text-muted-foreground">
-                Show total:
-              </div>
-              <div className="space-y-2">
-                {[
-                  { key: true, label: "YES" },
-                  { key: false, label: "NO" },
-                ].map((option) => (
-                  <button
-                    key={option.label}
-                    onClick={() => setShowTotal(option.key)}
-                    className="w-full flex items-center justify-between p-3 text-left hover:bg-muted/50 rounded-lg transition-colors"
-                  >
-                    <span className="text-sm font-medium text-muted-foreground">
-                      {option.label}
-                    </span>
-                    {showTotal === option.key && (
-                      <Check className="h-4 w-4 text-primary" />
-                    )}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Carry Over */}
-            <div className="space-y-3">
-              <div className="text-sm font-medium text-muted-foreground">
-                Carry over:
-              </div>
-              <div className="space-y-2">
-                {[
-                  { key: true, label: "ON" },
-                  { key: false, label: "OFF" },
-                ].map((option) => (
-                  <button
-                    key={option.label}
-                    onClick={() => setCarryOver(option.key)}
-                    className="w-full flex items-center justify-between p-3 text-left hover:bg-muted/50 rounded-lg transition-colors"
-                  >
-                    <span className="text-sm font-medium text-muted-foreground">
-                      {option.label}
-                    </span>
-                    {carryOver === option.key && (
-                      <Check className="h-4 w-4 text-primary" />
-                    )}
-                  </button>
-                ))}
-              </div>
-
-              {/* Carry Over Explanation */}
-              {carryOver && (
-                <div className="flex items-start gap-2 p-3 bg-muted/30 rounded-lg">
-                  <div className="w-5 h-5 bg-blue-500/20 rounded-full flex items-center justify-center mt-0.5 flex-shrink-0">
-                    <span className="text-xs font-bold text-blue-600">i</span>
-                  </div>
-                  <p className="text-xs text-muted-foreground">
-                    With Carry over enabled, monthly surplus will be added to the next month.
-                  </p>
-                </div>
-              )}
             </div>
           </div>
         </DialogContent>
