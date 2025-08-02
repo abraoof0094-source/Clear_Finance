@@ -18,7 +18,6 @@ import {
 } from "../components/ui/select";
 import { ArrowLeft, ChevronRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { ManualDataSyncComponent } from "../components/ManualDataSync";
 import { PhoneStorageStatus } from "../components/PhoneStorageStatus";
 
 export function Preferences() {
