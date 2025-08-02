@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Layout } from "../components/Layout";
 import { Card } from "../components/ui/card";
 import { Button } from "../components/ui/button";
@@ -43,7 +43,7 @@ const allCategories = [
       { name: "Rent / Home Loan EMI", icon: "🏡" },
       { name: "Maintenance / Society Charges", icon: "🏢" },
       { name: "Utilities", icon: "⚡" },
-      { name: "Internet / Broadband", icon: "🌐" },
+      { name: "Internet / Broadband", icon: "����" },
       { name: "Mobile Bills", icon: "���" },
       { name: "DTH / OTT Subscriptions", icon: "📺" },
       { name: "Groceries & Daily Essentials", icon: "🛒" },
@@ -173,6 +173,7 @@ export function Tracker() {
   const [currentMonth, setCurrentMonth] = useState(new Date()); // Current month
   const [showAddDialog, setShowAddDialog] = useState(false);
   const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [budgets, setBudgets] = useState<Record<string, Record<string, number>>>({});
 
   // Form states
   const [transactionType, setTransactionType] = useState<"income" | "expense">(
@@ -217,6 +218,52 @@ export function Tracker() {
   // Get current month key for filtering transactions
   const getCurrentMonthKey = () => {
     return `${currentMonth.getFullYear()}-${currentMonth.getMonth()}`;
+  };
+
+  // Load stored data on component mount
+  useEffect(() => {
+    const storedTransactions = localStorage.getItem('tracker-transactions');
+    const storedBudgets = localStorage.getItem('budgets');
+
+    if (storedTransactions) {
+      setTransactions(JSON.parse(storedTransactions));
+    }
+
+    if (storedBudgets) {
+      setBudgets(JSON.parse(storedBudgets));
+    }
+  }, []);
+
+  // Save transactions to localStorage whenever transactions change
+  useEffect(() => {
+    localStorage.setItem('tracker-transactions', JSON.stringify(transactions));
+  }, [transactions]);
+
+  // Get budget for a specific subcategory and month
+  const getBudgetForSubcategory = (subcategory: string, monthKey?: string) => {
+    const targetMonth = monthKey || getCurrentMonthKey();
+    return budgets[targetMonth]?.[subcategory] || 0;
+  };
+
+  // Get total expenses for a subcategory in current month
+  const getExpensesForSubcategory = (subcategory: string) => {
+    return currentMonthTransactions
+      .filter(t => t.type === "expense" && t.subCategory === subcategory)
+      .reduce((sum, t) => sum + t.amount, 0);
+  };
+
+  // Check if subcategory budget is exceeded
+  const isBudgetExceeded = (subcategory: string) => {
+    const budget = getBudgetForSubcategory(subcategory);
+    const expenses = getExpensesForSubcategory(subcategory);
+    return budget > 0 && expenses > budget;
+  };
+
+  // Get budget utilization percentage
+  const getBudgetUtilization = (subcategory: string) => {
+    const budget = getBudgetForSubcategory(subcategory);
+    const expenses = getExpensesForSubcategory(subcategory);
+    return budget > 0 ? Math.round((expenses / budget) * 100) : 0;
   };
 
   // Filter transactions for current month
@@ -334,14 +381,41 @@ export function Tracker() {
       return;
     }
 
+    const amount = parseFloat(displayValue);
+
+    // Check budget before saving (only for expenses)
+    if (transactionType === "expense") {
+      const currentExpenses = getExpensesForSubcategory(selectedSubCategory);
+      const budget = getBudgetForSubcategory(selectedSubCategory);
+      const newTotal = currentExpenses + amount;
+
+      if (budget > 0 && newTotal > budget) {
+        const exceededAmount = newTotal - budget;
+        const confirmed = window.confirm(
+          `⚠️ Budget Alert!\n\n` +
+          `Category: ${selectedSubCategory}\n` +
+          `Budget: ₹${budget.toLocaleString()}\n` +
+          `Current Spent: ₹${currentExpenses.toLocaleString()}\n` +
+          `New Entry: ₹${amount.toLocaleString()}\n` +
+          `Total: ₹${newTotal.toLocaleString()}\n\n` +
+          `This will exceed your budget by ₹${exceededAmount.toLocaleString()}!\n\n` +
+          `Do you want to continue?`
+        );
+
+        if (!confirmed) {
+          return; // Don't save if user cancels
+        }
+      }
+    }
+
     const newTransaction: Transaction = {
       id: Date.now().toString(),
       type: transactionType,
       mainCategory: selectedMainCategory,
       subCategory: selectedSubCategory,
-      amount: parseFloat(displayValue),
+      amount: amount,
       notes: "",
-      date: currentMonth.toLocaleDateString("en-GB", {
+      date: new Date().toLocaleDateString("en-GB", {
         day: "2-digit",
         month: "short",
         year: "numeric",
@@ -403,6 +477,35 @@ export function Tracker() {
               </div>
             </div>
           </div>
+
+          {/* Budget Alerts */}
+          {(() => {
+            const exceededCategories = allCategories
+              .filter(cat => cat.type === "expense")
+              .flatMap(cat => cat.subcategories)
+              .filter(sub => isBudgetExceeded(sub.name));
+
+            if (exceededCategories.length > 0) {
+              return (
+                <div className="mt-4 p-3 bg-red-500/10 border border-red-500/20 rounded-lg">
+                  <div className="text-sm font-medium text-red-400 mb-2">
+                    ⚠️ Budget Exceeded ({exceededCategories.length} categories)
+                  </div>
+                  <div className="text-xs text-red-300 space-y-1">
+                    {exceededCategories.slice(0, 3).map(sub => (
+                      <div key={sub.name}>
+                        {sub.name}: {getBudgetUtilization(sub.name)}% used
+                      </div>
+                    ))}
+                    {exceededCategories.length > 3 && (
+                      <div>...and {exceededCategories.length - 3} more</div>
+                    )}
+                  </div>
+                </div>
+              );
+            }
+            return null;
+          })()}
         </Card>
 
         {/* Recent Transactions */}
@@ -743,11 +846,13 @@ function TransactionItem({ transaction }: TransactionItemProps) {
             </div>
           </div>
         </div>
-        <div
-          className={`font-semibold ${transaction.type === "income" ? "text-green-400" : "text-red-400"}`}
-        >
-          {transaction.type === "income" ? "+" : "-"}₹
-          {transaction.amount.toLocaleString()}
+        <div className="text-right">
+          <div
+            className={`font-semibold ${transaction.type === "income" ? "text-green-400" : "text-red-400"}`}
+          >
+            {transaction.type === "income" ? "+" : "-"}₹
+            {transaction.amount.toLocaleString()}
+          </div>
         </div>
       </div>
     </Card>
