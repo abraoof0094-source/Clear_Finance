@@ -20,10 +20,6 @@ export function BackupRestore() {
     themeManager.setTheme(localStorage.getItem('selected-theme') || 'original');
   }, []);
 
-  const handleBack = () => {
-    navigate(-1);
-  };
-
   // Create backup
   const handleBackupNow = async () => {
     setIsBackingUp(true);
