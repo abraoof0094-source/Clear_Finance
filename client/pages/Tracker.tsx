@@ -412,7 +412,7 @@ export function Tracker() {
               </Button>
             </DialogHeader>
 
-            <div className="space-y-6 pt-6">
+            <div className="space-y-3 pt-3">
               {/* Income/Expense Toggle - Full Width Split */}
               <div className="grid grid-cols-2 gap-0 rounded-lg overflow-hidden border">
                 <Button
@@ -448,16 +448,16 @@ export function Tracker() {
               </div>
 
               {/* Category Selection */}
-              <div className="space-y-4">
+              <div className="space-y-2">
                 {/* Aesthetic Headers */}
                 <div className="grid grid-cols-2 gap-4">
                   <div className="text-center">
-                    <h4 className="text-sm font-semibold text-foreground mb-2 bg-primary/10 rounded-lg py-2">
+                    <h4 className="text-sm font-semibold text-foreground mb-1 bg-primary/10 rounded-lg py-1">
                       🏷️ Main Category
                     </h4>
                   </div>
                   <div className="text-center">
-                    <h4 className="text-sm font-semibold text-foreground mb-2 bg-primary/10 rounded-lg py-2">
+                    <h4 className="text-sm font-semibold text-foreground mb-1 bg-primary/10 rounded-lg py-1">
                       📂 Sub Category
                     </h4>
                   </div>
@@ -501,10 +501,10 @@ export function Tracker() {
               </div>
 
               {/* Amount Display - More Prominent */}
-              <div className="bg-gradient-to-r from-muted to-muted/50 rounded-xl p-6 border-2 border-primary/20">
+              <div className="bg-gradient-to-r from-muted to-muted/50 rounded-xl p-4 border-2 border-primary/20">
                 <div className="text-center">
                   <div className="text-sm text-muted-foreground mb-1">Amount</div>
-                  <div className={`text-4xl font-bold font-mono ${
+                  <div className={`text-3xl font-bold font-mono ${
                     transactionType === "income" ? "text-green-400" : "text-red-400"
                   }`}>
                     ₹{displayValue}
@@ -518,13 +518,13 @@ export function Tracker() {
                   placeholder="💭 Add notes (optional)"
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
-                  className="bg-muted min-h-[60px] text-base"
+                  className="bg-muted min-h-[40px] text-sm"
                 />
               </div>
 
               {/* Calculator - iOS Style Design */}
-              <div className="bg-black/20 p-4 rounded-xl">
-                <div className="grid grid-cols-4 gap-3">
+              <div className="bg-black/20 p-3 rounded-xl">
+                <div className="grid grid-cols-4 gap-2">
                   {/* Row 1: Operations */}
                   <Button
                     variant="ghost"
@@ -559,28 +559,28 @@ export function Tracker() {
                   <Button
                     variant="ghost"
                     onClick={() => inputNumber("7")}
-                    className="h-16 text-2xl font-medium bg-gray-800 hover:bg-gray-700 text-white rounded-3xl border-0"
+                    className="h-12 text-xl font-medium bg-gray-800 hover:bg-gray-700 text-white rounded-3xl border-0"
                   >
                     7
                   </Button>
                   <Button
                     variant="ghost"
                     onClick={() => inputNumber("8")}
-                    className="h-16 text-2xl font-medium bg-gray-800 hover:bg-gray-700 text-white rounded-3xl border-0"
+                    className="h-12 text-xl font-medium bg-gray-800 hover:bg-gray-700 text-white rounded-3xl border-0"
                   >
                     8
                   </Button>
                   <Button
                     variant="ghost"
                     onClick={() => inputNumber("9")}
-                    className="h-16 text-2xl font-medium bg-gray-800 hover:bg-gray-700 text-white rounded-3xl border-0"
+                    className="h-12 text-xl font-medium bg-gray-800 hover:bg-gray-700 text-white rounded-3xl border-0"
                   >
                     9
                   </Button>
                   <Button
                     variant="ghost"
                     onClick={() => inputOperation("+")}
-                    className="h-16 text-2xl font-medium bg-gray-600 hover:bg-gray-500 text-orange-400 rounded-3xl border-0"
+                    className="h-12 text-xl font-medium bg-gray-600 hover:bg-gray-500 text-orange-400 rounded-3xl border-0"
                   >
                     +
                   </Button>
@@ -589,28 +589,28 @@ export function Tracker() {
                   <Button
                     variant="ghost"
                     onClick={() => inputNumber("4")}
-                    className="h-16 text-2xl font-medium bg-gray-800 hover:bg-gray-700 text-white rounded-3xl border-0"
+                    className="h-12 text-xl font-medium bg-gray-800 hover:bg-gray-700 text-white rounded-3xl border-0"
                   >
                     4
                   </Button>
                   <Button
                     variant="ghost"
                     onClick={() => inputNumber("5")}
-                    className="h-16 text-2xl font-medium bg-gray-800 hover:bg-gray-700 text-white rounded-3xl border-0"
+                    className="h-12 text-xl font-medium bg-gray-800 hover:bg-gray-700 text-white rounded-3xl border-0"
                   >
                     5
                   </Button>
                   <Button
                     variant="ghost"
                     onClick={() => inputNumber("6")}
-                    className="h-16 text-2xl font-medium bg-gray-800 hover:bg-gray-700 text-white rounded-3xl border-0"
+                    className="h-12 text-xl font-medium bg-gray-800 hover:bg-gray-700 text-white rounded-3xl border-0"
                   >
                     6
                   </Button>
                   <Button
                     variant="ghost"
                     onClick={() => inputOperation("-")}
-                    className="h-16 text-2xl font-medium bg-gray-600 hover:bg-gray-500 text-orange-400 rounded-3xl border-0"
+                    className="h-12 text-xl font-medium bg-gray-600 hover:bg-gray-500 text-orange-400 rounded-3xl border-0"
                   >
                     -
                   </Button>
@@ -619,28 +619,28 @@ export function Tracker() {
                   <Button
                     variant="ghost"
                     onClick={() => inputNumber("1")}
-                    className="h-16 text-2xl font-medium bg-gray-800 hover:bg-gray-700 text-white rounded-3xl border-0"
+                    className="h-12 text-xl font-medium bg-gray-800 hover:bg-gray-700 text-white rounded-3xl border-0"
                   >
                     1
                   </Button>
                   <Button
                     variant="ghost"
                     onClick={() => inputNumber("2")}
-                    className="h-16 text-2xl font-medium bg-gray-800 hover:bg-gray-700 text-white rounded-3xl border-0"
+                    className="h-12 text-xl font-medium bg-gray-800 hover:bg-gray-700 text-white rounded-3xl border-0"
                   >
                     2
                   </Button>
                   <Button
                     variant="ghost"
                     onClick={() => inputNumber("3")}
-                    className="h-16 text-2xl font-medium bg-gray-800 hover:bg-gray-700 text-white rounded-3xl border-0"
+                    className="h-12 text-xl font-medium bg-gray-800 hover:bg-gray-700 text-white rounded-3xl border-0"
                   >
                     3
                   </Button>
                   <Button
                     variant="ghost"
                     onClick={inputEquals}
-                    className="h-16 text-2xl font-medium bg-orange-500 hover:bg-orange-400 text-white rounded-3xl border-0"
+                    className="h-12 text-xl font-medium bg-orange-500 hover:bg-orange-400 text-white rounded-3xl border-0"
                   >
                     =
                   </Button>
@@ -649,7 +649,7 @@ export function Tracker() {
                   <Button
                     variant="ghost"
                     onClick={handleSave}
-                    className="h-16 text-sm font-medium bg-green-600 hover:bg-green-500 text-white rounded-3xl border-0"
+                    className="h-12 text-sm font-medium bg-green-600 hover:bg-green-500 text-white rounded-3xl border-0"
                   >
                     Save
                   </Button>
@@ -663,7 +663,7 @@ export function Tracker() {
                   <Button
                     variant="ghost"
                     onClick={addDecimal}
-                    className="h-16 text-2xl font-medium bg-gray-800 hover:bg-gray-700 text-white rounded-3xl border-0"
+                    className="h-12 text-xl font-medium bg-gray-800 hover:bg-gray-700 text-white rounded-3xl border-0"
                   >
                     .
                   </Button>
@@ -671,7 +671,7 @@ export function Tracker() {
               </div>
 
               {/* Date/Time */}
-              <div className="text-center text-base font-medium text-muted-foreground border-t border-border pt-4 mt-6">
+              <div className="text-center text-sm font-medium text-muted-foreground border-t border-border pt-2 mt-3">
                 📅 {formatMonth(currentMonth)} • 🕐 {new Date().toLocaleTimeString('en-US', {
                   hour: '2-digit',
                   minute: '2-digit',
