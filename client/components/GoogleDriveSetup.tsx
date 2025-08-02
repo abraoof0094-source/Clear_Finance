@@ -20,7 +20,13 @@ export function GoogleDriveSetupComponent() {
       googleDriveSync.setClientId(clientId);
       setIsConfigured(true);
       setClientId('');
-      alert(`✅ Client ID saved successfully!\n\nGoogle Drive sync is now ready to use!`);
+
+      // Trigger a page refresh to sync all components
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
+
+      alert(`✅ Client ID saved successfully!\n\nRefreshing page to activate Google Drive sync...`);
     } else {
       alert('❌ Please enter a valid Google OAuth Client ID\n(should end with .apps.googleusercontent.com)');
     }
