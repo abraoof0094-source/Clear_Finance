@@ -15,7 +15,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../components/ui/select";
-import { Textarea } from "../components/ui/textarea";
+
 import { ChevronLeft, ChevronRight, Plus, X } from "lucide-react";
 
 // All Categories (from Categories page)
@@ -179,7 +179,7 @@ export function Tracker() {
   const [selectedMainCategory, setSelectedMainCategory] = useState("");
   const [selectedSubCategory, setSelectedSubCategory] = useState("");
   const [amount, setAmount] = useState("0");
-  const [notes, setNotes] = useState("");
+
 
   // Calculator states
   const [displayValue, setDisplayValue] = useState("0");
@@ -313,7 +313,7 @@ export function Tracker() {
       mainCategory: selectedMainCategory,
       subCategory: selectedSubCategory,
       amount: parseFloat(displayValue),
-      notes,
+      notes: "",
       date: currentMonth.toLocaleDateString('en-GB', {
         day: '2-digit',
         month: 'short',
@@ -335,7 +335,6 @@ export function Tracker() {
     setTransactionType("expense");
     setSelectedMainCategory("");
     setSelectedSubCategory("");
-    setNotes("");
     clearCalculator();
   };
 
@@ -498,15 +497,7 @@ export function Tracker() {
                 </div>
               </div>
 
-              {/* Notes - More Compact */}
-              <div>
-                <Textarea
-                  placeholder="💭 Add notes (optional)"
-                  value={notes}
-                  onChange={(e) => setNotes(e.target.value)}
-                  className="bg-muted min-h-[32px] text-sm"
-                />
-              </div>
+
 
               {/* Calculator - iOS Style Design */}
               <div className="bg-black/20 p-2 rounded-xl">
