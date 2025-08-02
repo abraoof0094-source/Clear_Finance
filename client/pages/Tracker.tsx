@@ -606,10 +606,10 @@ export function Tracker() {
                   {/* Row 4: +, 0, - */}
                   <Button
                     variant="ghost"
-                    onClick={() => inputOperation("+")}
-                    className="h-10 text-lg font-medium bg-gray-600 hover:bg-gray-500 text-orange-400 rounded-3xl border-0"
+                    onClick={clearCalculator}
+                    className="h-10 text-base font-medium bg-gray-600 hover:bg-gray-500 text-orange-400 rounded-3xl border-0"
                   >
-                    +
+                    C
                   </Button>
                   <Button
                     variant="ghost"
