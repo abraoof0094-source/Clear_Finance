@@ -368,21 +368,6 @@ export function ExportRecords() {
               </>
             )}
           </Button>
-
-          {/* Info Card */}
-          <Card className="p-3 bg-blue-500/10 border-blue-500/20">
-            <div className="text-xs space-y-1">
-              <div className="flex items-center gap-2 font-medium text-blue-400">
-                <BarChart3 className="h-3 w-3" />
-                Export Information
-              </div>
-              <ul className="space-y-1 text-blue-300 text-xs">
-                <li>• CSV files can be opened in Excel, Google Sheets, or Numbers</li>
-                <li>• Perfect for tax reporting and financial analysis</li>
-                <li>• CSV files cannot be imported back (use Backup for that)</li>
-              </ul>
-            </div>
-          </Card>
         </div>
       </div>
     </Layout>
