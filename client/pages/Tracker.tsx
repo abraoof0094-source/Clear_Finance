@@ -431,6 +431,9 @@ export function Tracker() {
         {/* Add Transaction Dialog */}
         <Dialog open={showAddDialog} onOpenChange={setShowAddDialog}>
           <DialogContent className="max-w-sm mx-auto bg-card border-2 border-primary/20">
+            <DialogHeader>
+              <DialogTitle className="sr-only">Add Transaction</DialogTitle>
+            </DialogHeader>
             <div className="space-y-3 pt-3">
               {/* Income/Expense Toggle - Full Width Split */}
               <div className="grid grid-cols-2 gap-0 rounded-lg overflow-hidden border">
