@@ -46,7 +46,22 @@ export function GoogleAuthTestComponent() {
           }).catch((error: any) => {
             console.error('Google Auth init error:', error);
             setTestResult('error');
-            setTestMessage(`❌ OAuth Error: ${error.error || error.message || 'Invalid Client ID or configuration'}`);
+
+            // Better error parsing
+            let errorMsg = 'Unknown error';
+            if (error.details) {
+              errorMsg = error.details;
+            } else if (error.error) {
+              errorMsg = error.error;
+            } else if (error.message) {
+              errorMsg = error.message;
+            } else if (typeof error === 'string') {
+              errorMsg = error;
+            } else {
+              errorMsg = JSON.stringify(error);
+            }
+
+            setTestMessage(`❌ OAuth Error: ${errorMsg}`);
             reject(error);
           });
         });
