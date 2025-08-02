@@ -201,10 +201,13 @@ export function Preferences() {
           </Card>
         </div>
 
-        {/* Google Drive Sync Section */}
+        {/* Google Drive Setup & Sync Section */}
         <div>
           <h2 className="text-lg font-semibold text-yellow-500 mb-4">Google Drive Sync</h2>
-          <GoogleDriveSyncComponent />
+          <div className="space-y-4">
+            <GoogleDriveSetupComponent />
+            <GoogleDriveSyncComponent />
+          </div>
         </div>
 
         {/* Sync Code Data Sync Section */}
