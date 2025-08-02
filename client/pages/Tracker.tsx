@@ -229,18 +229,9 @@ export function Tracker() {
             <ChevronLeft className="h-5 w-5" />
           </Button>
           <h2 className="text-lg font-semibold">{currentMonth}</h2>
-          <div className="flex items-center gap-2">
-            <Button variant="ghost" size="icon">
-              <ChevronRight className="h-5 w-5" />
-            </Button>
-            <Button 
-              variant="ghost" 
-              size="icon"
-              onClick={() => setShowAddDialog(true)}
-            >
-              <Plus className="h-5 w-5" />
-            </Button>
-          </div>
+          <Button variant="ghost" size="icon">
+            <ChevronRight className="h-5 w-5" />
+          </Button>
         </div>
 
         {/* Financial Summary */}
@@ -528,6 +519,15 @@ export function Tracker() {
             </div>
           </DialogContent>
         </Dialog>
+
+        {/* Floating Add Button */}
+        <Button
+          size="icon"
+          className="fixed bottom-24 right-6 h-14 w-14 rounded-full shadow-lg"
+          onClick={() => setShowAddDialog(true)}
+        >
+          <Plus className="h-6 w-6" />
+        </Button>
       </div>
     </Layout>
   );
