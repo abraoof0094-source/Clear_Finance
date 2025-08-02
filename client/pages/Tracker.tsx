@@ -235,6 +235,9 @@ export function Tracker() {
     if (storedBudgets) {
       setBudgets(JSON.parse(storedBudgets));
     }
+
+    // Setup auto-sync for Google Drive
+    setupAutoSync();
   }, []);
 
   // Save transactions to localStorage whenever transactions change
