@@ -87,8 +87,15 @@ export function Budgets() {
   // Calculate total budget
   const totalBudget = Object.values(budgets).reduce((sum, amount) => sum + amount, 0);
 
-  const handleSetBudget = (category: any, subcategory?: any) => {
-    setSelectedCategory(subcategory || category);
+  // Calculate budget sum for a main category
+  const getCategoryBudgetSum = (category: any) => {
+    return category.subcategories.reduce((sum: number, subcategory: any) => {
+      return sum + (budgets[subcategory.name] || 0);
+    }, 0);
+  };
+
+  const handleSetBudget = (subcategory: any) => {
+    setSelectedCategory(subcategory);
     setBudgetAmount("");
     setShowSetBudgetDialog(true);
   };
