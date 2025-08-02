@@ -154,6 +154,10 @@ export function SlideMenu({ isOpen, onClose }: SlideMenuProps) {
                 <Button
                   variant="ghost"
                   className="w-full justify-start p-3 h-auto"
+                  onClick={() => {
+                    navigate("/export-records");
+                    onClose();
+                  }}
                 >
                   <Download className="h-5 w-5 mr-3 text-muted-foreground" />
                   <span>Export records</span>
@@ -162,6 +166,10 @@ export function SlideMenu({ isOpen, onClose }: SlideMenuProps) {
                 <Button
                   variant="ghost"
                   className="w-full justify-start p-3 h-auto"
+                  onClick={() => {
+                    navigate("/backup-restore");
+                    onClose();
+                  }}
                 >
                   <Database className="h-5 w-5 mr-3 text-muted-foreground" />
                   <span>Backup & Restore</span>
