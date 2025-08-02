@@ -82,7 +82,7 @@ const allCategories = [
       { name: "Mutual Funds (Lumpsum)", icon: "💹", description: "Opportunistic investing" },
       { name: "Stocks / ETFs", icon: "📈", description: "Direct equity, MSCI World, REITs" },
       { name: "PPF / EPF / VPF", icon: "🏛️", description: "Provident fund contributions" },
-      { name: "NPS", icon: "��", description: "Retirement-focused" },
+      { name: "NPS", icon: "👴", description: "Retirement-focused" },
       { name: "FD / RD", icon: "🏪", description: "Bank fixed deposits" },
       { name: "Gold", icon: "🥇", description: "Gold ETFs, sovereign gold bonds" },
       { name: "Crypto / Alternative Assets", icon: "₿", description: "Bitcoin, US stocks (optional)" },
@@ -724,16 +724,16 @@ function SubcategoryItem({ subcategory, onEdit, onDelete }: SubcategoryItemProps
             <div className="text-xs text-muted-foreground">{subcategory.description}</div>
           </div>
         </div>
-        <div className="relative">
-          <Button 
-            variant="ghost" 
+        <div className="relative submenu-container">
+          <Button
+            variant="ghost"
             size="sm"
             onClick={() => setShowMenu(!showMenu)}
           >
             <span className="text-muted-foreground">⋯</span>
           </Button>
           {showMenu && (
-            <div className="absolute right-0 top-full mt-1 bg-card border border-border rounded-md shadow-lg z-10 py-1 min-w-[100px]">
+            <div className="absolute right-0 top-full mt-1 bg-card border border-border rounded-md shadow-lg z-50 py-1 min-w-[100px]">
               <button 
                 className="w-full text-left px-3 py-2 hover:bg-muted text-sm flex items-center gap-2"
                 onClick={() => {
