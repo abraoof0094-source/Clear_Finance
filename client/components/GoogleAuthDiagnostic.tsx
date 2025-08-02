@@ -122,36 +122,14 @@ export function GoogleAuthDiagnosticComponent() {
             resolve(authInstance);
           }).catch((error: any) => {
             console.error('Auth2 init error details:', error);
-            
-            let errorMessage = 'Unknown error';
-            let details = '';
 
-            if (error && typeof error === 'object') {
-              if (error.error) {
-                errorMessage = error.error;
-                if (error.error_description) {
-                  details = error.error_description;
-                }
-              } else if (error.details) {
-                errorMessage = error.details;
-              } else {
-                // Try to extract meaningful error info
-                try {
-                  const errorStr = JSON.stringify(error);
-                  if (errorStr !== '{}') {
-                    errorMessage = errorStr;
-                  }
-                } catch (e) {
-                  errorMessage = error.toString();
-                }
-              }
-            }
+            const { message, details } = parseGoogleError(error);
 
             addResult({
               step: '4. Auth2 Initialization',
               status: 'error',
-              message: `Auth2 initialization failed: ${errorMessage}`,
-              details: details || 'Check Google Cloud Console OAuth configuration'
+              message: `Auth2 initialization failed: ${message}`,
+              details: details
             });
             reject(error);
           });
