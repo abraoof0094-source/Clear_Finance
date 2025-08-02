@@ -72,7 +72,7 @@ class GoogleDriveSync {
 
       window.gapi.load('auth2', () => {
         window.gapi.auth2.init({
-          client_id: this.CLIENT_ID,
+          client_id: this.getClientId(),
           scope: this.SCOPES
         }).then(() => {
           resolve(true);
