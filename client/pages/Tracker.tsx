@@ -44,7 +44,7 @@ const allCategories = [
       { name: "Maintenance / Society Charges", icon: "🏢" },
       { name: "Utilities", icon: "⚡" },
       { name: "Internet / Broadband", icon: "🌐" },
-      { name: "Mobile Bills", icon: "📱" },
+      { name: "Mobile Bills", icon: "���" },
       { name: "DTH / OTT Subscriptions", icon: "📺" },
       { name: "Groceries & Daily Essentials", icon: "🛒" },
       { name: "House Help / Cook / Maid", icon: "👩‍🍳" },
@@ -531,9 +531,9 @@ export function Tracker() {
                 </div>
               </div>
 
-              {/* Calculator - Simplified Layout */}
+              {/* Calculator - Standard 4x4 Layout */}
               <div className="bg-black/20 p-2 rounded-xl">
-                <div className="grid grid-cols-3 gap-2">
+                <div className="grid grid-cols-4 gap-2">
                   {/* Row 1: 7, 8, 9 */}
                   <Button
                     variant="ghost"
