@@ -5,18 +5,15 @@ interface HeaderProps {
   title?: string;
   showMenu?: boolean;
   showSearch?: boolean;
+  onMenuClick?: () => void;
 }
 
 export function Header({
   title = "Clear Finance",
   showMenu = true,
   showSearch = true,
+  onMenuClick,
 }: HeaderProps) {
-  const navigate = useNavigate();
-
-  const handleMenuClick = () => {
-    navigate('/settings');
-  };
 
   return (
     <header className="sticky top-0 z-50 w-full bg-background border-b border-border">
