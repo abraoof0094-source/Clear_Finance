@@ -1,5 +1,6 @@
 import { Menu, Search } from "lucide-react";
 import { Button } from "./ui/button";
+import { useNavigate } from "react-router-dom";
 
 interface HeaderProps {
   title?: string;
