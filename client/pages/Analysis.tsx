@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Layout } from "../components/Layout";
 import { Card } from "../components/ui/card";
 import { Button } from "../components/ui/button";
@@ -8,15 +8,56 @@ import {
   DialogHeader,
   DialogTitle,
 } from "../components/ui/dialog";
-import { ChevronLeft, ChevronRight, Menu, Check } from "lucide-react";
+import { ChevronLeft, ChevronRight, Menu, Check, TrendingUp, TrendingDown, DollarSign, PieChart } from "lucide-react";
 
 type ViewMode = "MONTHLY" | "3_MONTHS" | "6_MONTHS" | "YEARLY";
+
+// Transaction interface (matching Tracker)
+interface Transaction {
+  id: string;
+  type: "income" | "expense";
+  mainCategory: string;
+  subCategory: string;
+  amount: number;
+  notes: string;
+  date: string;
+  time: string;
+}
+
+// Main categories for analysis
+const mainCategories = [
+  { name: "Income Sources", icon: "💰", type: "income" },
+  { name: "Fixed Household Expenses", icon: "🏠", type: "expense" },
+  { name: "Family & Personal Living", icon: "👨‍👩‍👧‍👦", type: "expense" },
+  { name: "Insurance", icon: "🛡️", type: "expense" },
+  { name: "Investments", icon: "📈", type: "expense" },
+  { name: "Loans & EMI Payments", icon: "💳", type: "expense" },
+  { name: "Lifestyle & Discretionary", icon: "🎪", type: "expense" },
+  { name: "Savings & Emergency Funds", icon: "🏦", type: "expense" },
+  { name: "Miscellaneous / One-Time", icon: "📦", type: "expense" },
+];
 
 export function Analysis() {
   const [currentMonth, setCurrentMonth] = useState(new Date()); // Current month
   const [showDisplayOptions, setShowDisplayOptions] = useState(false);
   const [viewMode, setViewMode] = useState<ViewMode>("MONTHLY");
   const [carryOver, setCarryOver] = useState(false);
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [budgets, setBudgets] = useState<Record<string, Record<string, number>>>({});
+
+  // Load stored data on component mount
+  useEffect(() => {
+    const storedTransactions = localStorage.getItem('tracker-transactions');
+    const storedBudgets = localStorage.getItem('budgets');
+
+    if (storedTransactions) {
+      setTransactions(JSON.parse(storedTransactions));
+    }
+
+    if (storedBudgets) {
+      setBudgets(JSON.parse(storedBudgets));
+    }
+  }, []);
 
   // Navigate months
   const goToPreviousMonth = () => {
@@ -34,6 +75,102 @@ export function Analysis() {
   // Format month display
   const formatMonth = (date: Date) => {
     return date.toLocaleString("default", { month: "long", year: "numeric" });
+  };
+
+  // Get date range based on view mode
+  const getDateRange = () => {
+    const endDate = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 0);
+    let startDate: Date;
+
+    switch (viewMode) {
+      case "3_MONTHS":
+        startDate = new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 2, 1);
+        break;
+      case "6_MONTHS":
+        startDate = new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 5, 1);
+        break;
+      case "YEARLY":
+        startDate = new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 11, 1);
+        break;
+      default: // MONTHLY
+        startDate = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1);
+    }
+
+    return { startDate, endDate };
+  };
+
+  // Filter transactions for selected period
+  const getPeriodTransactions = () => {
+    const { startDate, endDate } = getDateRange();
+
+    return transactions.filter((t) => {
+      const transactionDate = new Date(t.date.split('/').reverse().join('-')); // Convert DD/MMM/YYYY to YYYY-MMM-DD
+      return transactionDate >= startDate && transactionDate <= endDate;
+    });
+  };
+
+  const periodTransactions = getPeriodTransactions();
+
+  // Calculate totals
+  const totalIncome = periodTransactions
+    .filter((t) => t.type === "income")
+    .reduce((sum, t) => sum + t.amount, 0);
+
+  const totalExpense = periodTransactions
+    .filter((t) => t.type === "expense")
+    .reduce((sum, t) => sum + t.amount, 0);
+
+  const surplus = totalIncome - totalExpense;
+
+  // Calculate category-wise spending
+  const getCategoryAnalysis = () => {
+    const categoryData = mainCategories.map(category => {
+      const categoryTransactions = periodTransactions.filter(
+        t => t.mainCategory === category.name
+      );
+
+      const total = categoryTransactions.reduce((sum, t) => sum + t.amount, 0);
+      const percentage = totalIncome > 0 ? Math.round((total / totalIncome) * 100) : 0;
+
+      return {
+        ...category,
+        total,
+        percentage,
+        transactions: categoryTransactions.length
+      };
+    });
+
+    return categoryData.filter(cat => cat.total > 0).sort((a, b) => b.total - a.total);
+  };
+
+  const categoryAnalysis = getCategoryAnalysis();
+
+  // Get period title
+  const getPeriodTitle = () => {
+    const { startDate, endDate } = getDateRange();
+
+    switch (viewMode) {
+      case "3_MONTHS":
+        return `${formatMonth(startDate)} - ${formatMonth(currentMonth)}`;
+      case "6_MONTHS":
+        return `${formatMonth(startDate)} - ${formatMonth(currentMonth)}`;
+      case "YEARLY":
+        return `${formatMonth(startDate)} - ${formatMonth(currentMonth)}`;
+      default:
+        return formatMonth(currentMonth);
+    }
+  };
+
+  // Calculate average monthly values for multi-month views
+  const getAverageMonthly = (amount: number) => {
+    const months = {
+      "MONTHLY": 1,
+      "3_MONTHS": 3,
+      "6_MONTHS": 6,
+      "YEARLY": 12
+    }[viewMode];
+
+    return amount / months;
   };
 
   // Calendar data for current month
@@ -68,122 +205,131 @@ export function Analysis() {
 
 
 
-        {/* Expense Flow Chart */}
-        <Card className="p-4">
-          <Button variant="outline" className="w-full mb-4">
-            EXPENSE FLOW
-          </Button>
-
-          {/* Simple chart representation */}
-          <div className="h-48 bg-muted rounded-lg flex items-end justify-center p-4">
-            <div className="flex items-end h-full w-full">
-              <div
-                className="w-2 bg-red-400 rounded-t"
-                style={{ height: "80%" }}
-              ></div>
-              <div className="flex-1 flex items-center justify-center">
-                <div className="text-xs text-muted-foreground">Aug 01</div>
+        {/* Financial Overview */}
+        <Card className="p-6">
+          <div className="grid grid-cols-3 gap-4 text-center">
+            <div>
+              <div className="text-sm text-muted-foreground">INCOME</div>
+              <div className="text-xl font-bold text-green-400">
+                ₹{totalIncome.toLocaleString()}
               </div>
-              <div className="flex-1 flex items-center justify-center">
-                <div className="text-xs text-muted-foreground">Aug 09</div>
-              </div>
-              <div className="flex-1 flex items-center justify-center">
-                <div className="text-xs text-muted-foreground">Aug 16</div>
-              </div>
-              <div className="flex-1 flex items-center justify-center">
-                <div className="text-xs text-muted-foreground">Aug 24</div>
-              </div>
-              <div className="flex-1 flex items-center justify-center">
-                <div className="text-xs text-muted-foreground">Aug 31</div>
-              </div>
+              {viewMode !== "MONTHLY" && (
+                <div className="text-xs text-muted-foreground">
+                  Avg: ₹{Math.round(getAverageMonthly(totalIncome)).toLocaleString()}/mo
+                </div>
+              )}
             </div>
-          </div>
-
-          <div className="mt-2 text-center">
-            <div className="text-sm text-muted-foreground">-₹11,000.00</div>
-            <div className="text-sm text-muted-foreground">-₹7,333.00</div>
-            <div className="text-sm text-muted-foreground">-₹3,666.00</div>
-            <div className="text-sm text-muted-foreground">-₹0.00</div>
+            <div>
+              <div className="text-sm text-muted-foreground">EXPENSE</div>
+              <div className="text-xl font-bold text-red-400">
+                ₹{totalExpense.toLocaleString()}
+              </div>
+              {viewMode !== "MONTHLY" && (
+                <div className="text-xs text-muted-foreground">
+                  Avg: ₹{Math.round(getAverageMonthly(totalExpense)).toLocaleString()}/mo
+                </div>
+              )}
+            </div>
+            <div>
+              <div className="text-sm text-muted-foreground">SURPLUS</div>
+              <div className={`text-xl font-bold ${
+                surplus >= 0 ? "text-green-400" : "text-red-400"
+              }`}>
+                ₹{surplus.toLocaleString()}
+              </div>
+              {viewMode !== "MONTHLY" && (
+                <div className="text-xs text-muted-foreground">
+                  Avg: ₹{Math.round(getAverageMonthly(surplus)).toLocaleString()}/mo
+                </div>
+              )}
+            </div>
           </div>
         </Card>
 
-        {/* Calendar */}
-        <div>
-          <h3 className="text-lg font-semibold mb-4">
-            {formatMonth(currentMonth)}
-          </h3>
+        {/* Key Insights */}
+        <div className="grid grid-cols-2 gap-4">
           <Card className="p-4">
-            {/* Calendar Header */}
-            <div className="grid grid-cols-7 gap-1 mb-2">
-              {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
-                <div
-                  key={day}
-                  className="text-center text-sm font-medium text-muted-foreground p-2"
-                >
-                  {day}
-                </div>
-              ))}
+            <div className="flex items-center gap-2 mb-2">
+              <DollarSign className="h-5 w-5 text-blue-500" />
+              <h4 className="font-semibold">Savings Rate</h4>
             </div>
+            <div className="text-2xl font-bold">
+              {totalIncome > 0 ? Math.round((surplus / totalIncome) * 100) : 0}%
+            </div>
+            <div className="text-sm text-muted-foreground">
+              {surplus >= 0 ? "You're saving well!" : "Spending exceeds income"}
+            </div>
+          </Card>
 
-            {/* Calendar Days */}
-            <div className="grid grid-cols-7 gap-1">
-              {/* Empty cells for days before month starts */}
-              {Array.from({ length: startDay }, (_, i) => (
-                <div key={`empty-${i}`} className="h-10"></div>
-              ))}
-
-              {/* Calendar days */}
-              {calendarDays.map((day) => (
-                <div
-                  key={day}
-                  className="h-10 flex items-center justify-center relative"
-                >
-                  <span className={`text-sm ${day === 1 ? "font-bold" : ""}`}>
-                    {day}
-                  </span>
-                  {day === 1 && (
-                    <div className="absolute bottom-0 text-xs text-red-400">
-                      -10.0k
-                    </div>
-                  )}
-                  {day !== 1 && (
-                    <div className="absolute bottom-0 text-xs text-muted-foreground">
-                      •
-                    </div>
-                  )}
-                </div>
-              ))}
+          <Card className="p-4">
+            <div className="flex items-center gap-2 mb-2">
+              <PieChart className="h-5 w-5 text-purple-500" />
+              <h4 className="font-semibold">Categories</h4>
+            </div>
+            <div className="text-2xl font-bold">
+              {categoryAnalysis.length}
+            </div>
+            <div className="text-sm text-muted-foreground">
+              Active spending categories
             </div>
           </Card>
         </div>
 
-        {/* Transaction Details */}
-        <div>
-          <h3 className="text-lg font-semibold mb-4">
-            {formatMonth(currentMonth).substring(0, 3)} 01,{" "}
-            {new Date(
-              currentMonth.getFullYear(),
-              currentMonth.getMonth(),
-              1,
-            ).toLocaleDateString("en-US", { weekday: "long" })}
-          </h3>
-          <div className="space-y-3">
-            <TransactionItem
-              icon="💼"
-              category="Salary"
-              account="Savings"
-              amount="₹267,200.00"
-              type="income"
-            />
-            <TransactionItem
-              icon="✅"
-              category="Insurance"
-              account="Savings"
-              amount="-₹10,000.00"
-              type="expense"
-            />
+        {/* Category Analysis */}
+        {periodTransactions.length > 0 ? (
+          <div>
+            <h3 className="text-lg font-semibold mb-4">Category Breakdown</h3>
+            <div className="space-y-3">
+              {categoryAnalysis.map((category) => (
+                <Card key={category.name} className="p-4">
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 bg-primary/20 rounded-full flex items-center justify-center text-lg">
+                        {category.icon}
+                      </div>
+                      <div>
+                        <div className="font-medium">{category.name}</div>
+                        <div className="text-sm text-muted-foreground">
+                          {category.transactions} transaction{category.transactions !== 1 ? 's' : ''}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <div className={`font-semibold text-lg ${
+                        category.type === "income" ? "text-green-400" : "text-red-400"
+                      }`}>
+                        ₹{category.total.toLocaleString()}
+                      </div>
+                      <div className="text-sm text-muted-foreground">
+                        {category.percentage}% of income
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Progress bar */}
+                  <div className="w-full bg-muted rounded-full h-2">
+                    <div
+                      className={`h-2 rounded-full ${
+                        category.type === "income" ? "bg-green-400" : "bg-red-400"
+                      }`}
+                      style={{ width: `${Math.min(category.percentage, 100)}%` }}
+                    ></div>
+                  </div>
+                </Card>
+              ))}
+            </div>
           </div>
-        </div>
+        ) : (
+          <Card className="p-6 text-center text-muted-foreground">
+            <PieChart className="h-12 w-12 mx-auto mb-4 opacity-50" />
+            <h3 className="font-medium mb-2">No Data Available</h3>
+            <p className="text-sm">
+              No transactions found for {getPeriodTitle()}.
+              <br />
+              Add transactions in the Tracker to see analytics here.
+            </p>
+          </Card>
+        )}
       </div>
 
       {/* Display Options Dialog */}
