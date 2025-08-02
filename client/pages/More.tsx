@@ -99,7 +99,7 @@ export function More() {
 
   return (
     <Layout>
-      <div className="space-y-6 py-4">
+      <div className="max-w-md mx-auto space-y-6 py-4">
         {/* Header */}
         <div className="text-center">
           <h1 className="text-2xl font-bold section-header mb-2">More</h1>
