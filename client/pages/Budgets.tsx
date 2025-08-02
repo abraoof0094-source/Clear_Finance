@@ -292,6 +292,87 @@ export function Budgets() {
         </Button>
       </div>
 
+      {/* Copy Budget Dialog */}
+      <Dialog open={showCopyBudgetDialog} onOpenChange={setShowCopyBudgetDialog}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-center">Copy budget</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-6">
+            <div className="text-center">
+              <div className="text-sm text-muted-foreground">Month: {formatMonth(currentMonth)}</div>
+            </div>
+
+            <div>
+              <div className="text-center text-sm mb-4">
+                Select a previous month you want to copy from:
+              </div>
+
+              {/* Month Navigation */}
+              <div className="flex items-center justify-between mb-4">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={goToPreviousCopyMonth}
+                >
+                  <ChevronLeft className="h-4 w-4" />
+                </Button>
+                <div className="text-lg font-medium">{formatMonth(copyFromMonth)}</div>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={goToNextCopyMonth}
+                  disabled={new Date(copyFromMonth.getFullYear(), copyFromMonth.getMonth() + 1) >= currentMonth}
+                >
+                  <ChevronRight className="h-4 w-4" />
+                </Button>
+              </div>
+
+              {/* Budget Status */}
+              <div className="min-h-[120px] border-2 border-dashed border-border rounded-lg flex items-center justify-center p-6">
+                {copyMonthHasBudgets() ? (
+                  <div className="text-center">
+                    <div className="text-2xl mb-2">💰</div>
+                    <div className="text-sm text-primary font-medium">
+                      Budget data available
+                    </div>
+                  </div>
+                ) : (
+                  <div className="text-center">
+                    <div className="text-2xl mb-2">📊</div>
+                    <div className="text-sm text-muted-foreground">
+                      No budget applied in this month.
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Warning */}
+            <div className="bg-muted/50 p-3 rounded-lg">
+              <div className="flex items-start gap-2">
+                <div className="text-muted-foreground text-sm">ℹ️</div>
+                <div className="text-xs text-muted-foreground">
+                  Copying will overwrite all previously applied budget-limits for this month.
+                </div>
+              </div>
+            </div>
+
+            <div className="flex gap-2 pt-4">
+              <Button variant="outline" onClick={() => setShowCopyBudgetDialog(false)}>
+                Close
+              </Button>
+              <Button
+                onClick={handleCopyBudgets}
+                disabled={!copyMonthHasBudgets()}
+              >
+                Copy All
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
       {/* Set Budget Dialog */}
       <Dialog open={showSetBudgetDialog} onOpenChange={setShowSetBudgetDialog}>
         <DialogContent className="sm:max-w-md">
