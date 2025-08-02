@@ -10,8 +10,14 @@ import {
 } from "../components/ui/dialog";
 import { ChevronLeft, ChevronRight, Menu, Check, Star } from "lucide-react";
 
+type ViewMode = "DAILY" | "WEEKLY" | "MONTHLY" | "3_MONTHS" | "6_MONTHS" | "YEARLY";
+
 export function Analysis() {
   const [currentMonth, setCurrentMonth] = useState(new Date()); // Current month
+  const [showDisplayOptions, setShowDisplayOptions] = useState(false);
+  const [viewMode, setViewMode] = useState<ViewMode>("MONTHLY");
+  const [showTotal, setShowTotal] = useState(false);
+  const [carryOver, setCarryOver] = useState(false);
 
   // Navigate months
   const goToPreviousMonth = () => {
