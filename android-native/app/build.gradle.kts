@@ -6,12 +6,12 @@ plugins {
 
 android {
     namespace = "com.clearfinance.app"
-    compileSdk = 34
+    compileSdk = 33
 
     defaultConfig {
         applicationId = "com.clearfinance.app"
-        minSdk = 26
-        targetSdk = 34
+        minSdk = 24
+        targetSdk = 33
         versionCode = 1
         versionName = "1.0"
 
