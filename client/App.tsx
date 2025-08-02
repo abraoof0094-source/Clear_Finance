@@ -20,6 +20,7 @@ export default function App() {
           <Route path="/budgets" element={<Budgets />} />
           <Route path="/categories" element={<Categories />} />
           <Route path="/settings" element={<Settings />} />
+          <Route path="/preferences" element={<Preferences />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
