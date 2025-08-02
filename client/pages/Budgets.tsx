@@ -70,7 +70,7 @@ const expenseCategories = [
     name: "Lifestyle & Discretionary",
     icon: "🎪",
     subcategories: [
-      { name: "Weekend Getaways", icon: "���️" },
+      { name: "Weekend Getaways", icon: "🏔️" },
       { name: "Events / Concerts", icon: "🎵" },
       { name: "Gaming / Indoor Entertainment", icon: "🎮" },
     ]
@@ -255,10 +255,10 @@ export function Budgets() {
 
             <div className="flex gap-2 pt-4">
               <Button variant="outline" onClick={() => setShowSetBudgetDialog(false)}>
-                CANCEL
+                Cancel
               </Button>
               <Button onClick={handleSaveBudget}>
-                SAVE BUDGET
+                Save Budget
               </Button>
             </div>
           </div>
