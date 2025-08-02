@@ -13,8 +13,13 @@ export function GoogleDriveSyncComponent() {
   const [isConfigured, setIsConfigured] = useState(false);
 
   useEffect(() => {
-    checkSignInStatus();
-    loadGoogleAPI();
+    const configured = googleDriveSync.isConfigured();
+    setIsConfigured(configured);
+
+    if (configured) {
+      checkSignInStatus();
+      loadGoogleAPI();
+    }
   }, []);
 
   const loadGoogleAPI = () => {
