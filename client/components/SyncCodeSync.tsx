@@ -12,6 +12,14 @@ export function SyncCodeSyncComponent() {
   const [statusMessage, setStatusMessage] = useState('');
   const [copied, setCopied] = useState(false);
 
+  // Clear status after delay
+  const clearStatus = () => {
+    setTimeout(() => {
+      setStatus('idle');
+      setStatusMessage('');
+    }, 5000);
+  };
+
   // Use a simple free API service for temporary data storage
   const API_BASE = 'https://jsonbin.io/v3/b';
   const API_KEY = 'your-jsonbin-key'; // You can use https://jsonbin.io for free
