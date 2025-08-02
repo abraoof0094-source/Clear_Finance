@@ -18,7 +18,7 @@ const expenseCategories = [
       { name: "Utilities", icon: "⚡" },
       { name: "Internet / Broadband", icon: "🌐" },
       { name: "Mobile Bills", icon: "📱" },
-      { name: "DTH / OTT Subscriptions", icon: "📺" },
+      { name: "DTH / OTT Subscriptions", icon: "����" },
       { name: "Groceries & Daily Essentials", icon: "🛒" },
     ]
   },
@@ -86,6 +86,13 @@ export function Budgets() {
 
   // Calculate total budget
   const totalBudget = Object.values(budgets).reduce((sum, amount) => sum + amount, 0);
+
+  // Calculate allocated budget for a main category
+  const getCategoryAllocatedBudget = (category: any) => {
+    return category.subcategories.reduce((sum: number, subcategory: any) => {
+      return sum + (getBudgetForCategory(subcategory.name) || 0);
+    }, 0);
+  };
 
   const handleSetBudget = (category: any, subcategory?: any) => {
     setSelectedCategory(subcategory || category);
