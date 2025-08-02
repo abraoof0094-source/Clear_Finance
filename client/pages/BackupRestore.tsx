@@ -212,7 +212,14 @@ export function BackupRestore() {
 
   return (
     <Layout>
-      <div className="max-w-md mx-auto space-y-6 py-4">
+      {/* Click outside overlay */}
+      <div
+        className="fixed inset-0 bg-transparent z-10"
+        onClick={() => navigate(-1)}
+      />
+
+      {/* Content container */}
+      <div className="relative z-20 max-w-md mx-auto space-y-6 py-4 bg-background">
         {/* Header */}
         <div className="text-center">
           <h1 class="text-xl font-semibold">Backup & Restore</h1>
