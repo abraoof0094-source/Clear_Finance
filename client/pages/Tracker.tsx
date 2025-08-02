@@ -30,7 +30,7 @@ const allCategories = [
     subcategories: [
       { name: "Fixed Salary", icon: "💵" },
       { name: "Variable Pay", icon: "📈" },
-      { name: "Reimbursements", icon: "��" },
+      { name: "Reimbursements", icon: "🧾" },
       { name: "Freelance/Side Income", icon: "💻" },
       { name: "Passive Income", icon: "📊" },
       { name: "Others", icon: "🎯" },
@@ -484,7 +484,7 @@ export function Tracker() {
             <div>
               <div className="text-sm text-muted-foreground">BALANCE</div>
               <div
-                className={`text-lg font-bold ${totalIncome - totalExpense >= 0 ? "text-green-400" : "text-red-400"}`}
+                className={`text-lg font-bold ${totalIncome - totalExpense >= 0 ? "amount-income" : "amount-expense"}`}
               >
                 ₹{(totalIncome - totalExpense).toLocaleString()}
               </div>
