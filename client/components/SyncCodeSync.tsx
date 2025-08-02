@@ -275,7 +275,8 @@ export function SyncCodeSyncComponent() {
               onChange={(e) => setInputSyncCode(e.target.value.toUpperCase())}
               placeholder="Enter sync code (e.g., CF1A2B3C)"
               className="font-mono"
-              maxLength={10}
+              maxLength={8}
+              onFocus={() => setStatus('idle')}
             />
             <Button 
               onClick={useSyncCode}
