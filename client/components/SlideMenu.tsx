@@ -110,13 +110,13 @@ export function SlideMenu({ isOpen, onClose }: SlideMenuProps) {
       >
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-border">
-          <div>
-            <h1 className="text-xl font-bold text-primary">Clear Finance</h1>
-            <p className="text-sm text-muted-foreground">5.8-free</p>
-          </div>
           <Button variant="ghost" size="icon" onClick={onClose}>
             <X className="h-5 w-5" />
           </Button>
+          <div className="text-right">
+            <h1 className="text-xl font-bold text-primary">Clear Finance</h1>
+            <p className="text-sm text-muted-foreground">5.8-free</p>
+          </div>
         </div>
 
         {/* Menu Content */}
