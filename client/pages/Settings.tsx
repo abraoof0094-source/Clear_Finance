@@ -24,7 +24,7 @@ export function Settings() {
   };
 
   return (
-    <Layout title="Settings" showMenu={false} showSearch={false}>
+    <Layout title="Settings" showMenu={true} showSearch={false}>
       <div className="space-y-6 py-4">
         {/* App Info */}
         <div className="text-center py-4">
