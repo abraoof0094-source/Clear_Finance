@@ -10,6 +10,7 @@ export function ManualDataSyncComponent() {
   const [copied, setCopied] = useState(false);
   const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const [statusMessage, setStatusMessage] = useState('');
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Get current data from localStorage
   const getCurrentData = () => {
