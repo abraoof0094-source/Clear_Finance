@@ -30,7 +30,7 @@ const allCategories = [
     subcategories: [
       { name: "Fixed Salary", icon: "💵" },
       { name: "Variable Pay", icon: "📈" },
-      { name: "Reimbursements", icon: "🧾" },
+      { name: "Reimbursements", icon: "��" },
       { name: "Freelance/Side Income", icon: "💻" },
       { name: "Passive Income", icon: "📊" },
       { name: "Others", icon: "🎯" },
@@ -471,13 +471,13 @@ export function Tracker() {
           <div className="grid grid-cols-3 gap-4 text-center">
             <div>
               <div className="text-sm text-muted-foreground">INCOME</div>
-              <div className="text-lg font-bold text-green-400">
+              <div className="text-lg font-bold amount-income">
                 ₹{totalIncome.toLocaleString()}
               </div>
             </div>
             <div>
               <div className="text-sm text-muted-foreground">EXPENSE</div>
-              <div className="text-lg font-bold text-red-400">
+              <div className="text-lg font-bold amount-expense">
                 ₹{totalExpense.toLocaleString()}
               </div>
             </div>
