@@ -60,7 +60,7 @@ export function Accounts() {
 
         {/* Accounts Section */}
         <div>
-          <h3 className="text-lg font-semibold mb-4">Accounts</h3>
+          <h3 className="text-lg font-semibold text-yellow-500 mb-4">Accounts</h3>
           <div className="space-y-3">
             {accounts.map((account) => (
               <AccountItem key={account.id} account={account} />
