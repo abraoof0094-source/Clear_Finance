@@ -57,13 +57,16 @@ export function Preferences() {
           <Card className="p-1">
             <div className="space-y-1">
               {/* Theme */}
-              <div className="flex items-center justify-between p-4">
+              <button
+                className="flex items-center justify-between p-4 w-full text-left hover:bg-muted/50 rounded-md transition-colors"
+                onClick={() => setShowThemeDialog(true)}
+              >
                 <div>
-                  <div className="font-medium">Theme (Pro version)</div>
-                  <div className="text-sm text-muted-foreground">Original</div>
+                  <div className="font-medium">Theme</div>
+                  <div className="text-sm text-muted-foreground">{currentTheme.name}</div>
                 </div>
                 <ChevronRight className="h-4 w-4 text-muted-foreground" />
-              </div>
+              </button>
 
               {/* UI Mode */}
               <div className="flex items-center justify-between p-4 border-t border-border">
