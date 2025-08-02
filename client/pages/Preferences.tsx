@@ -31,6 +31,7 @@ export function Preferences() {
   const [remindEveryday, setRemindEveryday] = useState(true);
   const [crashReporting, setCrashReporting] = useState(false);
   const [showThemeDialog, setShowThemeDialog] = useState(false);
+  const [showUIModeDialog, setShowUIModeDialog] = useState(false);
 
   // Theme options
   const themes = [
