@@ -434,7 +434,7 @@ export function Tracker() {
             <DialogHeader>
               <DialogTitle className="sr-only">Add Transaction</DialogTitle>
             </DialogHeader>
-            <div className="space-y-3 pt-3">
+            <div className="space-y-2 pt-2">
               {/* Income/Expense Toggle - Full Width Split */}
               <div className="grid grid-cols-2 gap-0 rounded-lg overflow-hidden border">
                 <Button
@@ -470,7 +470,7 @@ export function Tracker() {
               </div>
 
               {/* Category Selection */}
-              <div className="space-y-3">
+              <div className="space-y-2">
                 {/* Main Category Dropdown */}
                 <Select
                   value={selectedMainCategory}
@@ -511,7 +511,7 @@ export function Tracker() {
               </div>
 
               {/* Amount Display - More Prominent */}
-              <div className="bg-gradient-to-r from-muted to-muted/50 rounded-xl p-3 border-2 border-primary/20">
+              <div className="bg-gradient-to-r from-muted to-muted/50 rounded-xl p-2 border-2 border-primary/20">
                 <div className="text-center">
                   <div className="text-xs text-muted-foreground mb-1">
                     Amount
@@ -529,8 +529,8 @@ export function Tracker() {
               </div>
 
               {/* Calculator - Standard 4x4 Layout */}
-              <div className="bg-black/20 p-2 rounded-xl">
-                <div className="grid grid-cols-4 gap-2">
+              <div className="bg-black/20 p-1 rounded-xl">
+                <div className="grid grid-cols-4 gap-1">
                   {/* Row 1: C, ⌫, %, ÷ */}
                   <Button
                     variant="ghost"
@@ -684,7 +684,7 @@ export function Tracker() {
               </div>
 
               {/* Date/Time */}
-              <div className="text-center text-sm font-medium text-muted-foreground border-t border-border pt-2 mt-3">
+              <div className="text-center text-xs font-medium text-muted-foreground border-t border-border pt-1 mt-2">
                 📅 {formatMonth(currentMonth)} • 🕐{" "}
                 {new Date().toLocaleTimeString("en-US", {
                   hour: "2-digit",
