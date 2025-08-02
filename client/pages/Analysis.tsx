@@ -164,7 +164,10 @@ export function Analysis() {
       case "6_MONTHS":
         return `${formatMonth(startDate)} - ${formatMonth(currentMonth)}`;
       case "YEARLY":
-        return `${formatMonth(startDate)} - ${formatMonth(currentMonth)}`;
+        // Financial year display: FY 2024-25 format
+        const fyStartYear = startDate.getFullYear();
+        const fyEndYear = endDate.getFullYear();
+        return `FY ${fyStartYear}-${fyEndYear.toString().slice(-2)}`;
       default:
         return formatMonth(currentMonth);
     }
