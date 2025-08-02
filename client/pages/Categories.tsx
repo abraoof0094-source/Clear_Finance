@@ -15,7 +15,7 @@ const allCategories = [
     icon: "💰",
     type: "income" as const,
     subcategories: [
-      { name: "Fixed Salary", icon: "���", description: "Monthly take-home salary" },
+      { name: "Fixed Salary", icon: "💵", description: "Monthly take-home salary" },
       { name: "Variable Pay", icon: "📈", description: "Performance bonus, annual bonus" },
       { name: "Reimbursements", icon: "🧾", description: "Travel allowance, food coupons" },
       { name: "Freelance/Side Income", icon: "💻", description: "Consulting, online gigs" },
