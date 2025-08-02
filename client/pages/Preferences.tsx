@@ -24,6 +24,17 @@ export function Preferences() {
   const [currencySign, setCurrencySign] = useState("inr");
   const [remindEveryday, setRemindEveryday] = useState(true);
   const [crashReporting, setCrashReporting] = useState(false);
+  const [showThemeDialog, setShowThemeDialog] = useState(false);
+
+  // Theme options
+  const themes = [
+    { id: "original", name: "Original", description: "Classic dark theme" },
+    { id: "modern", name: "Modern", description: "Clean minimal design" },
+    { id: "vibrant", name: "Vibrant", description: "Colorful and energetic" },
+    { id: "nature", name: "Nature", description: "Green and earth tones" },
+  ];
+
+  const currentTheme = themes.find(t => t.id === theme) || themes[0];
 
   const handleBack = () => {
     navigate(-1);
