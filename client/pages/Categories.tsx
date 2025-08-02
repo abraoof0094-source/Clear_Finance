@@ -261,17 +261,7 @@ export function Categories() {
           </div>
         </div>
 
-        {/* Add New Main Category Button */}
-        <Card className="p-4">
-          <Button 
-            variant="outline" 
-            className="w-full flex items-center gap-2"
-            onClick={() => setShowAddMainDialog(true)}
-          >
-            <Plus className="h-4 w-4" />
-            ADD NEW MAIN CATEGORY
-          </Button>
-        </Card>
+
 
         {/* Floating Add Button */}
         <Button 
