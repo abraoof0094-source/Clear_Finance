@@ -420,121 +420,155 @@ export function Tracker() {
                 />
               </div>
 
-              {/* Calculator - Enhanced Design */}
-              <div className="bg-muted/30 p-4 rounded-xl">
+              {/* Calculator - iOS Style Design */}
+              <div className="bg-black/20 p-4 rounded-xl">
                 <div className="grid grid-cols-4 gap-3">
-                  <Button
-                    variant="secondary"
-                    onClick={() => inputOperation("+")}
-                    className="h-14 text-xl font-semibold bg-blue-600 hover:bg-blue-700 text-white"
-                  >
-                    +
-                  </Button>
-                  <Button
-                    variant="outline"
-                    onClick={() => inputNumber("7")}
-                    className="h-14 text-xl font-semibold bg-card hover:bg-muted"
-                  >
-                    7
-                  </Button>
-                  <Button
-                    variant="outline"
-                    onClick={() => inputNumber("8")}
-                    className="h-14 text-xl font-semibold bg-card hover:bg-muted"
-                  >
-                    8
-                  </Button>
-                  <Button
-                    variant="outline"
-                    onClick={() => inputNumber("9")}
-                    className="h-14 text-xl font-semibold bg-card hover:bg-muted"
-                  >
-                    9
-                  </Button>
-
-                  <Button
-                    variant="secondary"
-                    onClick={() => inputOperation("-")}
-                    className="h-14 text-xl font-semibold bg-blue-600 hover:bg-blue-700 text-white"
-                  >
-                    -
-                  </Button>
-                  <Button
-                    variant="outline"
-                    onClick={() => inputNumber("4")}
-                    className="h-14 text-xl font-semibold bg-card hover:bg-muted"
-                  >
-                    4
-                  </Button>
-                  <Button
-                    variant="outline"
-                    onClick={() => inputNumber("5")}
-                    className="h-14 text-xl font-semibold bg-card hover:bg-muted"
-                  >
-                    5
-                  </Button>
-                  <Button
-                    variant="outline"
-                    onClick={() => inputNumber("6")}
-                    className="h-14 text-xl font-semibold bg-card hover:bg-muted"
-                  >
-                    6
-                  </Button>
-
+                  {/* Row 1: Operations */}
                   <Button
                     variant="ghost"
-                    className="h-14 text-xl text-muted-foreground/30"
+                    className="h-16 text-xl font-medium bg-gray-600 hover:bg-gray-500 text-white rounded-3xl border-0"
+                    disabled
+                  >
+                    C
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    className="h-16 text-xl font-medium bg-gray-600 hover:bg-gray-500 text-white rounded-3xl border-0"
                     disabled
                   >
                     ×
                   </Button>
                   <Button
-                    variant="outline"
-                    onClick={() => inputNumber("1")}
-                    className="h-14 text-xl font-semibold bg-card hover:bg-muted"
+                    variant="ghost"
+                    className="h-16 text-xl font-medium bg-gray-600 hover:bg-gray-500 text-white rounded-3xl border-0"
+                    disabled
                   >
-                    1
+                    %
                   </Button>
-                  <Button
-                    variant="outline"
-                    onClick={() => inputNumber("2")}
-                    className="h-14 text-xl font-semibold bg-card hover:bg-muted"
-                  >
-                    2
-                  </Button>
-                  <Button
-                    variant="outline"
-                    onClick={() => inputNumber("3")}
-                    className="h-14 text-xl font-semibold bg-card hover:bg-muted"
-                  >
-                    3
-                  </Button>
-
                   <Button
                     variant="ghost"
-                    className="h-14 text-xl text-muted-foreground/30"
+                    className="h-16 text-xl font-medium bg-gray-600 hover:bg-gray-500 text-white rounded-3xl border-0"
                     disabled
                   >
                     ÷
                   </Button>
+
+                  {/* Row 2: 7, 8, 9, × */}
                   <Button
-                    variant="outline"
+                    variant="ghost"
+                    onClick={() => inputNumber("7")}
+                    className="h-16 text-2xl font-medium bg-gray-800 hover:bg-gray-700 text-white rounded-3xl border-0"
+                  >
+                    7
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    onClick={() => inputNumber("8")}
+                    className="h-16 text-2xl font-medium bg-gray-800 hover:bg-gray-700 text-white rounded-3xl border-0"
+                  >
+                    8
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    onClick={() => inputNumber("9")}
+                    className="h-16 text-2xl font-medium bg-gray-800 hover:bg-gray-700 text-white rounded-3xl border-0"
+                  >
+                    9
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    onClick={() => inputOperation("+")}
+                    className="h-16 text-2xl font-medium bg-orange-500 hover:bg-orange-400 text-white rounded-3xl border-0"
+                  >
+                    +
+                  </Button>
+
+                  {/* Row 3: 4, 5, 6, - */}
+                  <Button
+                    variant="ghost"
+                    onClick={() => inputNumber("4")}
+                    className="h-16 text-2xl font-medium bg-gray-800 hover:bg-gray-700 text-white rounded-3xl border-0"
+                  >
+                    4
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    onClick={() => inputNumber("5")}
+                    className="h-16 text-2xl font-medium bg-gray-800 hover:bg-gray-700 text-white rounded-3xl border-0"
+                  >
+                    5
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    onClick={() => inputNumber("6")}
+                    className="h-16 text-2xl font-medium bg-gray-800 hover:bg-gray-700 text-white rounded-3xl border-0"
+                  >
+                    6
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    onClick={() => inputOperation("-")}
+                    className="h-16 text-2xl font-medium bg-orange-500 hover:bg-orange-400 text-white rounded-3xl border-0"
+                  >
+                    -
+                  </Button>
+
+                  {/* Row 4: 1, 2, 3, + */}
+                  <Button
+                    variant="ghost"
+                    onClick={() => inputNumber("1")}
+                    className="h-16 text-2xl font-medium bg-gray-800 hover:bg-gray-700 text-white rounded-3xl border-0"
+                  >
+                    1
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    onClick={() => inputNumber("2")}
+                    className="h-16 text-2xl font-medium bg-gray-800 hover:bg-gray-700 text-white rounded-3xl border-0"
+                  >
+                    2
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    onClick={() => inputNumber("3")}
+                    className="h-16 text-2xl font-medium bg-gray-800 hover:bg-gray-700 text-white rounded-3xl border-0"
+                  >
+                    3
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    className="h-16 text-xl font-medium bg-gray-600 hover:bg-gray-500 text-white rounded-3xl border-0"
+                    disabled
+                  >
+                    ×
+                  </Button>
+
+                  {/* Row 5: 0, ., = */}
+                  <Button
+                    variant="ghost"
+                    className="h-16 text-xl font-medium bg-gray-600 hover:bg-gray-500 text-white rounded-3xl border-0"
+                    disabled
+                  >
+                    +/-
+                  </Button>
+                  <Button
+                    variant="ghost"
                     onClick={() => inputNumber("0")}
-                    className="h-14 text-xl font-semibold bg-card hover:bg-muted"
+                    className="h-16 text-2xl font-medium bg-gray-800 hover:bg-gray-700 text-white rounded-3xl border-0"
                   >
                     0
                   </Button>
                   <Button
-                    variant="outline"
+                    variant="ghost"
                     onClick={addDecimal}
-                    className="h-14 text-xl font-semibold bg-card hover:bg-muted"
+                    className="h-16 text-2xl font-medium bg-gray-800 hover:bg-gray-700 text-white rounded-3xl border-0"
                   >
                     .
                   </Button>
                   <Button
-                    variant="default"
+                    variant="ghost"
                     onClick={inputEquals}
-                    className="h-14 text-xl font-semibold bg-green-600 hover:bg-green-700 text-white"
+                    className="h-16 text-2xl font-medium bg-orange-500 hover:bg-orange-400 text-white rounded-3xl border-0"
                   >
                     =
                   </Button>
