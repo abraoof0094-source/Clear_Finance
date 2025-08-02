@@ -1,0 +1,219 @@
+import { useState, useEffect, useRef } from "react";
+import { Button } from "./ui/button";
+import { Switch } from "./ui/switch";
+import { 
+  Settings as SettingsIcon, 
+  Download, 
+  Database, 
+  Trash2, 
+  Heart, 
+  HelpCircle, 
+  MessageSquare,
+  Moon,
+  Sun,
+  X
+} from "lucide-react";
+
+interface SlideMenuProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+export function SlideMenu({ isOpen, onClose }: SlideMenuProps) {
+  const [isDarkMode, setIsDarkMode] = useState(true);
+  const menuRef = useRef<HTMLDivElement>(null);
+  const startXRef = useRef<number>(0);
+  const currentXRef = useRef<number>(0);
+
+  const handleThemeToggle = () => {
+    setIsDarkMode(!isDarkMode);
+  };
+
+  // Touch event handlers for swipe gestures
+  const handleTouchStart = (e: TouchEvent) => {
+    if (!isOpen) return;
+    startXRef.current = e.touches[0].clientX;
+    currentXRef.current = startXRef.current;
+  };
+
+  const handleTouchMove = (e: TouchEvent) => {
+    if (!isOpen) return;
+    currentXRef.current = e.touches[0].clientX;
+    const diff = currentXRef.current - startXRef.current;
+    
+    // Only allow swiping to the right (positive diff means swiping right)
+    if (diff > 0 && menuRef.current) {
+      const translateX = Math.min(diff, window.innerWidth * 0.75);
+      menuRef.current.style.transform = `translateX(${translateX}px)`;
+    }
+  };
+
+  const handleTouchEnd = () => {
+    if (!isOpen || !menuRef.current) return;
+    
+    const diff = currentXRef.current - startXRef.current;
+    const threshold = window.innerWidth * 0.15; // 15% of screen width
+    
+    if (diff > threshold) {
+      // Swipe was far enough, close the menu
+      onClose();
+    } else {
+      // Snap back to original position
+      menuRef.current.style.transform = 'translateX(0)';
+    }
+  };
+
+  // Add touch event listeners
+  useEffect(() => {
+    if (isOpen) {
+      document.addEventListener('touchstart', handleTouchStart);
+      document.addEventListener('touchmove', handleTouchMove);
+      document.addEventListener('touchend', handleTouchEnd);
+      
+      return () => {
+        document.removeEventListener('touchstart', handleTouchStart);
+        document.removeEventListener('touchmove', handleTouchMove);
+        document.removeEventListener('touchend', handleTouchEnd);
+      };
+    }
+  }, [isOpen]);
+
+  // Close menu on escape key
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isOpen) {
+        onClose();
+      }
+    };
+
+    document.addEventListener('keydown', handleEscape);
+    return () => document.removeEventListener('keydown', handleEscape);
+  }, [isOpen, onClose]);
+
+  if (!isOpen) return null;
+
+  return (
+    <>
+      {/* Backdrop */}
+      <div 
+        className="fixed inset-0 bg-black/50 z-40 transition-opacity duration-300"
+        onClick={onClose}
+      />
+      
+      {/* Slide Menu */}
+      <div 
+        ref={menuRef}
+        className="fixed top-0 right-0 h-full w-3/4 bg-background border-l border-border z-50 transform transition-transform duration-300 ease-out overflow-y-auto"
+        style={{ 
+          transform: isOpen ? 'translateX(0)' : 'translateX(100%)',
+        }}
+      >
+        {/* Header */}
+        <div className="flex items-center justify-between p-4 border-b border-border">
+          <div>
+            <h1 className="text-xl font-bold text-primary">Clear Finance</h1>
+            <p className="text-sm text-muted-foreground">5.8-free</p>
+          </div>
+          <Button variant="ghost" size="icon" onClick={onClose}>
+            <X className="h-5 w-5" />
+          </Button>
+        </div>
+
+        {/* Menu Content */}
+        <div className="p-4 space-y-6">
+          {/* Preferences Section */}
+          <div>
+            <div className="flex items-center gap-2 mb-4">
+              <SettingsIcon className="h-5 w-5 text-primary" />
+              <h2 className="text-lg font-semibold">Preferences</h2>
+            </div>
+            
+            <div className="rounded-lg border bg-card p-1">
+              <div className="space-y-1">
+                {/* Dark Theme Toggle */}
+                <div className="flex items-center justify-between p-3 hover:bg-muted/50 rounded-md">
+                  <div className="flex items-center gap-3">
+                    {isDarkMode ? (
+                      <Moon className="h-5 w-5 text-muted-foreground" />
+                    ) : (
+                      <Sun className="h-5 w-5 text-muted-foreground" />
+                    )}
+                    <span className="font-medium">Dark Theme</span>
+                  </div>
+                  <Switch 
+                    checked={isDarkMode} 
+                    onCheckedChange={handleThemeToggle}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Management Section */}
+          <div>
+            <h3 className="text-sm font-medium text-muted-foreground mb-3 px-1">Management</h3>
+            <div className="rounded-lg border bg-card p-1">
+              <div className="space-y-1">
+                <Button 
+                  variant="ghost" 
+                  className="w-full justify-start p-3 h-auto"
+                >
+                  <Download className="h-5 w-5 mr-3 text-muted-foreground" />
+                  <span>Export records</span>
+                </Button>
+                
+                <Button 
+                  variant="ghost" 
+                  className="w-full justify-start p-3 h-auto"
+                >
+                  <Database className="h-5 w-5 mr-3 text-muted-foreground" />
+                  <span>Backup & Restore</span>
+                </Button>
+                
+                <Button 
+                  variant="ghost" 
+                  className="w-full justify-start p-3 h-auto"
+                >
+                  <Trash2 className="h-5 w-5 mr-3 text-muted-foreground" />
+                  <span>Delete & Reset</span>
+                </Button>
+              </div>
+            </div>
+          </div>
+
+          {/* Application Section */}
+          <div>
+            <h3 className="text-sm font-medium text-muted-foreground mb-3 px-1">Application</h3>
+            <div className="rounded-lg border bg-card p-1">
+              <div className="space-y-1">
+                <Button 
+                  variant="ghost" 
+                  className="w-full justify-start p-3 h-auto"
+                >
+                  <Heart className="h-5 w-5 mr-3 text-muted-foreground" />
+                  <span>Like Clear Finance</span>
+                </Button>
+                
+                <Button 
+                  variant="ghost" 
+                  className="w-full justify-start p-3 h-auto"
+                >
+                  <HelpCircle className="h-5 w-5 mr-3 text-muted-foreground" />
+                  <span>Help</span>
+                </Button>
+                
+                <Button 
+                  variant="ghost" 
+                  className="w-full justify-start p-3 h-auto"
+                >
+                  <MessageSquare className="h-5 w-5 mr-3 text-muted-foreground" />
+                  <span>Feedback</span>
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
