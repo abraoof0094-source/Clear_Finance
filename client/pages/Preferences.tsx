@@ -188,7 +188,7 @@ export function Preferences() {
                 <div>
                   <div className="font-medium">Send crash and usage statistics</div>
                   <div className="text-sm text-muted-foreground">
-                    Automatically send crash and usage report to improve MyMoney.
+                    Automatically send crash and usage report to improve Clear Finance.
                   </div>
                 </div>
                 <Switch
