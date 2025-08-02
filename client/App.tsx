@@ -5,6 +5,7 @@ import { Tracker } from "./pages/Tracker";
 import { Budgets } from "./pages/Budgets";
 import { Categories } from "./pages/Categories";
 import { Settings } from "./pages/Settings";
+import { Preferences } from "./pages/Preferences";
 import { NotFound } from "./pages/NotFound";
 import "./global.css";
 
