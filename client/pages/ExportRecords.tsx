@@ -16,6 +16,10 @@ export function ExportRecords() {
   const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const [statusMessage, setStatusMessage] = useState('');
 
+  useEffect(() => {
+    themeManager.setTheme(localStorage.getItem('selected-theme') || 'original');
+  }, []);
+
   const handleBack = () => {
     navigate(-1);
   };
