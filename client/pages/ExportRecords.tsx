@@ -3,15 +3,7 @@ import { Layout } from "../components/Layout";
 import { Card } from "../components/ui/card";
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
-import {
-  Download,
-  Calendar,
-  BarChart3,
-  Check,
-  AlertCircle,
-  ChevronLeft,
-  ChevronRight,
-} from "lucide-react";
+import { Download, Calendar, BarChart3, Check, AlertCircle, ChevronLeft, ChevronRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { phoneStorage } from "../utils/phoneStorage";
 import { themeManager } from "../utils/themeColors";
@@ -91,8 +83,6 @@ export function ExportRecords() {
 
     try {
       const allTransactions = phoneStorage.loadTransactions();
-
-      // Create month range from MM-YY inputs
       const [fromYear, fromMonthNum] = fromMonth.split("-").map(Number);
       const [toYear, toMonthNum] = toMonth.split("-").map(Number);
 
@@ -105,10 +95,7 @@ export function ExportRecords() {
         const fromYearMonth = fromYear * 100 + fromMonthNum;
         const toYearMonth = toYear * 100 + toMonthNum;
 
-        return (
-          transactionYearMonth >= fromYearMonth &&
-          transactionYearMonth <= toYearMonth
-        );
+        return transactionYearMonth >= fromYearMonth && transactionYearMonth <= toYearMonth;
       });
 
       if (filteredTransactions.length === 0) {
@@ -118,15 +105,7 @@ export function ExportRecords() {
         return;
       }
 
-      const headers = [
-        "Date",
-        "Time",
-        "Type",
-        "Main Category",
-        "Sub Category",
-        "Amount",
-        "Notes",
-      ];
+      const headers = ["Date", "Time", "Type", "Main Category", "Sub Category", "Amount", "Notes"];
       const csvContent = [
         headers.join(","),
         ...filteredTransactions.map((transaction) =>
@@ -138,27 +117,22 @@ export function ExportRecords() {
             `"${transaction.subCategory}"`,
             transaction.amount,
             `"${transaction.notes || ""}"`,
-          ].join(","),
+          ].join(",")
         ),
-      ].join("\n");
+      ].join("\\n");
 
       const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
       const link = document.createElement("a");
       const url = URL.createObjectURL(blob);
       link.setAttribute("href", url);
-      link.setAttribute(
-        "download",
-        `clear-finance-export-${fromMonth}-to-${toMonth}.csv`,
-      );
+      link.setAttribute("download", `clear-finance-export-${fromMonth}-to-${toMonth}.csv`);
       link.style.visibility = "hidden";
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
 
       setStatus("success");
-      setStatusMessage(
-        `Successfully exported ${filteredTransactions.length} transactions`,
-      );
+      setStatusMessage(`Successfully exported ${filteredTransactions.length} transactions`);
       setTimeout(() => setStatus("idle"), 3000);
     } catch (error) {
       setStatus("error");
@@ -183,16 +157,11 @@ export function ExportRecords() {
       const fromYearMonth = fromYear * 100 + fromMonthNum;
       const toYearMonth = toYear * 100 + toMonthNum;
 
-      return (
-        transactionYearMonth >= fromYearMonth &&
-        transactionYearMonth <= toYearMonth
-      );
+      return transactionYearMonth >= fromYearMonth && transactionYearMonth <= toYearMonth;
     }).length;
   };
 
-  const setQuickRange = (
-    range: "lastMonth" | "last3" | "last6" | "lastYear",
-  ) => {
+  const setQuickRange = (range: "lastMonth" | "last3" | "last6" | "lastYear") => {
     const now = new Date();
     let fromYear: number, fromMonth: number, toYear: number, toMonth: number;
 
@@ -217,10 +186,7 @@ export function ExportRecords() {
         fromMonth = sixMonthsAgo.getMonth() + 1;
         break;
       case "lastYear":
-        const twelveMonthsAgo = new Date(
-          now.getFullYear(),
-          now.getMonth() - 11,
-        );
+        const twelveMonthsAgo = new Date(now.getFullYear(), now.getMonth() - 11);
         fromYear = twelveMonthsAgo.getFullYear();
         fromMonth = twelveMonthsAgo.getMonth() + 1;
         break;
@@ -231,10 +197,7 @@ export function ExportRecords() {
   };
 
   // Navigation functions for month arrows
-  const navigateMonth = (
-    direction: "prev" | "next",
-    monthType: "from" | "to",
-  ) => {
+  const navigateMonth = (direction: "prev" | "next", monthType: "from" | "to") => {
     const currentMonth = monthType === "from" ? fromMonth : toMonth;
     const [year, month] = currentMonth.split("-").map(Number);
 
@@ -268,201 +231,159 @@ export function ExportRecords() {
 
   return (
     <Layout>
-      {/* Click outside overlay */}
-      <div
-        className="fixed inset-0 bg-black/5 z-30"
-        onClick={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          navigate(-1);
-        }}
-      />
+      {/* Backdrop */}
+      <div className="fixed inset-0 bg-black/50 z-40" onClick={() => navigate(-1)} />
 
-      {/* Content container */}
+      {/* Slide Panel */}
       <div
-        className="relative z-40 max-w-md mx-auto space-y-6 py-4 bg-background rounded-lg shadow-lg"
-        onClick={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
+        ref={containerRef}
+        className="fixed top-0 left-0 h-full w-3/4 bg-background border-r border-border z-50 transform transition-transform duration-300 ease-out overflow-y-auto"
+        style={{
+          transform: "translateX(0)",
         }}
       >
-        {/* Header */}
-        <div className="text-center">
-          <h1 className="text-xl font-semibold">Export Records</h1>
-          <p className="text-sm text-muted-foreground">
-            Export transactions as CSV spreadsheet
-          </p>
-        </div>
-
-        {/* Status Message */}
-        {status !== "idle" && statusMessage && (
-          <div
-            className={`flex items-center gap-3 p-4 rounded-lg ${
-              status === "success"
-                ? "bg-green-500/10 text-green-400 border border-green-500/20"
-                : "bg-red-500/10 text-red-400 border border-red-500/20"
-            }`}
-          >
-            {status === "success" ? (
-              <Check className="h-5 w-5" />
-            ) : (
-              <AlertCircle className="h-5 w-5" />
-            )}
-            <span className="text-sm font-medium">{statusMessage}</span>
+        <div className="space-y-4 py-4 px-4">
+          {/* Header */}
+          <div className="text-center">
+            <h1 className="text-lg font-semibold">Export Records</h1>
+            <p className="text-xs text-muted-foreground">Export transactions as CSV spreadsheet</p>
           </div>
-        )}
 
-        {/* Quick Range Buttons */}
-        <div>
-          <h2 className="text-lg font-semibold section-header mb-3">
-            Quick Date Ranges
-          </h2>
-          <div className="grid grid-cols-2 gap-2">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setQuickRange("lastMonth")}
-              className="text-xs"
+          {/* Status Message */}
+          {status !== "idle" && statusMessage && (
+            <div
+              className={`flex items-center gap-2 p-2 rounded-lg ${
+                status === "success"
+                  ? "bg-green-500/10 text-green-400 border border-green-500/20"
+                  : "bg-red-500/10 text-red-400 border border-red-500/20"
+              }`}
             >
-              Last Month
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setQuickRange("last3")}
-              className="text-xs"
-            >
-              Last 3 Months
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setQuickRange("last6")}
-              className="text-xs"
-            >
-              Last 6 Months
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setQuickRange("lastYear")}
-              className="text-xs"
-            >
-              Last Year
-            </Button>
-          </div>
-        </div>
-
-        {/* Date Range Selection */}
-        <Card className="p-4">
-          <div className="space-y-4">
-            <div className="flex items-center gap-2 mb-3">
-              <Calendar className="h-4 w-4 theme-accent" />
-              <span className="font-medium">Custom Date Range</span>
+              {status === "success" ? <Check className="h-3 w-3" /> : <AlertCircle className="h-3 w-3" />}
+              <span className="text-xs font-medium">{statusMessage}</span>
             </div>
-
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="text-sm font-medium text-muted-foreground">
-                  From Month
-                </label>
-                <div className="flex items-center gap-1 mt-1">
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="h-8 w-8"
-                    onClick={() => navigateMonth("prev", "from")}
-                  >
-                    <ChevronLeft className="h-4 w-4" />
-                  </Button>
-                  <Input
-                    type="month"
-                    value={fromMonth}
-                    onChange={(e) => setFromMonth(e.target.value)}
-                    className="flex-1"
-                  />
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="h-8 w-8"
-                    onClick={() => navigateMonth("next", "from")}
-                  >
-                    <ChevronRight className="h-4 w-4" />
-                  </Button>
-                </div>
-              </div>
-              <div>
-                <label className="text-sm font-medium text-muted-foreground">
-                  To Month
-                </label>
-                <div className="flex items-center gap-1 mt-1">
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="h-8 w-8"
-                    onClick={() => navigateMonth("prev", "to")}
-                  >
-                    <ChevronLeft className="h-4 w-4" />
-                  </Button>
-                  <Input
-                    type="month"
-                    value={toMonth}
-                    onChange={(e) => setToMonth(e.target.value)}
-                    className="flex-1"
-                  />
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="h-8 w-8"
-                    onClick={() => navigateMonth("next", "to")}
-                  >
-                    <ChevronRight className="h-4 w-4" />
-                  </Button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </Card>
-
-        {/* Export Button */}
-        <Button
-          onClick={exportToCSV}
-          disabled={
-            isExporting || !fromMonth || !toMonth || transactionCount === 0
-          }
-          className="w-full py-4 text-lg font-semibold"
-          size="lg"
-        >
-          {isExporting ? (
-            <>
-              <Download className="h-5 w-5 mr-2 animate-spin" />
-              Exporting...
-            </>
-          ) : (
-            <>
-              <Download className="h-5 w-5 mr-2" />
-              Export CSV
-            </>
           )}
-        </Button>
 
-        {/* Info Card */}
-        <Card className="p-4 bg-blue-500/10 border-blue-500/20">
-          <div className="text-sm space-y-2">
-            <div className="flex items-center gap-2 font-medium text-blue-400">
-              <BarChart3 className="h-4 w-4" />
-              Export Information
+          {/* Quick Range Buttons */}
+          <div>
+            <h2 className="text-sm font-semibold section-header mb-2">Quick Date Ranges</h2>
+            <div className="grid grid-cols-2 gap-2">
+              <Button variant="outline" size="sm" onClick={() => setQuickRange("lastMonth")} className="text-xs">
+                Last Month
+              </Button>
+              <Button variant="outline" size="sm" onClick={() => setQuickRange("last3")} className="text-xs">
+                Last 3 Months
+              </Button>
+              <Button variant="outline" size="sm" onClick={() => setQuickRange("last6")} className="text-xs">
+                Last 6 Months
+              </Button>
+              <Button variant="outline" size="sm" onClick={() => setQuickRange("lastYear")} className="text-xs">
+                Last Year
+              </Button>
             </div>
-            <ul className="space-y-1 text-blue-300">
-              <li>
-                • CSV files can be opened in Excel, Google Sheets, or Numbers
-              </li>
-              <li>• Files include date, time, category, amount, and notes</li>
-              <li>• Perfect for tax reporting and financial analysis</li>
-              <li>• CSV files cannot be imported back (use Backup for that)</li>
-            </ul>
           </div>
-        </Card>
+
+          {/* Date Range Selection */}
+          <Card className="p-3">
+            <div className="space-y-3">
+              <div className="flex items-center gap-2 mb-2">
+                <Calendar className="h-3 w-3 theme-accent" />
+                <span className="text-sm font-medium">Custom Date Range</span>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="text-xs font-medium text-muted-foreground">From Month</label>
+                  <div className="flex items-center gap-1 mt-1">
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="h-7 w-7"
+                      onClick={() => navigateMonth("prev", "from")}
+                    >
+                      <ChevronLeft className="h-3 w-3" />
+                    </Button>
+                    <Input
+                      type="month"
+                      value={fromMonth}
+                      onChange={(e) => setFromMonth(e.target.value)}
+                      className="flex-1 h-7 text-xs"
+                    />
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="h-7 w-7"
+                      onClick={() => navigateMonth("next", "from")}
+                    >
+                      <ChevronRight className="h-3 w-3" />
+                    </Button>
+                  </div>
+                </div>
+                <div>
+                  <label className="text-xs font-medium text-muted-foreground">To Month</label>
+                  <div className="flex items-center gap-1 mt-1">
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="h-7 w-7"
+                      onClick={() => navigateMonth("prev", "to")}
+                    >
+                      <ChevronLeft className="h-3 w-3" />
+                    </Button>
+                    <Input
+                      type="month"
+                      value={toMonth}
+                      onChange={(e) => setToMonth(e.target.value)}
+                      className="flex-1 h-7 text-xs"
+                    />
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="h-7 w-7"
+                      onClick={() => navigateMonth("next", "to")}
+                    >
+                      <ChevronRight className="h-3 w-3" />
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Card>
+
+          {/* Export Button */}
+          <Button
+            onClick={exportToCSV}
+            disabled={isExporting || !fromMonth || !toMonth || transactionCount === 0}
+            className="w-full py-3 text-sm font-semibold"
+            size="sm"
+          >
+            {isExporting ? (
+              <>
+                <Download className="h-4 w-4 mr-2 animate-spin" />
+                Exporting...
+              </>
+            ) : (
+              <>
+                <Download className="h-4 w-4 mr-2" />
+                Export CSV
+              </>
+            )}
+          </Button>
+
+          {/* Info Card */}
+          <Card className="p-3 bg-blue-500/10 border-blue-500/20">
+            <div className="text-xs space-y-1">
+              <div className="flex items-center gap-2 font-medium text-blue-400">
+                <BarChart3 className="h-3 w-3" />
+                Export Information
+              </div>
+              <ul className="space-y-1 text-blue-300 text-xs">
+                <li>• CSV files can be opened in Excel, Google Sheets, or Numbers</li>
+                <li>• Perfect for tax reporting and financial analysis</li>
+                <li>• CSV files cannot be imported back (use Backup for that)</li>
+              </ul>
+            </div>
+          </Card>
+        </div>
       </div>
     </Layout>
   );
