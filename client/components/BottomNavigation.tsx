@@ -5,6 +5,7 @@ import {
   Target,
   Calculator,
   FolderOpen,
+  MoreHorizontal,
 } from "lucide-react";
 
 export function BottomNavigation() {
