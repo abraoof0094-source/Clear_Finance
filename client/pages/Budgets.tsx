@@ -175,13 +175,13 @@ export function Budgets() {
                       </div>
                     </div>
                   </div>
-                  <Button 
-                    variant="outline" 
-                    size="sm"
-                    onClick={() => handleSetBudget(category)}
-                  >
-                    SET BUDGET
-                  </Button>
+                  <div className="text-right">
+                    {getCategoryBudgetSum(category) > 0 && (
+                      <div className="text-sm font-medium text-primary">
+                        Total: ₹{getCategoryBudgetSum(category).toLocaleString()}
+                      </div>
+                    )}
+                  </div>
                 </div>
               </Card>
 
