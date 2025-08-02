@@ -12,7 +12,9 @@ import {
   Moon,
   Sun,
   X,
+  ChevronRight,
 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 interface SlideMenuProps {
   isOpen: boolean;
