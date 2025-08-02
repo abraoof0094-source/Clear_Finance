@@ -212,7 +212,7 @@ export function Analysis() {
           <DialogHeader>
             <DialogTitle>Display options</DialogTitle>
           </DialogHeader>
-          <div className="space-y-4">
+          <div className="space-y-6">
             {/* View Mode */}
             <div className="space-y-3">
               <div className="text-sm font-medium text-muted-foreground">
@@ -239,6 +239,44 @@ export function Analysis() {
                   </button>
                 ))}
               </div>
+            </div>
+
+            {/* Carry Over */}
+            <div className="space-y-3">
+              <div className="text-sm font-medium text-muted-foreground">
+                Carry over:
+              </div>
+              <div className="space-y-2">
+                {[
+                  { key: true, label: "ON" },
+                  { key: false, label: "OFF" },
+                ].map((option) => (
+                  <button
+                    key={option.label}
+                    onClick={() => setCarryOver(option.key)}
+                    className="w-full flex items-center justify-between p-3 text-left hover:bg-muted/50 rounded-lg transition-colors"
+                  >
+                    <span className="text-sm font-medium text-muted-foreground">
+                      {option.label}
+                    </span>
+                    {carryOver === option.key && (
+                      <Check className="h-4 w-4 text-primary" />
+                    )}
+                  </button>
+                ))}
+              </div>
+
+              {/* Carry Over Explanation */}
+              {carryOver && (
+                <div className="flex items-start gap-2 p-3 bg-muted/30 rounded-lg">
+                  <div className="w-5 h-5 bg-blue-500/20 rounded-full flex items-center justify-center mt-0.5 flex-shrink-0">
+                    <span className="text-xs font-bold text-blue-600">i</span>
+                  </div>
+                  <p className="text-xs text-muted-foreground">
+                    With Carry over enabled, monthly surplus will be added to the next month.
+                  </p>
+                </div>
+              )}
             </div>
           </div>
         </DialogContent>
