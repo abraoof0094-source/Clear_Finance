@@ -150,6 +150,37 @@ export function ExportRecords() {
     setToMonth(`${toYear}-${String(toMonth).padStart(2, '0')}`);
   };
 
+  // Navigation functions for month arrows
+  const navigateMonth = (direction: 'prev' | 'next', monthType: 'from' | 'to') => {
+    const currentMonth = monthType === 'from' ? fromMonth : toMonth;
+    const [year, month] = currentMonth.split('-').map(Number);
+
+    let newYear = year;
+    let newMonth = month;
+
+    if (direction === 'next') {
+      newMonth += 1;
+      if (newMonth > 12) {
+        newMonth = 1;
+        newYear += 1;
+      }
+    } else {
+      newMonth -= 1;
+      if (newMonth < 1) {
+        newMonth = 12;
+        newYear -= 1;
+      }
+    }
+
+    const newMonthStr = `${newYear}-${String(newMonth).padStart(2, '0')}`;
+
+    if (monthType === 'from') {
+      setFromMonth(newMonthStr);
+    } else {
+      setToMonth(newMonthStr);
+    }
+  };
+
   const transactionCount = getTransactionCount();
 
   return (
