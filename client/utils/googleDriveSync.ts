@@ -24,7 +24,12 @@ class GoogleDriveSync {
   }
 
   private getClientId(): string {
-    // Try to get from environment variables (if available)
+    // Try to get from Vite build-time environment variable
+    if (typeof __GOOGLE_CLIENT_ID__ !== 'undefined' && __GOOGLE_CLIENT_ID__) {
+      return __GOOGLE_CLIENT_ID__;
+    }
+
+    // Try to get from runtime window variable (if set)
     if (typeof window !== 'undefined' && (window as any).__GOOGLE_CLIENT_ID__) {
       return (window as any).__GOOGLE_CLIENT_ID__;
     }
