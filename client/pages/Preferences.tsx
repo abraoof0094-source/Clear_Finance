@@ -21,6 +21,7 @@ import { useNavigate } from "react-router-dom";
 import { ManualDataSyncComponent } from "../components/ManualDataSync";
 import { SyncCodeSyncComponent } from "../components/SyncCodeSync";
 import { GoogleDriveSyncComponent } from "../components/GoogleDriveSync";
+import { GoogleDriveSetupComponent } from "../components/GoogleDriveSetup";
 
 export function Preferences() {
   const navigate = useNavigate();
