@@ -83,7 +83,7 @@ interface Transaction {
 }
 
 export function Tracker() {
-  const [currentMonth, setCurrentMonth] = useState("August, 2025");
+  const [currentMonth, setCurrentMonth] = useState(new Date(2025, 7)); // August 2025
   const [showAddDialog, setShowAddDialog] = useState(false);
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   
@@ -104,11 +104,37 @@ export function Tracker() {
   const selectedCategory = allCategories.find(cat => cat.name === selectedMainCategory);
   const subCategories = selectedCategory?.subcategories || [];
 
-  const totalIncome = transactions
+  // Navigate months
+  const goToPreviousMonth = () => {
+    setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1));
+  };
+
+  const goToNextMonth = () => {
+    setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1));
+  };
+
+  // Format month display
+  const formatMonth = (date: Date) => {
+    return date.toLocaleString('default', { month: 'long', year: 'numeric' });
+  };
+
+  // Get current month key for filtering transactions
+  const getCurrentMonthKey = () => {
+    return `${currentMonth.getFullYear()}-${currentMonth.getMonth()}`;
+  };
+
+  // Filter transactions for current month
+  const currentMonthTransactions = transactions.filter(t => {
+    const transactionDate = new Date(t.date);
+    return transactionDate.getMonth() === currentMonth.getMonth() &&
+           transactionDate.getFullYear() === currentMonth.getFullYear();
+  });
+
+  const totalIncome = currentMonthTransactions
     .filter(t => t.type === "income")
     .reduce((sum, t) => sum + t.amount, 0);
-    
-  const totalExpense = transactions
+
+  const totalExpense = currentMonthTransactions
     .filter(t => t.type === "expense")
     .reduce((sum, t) => sum + t.amount, 0);
 
@@ -195,15 +221,15 @@ export function Tracker() {
       subCategory: selectedSubCategory,
       amount: parseFloat(displayValue),
       notes,
-      date: new Date().toLocaleDateString('en-GB', { 
-        day: '2-digit', 
-        month: 'short', 
-        year: 'numeric' 
+      date: currentMonth.toLocaleDateString('en-GB', {
+        day: '2-digit',
+        month: 'short',
+        year: 'numeric'
       }),
-      time: new Date().toLocaleTimeString('en-US', { 
-        hour: '2-digit', 
+      time: new Date().toLocaleTimeString('en-US', {
+        hour: '2-digit',
         minute: '2-digit',
-        hour12: true 
+        hour12: true
       }),
     };
 
@@ -225,11 +251,11 @@ export function Tracker() {
       <div className="space-y-6 py-4">
         {/* Month Navigation */}
         <div className="flex items-center justify-between">
-          <Button variant="ghost" size="icon">
+          <Button variant="ghost" size="icon" onClick={goToPreviousMonth}>
             <ChevronLeft className="h-5 w-5" />
           </Button>
-          <h2 className="text-lg font-semibold">{currentMonth}</h2>
-          <Button variant="ghost" size="icon">
+          <h2 className="text-lg font-semibold">{formatMonth(currentMonth)}</h2>
+          <Button variant="ghost" size="icon" onClick={goToNextMonth}>
             <ChevronRight className="h-5 w-5" />
           </Button>
         </div>
@@ -258,12 +284,12 @@ export function Tracker() {
         <div>
           <h3 className="text-lg font-semibold mb-4">Recent Transactions</h3>
           <div className="space-y-3">
-            {transactions.length === 0 ? (
+            {currentMonthTransactions.length === 0 ? (
               <Card className="p-6 text-center text-muted-foreground">
-                No transactions yet. Click the + button to add your first transaction.
+                No transactions for {formatMonth(currentMonth)}. Click the + button to add your first transaction.
               </Card>
             ) : (
-              transactions.slice(-5).reverse().map((transaction) => (
+              currentMonthTransactions.slice(-5).reverse().map((transaction) => (
                 <TransactionItem key={transaction.id} transaction={transaction} />
               ))
             )}
@@ -506,14 +532,10 @@ export function Tracker() {
 
               {/* Date/Time */}
               <div className="text-center text-sm text-muted-foreground border-t pt-4">
-                {new Date().toLocaleDateString('en-GB', { 
-                  day: '2-digit', 
-                  month: 'short', 
-                  year: 'numeric' 
-                })} | {new Date().toLocaleTimeString('en-US', { 
-                  hour: '2-digit', 
+                {formatMonth(currentMonth)} | {new Date().toLocaleTimeString('en-US', {
+                  hour: '2-digit',
                   minute: '2-digit',
-                  hour12: true 
+                  hour12: true
                 })}
               </div>
             </div>
