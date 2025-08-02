@@ -261,21 +261,57 @@ export function ExportRecords() {
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="text-sm font-medium text-muted-foreground">From Month</label>
-                <Input
-                  type="month"
-                  value={fromMonth}
-                  onChange={(e) => setFromMonth(e.target.value)}
-                  className="mt-1"
-                />
+                <div className="flex items-center gap-1 mt-1">
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-8 w-8"
+                    onClick={() => navigateMonth('prev', 'from')}
+                  >
+                    <ChevronLeft className="h-4 w-4" />
+                  </Button>
+                  <Input
+                    type="month"
+                    value={fromMonth}
+                    onChange={(e) => setFromMonth(e.target.value)}
+                    className="flex-1"
+                  />
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-8 w-8"
+                    onClick={() => navigateMonth('next', 'from')}
+                  >
+                    <ChevronRight className="h-4 w-4" />
+                  </Button>
+                </div>
               </div>
               <div>
                 <label className="text-sm font-medium text-muted-foreground">To Month</label>
-                <Input
-                  type="month"
-                  value={toMonth}
-                  onChange={(e) => setToMonth(e.target.value)}
-                  className="mt-1"
-                />
+                <div className="flex items-center gap-1 mt-1">
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-8 w-8"
+                    onClick={() => navigateMonth('prev', 'to')}
+                  >
+                    <ChevronLeft className="h-4 w-4" />
+                  </Button>
+                  <Input
+                    type="month"
+                    value={toMonth}
+                    onChange={(e) => setToMonth(e.target.value)}
+                    className="flex-1"
+                  />
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-8 w-8"
+                    onClick={() => navigateMonth('next', 'to')}
+                  >
+                    <ChevronRight className="h-4 w-4" />
+                  </Button>
+                </div>
               </div>
             </div>
 
