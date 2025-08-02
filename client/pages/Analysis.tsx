@@ -8,7 +8,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "../components/ui/dialog";
-import { ChevronLeft, ChevronRight, Menu, Check, Star } from "lucide-react";
+import { ChevronLeft, ChevronRight, Menu, Check } from "lucide-react";
 
 type ViewMode = "DAILY" | "WEEKLY" | "MONTHLY" | "3_MONTHS" | "6_MONTHS" | "YEARLY";
 
