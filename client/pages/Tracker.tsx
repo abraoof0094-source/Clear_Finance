@@ -43,7 +43,7 @@ const allCategories = [
       { name: "Rent / Home Loan EMI", icon: "🏡" },
       { name: "Maintenance / Society Charges", icon: "🏢" },
       { name: "Utilities", icon: "⚡" },
-      { name: "Internet / Broadband", icon: "�����" },
+      { name: "Internet / Broadband", icon: "����" },
       { name: "Mobile Bills", icon: "���" },
       { name: "DTH / OTT Subscriptions", icon: "📺" },
       { name: "Groceries & Daily Essentials", icon: "🛒" },
@@ -234,9 +234,6 @@ export function Tracker() {
     if (storedBudgets) {
       setBudgets(JSON.parse(storedBudgets));
     }
-
-    // Setup auto-sync for Google Drive
-    setupAutoSync();
   }, []);
 
   // Save transactions to localStorage whenever transactions change
