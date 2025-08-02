@@ -698,7 +698,7 @@ function SubcategoryItem({ subcategory, onEdit, onDelete }: SubcategoryItemProps
   }, [showMenu]);
 
   return (
-    <div className="bg-background rounded-md p-3 relative">
+    <div className="bg-background rounded-md p-3 relative ml-6">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center text-sm">
