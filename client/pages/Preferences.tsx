@@ -18,7 +18,7 @@ import {
 } from "../components/ui/select";
 import { ArrowLeft, ChevronRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { GoogleDriveSyncComponent } from "../components/GoogleDriveSync";
+import { ManualDataSyncComponent } from "../components/ManualDataSync";
 
 export function Preferences() {
   const navigate = useNavigate();
