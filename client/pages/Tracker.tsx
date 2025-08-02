@@ -637,8 +637,8 @@ export function Tracker() {
                   <div
                     className={`text-2xl font-bold font-mono ${
                       transactionType === "income"
-                        ? "text-green-400"
-                        : "text-red-400"
+                        ? "amount-income"
+                        : "amount-expense"
                     }`}
                   >
                     ₹{displayValue}
