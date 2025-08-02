@@ -90,7 +90,16 @@ export function Analysis() {
         startDate = new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 5, 1);
         break;
       case "YEARLY":
-        startDate = new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 11, 1);
+        // Financial year: April to March
+        const currentYear = currentMonth.getFullYear();
+        const currentMonthNum = currentMonth.getMonth();
+
+        // If current month is Jan, Feb, or Mar - we're in the second half of financial year
+        if (currentMonthNum < 3) { // Jan=0, Feb=1, Mar=2
+          startDate = new Date(currentYear - 1, 3, 1); // April of previous calendar year
+        } else {
+          startDate = new Date(currentYear, 3, 1); // April of current calendar year
+        }
         break;
       default: // MONTHLY
         startDate = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1);
