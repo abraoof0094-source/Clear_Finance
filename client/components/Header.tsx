@@ -21,7 +21,7 @@ export function Header({
               <Menu className="h-6 w-6 text-primary" />
             </Button>
           )}
-          <h1 className="text-xl font-bold text-primary italic">{title}</h1>
+          <h1 className="text-xl font-bold text-primary">{title}</h1>
         </div>
 
         {showSearch && (
