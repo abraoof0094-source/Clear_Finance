@@ -220,13 +220,13 @@ export function Budgets() {
         </div>
 
         {/* Copy from Previous Month Button */}
-        <Button 
-          variant="outline" 
+        <Button
+          variant="outline"
           className="w-full flex items-center gap-2"
           onClick={handleCopyFromPreviousMonth}
         >
           <Copy className="h-4 w-4" />
-          COPY FROM PREVIOUS MONTH
+          Copy from Previous Month
         </Button>
       </div>
 
