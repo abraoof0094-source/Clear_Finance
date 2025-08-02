@@ -146,8 +146,8 @@ export function BackupRestore() {
       />
       
       {/* Content container */}
-      <div 
-        className="relative z-40 max-w-md mx-auto space-y-4 py-4 px-4 bg-background rounded-lg shadow-lg min-h-[calc(100vh-8rem)] flex flex-col"
+      <div
+        className="relative z-40 max-w-sm mx-auto space-y-3 py-3 px-3 bg-background rounded-lg shadow-lg"
         onClick={(e) => {
           e.preventDefault();
           e.stopPropagation();
@@ -155,26 +155,26 @@ export function BackupRestore() {
       >
         {/* Header */}
         <div className="text-center">
-          <h1 className="text-xl font-semibold">Backup & Restore</h1>
-          <p className="text-sm text-muted-foreground">Protect and transfer your data</p>
+          <h1 className="text-lg font-semibold">Backup & Restore</h1>
+          <p className="text-xs text-muted-foreground">Protect and transfer your data</p>
         </div>
 
         {/* Status Message */}
         {status !== 'idle' && statusMessage && (
-          <div className={`flex items-center gap-3 p-3 rounded-lg ${
+          <div className={`flex items-center gap-2 p-2 rounded-lg ${
             status === 'success' ? 'bg-green-500/10 text-green-400 border border-green-500/20' : 'bg-red-500/10 text-red-400 border border-red-500/20'
           }`}>
             {status === 'success' ? (
-              <Check className="h-4 w-4" />
+              <Check className="h-3 w-3" />
             ) : (
-              <AlertCircle className="h-4 w-4" />
+              <AlertCircle className="h-3 w-3" />
             )}
-            <span className="text-sm font-medium">{statusMessage}</span>
+            <span className="text-xs font-medium">{statusMessage}</span>
           </div>
         )}
 
-        {/* Main Content Grid */}
-        <div className="grid grid-cols-1 gap-4 flex-1">
+        {/* Main Content */}
+        <div className="space-y-2">
           {/* Backup Card */}
           <Card className="p-4">
             <div className="flex items-center gap-3 mb-3">
