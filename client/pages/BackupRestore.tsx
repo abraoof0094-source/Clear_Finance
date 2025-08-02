@@ -62,7 +62,7 @@ export function BackupRestore() {
     }
   };
 
-  // Handle file upload
+  // Handle file upload and auto-restore
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
@@ -71,14 +71,70 @@ export function BackupRestore() {
     reader.onload = (e) => {
       const content = e.target?.result as string;
       setImportData(content);
-      setStatus('success');
-      setStatusMessage(`File "${file.name}" loaded. Click "Restore Data" to proceed.`);
+
+      // Auto-trigger restore immediately after file is loaded
+      setTimeout(() => {
+        handleRestoreWithContent(content, file.name);
+      }, 100);
     };
     reader.onerror = () => {
       setStatus('error');
       setStatusMessage('Failed to read file');
     };
     reader.readAsText(file);
+  };
+
+  // Restore with provided content
+  const handleRestoreWithContent = async (content: string, fileName: string) => {
+    setIsRestoring(true);
+    setStatus('idle');
+
+    try {
+      const data = JSON.parse(content);
+
+      if (!data.transactions || !Array.isArray(data.transactions)) {
+        throw new Error('Invalid backup format');
+      }
+
+      const currentStats = {
+        transactions: phoneStorage.loadTransactions().length,
+        budgets: Object.keys(phoneStorage.loadBudgets()).length
+      };
+
+      const confirmed = window.confirm(
+        `🔄 Restore from "${fileName}"?\n\n` +
+        `Replace current data (${currentStats.transactions} transactions, ${currentStats.budgets} budgets)\n` +
+        `With backup data (${data.transactions.length} transactions, ${Object.keys(data.budgets || {}).length} budgets)\n\n` +
+        `Backup date: ${data.exportedAt ? new Date(data.exportedAt).toLocaleDateString() : 'Unknown'}\n\n` +
+        `This action cannot be undone. Continue?`
+      );
+
+      if (confirmed) {
+        phoneStorage.saveTransactions(data.transactions);
+        phoneStorage.saveBudgets(data.budgets || {});
+        if (data.categories) {
+          localStorage.setItem('categories', JSON.stringify(data.categories));
+        }
+        localStorage.setItem('last-restore', new Date().toISOString());
+
+        setStatus('success');
+        setStatusMessage('Data restored successfully! Refreshing page...');
+        setImportData('');
+
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
+      } else {
+        setImportData('');
+      }
+    } catch (error) {
+      setStatus('error');
+      setStatusMessage(`Invalid backup file: ${fileName}`);
+      setImportData('');
+      setTimeout(() => setStatus('idle'), 3000);
+    } finally {
+      setIsRestoring(false);
+    }
   };
 
   // Restore from backup
