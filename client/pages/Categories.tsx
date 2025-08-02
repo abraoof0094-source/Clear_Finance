@@ -82,7 +82,7 @@ const allCategories = [
       { name: "Mutual Funds (Lumpsum)", icon: "💹", description: "Opportunistic investing" },
       { name: "Stocks / ETFs", icon: "📈", description: "Direct equity, MSCI World, REITs" },
       { name: "PPF / EPF / VPF", icon: "🏛️", description: "Provident fund contributions" },
-      { name: "NPS", icon: "👴", description: "Retirement-focused" },
+      { name: "NPS", icon: "��", description: "Retirement-focused" },
       { name: "FD / RD", icon: "🏪", description: "Bank fixed deposits" },
       { name: "Gold", icon: "🥇", description: "Gold ETFs, sovereign gold bonds" },
       { name: "Crypto / Alternative Assets", icon: "₿", description: "Bitcoin, US stocks (optional)" },
@@ -694,6 +694,23 @@ interface SubcategoryItemProps {
 
 function SubcategoryItem({ subcategory, onEdit, onDelete }: SubcategoryItemProps) {
   const [showMenu, setShowMenu] = useState(false);
+
+  // Close menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as Element;
+      if (!target.closest('.submenu-container')) {
+        setShowMenu(false);
+      }
+    };
+
+    if (showMenu) {
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => {
+        document.removeEventListener('mousedown', handleClickOutside);
+      };
+    }
+  }, [showMenu]);
 
   return (
     <div className="bg-background rounded-md p-3 relative">
