@@ -16,6 +16,13 @@ export function GoogleDriveSyncComponent() {
     const configured = googleDriveSync.isConfigured();
     setIsConfigured(configured);
 
+    // Debug: Log current configuration status
+    console.log('Google Drive Sync - Configuration status:', {
+      isConfigured: configured,
+      hasStoredClientId: !!localStorage.getItem('google-client-id'),
+      storedClientId: localStorage.getItem('google-client-id')?.substring(0, 20) + '...'
+    });
+
     if (configured) {
       checkSignInStatus();
       loadGoogleAPI();
