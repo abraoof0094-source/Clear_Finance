@@ -154,6 +154,7 @@ export function SyncCodeSyncComponent() {
     } catch (error) {
       setStatus('error');
       setStatusMessage(error instanceof Error ? error.message : 'Sync failed');
+      clearStatus();
     } finally {
       setIsLoading(false);
     }
@@ -191,7 +192,7 @@ export function SyncCodeSyncComponent() {
           <div>
             <h3 className="text-lg font-semibold">Sync Code</h3>
             <p className="text-sm text-muted-foreground">
-              Generate a code to sync data between devices • No setup required
+              Generate a code to sync data between devices �� No setup required
             </p>
           </div>
         </div>
