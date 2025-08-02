@@ -1,5 +1,6 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Layout } from "../components/Layout";
+import { themeManager } from "../utils/themeColors";
 import { Card } from "../components/ui/card";
 import { Button } from '../components/ui/button';
 import { ArrowLeft, FileText, Download, Upload, Copy, Check, FileUp, RotateCcw } from 'lucide-react';
