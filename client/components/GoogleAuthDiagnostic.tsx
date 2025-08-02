@@ -3,6 +3,7 @@ import { Button } from './ui/button';
 import { Card } from './ui/card';
 import { Input } from './ui/input';
 import { Wrench, CheckCircle, XCircle, AlertTriangle, RefreshCw } from 'lucide-react';
+import { parseGoogleError } from '../utils/errorParser';
 
 interface DiagnosticResult {
   step: string;
