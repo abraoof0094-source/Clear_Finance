@@ -16,6 +16,7 @@ export function Analysis() {
   const [currentMonth, setCurrentMonth] = useState(new Date()); // Current month
   const [showDisplayOptions, setShowDisplayOptions] = useState(false);
   const [viewMode, setViewMode] = useState<ViewMode>("MONTHLY");
+  const [carryOver, setCarryOver] = useState(false);
 
   // Navigate months
   const goToPreviousMonth = () => {
