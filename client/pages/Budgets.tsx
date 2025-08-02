@@ -176,29 +176,29 @@ export function Budgets() {
     <Layout>
       <div className="space-y-6 py-4">
         {/* Month Navigation */}
-        <div className="flex items-center justify-between">
-          <Button variant="ghost" size="icon">
+        <div className="flex items-center justify-between mb-6">
+          <Button variant="ghost" size="icon" onClick={goToPreviousMonth}>
             <ChevronLeft className="h-5 w-5" />
           </Button>
-          <h2 className="text-lg font-semibold">{currentMonth}</h2>
-          <Button variant="ghost" size="icon">
+          <h2 className="text-xl font-semibold">{formatMonth(currentMonth)}</h2>
+          <Button variant="ghost" size="icon" onClick={goToNextMonth}>
             <ChevronRight className="h-5 w-5" />
           </Button>
         </div>
 
-        {/* Budget Summary */}
-        <Card className="p-6">
-          <div className="grid grid-cols-2 gap-4 text-center">
-            <div>
-              <div className="text-sm text-muted-foreground">TOTAL BUDGET</div>
-              <div className="text-xl font-bold">₹{totalBudget.toLocaleString()}</div>
+        {/* No Budget Notification */}
+        {totalBudget === 0 && (
+          <Card className="p-4 mb-4 bg-muted/50 border-primary/20">
+            <div className="text-center">
+              <p className="text-sm text-muted-foreground mb-2">
+                No budgets set for {formatMonth(currentMonth)}
+              </p>
+              <p className="text-xs text-muted-foreground">
+                Set budgets for subcategories to start planning your monthly expenses
+              </p>
             </div>
-            <div>
-              <div className="text-sm text-muted-foreground">TOTAL SPENT</div>
-              <div className="text-xl font-bold text-red-400">₹0.00</div>
-            </div>
-          </div>
-        </Card>
+          </Card>
+        )}
 
         {/* Budget Categories */}
         <div className="space-y-4">
