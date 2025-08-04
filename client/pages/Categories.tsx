@@ -17,7 +17,7 @@ const allCategories = [
   {
     id: 1,
     name: "Income Sources",
-    icon: "💰",
+    icon: "��",
     type: "income" as const,
     subcategories: [
       {
@@ -45,7 +45,7 @@ const allCategories = [
         icon: "📊",
         description: "Dividends, rental income",
       },
-      { name: "Others", icon: "🎯", description: "ESOPs, stock sales" },
+      { name: "Others", icon: "��", description: "ESOPs, stock sales" },
     ],
   },
   {
@@ -83,7 +83,7 @@ const allCategories = [
       },
       {
         name: "House Help / Cook / Maid",
-        icon: "👩‍🍳",
+        icon: "👩���🍳",
         description: "Monthly salaries",
       },
       {
@@ -96,7 +96,7 @@ const allCategories = [
   {
     id: 3,
     name: "Family & Personal Living",
-    icon: "👨‍👩‍👧‍👦",
+    icon: "👨‍👩���👧‍👦",
     type: "expense" as const,
     subcategories: [
       {
@@ -185,11 +185,11 @@ const allCategories = [
     id: 5,
     name: "Investments",
     icon: "📈",
-    type: "expense" as const,
+    type: "investment" as const,
     subcategories: [
       {
         name: "Mutual Funds (SIP)",
-        icon: "📊",
+        icon: "��",
         description: "Equity, hybrid, index funds",
       },
       {
@@ -208,7 +208,7 @@ const allCategories = [
         description: "Provident fund contributions",
       },
       { name: "NPS", icon: "👴", description: "Retirement-focused" },
-      { name: "FD / RD", icon: "🏪", description: "Bank fixed deposits" },
+      { name: "FD / RD", icon: "���", description: "Bank fixed deposits" },
       {
         name: "Gold",
         icon: "🥇",
@@ -238,7 +238,7 @@ const allCategories = [
     type: "expense" as const,
     subcategories: [
       { name: "Home Loan", icon: "🏠", description: "Bank EMI" },
-      { name: "Car Loan", icon: "🚗", description: "EMI for sedan/SUV" },
+      { name: "Car Loan", icon: "���", description: "EMI for sedan/SUV" },
       { name: "Bike Loan", icon: "🏍️", description: "EMI for two-wheeler" },
       {
         name: "Personal Loan",
