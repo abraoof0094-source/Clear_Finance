@@ -384,7 +384,7 @@ export function Categories() {
 
   const [newCategoryName, setNewCategoryName] = useState("Untitled");
   const [selectedIcon, setSelectedIcon] = useState("🏷️");
-  const [categoryType, setCategoryType] = useState<"income" | "expense">(
+  const [categoryType, setCategoryType] = useState<"income" | "expense" | "investment">(
     "expense",
   );
 
@@ -813,7 +813,7 @@ interface ExpandableCategoryItemProps {
     id: number;
     name: string;
     icon: string;
-    type: "income" | "expense";
+    type: "income" | "expense" | "investment";
     subcategories: any[];
   };
   isExpanded: boolean;
@@ -858,6 +858,8 @@ function ExpandableCategoryItem({
                   className={`text-xs px-2 py-1 rounded-full ${
                     category.type === "income"
                       ? "bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300"
+                      : category.type === "investment"
+                      ? "bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300"
                       : "bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-300"
                   }`}
                 >
