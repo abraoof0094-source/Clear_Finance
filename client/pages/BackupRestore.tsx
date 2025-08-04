@@ -22,9 +22,60 @@ export function BackupRestore() {
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
   const [statusMessage, setStatusMessage] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const startXRef = useRef<number>(0);
+  const currentXRef = useRef<number>(0);
 
   useEffect(() => {
     themeManager.setTheme(localStorage.getItem("selected-theme") || "original");
+  }, []);
+
+  // Touch event handlers for swipe gestures
+  const handleTouchStart = (e: TouchEvent) => {
+    startXRef.current = e.touches[0].clientX;
+    currentXRef.current = startXRef.current;
+  };
+
+  const handleTouchMove = (e: TouchEvent) => {
+    currentXRef.current = e.touches[0].clientX;
+    const diff = currentXRef.current - startXRef.current;
+
+    // Only allow swiping to the left (negative diff means swiping left to close)
+    if (diff < 0 && containerRef.current) {
+      const translateX = Math.max(diff, -window.innerWidth * 0.5);
+      containerRef.current.style.transform = `translateX(${translateX}px)`;
+    }
+  };
+
+  const handleTouchEnd = () => {
+    if (!containerRef.current) return;
+
+    const diff = currentXRef.current - startXRef.current;
+    const threshold = -window.innerWidth * 0.15; // 15% of screen width (negative for left swipe)
+
+    if (diff < threshold) {
+      // Swipe was far enough, close the page
+      navigate(-1);
+    } else {
+      // Snap back to original position
+      containerRef.current.style.transform = "translateX(0)";
+    }
+  };
+
+  // Add touch event listeners
+  useEffect(() => {
+    const container = containerRef.current;
+    if (container) {
+      container.addEventListener("touchstart", handleTouchStart);
+      container.addEventListener("touchmove", handleTouchMove);
+      container.addEventListener("touchend", handleTouchEnd);
+
+      return () => {
+        container.removeEventListener("touchstart", handleTouchStart);
+        container.removeEventListener("touchmove", handleTouchMove);
+        container.removeEventListener("touchend", handleTouchEnd);
+      };
+    }
   }, []);
 
   // Create backup
@@ -145,125 +196,110 @@ export function BackupRestore() {
 
   return (
     <Layout>
-      {/* Click outside overlay */}
-      <div
-        className="fixed inset-0 bg-black/5 z-30"
-        onClick={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          navigate(-1);
-        }}
-      />
+      {/* Backdrop */}
+      <div className="fixed inset-0 bg-black/50 z-40" onClick={() => navigate(-1)} />
 
-      {/* Content container */}
+      {/* Slide Panel */}
       <div
-        className="relative z-40 max-w-sm mx-auto space-y-3 py-3 px-3 bg-background rounded-lg shadow-lg"
-        onClick={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
+        ref={containerRef}
+        className="fixed top-0 left-0 h-full w-1/2 bg-background border-r border-border z-50 transform transition-transform duration-300 ease-out overflow-y-auto"
+        style={{
+          transform: "translateX(0)",
         }}
       >
-        {/* Header */}
-        <div className="text-center">
-          <h1 className="text-lg font-semibold">Backup & Restore</h1>
-          <p className="text-xs text-muted-foreground">
-            Protect and transfer your data
-          </p>
-        </div>
-
-        {/* Status Message */}
-        {status !== "idle" && statusMessage && (
-          <div
-            className={`flex items-center gap-2 p-2 rounded-lg ${
-              status === "success"
-                ? "bg-green-500/10 text-green-400 border border-green-500/20"
-                : "bg-red-500/10 text-red-400 border border-red-500/20"
-            }`}
-          >
-            {status === "success" ? (
-              <Check className="h-3 w-3" />
-            ) : (
-              <AlertCircle className="h-3 w-3" />
-            )}
-            <span className="text-xs font-medium">{statusMessage}</span>
+        <div className="space-y-4 py-4 px-4">
+          {/* Header */}
+          <div className="text-center">
+            <h1 className="text-lg font-semibold">Backup & Restore</h1>
+            <p className="text-xs text-muted-foreground">
+              Protect and transfer your data
+            </p>
           </div>
-        )}
 
-        {/* Main Content */}
-        <div className="space-y-2">
-          {/* Backup Card */}
-          <Card className="p-3">
-            <div className="flex items-center gap-2 mb-2">
-              <div className="p-1.5 rounded-full bg-green-500/20">
-                <Download className="h-4 w-4 text-green-500" />
-              </div>
-              <div className="flex-1">
-                <div className="text-sm font-medium">Complete Backup</div>
-                <div className="text-xs text-muted-foreground">
-                  Saves all your data
-                </div>
-              </div>
-            </div>
-            <Button
-              onClick={handleBackupNow}
-              disabled={isBackingUp}
-              className="w-full h-8"
-              size="sm"
+          {/* Status Message */}
+          {status !== "idle" && statusMessage && (
+            <div
+              className={`flex items-center gap-2 p-2 rounded-lg ${
+                status === "success"
+                  ? "bg-green-500/10 text-green-400 border border-green-500/20"
+                  : "bg-red-500/10 text-red-400 border border-red-500/20"
+              }`}
             >
-              {isBackingUp ? (
-                <>
-                  <Download className="h-3 w-3 mr-1 animate-spin" />
-                  Creating...
-                </>
+              {status === "success" ? (
+                <Check className="h-3 w-3" />
               ) : (
-                <>
-                  <Download className="h-3 w-3 mr-1" />
-                  Create Backup
-                </>
+                <AlertCircle className="h-3 w-3" />
               )}
-            </Button>
-          </Card>
+              <span className="text-xs font-medium">{statusMessage}</span>
+            </div>
+          )}
 
-          {/* Restore Card */}
-          <Card className="p-3">
-            <div className="flex items-center gap-2 mb-2">
-              <div className="p-1.5 rounded-full bg-blue-500/20">
-                <RotateCcw className="h-4 w-4 text-blue-500" />
-              </div>
-              <div className="flex-1">
-                <div className="text-sm font-medium">Restore from Backup</div>
-                <div className="text-xs text-muted-foreground">
-                  Upload .mbak or .json file
+          {/* Main Content */}
+          <div className="space-y-2">
+            {/* Backup Card */}
+            <Card className="p-3">
+              <div className="flex items-center gap-2 mb-2">
+                <div className="p-1.5 rounded-full bg-green-500/20">
+                  <Download className="h-4 w-4 text-green-500" />
+                </div>
+                <div className="flex-1">
+                  <div className="text-sm font-medium">Complete Backup</div>
+                  <div className="text-xs text-muted-foreground">
+                    Saves all your data
+                  </div>
                 </div>
               </div>
-            </div>
+              <Button
+                onClick={handleBackupNow}
+                disabled={isBackingUp}
+                className="w-full h-8"
+                size="sm"
+              >
+                {isBackingUp ? (
+                  <>
+                    <Download className="h-3 w-3 mr-1 animate-spin" />
+                    Creating...
+                  </>
+                ) : (
+                  <>
+                    <Download className="h-3 w-3 mr-1" />
+                    Create Backup
+                  </>
+                )}
+              </Button>
+            </Card>
 
-            <Button
-              onClick={() => fileInputRef.current?.click()}
-              className="w-full h-8"
-              size="sm"
-            >
-              <FileUp className="h-3 w-3 mr-1" />
-              Select Backup File
-            </Button>
+            {/* Restore Card */}
+            <Card className="p-3">
+              <div className="flex items-center gap-2 mb-2">
+                <div className="p-1.5 rounded-full bg-blue-500/20">
+                  <RotateCcw className="h-4 w-4 text-blue-500" />
+                </div>
+                <div className="flex-1">
+                  <div className="text-sm font-medium">Restore from Backup</div>
+                  <div className="text-xs text-muted-foreground">
+                    Upload .mbak or .json file
+                  </div>
+                </div>
+              </div>
 
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept=".mbak,.json"
-              onChange={handleFileUpload}
-              className="hidden"
-            />
-          </Card>
-        </div>
+              <Button
+                onClick={() => fileInputRef.current?.click()}
+                className="w-full h-8"
+                size="sm"
+              >
+                <FileUp className="h-3 w-3 mr-1" />
+                Select Backup File
+              </Button>
 
-        {/* Compact Tips */}
-        <div className="text-xs text-muted-foreground bg-amber-500/10 border-amber-500/20 p-2 rounded-lg">
-          <div className="flex items-center gap-1 font-medium text-amber-400 mb-1">
-            💡 <span className="text-xs">Tips</span>
-          </div>
-          <div className="text-amber-300 text-xs leading-tight">
-            • Create backups regularly • Store in safe places
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept=".mbak,.json"
+                onChange={handleFileUpload}
+                className="hidden"
+              />
+            </Card>
           </div>
         </div>
       </div>
