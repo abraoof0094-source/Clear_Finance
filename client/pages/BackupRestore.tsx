@@ -197,7 +197,10 @@ export function BackupRestore() {
   return (
     <Layout>
       {/* Backdrop */}
-      <div className="fixed inset-0 bg-black/50 z-40" onClick={() => navigate(-1)} />
+      <div
+        className="fixed inset-0 bg-black/50 z-40"
+        onClick={() => navigate(-1)}
+      />
 
       {/* Slide Panel */}
       <div

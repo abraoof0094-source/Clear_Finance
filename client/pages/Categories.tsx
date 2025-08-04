@@ -384,9 +384,9 @@ export function Categories() {
 
   const [newCategoryName, setNewCategoryName] = useState("Untitled");
   const [selectedIcon, setSelectedIcon] = useState("🏷️");
-  const [categoryType, setCategoryType] = useState<"income" | "expense" | "investment">(
-    "expense",
-  );
+  const [categoryType, setCategoryType] = useState<
+    "income" | "expense" | "investment"
+  >("expense");
 
   const availableIcons = [
     "💰",
@@ -881,8 +881,8 @@ function ExpandableCategoryItem({
                     category.type === "income"
                       ? "bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300"
                       : category.type === "investment"
-                      ? "bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300"
-                      : "bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-300"
+                        ? "bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300"
+                        : "bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-300"
                   }`}
                 >
                   {category.type.toUpperCase()}
