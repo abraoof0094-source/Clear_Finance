@@ -543,6 +543,17 @@ export function Categories() {
                   />
                   ✓ EXPENSE
                 </label>
+                <label className="flex items-center gap-2">
+                  <input
+                    type="radio"
+                    value="investment"
+                    checked={categoryType === "investment"}
+                    onChange={(e) =>
+                      setCategoryType(e.target.value as "investment")
+                    }
+                  />
+                  📈 INVESTMENT
+                </label>
               </div>
             </div>
 
