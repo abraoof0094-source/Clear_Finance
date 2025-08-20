@@ -529,6 +529,7 @@ export function Tracker() {
 
                 {/* Show either Action Buttons OR Calculator Keypad */}
                 {showKeypad ? (
+                  console.log("Rendering keypad, showKeypad:", showKeypad),
                   <div className="p-4 pb-24 bg-muted/30 border-t">
                     <div className="flex justify-between items-center mb-3">
                       <span className="text-sm text-muted-foreground">Enter Amount</span>
