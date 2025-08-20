@@ -274,17 +274,19 @@ export function Analysis() {
         {(totalIncome > 0 || totalExpense > 0 || totalInvestment > 0) ? (
           <div className="space-y-6">
             {/* Pie Chart */}
-            <div className="h-80 relative">
+            <div className="h-96 relative bg-gradient-to-br from-background/50 to-muted/30 rounded-2xl p-6 shadow-xl">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
                   <Pie
                     data={pieChartData}
                     cx="50%"
                     cy="50%"
-                    outerRadius={100}
-                    innerRadius={40}
-                    paddingAngle={2}
+                    outerRadius={120}
+                    innerRadius={50}
+                    paddingAngle={3}
                     dataKey="value"
+                    stroke="#ffffff"
+                    strokeWidth={2}
                   >
                     {pieChartData.map((entry, index) => (
                       <Cell key={`cell-${index}`} fill={entry.color} />
