@@ -956,6 +956,7 @@ function ExpandableCategoryItem({
               className="h-8 w-8 hover:bg-muted"
               onClick={(e) => {
                 e.stopPropagation();
+                console.log("Main menu button clicked, isMenuOpen:", isMenuOpen);
                 onToggleMenu();
               }}
             >
