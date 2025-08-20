@@ -169,14 +169,10 @@ export function Analysis() {
 
       const total = categoryTransactions.reduce((sum, t) => sum + t.amount, 0);
 
-      // Calculate percentage based on category type
+      // Calculate percentage relative to total income (how much of income is spent on each category)
       let percentage = 0;
-      if (category.type === "income" && totalIncome > 0) {
+      if (totalIncome > 0) {
         percentage = Math.round((total / totalIncome) * 100);
-      } else if (category.type === "expense" && totalExpense > 0) {
-        percentage = Math.round((total / totalExpense) * 100);
-      } else if (category.type === "investment" && totalInvestment > 0) {
-        percentage = Math.round((total / totalInvestment) * 100);
       }
 
       return {
