@@ -258,7 +258,11 @@ export function Tracker() {
     .filter((t) => t.type === "expense")
     .reduce((sum, t) => sum + t.amount, 0);
 
-  const balance = totalIncome - totalExpense;
+  const totalInvestment = transactions
+    .filter((t) => t.type === "investment")
+    .reduce((sum, t) => sum + t.amount, 0);
+
+  const balance = totalIncome - totalExpense - totalInvestment;
 
   return (
     <Layout>
