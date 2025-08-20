@@ -238,18 +238,27 @@ export function Tracker() {
       return;
     }
 
+    const now = new Date();
+    const monthKey = now.toISOString().slice(0, 7); // YYYY-MM format
+    const dateStr = now.toISOString().slice(0, 10); // YYYY-MM-DD format
+
     const newTransaction: Transaction = {
       id: Date.now().toString(),
       type: transactionType,
       mainCategory: selectedMainCategory,
       subCategory: selectedSubCategory,
       amount: parseFloat(amount),
-      date: currentDate,
+      date: dateStr,
       time: currentTime,
     };
 
     const updatedTransactions = [newTransaction, ...transactions];
     setTransactions(updatedTransactions);
+
+    // Store by month for better organization
+    localStorage.setItem(`transactions-${monthKey}`, JSON.stringify(updatedTransactions));
+
+    // Also update the legacy storage for backwards compatibility
     localStorage.setItem("tracker-transactions", JSON.stringify(updatedTransactions));
 
     // Reset form
@@ -258,6 +267,7 @@ export function Tracker() {
     setSelectedSubCategory("");
     setDisplayValue("0");
     setAmount("");
+    setShowKeypad(false);
     setShowAddDialog(false);
   };
 
