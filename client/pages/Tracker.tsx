@@ -722,110 +722,8 @@ export function Tracker() {
                   </div>
 
                   {/* Category */}
-                  <div className="space-y-3">
-                    <label className="text-base text-muted-foreground">
-                      Category
-                    </label>
-
-                    {/* Two-Panel Category Layout */}
-                    <div className="h-64 border rounded-lg overflow-hidden">
-                      <div className="flex h-full">
-                        {/* Main Categories Panel */}
-                        <div className="w-1/2 border-r bg-background">
-                          <div className="h-full overflow-y-auto">
-                            {filteredCategories.map((category) => (
-                              <div
-                                key={category.id}
-                                className={`flex items-center gap-3 p-4 border-b cursor-pointer transition-colors ${
-                                  selectedMainCategory === category.name
-                                    ? transactionType === "income"
-                                      ? "bg-green-50 border-l-4 border-l-green-500 text-green-700"
-                                      : transactionType === "investment"
-                                        ? "bg-blue-50 border-l-4 border-l-blue-500 text-blue-700"
-                                        : "bg-red-50 border-l-4 border-l-red-500 text-red-700"
-                                    : "hover:bg-muted/50"
-                                }`}
-                                onClick={(e) => {
-                                  e.preventDefault();
-                                  e.stopPropagation();
-                                  setSelectedMainCategory(category.name);
-                                  setSelectedSubCategory("");
-                                }}
-                              >
-                                <span className="text-lg">{category.icon}</span>
-                                <div className="flex-1">
-                                  <div className="text-sm font-medium leading-tight">
-                                    {category.name}
-                                  </div>
-                                </div>
-                                <svg
-                                  className="w-4 h-4 text-muted-foreground"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  viewBox="0 0 24 24"
-                                >
-                                  <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={2}
-                                    d="M9 5l7 7-7 7"
-                                  />
-                                </svg>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-
-                        {/* Subcategories Panel */}
-                        <div className="w-1/2 bg-muted/20">
-                          <div className="h-full overflow-y-auto">
-                            {selectedMainCategory ? (
-                              subCategories.map((sub, index) => (
-                                <div
-                                  key={index}
-                                  className={`flex items-center gap-3 p-4 border-b cursor-pointer transition-colors ${
-                                    selectedSubCategory === sub.name
-                                      ? transactionType === "income"
-                                        ? "bg-green-100 text-green-800"
-                                        : transactionType === "investment"
-                                          ? "bg-blue-100 text-blue-800"
-                                          : "bg-red-100 text-red-800"
-                                      : "hover:bg-muted/50"
-                                  }`}
-                                  onClick={(e) => {
-                                    e.preventDefault();
-                                    e.stopPropagation();
-                                    setSelectedSubCategory(sub.name);
-                                  }}
-                                >
-                                  <span className="text-base">{sub.icon}</span>
-                                  <div className="flex-1">
-                                    <div className="text-sm font-medium">
-                                      {sub.name}
-                                    </div>
-                                    {sub.description && (
-                                      <div className="text-xs text-muted-foreground mt-1">
-                                        {sub.description}
-                                      </div>
-                                    )}
-                                  </div>
-                                </div>
-                              ))
-                            ) : (
-                              <div className="flex items-center justify-center h-full text-muted-foreground">
-                                <div className="text-center">
-                                  <div className="text-sm">Select a category</div>
-                                  <div className="text-xs mt-1">
-                                    Choose from the left panel
-                                  </div>
-                                </div>
-                              </div>
-                            )}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
+                  <div>
+                    <div className="text-base text-muted-foreground mb-2">Category</div>
                     <div
                       className={`h-px ${
                         transactionType === "income"
@@ -835,6 +733,36 @@ export function Tracker() {
                             : "bg-red-500"
                       }`}
                     ></div>
+
+                    {/* Category Selection - opens in modal/slide */}
+                    <div className="mt-4">
+                      <Button
+                        onClick={() => {/* TODO: Open category selection modal */}}
+                        variant="ghost"
+                        className="w-full justify-start text-left p-0 h-auto"
+                      >
+                        {selectedSubCategory ? (
+                          <div className="flex items-center gap-2">
+                            <span>{subCategories.find(s => s.name === selectedSubCategory)?.icon}</span>
+                            <span className="text-sm">{selectedSubCategory}</span>
+                          </div>
+                        ) : (
+                          <span className="text-muted-foreground text-sm">Select category</span>
+                        )}
+                      </Button>
+                    </div>
+                  </div>
+
+                  {/* Account */}
+                  <div>
+                    <div className="text-base text-muted-foreground mb-2">Account</div>
+                    <div className="h-px bg-border"></div>
+                  </div>
+
+                  {/* Note */}
+                  <div>
+                    <div className="text-base text-muted-foreground mb-2">Note</div>
+                    <div className="h-px bg-border"></div>
                   </div>
                 </div>
 
