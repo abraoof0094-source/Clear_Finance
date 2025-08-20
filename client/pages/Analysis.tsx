@@ -251,7 +251,7 @@ export function Analysis() {
         </div>
 
         {/* Summary Cards */}
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-4 gap-3">
           <div className="text-center">
             <div className="text-muted-foreground text-sm mb-1">Income</div>
             <div className="text-xl font-bold text-green-600">₹ {totalIncome.toLocaleString()}</div>
@@ -263,6 +263,10 @@ export function Analysis() {
           <div className="text-center">
             <div className="text-muted-foreground text-sm mb-1">Investment</div>
             <div className="text-xl font-bold text-blue-600">₹ {totalInvestment.toLocaleString()}</div>
+          </div>
+          <div className="text-center">
+            <div className="text-muted-foreground text-sm mb-1">Surplus</div>
+            <div className="text-xl font-bold text-orange-600">₹ {(totalIncome - totalExpense - totalInvestment).toLocaleString()}</div>
           </div>
         </div>
 
