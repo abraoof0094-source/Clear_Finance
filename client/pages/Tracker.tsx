@@ -581,7 +581,7 @@ export function Tracker() {
                           : "text-red-500"
                     }`}
                   >
-                    {transaction.type === "income" ? "+" : "-"}₹
+                    {transaction.type === "income" ? "+" : "-"}���
                     {transaction.amount.toLocaleString()}
                   </div>
                 </div>
@@ -724,7 +724,7 @@ export function Tracker() {
                   {/* Category */}
                   <div>
                     <div
-                      className="text-base text-muted-foreground mb-2 cursor-pointer"
+                      className="text-base text-muted-foreground mb-2 cursor-pointer flex items-center gap-2"
                       onClick={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
@@ -732,7 +732,14 @@ export function Tracker() {
                         setShowKeypad(false);
                       }}
                     >
-                      Category
+                      {selectedMainCategory && selectedSubCategory ? (
+                        <>
+                          <span>{subCategories.find(s => s.name === selectedSubCategory)?.icon}</span>
+                          <span>{selectedMainCategory}/{selectedSubCategory}</span>
+                        </>
+                      ) : (
+                        "Category"
+                      )}
                     </div>
                     <div
                       className={`h-px ${
@@ -743,14 +750,6 @@ export function Tracker() {
                             : "bg-red-500"
                       }`}
                     ></div>
-
-                    {/* Show selected category if any */}
-                    {selectedMainCategory && selectedSubCategory && (
-                      <div className="mt-2 flex items-center gap-2">
-                        <span>{subCategories.find(s => s.name === selectedSubCategory)?.icon}</span>
-                        <span className="text-sm">{selectedMainCategory}/{selectedSubCategory}</span>
-                      </div>
-                    )}
                   </div>
 
                 </div>
