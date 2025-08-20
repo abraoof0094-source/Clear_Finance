@@ -884,8 +884,8 @@ export function Tracker() {
               </div>
 
               {/* Display */}
-              <div className="flex-1 flex items-end justify-end p-8">
-                <div className="text-6xl font-light text-right">
+              <div className="flex-1 flex items-center justify-center">
+                <div className="text-8xl font-light text-white text-center">
                   {displayValue}
                 </div>
               </div>
