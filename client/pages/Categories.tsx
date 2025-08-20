@@ -812,7 +812,7 @@ function ExpandableCategoryItem({
               <span className="text-foreground font-bold text-lg">⋯</span>
             </Button>
             {isMenuOpen && (
-              <div className="absolute right-0 top-full mt-1 bg-card border border-border rounded-md shadow-lg z-50 py-1 min-w-[120px]">
+              <div className="absolute right-0 top-full mt-1 bg-card border border-border rounded-md shadow-lg z-[100] py-1 min-w-[120px]">
                 <button
                   className="w-full text-left px-3 py-2 hover:bg-muted text-sm flex items-center gap-2"
                   onClick={() => {
@@ -922,7 +922,7 @@ function SubcategoryItem({
               <span className="font-medium text-sm text-foreground">{subcategory.name}</span>
               {budget > 0 && (
                 <div className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-gradient-to-r from-blue-500 to-indigo-500 text-white text-xs font-semibold shadow-sm">
-                  <span>💰</span>
+                  <span>���</span>
                   <span>₹{budget.toLocaleString()}</span>
                 </div>
               )}
