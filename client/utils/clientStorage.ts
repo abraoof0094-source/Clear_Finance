@@ -441,6 +441,14 @@ export class UniversalStorage {
       return this.localStorageManager.deleteTransaction(transactionId);
     }
   }
+
+  async getTransactionsByMonth(year: number, month: number): Promise<Transaction[]> {
+    if (this.useIndexedDB) {
+      return await clientStorage.getMonthlyTransactions(year, month);
+    } else {
+      return this.localStorageManager.getMonthlyTransactions(year, month);
+    }
+  }
 }
 
 // Export the universal storage instance
