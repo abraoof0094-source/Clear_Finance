@@ -17,6 +17,7 @@ import {
   SelectValue,
 } from "../components/ui/select";
 import { Plus, ArrowLeft, Calculator, X } from "lucide-react";
+import { transactionAPI, DataSync, Transaction } from "../utils/api";
 
 // Transaction interface
 interface Transaction {
