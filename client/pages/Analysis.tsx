@@ -148,11 +148,20 @@ export function Analysis() {
   const getCategoryAnalysis = () => {
     const categoryData = mainCategories.map((category) => {
       const categoryTransactions = periodTransactions.filter(
-        (t) => t.mainCategory === category.name && t.type === "expense"
+        (t) => t.mainCategory === category.name && t.type === category.type
       );
 
       const total = categoryTransactions.reduce((sum, t) => sum + t.amount, 0);
-      const percentage = totalExpense > 0 ? Math.round((total / totalExpense) * 100) : 0;
+
+      // Calculate percentage based on category type
+      let percentage = 0;
+      if (category.type === "income" && totalIncome > 0) {
+        percentage = Math.round((total / totalIncome) * 100);
+      } else if (category.type === "expense" && totalExpense > 0) {
+        percentage = Math.round((total / totalExpense) * 100);
+      } else if (category.type === "investment" && totalInvestment > 0) {
+        percentage = Math.round((total / totalInvestment) * 100);
+      }
 
       return {
         ...category,
