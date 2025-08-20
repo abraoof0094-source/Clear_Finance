@@ -693,7 +693,7 @@ export function Categories() {
               <Input
                 value={selectedIcon}
                 onChange={(e) => setSelectedIcon(e.target.value)}
-                placeholder="📱"
+                placeholder="��"
               />
             </div>
             <div className="flex gap-2 pt-4">
@@ -1063,8 +1063,16 @@ function SubcategoryItem({
   budget,
 }: SubcategoryItemProps) {
   const [showMenu, setShowMenu] = useState(false);
+  const [justOpened, setJustOpened] = useState(false);
 
-  // Menu state is handled by portal backdrop click
+  // Prevent immediate closure when menu just opened
+  useEffect(() => {
+    if (showMenu) {
+      setJustOpened(true);
+      const timer = setTimeout(() => setJustOpened(false), 100);
+      return () => clearTimeout(timer);
+    }
+  }, [showMenu]);
 
   return (
     <div className="bg-background/80 backdrop-blur-sm rounded-lg p-4 relative ml-6 border border-border/30 hover:border-border/60 transition-colors">
