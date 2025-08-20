@@ -186,13 +186,16 @@ export function Tracker() {
 
   // Calculator functions
   const handleNumberClick = (num: string) => {
+    console.log("Number clicked:", num, "Current display:", displayValue);
     if (displayValue === "0") {
       setDisplayValue(num);
       setAmount(num);
+      console.log("Set to:", num);
     } else {
       const newValue = displayValue + num;
       setDisplayValue(newValue);
       setAmount(newValue);
+      console.log("Set to:", newValue);
     }
   };
 
