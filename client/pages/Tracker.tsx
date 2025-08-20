@@ -1029,11 +1029,18 @@ export function Tracker() {
                     +
                   </Button>
 
-                  {/* Row 5: 0 (spans 2 columns), ., = */}
+                  {/* Row 5: 00, 0, ., DONE */}
+                  <Button
+                    onClick={() => handleNumberClick("00")}
+                    variant="ghost"
+                    className="h-20 text-xl font-medium bg-gray-700 hover:bg-gray-600 text-white rounded-full"
+                  >
+                    00
+                  </Button>
                   <Button
                     onClick={() => handleNumberClick("0")}
                     variant="ghost"
-                    className="h-20 text-xl font-medium bg-gray-700 hover:bg-gray-600 text-white rounded-full col-span-2"
+                    className="h-20 text-xl font-medium bg-gray-700 hover:bg-gray-600 text-white rounded-full"
                   >
                     0
                   </Button>
