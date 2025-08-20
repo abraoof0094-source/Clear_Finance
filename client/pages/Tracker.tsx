@@ -419,17 +419,75 @@ export function Tracker() {
                   </div>
 
                   {/* Category */}
-                  <div className="space-y-2">
+                  <div className="space-y-4">
                     <label className="text-base text-muted-foreground">Category</label>
-                    <div
-                      className="h-12 flex items-center justify-between cursor-pointer"
-                      onClick={() => setShowCategoryModal(true)}
-                    >
-                      <span className="text-base">
-                        {selectedMainCategory || "Select main category"}
-                      </span>
+
+                    {/* Category List */}
+                    <div className="space-y-2 max-h-60 overflow-y-auto">
+                      {filteredCategories.map((category) => (
+                        <div key={category.id}>
+                          <div
+                            className={`flex items-center justify-between p-3 rounded-lg cursor-pointer transition-colors ${
+                              selectedMainCategory === category.name
+                                ? 'bg-muted border-2 border-primary'
+                                : 'bg-muted/30 hover:bg-muted/50'
+                            }`}
+                            onClick={() => {
+                              if (selectedMainCategory === category.name) {
+                                setSelectedMainCategory("");
+                                setSelectedSubCategory("");
+                              } else {
+                                setSelectedMainCategory(category.name);
+                                setSelectedSubCategory("");
+                              }
+                            }}
+                          >
+                            <div className="flex items-center gap-3">
+                              <span className="text-lg">{category.icon}</span>
+                              <span className="text-sm font-medium">{category.name}</span>
+                            </div>
+                            <svg
+                              className={`w-4 h-4 text-muted-foreground transition-transform ${
+                                selectedMainCategory === category.name ? 'rotate-90' : ''
+                              }`}
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                            </svg>
+                          </div>
+
+                          {/* Sub Categories */}
+                          {selectedMainCategory === category.name && (
+                            <div className="ml-6 mt-2 space-y-1">
+                              {category.subcategories.map((sub, index) => (
+                                <div
+                                  key={index}
+                                  className={`flex items-center gap-3 p-2 rounded cursor-pointer transition-colors ${
+                                    selectedSubCategory === sub.name
+                                      ? 'bg-primary/20 border border-primary'
+                                      : 'hover:bg-muted/30'
+                                  }`}
+                                  onClick={() => setSelectedSubCategory(sub.name)}
+                                >
+                                  <span className="text-sm">{sub.icon}</span>
+                                  <div>
+                                    <div className="text-xs font-medium">{sub.name}</div>
+                                    <div className="text-xs text-muted-foreground">{sub.description}</div>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      ))}
                     </div>
-                    <div className="h-px bg-red-500"></div>
+
+                    <div className={`h-px ${
+                      transactionType === 'income' ? 'bg-green-500' :
+                      transactionType === 'investment' ? 'bg-blue-500' : 'bg-red-500'
+                    }`}></div>
                   </div>
                 </div>
 
