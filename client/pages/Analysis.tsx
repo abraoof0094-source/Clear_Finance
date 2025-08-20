@@ -116,7 +116,15 @@ export function Analysis() {
     const { startDate, endDate } = getDateRange();
 
     return transactions.filter((t) => {
-      const transactionDate = new Date(t.date.split("/").reverse().join("-"));
+      // Handle both date formats: YYYY-MM-DD (new) and DD/MM/YYYY (old)
+      let transactionDate: Date;
+      if (t.date.includes('/')) {
+        // Old format: DD/MM/YYYY
+        transactionDate = new Date(t.date.split("/").reverse().join("-"));
+      } else {
+        // New format: YYYY-MM-DD
+        transactionDate = new Date(t.date);
+      }
       return transactionDate >= startDate && transactionDate <= endDate;
     });
   };
