@@ -506,8 +506,11 @@ export function Categories() {
   };
 
   const toggleMenu = (categoryId: number) => {
-    const newOpenMenus = new Set<number>();
-    if (!openMenus.has(categoryId)) {
+    const newOpenMenus = new Set(openMenus);
+    if (openMenus.has(categoryId)) {
+      newOpenMenus.delete(categoryId);
+    } else {
+      newOpenMenus.clear();
       newOpenMenus.add(categoryId);
     }
     setOpenMenus(newOpenMenus);
@@ -812,10 +815,10 @@ function ExpandableCategoryItem({
             >
               <span className="text-foreground font-bold text-lg">⋯</span>
             </Button>
-            {isMenuOpen && (
+            {isMenuOpen && createPortal(
               <>
                 <div className="fixed inset-0 z-[9998]" onClick={onToggleMenu}></div>
-                <div className="absolute right-0 top-full mt-1 bg-card border border-border rounded-md shadow-xl z-[9999] py-1 min-w-[120px]">
+                <div className="fixed bg-card border border-border rounded-md shadow-xl z-[9999] py-1 min-w-[120px]" style={{right: '8px', top: '120px'}}>
                   <button
                     className="w-full text-left px-3 py-2 hover:bg-muted text-sm flex items-center gap-2"
                     onClick={() => {
@@ -837,7 +840,8 @@ function ExpandableCategoryItem({
                     Delete Category
                   </button>
                 </div>
-              </>
+              </>,
+              document.body
             )}
           </div>
         </div>
