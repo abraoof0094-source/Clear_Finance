@@ -763,6 +763,7 @@ export function Tracker() {
                     variant="outline"
                     className="h-12 rounded-lg"
                     onClick={() => setShowAddDialog(false)}
+                    disabled={false}
                   >
                     Continue
                   </Button>
