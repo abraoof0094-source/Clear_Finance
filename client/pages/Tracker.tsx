@@ -565,7 +565,7 @@ export function Tracker() {
                   <div className="flex justify-between items-center mb-3">
                     <span className="text-sm text-muted-foreground">Amount</span>
                   </div>
-                  <div className="grid grid-cols-4 gap-2">
+                  <div className="grid grid-cols-4 gap-3">
                     <Button onClick={() => handleNumberClick("1")} variant="ghost" className="h-12 text-lg">1</Button>
                     <Button onClick={() => handleNumberClick("2")} variant="ghost" className="h-12 text-lg">2</Button>
                     <Button onClick={() => handleNumberClick("3")} variant="ghost" className="h-12 text-lg">3</Button>
