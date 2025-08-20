@@ -737,15 +737,18 @@ export function Tracker() {
                     {/* Category Selection - shows inline */}
                     <div
                       className="mt-4 cursor-pointer"
-                      onClick={() => setShowCategorySelection(true)}
+                      onClick={() => {
+                        setShowCategorySelection(true);
+                        setShowKeypad(false);
+                      }}
                     >
-                      {selectedSubCategory ? (
+                      {selectedMainCategory && selectedSubCategory ? (
                         <div className="flex items-center gap-2">
                           <span>{subCategories.find(s => s.name === selectedSubCategory)?.icon}</span>
-                          <span className="text-sm">{selectedSubCategory}</span>
+                          <span className="text-sm">{selectedMainCategory}/{selectedSubCategory}</span>
                         </div>
                       ) : (
-                        <span className="text-muted-foreground text-sm">Select category</span>
+                        <div className="h-4"></div>
                       )}
                     </div>
                   </div>
