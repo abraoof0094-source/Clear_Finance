@@ -634,55 +634,48 @@ export function Tracker() {
               <div className="pb-24">
                 {/* Type Selection Tabs */}
                 <div className="grid grid-cols-3 gap-0 m-4 rounded-lg overflow-hidden">
-                  <Button
-                    variant={transactionType === "income" ? "default" : "ghost"}
+                  <button
                     onClick={() => {
                       setTransactionType("income");
                       setSelectedMainCategory("");
                       setSelectedSubCategory("");
                     }}
-                    className={`h-12 text-sm font-semibold rounded-none ${
+                    className={`h-12 text-sm font-semibold rounded-none border-0 outline-none focus:outline-none ${
                       transactionType === "income"
                         ? "bg-green-500 text-white"
                         : "bg-muted text-muted-foreground hover:bg-muted hover:text-muted-foreground"
                     }`}
                   >
                     Income
-                  </Button>
-                  <Button
-                    variant={
-                      transactionType === "expense" ? "default" : "ghost"
-                    }
+                  </button>
+                  <button
                     onClick={() => {
                       setTransactionType("expense");
                       setSelectedMainCategory("");
                       setSelectedSubCategory("");
                     }}
-                    className={`h-12 text-sm font-semibold rounded-none ${
+                    className={`h-12 text-sm font-semibold rounded-none border-0 outline-none focus:outline-none ${
                       transactionType === "expense"
                         ? "bg-red-500 text-white"
                         : "bg-muted text-muted-foreground hover:bg-muted hover:text-muted-foreground"
                     }`}
                   >
                     Expense
-                  </Button>
-                  <Button
-                    variant={
-                      transactionType === "investment" ? "default" : "ghost"
-                    }
+                  </button>
+                  <button
                     onClick={() => {
                       setTransactionType("investment");
                       setSelectedMainCategory("");
                       setSelectedSubCategory("");
                     }}
-                    className={`h-12 text-sm font-semibold rounded-none ${
+                    className={`h-12 text-sm font-semibold rounded-none border-0 outline-none focus:outline-none ${
                       transactionType === "investment"
                         ? "bg-blue-500 text-white"
                         : "bg-muted text-muted-foreground hover:bg-muted hover:text-muted-foreground"
                     }`}
                   >
                     Invest
-                  </Button>
+                  </button>
                 </div>
 
                 {/* Form Fields */}
