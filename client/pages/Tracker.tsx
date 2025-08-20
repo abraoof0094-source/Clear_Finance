@@ -115,7 +115,7 @@ const allCategories = [
   {
     id: 6,
     name: "Loans & EMI Payments",
-    icon: "💳",
+    icon: "��",
     type: "expense" as const,
     subcategories: [
       { name: "Home Loan", icon: "🏠", description: "House purchase loan EMI" },
@@ -527,78 +527,77 @@ export function Tracker() {
                   </div>
                 </div>
 
-                {/* Show either Action Buttons OR Calculator Keypad */}
-                {showKeypad ? (
-                  <div className="p-4 pb-24 bg-muted/30 border-t">
-                    <div className="flex justify-between items-center mb-3">
-                      <span className="text-sm text-muted-foreground">Enter Amount</span>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => setShowKeypad(false)}
-                        className="h-8 w-8 p-0"
-                      >
-                        <X className="h-4 w-4" />
-                      </Button>
-                    </div>
-                    <div className="grid grid-cols-4 gap-2">
-                      <Button onClick={() => handleNumberClick("1")} variant="ghost" className="h-12 text-lg">1</Button>
-                      <Button onClick={() => handleNumberClick("2")} variant="ghost" className="h-12 text-lg">2</Button>
-                      <Button onClick={() => handleNumberClick("3")} variant="ghost" className="h-12 text-lg">3</Button>
-                      <Button onClick={handleBackspace} variant="ghost" className="h-12">
-                        <X className="h-5 w-5" />
-                      </Button>
+                {/* Action Buttons - Always show */}
+                <div className="p-4 grid grid-cols-2 gap-4">
+                  <Button
+                    onClick={handleSave}
+                    className={`h-12 text-white rounded-lg ${
+                      transactionType === 'income' ? 'bg-green-500 hover:bg-green-600' :
+                      transactionType === 'investment' ? 'bg-blue-500 hover:bg-blue-600' :
+                      'bg-red-500 hover:bg-red-600'
+                    }`}
+                    disabled={!selectedMainCategory || !selectedSubCategory || !amount}
+                  >
+                    Save
+                  </Button>
+                  <Button
+                    variant="outline"
+                    className="h-12 rounded-lg"
+                    onClick={() => setShowAddDialog(false)}
+                  >
+                    Continue
+                  </Button>
+                </div>
 
-                      <Button onClick={() => handleNumberClick("4")} variant="ghost" className="h-12 text-lg">4</Button>
-                      <Button onClick={() => handleNumberClick("5")} variant="ghost" className="h-12 text-lg">5</Button>
-                      <Button onClick={() => handleNumberClick("6")} variant="ghost" className="h-12 text-lg">6</Button>
-                      <Button onClick={handleClear} variant="ghost" className="h-12 text-lg">-</Button>
-
-                      <Button onClick={() => handleNumberClick("7")} variant="ghost" className="h-12 text-lg">7</Button>
-                      <Button onClick={() => handleNumberClick("8")} variant="ghost" className="h-12 text-lg">8</Button>
-                      <Button onClick={() => handleNumberClick("9")} variant="ghost" className="h-12 text-lg">9</Button>
-                      <Button onClick={handleClear} variant="ghost" className="h-12">
-                        <Calculator className="h-5 w-5" />
-                      </Button>
-
-                      <div></div>
-                      <Button onClick={() => handleNumberClick("0")} variant="ghost" className="h-12 text-lg">0</Button>
-                      <Button onClick={handleDecimal} variant="ghost" className="h-12 text-lg">.</Button>
-                      <Button
-                        onClick={handleSave}
-                        className={`h-12 text-white ${
-                          transactionType === 'income' ? 'bg-green-500 hover:bg-green-600' :
-                          transactionType === 'investment' ? 'bg-blue-500 hover:bg-blue-600' :
-                          'bg-red-500 hover:bg-red-600'
-                        }`}
-                        disabled={!selectedMainCategory || !selectedSubCategory || !amount}
-                      >
-                        Done
-                      </Button>
-                    </div>
+                {/* Calculator Keypad - Always show */}
+                <div className="p-4 pb-24 bg-muted/30 border-t">
+                  <div className="flex justify-between items-center mb-3">
+                    <span className="text-sm text-muted-foreground">Amount</span>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => setShowKeypad(false)}
+                      className="h-8 w-8 p-0"
+                    >
+                      <X className="h-4 w-4" />
+                    </Button>
                   </div>
-                ) : (
-                  <div className="p-4 pb-24 grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-4 gap-2">
+                    <Button onClick={() => handleNumberClick("1")} variant="ghost" className="h-12 text-lg">1</Button>
+                    <Button onClick={() => handleNumberClick("2")} variant="ghost" className="h-12 text-lg">2</Button>
+                    <Button onClick={() => handleNumberClick("3")} variant="ghost" className="h-12 text-lg">3</Button>
+                    <Button onClick={handleBackspace} variant="ghost" className="h-12">
+                      <X className="h-5 w-5" />
+                    </Button>
+
+                    <Button onClick={() => handleNumberClick("4")} variant="ghost" className="h-12 text-lg">4</Button>
+                    <Button onClick={() => handleNumberClick("5")} variant="ghost" className="h-12 text-lg">5</Button>
+                    <Button onClick={() => handleNumberClick("6")} variant="ghost" className="h-12 text-lg">6</Button>
+                    <Button onClick={handleClear} variant="ghost" className="h-12 text-lg">-</Button>
+
+                    <Button onClick={() => handleNumberClick("7")} variant="ghost" className="h-12 text-lg">7</Button>
+                    <Button onClick={() => handleNumberClick("8")} variant="ghost" className="h-12 text-lg">8</Button>
+                    <Button onClick={() => handleNumberClick("9")} variant="ghost" className="h-12 text-lg">9</Button>
+                    <Button onClick={handleClear} variant="ghost" className="h-12">
+                      <Calculator className="h-5 w-5" />
+                    </Button>
+
+                    <div></div>
+                    <Button onClick={() => handleNumberClick("0")} variant="ghost" className="h-12 text-lg">0</Button>
+                    <Button onClick={handleDecimal} variant="ghost" className="h-12 text-lg">.</Button>
                     <Button
                       onClick={handleSave}
-                      className={`h-12 text-white rounded-lg ${
+                      className={`h-12 text-white ${
                         transactionType === 'income' ? 'bg-green-500 hover:bg-green-600' :
                         transactionType === 'investment' ? 'bg-blue-500 hover:bg-blue-600' :
                         'bg-red-500 hover:bg-red-600'
                       }`}
                       disabled={!selectedMainCategory || !selectedSubCategory || !amount}
                     >
-                      Save
-                    </Button>
-                    <Button
-                      variant="outline"
-                      className="h-12 rounded-lg"
-                      onClick={() => setShowAddDialog(false)}
-                    >
-                      Continue
+                      Done
                     </Button>
                   </div>
-                )}
+                </div>
               </div>
             </div>
           </DialogContent>
