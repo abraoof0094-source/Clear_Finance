@@ -91,7 +91,7 @@ const allCategories = [
     subcategories: [
       { name: "Life Insurance", icon: "❤️", description: "Term, whole life policies" },
       { name: "Health Insurance", icon: "🏥", description: "Medical, family health plans" },
-      { name: "Vehicle Insurance", icon: "🚗", description: "Car, bike insurance" },
+      { name: "Vehicle Insurance", icon: "����", description: "Car, bike insurance" },
       { name: "Home Insurance", icon: "🏠", description: "Property, contents insurance" },
       { name: "Others", icon: "🛡️", description: "Travel, other insurance types" },
     ],
@@ -522,30 +522,8 @@ export function Tracker() {
                   </div>
                 </div>
 
-                {/* Action Buttons */}
-                <div className="p-4 grid grid-cols-2 gap-4">
-                  <Button
-                    onClick={handleSave}
-                    className={`h-12 text-white rounded-lg ${
-                      transactionType === 'income' ? 'bg-green-500 hover:bg-green-600' :
-                      transactionType === 'investment' ? 'bg-blue-500 hover:bg-blue-600' :
-                      'bg-red-500 hover:bg-red-600'
-                    }`}
-                    disabled={!selectedMainCategory || !selectedSubCategory || !amount}
-                  >
-                    Save
-                  </Button>
-                  <Button
-                    variant="outline"
-                    className="h-12 rounded-lg"
-                    onClick={() => setShowAddDialog(false)}
-                  >
-                    Continue
-                  </Button>
-                </div>
-
-                {/* Calculator Keypad - Only show when needed */}
-                {showKeypad && (
+                {/* Show either Action Buttons OR Calculator Keypad */}
+                {showKeypad ? (
                   <div className="p-4 pb-24 bg-muted/30 border-t">
                     <div className="flex justify-between items-center mb-3">
                       <span className="text-sm text-muted-foreground">Enter Amount</span>
@@ -582,18 +560,38 @@ export function Tracker() {
                       <Button onClick={() => handleNumberClick("0")} variant="ghost" className="h-12 text-lg">0</Button>
                       <Button onClick={handleDecimal} variant="ghost" className="h-12 text-lg">.</Button>
                       <Button
-                        onClick={() => {
-                          setShowKeypad(false);
-                        }}
+                        onClick={handleSave}
                         className={`h-12 text-white ${
                           transactionType === 'income' ? 'bg-green-500 hover:bg-green-600' :
                           transactionType === 'investment' ? 'bg-blue-500 hover:bg-blue-600' :
                           'bg-red-500 hover:bg-red-600'
                         }`}
+                        disabled={!selectedMainCategory || !selectedSubCategory || !amount}
                       >
                         Done
                       </Button>
                     </div>
+                  </div>
+                ) : (
+                  <div className="p-4 pb-24 grid grid-cols-2 gap-4">
+                    <Button
+                      onClick={handleSave}
+                      className={`h-12 text-white rounded-lg ${
+                        transactionType === 'income' ? 'bg-green-500 hover:bg-green-600' :
+                        transactionType === 'investment' ? 'bg-blue-500 hover:bg-blue-600' :
+                        'bg-red-500 hover:bg-red-600'
+                      }`}
+                      disabled={!selectedMainCategory || !selectedSubCategory || !amount}
+                    >
+                      Save
+                    </Button>
+                    <Button
+                      variant="outline"
+                      className="h-12 rounded-lg"
+                      onClick={() => setShowAddDialog(false)}
+                    >
+                      Continue
+                    </Button>
                   </div>
                 )}
               </div>
