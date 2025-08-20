@@ -731,90 +731,103 @@ export function Tracker() {
                       Category
                     </label>
 
-                    {/* Category List - More Compact */}
-                    <div className="space-y-1 max-h-48 overflow-y-auto">
-                      {filteredCategories.map((category) => (
-                        <div key={category.id}>
-                          <div
-                            className={`flex items-center justify-between p-2 rounded cursor-pointer transition-colors ${
-                              selectedMainCategory === category.name
-                                ? "bg-muted border border-primary"
-                                : "bg-muted/20 hover:bg-muted/40"
-                            }`}
-                            onClick={(e) => {
-                              e.preventDefault();
-                              e.stopPropagation();
-                              console.log(
-                                "Category clicked:",
-                                category.name,
-                                "Current:",
-                                selectedMainCategory,
-                              );
-                              if (selectedMainCategory === category.name) {
-                                setSelectedMainCategory("");
-                                setSelectedSubCategory("");
-                              } else {
-                                setSelectedMainCategory(category.name);
-                                setSelectedSubCategory("");
-                              }
-                            }}
-                          >
-                            <div className="flex items-center gap-2">
-                              <span className="text-base">{category.icon}</span>
-                              <span className="text-xs font-medium">
-                                {category.name}
-                              </span>
-                            </div>
-                            <svg
-                              className={`w-3 h-3 text-muted-foreground transition-transform ${
-                                selectedMainCategory === category.name
-                                  ? "rotate-90"
-                                  : ""
-                              }`}
-                              fill="none"
-                              stroke="currentColor"
-                              viewBox="0 0 24 24"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M9 5l7 7-7 7"
-                              />
-                            </svg>
+                    {/* Two-Panel Category Layout */}
+                    <div className="h-64 border rounded-lg overflow-hidden">
+                      <div className="flex h-full">
+                        {/* Main Categories Panel */}
+                        <div className="w-1/2 border-r bg-background">
+                          <div className="h-full overflow-y-auto">
+                            {filteredCategories.map((category) => (
+                              <div
+                                key={category.id}
+                                className={`flex items-center gap-3 p-4 border-b cursor-pointer transition-colors ${
+                                  selectedMainCategory === category.name
+                                    ? transactionType === "income"
+                                      ? "bg-green-50 border-l-4 border-l-green-500 text-green-700"
+                                      : transactionType === "investment"
+                                        ? "bg-blue-50 border-l-4 border-l-blue-500 text-blue-700"
+                                        : "bg-red-50 border-l-4 border-l-red-500 text-red-700"
+                                    : "hover:bg-muted/50"
+                                }`}
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  e.stopPropagation();
+                                  setSelectedMainCategory(category.name);
+                                  setSelectedSubCategory("");
+                                }}
+                              >
+                                <span className="text-lg">{category.icon}</span>
+                                <div className="flex-1">
+                                  <div className="text-sm font-medium leading-tight">
+                                    {category.name}
+                                  </div>
+                                </div>
+                                <svg
+                                  className="w-4 h-4 text-muted-foreground"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M9 5l7 7-7 7"
+                                  />
+                                </svg>
+                              </div>
+                            ))}
                           </div>
+                        </div>
 
-                          {/* Sub Categories - Compact */}
-                          {selectedMainCategory === category.name && (
-                            <div className="ml-4 mt-1 space-y-1">
-                              {category.subcategories.map((sub, index) => (
+                        {/* Subcategories Panel */}
+                        <div className="w-1/2 bg-muted/20">
+                          <div className="h-full overflow-y-auto">
+                            {selectedMainCategory ? (
+                              subCategories.map((sub, index) => (
                                 <div
                                   key={index}
-                                  className={`flex items-center gap-2 p-1.5 rounded text-xs cursor-pointer transition-colors ${
+                                  className={`flex items-center gap-3 p-4 border-b cursor-pointer transition-colors ${
                                     selectedSubCategory === sub.name
-                                      ? "bg-primary/20 border border-primary"
-                                      : "hover:bg-muted/20"
+                                      ? transactionType === "income"
+                                        ? "bg-green-100 text-green-800"
+                                        : transactionType === "investment"
+                                          ? "bg-blue-100 text-blue-800"
+                                          : "bg-red-100 text-red-800"
+                                      : "hover:bg-muted/50"
                                   }`}
                                   onClick={(e) => {
                                     e.preventDefault();
                                     e.stopPropagation();
-                                    console.log(
-                                      "Subcategory clicked:",
-                                      sub.name,
-                                    );
                                     setSelectedSubCategory(sub.name);
                                   }}
                                 >
-                                  <span className="text-xs">{sub.icon}</span>
-                                  <span className="font-medium">
-                                    {sub.name}
-                                  </span>
+                                  <span className="text-base">{sub.icon}</span>
+                                  <div className="flex-1">
+                                    <div className="text-sm font-medium">
+                                      {sub.name}
+                                    </div>
+                                    {sub.description && (
+                                      <div className="text-xs text-muted-foreground mt-1">
+                                        {sub.description}
+                                      </div>
+                                    )}
+                                  </div>
                                 </div>
-                              ))}
-                            </div>
-                          )}
+                              ))
+                            ) : (
+                              <div className="flex items-center justify-center h-full text-muted-foreground">
+                                <div className="text-center">
+                                  <div className="text-sm">Select a category</div>
+                                  <div className="text-xs mt-1">
+                                    Choose from the left panel
+                                  </div>
+                                </div>
+                              </div>
+                            )}
+                          </div>
                         </div>
-                      ))}
+                      </div>
                     </div>
 
                     <div
