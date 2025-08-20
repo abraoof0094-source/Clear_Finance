@@ -53,7 +53,7 @@ const allCategories = [
   {
     id: 2,
     name: "Fixed Household Expenses",
-    icon: "🏠",
+    icon: "��",
     type: "expense" as const,
     subcategories: [
       {
@@ -98,7 +98,7 @@ const allCategories = [
   {
     id: 3,
     name: "Family & Personal Living",
-    icon: "👨‍👩‍👧‍👦",
+    icon: "👨‍👩‍👧‍��",
     type: "expense" as const,
     subcategories: [
       {
@@ -765,19 +765,20 @@ function ExpandableCategoryItem({
               {category.icon}
             </div>
             <div className="flex-1">
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-3">
                 <span className="font-medium">{category.name}</span>
-                <span
-                  className={`text-xs px-2 py-1 rounded-full ${
+                <Badge
+                  variant="secondary"
+                  className={`text-xs font-medium px-2 py-1 ${
                     category.type === "income"
-                      ? "bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300"
+                      ? "bg-green-500/10 text-green-500 border-green-500/20"
                       : category.type === "investment"
-                        ? "bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300"
-                        : "bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-300"
+                        ? "bg-blue-500/10 text-blue-500 border-blue-500/20"
+                        : "bg-red-500/10 text-red-500 border-red-500/20"
                   }`}
                 >
                   {category.type.toUpperCase()}
-                </span>
+                </Badge>
               </div>
               <div className="text-sm text-muted-foreground">
                 {category.subcategories.length} subcategories
