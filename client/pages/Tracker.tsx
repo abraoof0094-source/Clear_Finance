@@ -432,18 +432,18 @@ export function Tracker() {
                   </div>
 
                   {/* Category */}
-                  <div className="space-y-4">
+                  <div className="space-y-3">
                     <label className="text-base text-muted-foreground">Category</label>
 
-                    {/* Category List */}
-                    <div className="space-y-2 max-h-60 overflow-y-auto">
+                    {/* Category List - More Compact */}
+                    <div className="space-y-1 max-h-48 overflow-y-auto">
                       {filteredCategories.map((category) => (
                         <div key={category.id}>
                           <div
-                            className={`flex items-center justify-between p-3 rounded-lg cursor-pointer transition-colors ${
+                            className={`flex items-center justify-between p-2 rounded cursor-pointer transition-colors ${
                               selectedMainCategory === category.name
-                                ? 'bg-muted border-2 border-primary'
-                                : 'bg-muted/30 hover:bg-muted/50'
+                                ? 'bg-muted border border-primary'
+                                : 'bg-muted/20 hover:bg-muted/40'
                             }`}
                             onClick={() => {
                               if (selectedMainCategory === category.name) {
@@ -455,12 +455,12 @@ export function Tracker() {
                               }
                             }}
                           >
-                            <div className="flex items-center gap-3">
-                              <span className="text-lg">{category.icon}</span>
-                              <span className="text-sm font-medium">{category.name}</span>
+                            <div className="flex items-center gap-2">
+                              <span className="text-base">{category.icon}</span>
+                              <span className="text-xs font-medium">{category.name}</span>
                             </div>
                             <svg
-                              className={`w-4 h-4 text-muted-foreground transition-transform ${
+                              className={`w-3 h-3 text-muted-foreground transition-transform ${
                                 selectedMainCategory === category.name ? 'rotate-90' : ''
                               }`}
                               fill="none"
@@ -471,24 +471,21 @@ export function Tracker() {
                             </svg>
                           </div>
 
-                          {/* Sub Categories */}
+                          {/* Sub Categories - Compact */}
                           {selectedMainCategory === category.name && (
-                            <div className="ml-6 mt-2 space-y-1">
+                            <div className="ml-4 mt-1 space-y-1">
                               {category.subcategories.map((sub, index) => (
                                 <div
                                   key={index}
-                                  className={`flex items-center gap-3 p-2 rounded cursor-pointer transition-colors ${
+                                  className={`flex items-center gap-2 p-1.5 rounded text-xs cursor-pointer transition-colors ${
                                     selectedSubCategory === sub.name
                                       ? 'bg-primary/20 border border-primary'
-                                      : 'hover:bg-muted/30'
+                                      : 'hover:bg-muted/20'
                                   }`}
                                   onClick={() => setSelectedSubCategory(sub.name)}
                                 >
-                                  <span className="text-sm">{sub.icon}</span>
-                                  <div>
-                                    <div className="text-xs font-medium">{sub.name}</div>
-                                    <div className="text-xs text-muted-foreground">{sub.description}</div>
-                                  </div>
+                                  <span className="text-xs">{sub.icon}</span>
+                                  <span className="font-medium">{sub.name}</span>
                                 </div>
                               ))}
                             </div>
