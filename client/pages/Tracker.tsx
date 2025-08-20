@@ -120,7 +120,7 @@ const allCategories = [
       },
       {
         name: "Food & Dining",
-        icon: "🍽️",
+        icon: "��️",
         description: "Restaurants, food delivery, cafes",
       },
       {
@@ -993,7 +993,9 @@ export function Tracker() {
                       </Button>
                       <Button
                         onClick={() => {
-                          setAmount(displayValue);
+                          if (displayValue && displayValue !== "0") {
+                            setAmount(displayValue);
+                          }
                           setShowKeypad(false);
                         }}
                         className={`h-14 text-white font-bold rounded-lg ${
