@@ -630,7 +630,7 @@ export function Tracker() {
                 <div></div>
               </div>
 
-              <div className="flex-1 flex flex-col overflow-y-auto">
+              <div className="flex-1 overflow-y-auto">
                 {/* Type Selection Tabs */}
                 <div className="grid grid-cols-3 gap-0 m-4 rounded-lg overflow-hidden border">
                   <Button
