@@ -262,7 +262,7 @@ const allCategories = [
   {
     id: 7,
     name: "Lifestyle & Discretionary",
-    icon: "🎪",
+    icon: "����",
     type: "expense" as const,
     subcategories: [
       {
@@ -753,28 +753,28 @@ function ExpandableCategoryItem({
   getBudget,
 }: ExpandableCategoryItemProps) {
   return (
-    <Card className="relative">
+    <Card className="relative border-0 shadow-sm bg-card/50 backdrop-blur-sm">
       {/* Main Category Header */}
-      <div className="p-4">
+      <div className="p-5">
         <div className="flex items-center justify-between">
           <div
-            className="flex items-center gap-3 cursor-pointer flex-1"
+            className="flex items-center gap-4 cursor-pointer flex-1"
             onClick={onToggle}
           >
-            <div className="w-10 h-10 bg-primary/20 rounded-full flex items-center justify-center text-lg">
+            <div className="w-12 h-12 bg-gradient-to-br from-primary/20 to-primary/10 rounded-xl flex items-center justify-center text-lg shadow-sm">
               {category.icon}
             </div>
             <div className="flex-1">
-              <div className="flex items-center gap-3">
-                <span className="font-medium">{category.name}</span>
+              <div className="flex items-center gap-3 mb-1">
+                <span className="font-semibold text-foreground">{category.name}</span>
                 <Badge
                   variant="secondary"
-                  className={`text-xs font-medium px-2 py-1 ${
+                  className={`text-xs font-medium px-3 py-1 rounded-full ${
                     category.type === "income"
-                      ? "bg-green-500/10 text-green-500 border-green-500/20"
+                      ? "bg-green-500/10 text-green-600 border-green-500/20"
                       : category.type === "investment"
-                        ? "bg-blue-500/10 text-blue-500 border-blue-500/20"
-                        : "bg-red-500/10 text-red-500 border-red-500/20"
+                        ? "bg-blue-500/10 text-blue-600 border-blue-500/20"
+                        : "bg-red-500/10 text-red-600 border-red-500/20"
                   }`}
                 >
                   {category.type.toUpperCase()}
@@ -784,7 +784,7 @@ function ExpandableCategoryItem({
                 {category.subcategories.length} subcategories
               </div>
             </div>
-            <div className="transition-transform duration-200">
+            <div className="transition-transform duration-200 ml-2">
               {isExpanded ? (
                 <ChevronDown className="h-5 w-5 text-muted-foreground" />
               ) : (
