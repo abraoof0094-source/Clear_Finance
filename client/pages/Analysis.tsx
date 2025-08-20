@@ -328,23 +328,50 @@ export function Analysis() {
               {categoryAnalysis.map((category, index) => (
                 <div
                   key={category.name}
-                  className="flex items-center justify-between p-4 bg-card border border-border rounded-lg"
+                  className="relative overflow-hidden rounded-lg bg-gradient-to-r from-white/50 to-white/30 backdrop-blur-sm border border-white/20 shadow-lg hover:shadow-xl transition-all duration-300"
+                  style={{
+                    background: `linear-gradient(135deg, ${COLORS[index % COLORS.length]}15 0%, ${COLORS[index % COLORS.length]}05 100%)`
+                  }}
                 >
-                  <div className="flex items-center gap-3">
-                    <div 
-                      className="w-8 h-8 rounded text-white text-xs font-bold flex items-center justify-center"
-                      style={{ backgroundColor: COLORS[index % COLORS.length] }}
-                    >
-                      {category.percentage}%
+                  <div className="p-4 flex items-center justify-between">
+                    <div className="flex items-center gap-4">
+                      <div
+                        className="w-12 h-12 rounded-full text-white text-sm font-bold flex items-center justify-center shadow-lg"
+                        style={{
+                          backgroundColor: COLORS[index % COLORS.length],
+                          boxShadow: `0 4px 15px ${COLORS[index % COLORS.length]}40`
+                        }}
+                      >
+                        {category.percentage}%
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <span className="text-2xl">{category.icon}</span>
+                        <div>
+                          <div className="font-semibold text-sm text-foreground">{category.name}</div>
+                          <div className="text-xs text-muted-foreground">
+                            {category.transactions} transaction{category.transactions !== 1 ? 's' : ''}
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <span className="text-lg">{category.icon}</span>
-                      <span className="font-medium text-sm">{category.name}</span>
+                    <div className="text-right">
+                      <div className="font-bold text-lg">₹ {category.total.toLocaleString()}</div>
+                      <div
+                        className="text-xs font-medium"
+                        style={{ color: COLORS[index % COLORS.length] }}
+                      >
+                        {category.type.charAt(0).toUpperCase() + category.type.slice(1)}
+                      </div>
                     </div>
                   </div>
-                  <div className="text-right">
-                    <div className="font-semibold">₹ {category.total.toLocaleString()}</div>
-                  </div>
+
+                  {/* Progress bar */}
+                  <div className="absolute bottom-0 left-0 h-1 transition-all duration-500"
+                    style={{
+                      backgroundColor: COLORS[index % COLORS.length],
+                      width: `${category.percentage}%`
+                    }}
+                  ></div>
                 </div>
               ))}
             </div>
