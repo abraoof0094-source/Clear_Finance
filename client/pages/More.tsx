@@ -184,8 +184,8 @@ export function More() {
         onOpenChange={setShowImportDialog}
       />
 
-      {/* Modern Backup Dialog */}
-      <BackupDialog
+      {/* Modern Export Dialog */}
+      <ExportDialog
         open={showBackupDialog}
         onOpenChange={setShowBackupDialog}
       />
