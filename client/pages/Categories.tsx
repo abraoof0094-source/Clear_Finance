@@ -377,6 +377,7 @@ export function Categories() {
   const [showAddSubDialog, setShowAddSubDialog] = useState(false);
   const [showEditSubDialog, setShowEditSubDialog] = useState(false);
   const [showDeleteSubDialog, setShowDeleteSubDialog] = useState(false);
+  const [showBudgetDialog, setShowBudgetDialog] = useState(false);
 
   const [selectedMainCategory, setSelectedMainCategory] = useState<any>(null);
   const [selectedSubcategory, setSelectedSubcategory] = useState<any>(null);
@@ -389,6 +390,74 @@ export function Categories() {
   const [categoryType, setCategoryType] = useState<
     "income" | "expense" | "investment"
   >("expense");
+
+  // Budget state
+  const [budgets, setBudgets] = useState<Record<string, Record<string, number>>>({});
+  const [budgetAmount, setBudgetAmount] = useState("");
+  const [selectedBudgetSubcategory, setSelectedBudgetSubcategory] = useState<string>("");
+
+  // Helper to get current month key
+  const getCurrentMonthKey = () => {
+    const now = new Date();
+    return `${now.getFullYear()}-${now.getMonth() + 1}`;
+  };
+
+  // Load budgets on component mount
+  useEffect(() => {
+    const loadedBudgets = phoneStorage.loadBudgets();
+    setBudgets(loadedBudgets);
+  }, []);
+
+  // Save budgets when state changes
+  useEffect(() => {
+    phoneStorage.saveBudgets(budgets);
+  }, [budgets]);
+
+  // Get budget for a subcategory
+  const getBudget = (subcategoryName: string) => {
+    const monthKey = getCurrentMonthKey();
+    return budgets[monthKey]?.[subcategoryName] || 0;
+  };
+
+  // Handle budget operations
+  const handleSetBudget = (subcategoryName: string) => {
+    setSelectedBudgetSubcategory(subcategoryName);
+    const currentBudget = getBudget(subcategoryName);
+    setBudgetAmount(currentBudget > 0 ? currentBudget.toString() : "");
+    setShowBudgetDialog(true);
+  };
+
+  const handleSaveBudget = () => {
+    if (selectedBudgetSubcategory && budgetAmount) {
+      const monthKey = getCurrentMonthKey();
+      const amount = parseFloat(budgetAmount) || 0;
+
+      setBudgets(prev => ({
+        ...prev,
+        [monthKey]: {
+          ...prev[monthKey],
+          [selectedBudgetSubcategory]: amount
+        }
+      }));
+    }
+    setShowBudgetDialog(false);
+    setBudgetAmount("");
+    setSelectedBudgetSubcategory("");
+  };
+
+  const handleRemoveBudget = (subcategoryName: string) => {
+    const monthKey = getCurrentMonthKey();
+    setBudgets(prev => {
+      const newBudgets = { ...prev };
+      if (newBudgets[monthKey]) {
+        delete newBudgets[monthKey][subcategoryName];
+        if (Object.keys(newBudgets[monthKey]).length === 0) {
+          delete newBudgets[monthKey];
+        }
+      }
+      return newBudgets;
+    });
+  };
 
   const availableIcons = [
     "💰",
