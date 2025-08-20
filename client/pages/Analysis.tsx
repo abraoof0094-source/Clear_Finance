@@ -23,7 +23,7 @@ const mainCategories = [
   { name: "Fixed Household Expenses", icon: "🏠", type: "expense" },
   { name: "Family & Personal Living", icon: "👨‍👩‍👧‍👦", type: "expense" },
   { name: "Insurance", icon: "🛡️", type: "expense" },
-  { name: "Investments", icon: "📈", type: "expense" },
+  { name: "Investments", icon: "📈", type: "investment" },
   { name: "Loans & EMI Payments", icon: "💳", type: "expense" },
   { name: "Lifestyle & Discretionary", icon: "🎪", type: "expense" },
   { name: "Savings & Emergency Funds", icon: "🏦", type: "expense" },
