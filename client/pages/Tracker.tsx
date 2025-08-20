@@ -378,19 +378,19 @@ export function Tracker() {
                     Expense
                   </Button>
                   <Button
-                    variant={transactionType === "transfer" ? "default" : "ghost"}
+                    variant={transactionType === "investment" ? "default" : "ghost"}
                     onClick={() => {
-                      setTransactionType("transfer");
+                      setTransactionType("investment");
                       setSelectedMainCategory("");
                       setSelectedSubCategory("");
                     }}
                     className={`h-12 text-sm font-semibold rounded-none ${
-                      transactionType === "transfer"
-                        ? "bg-background text-foreground border border-border"
+                      transactionType === "investment"
+                        ? "bg-blue-500 text-white border-blue-600"
                         : "bg-muted text-muted-foreground"
                     }`}
                   >
-                    Transfer
+                    Invest
                   </Button>
                 </div>
 
