@@ -863,6 +863,199 @@ export function Tracker() {
             </div>
           </DialogContent>
         </Dialog>
+
+        {/* Calculator Modal */}
+        <Dialog open={showCalculator} onOpenChange={setShowCalculator}>
+          <DialogContent className="w-full h-full max-w-none max-h-none m-0 rounded-none border-0 bg-black text-white">
+            <DialogHeader className="sr-only">
+              <DialogTitle>Calculator</DialogTitle>
+            </DialogHeader>
+            <div className="flex flex-col h-full">
+              {/* Header */}
+              <div className="flex items-center justify-end p-4">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => setShowCalculator(false)}
+                  className="text-white hover:bg-gray-800"
+                >
+                  <X className="h-6 w-6" />
+                </Button>
+              </div>
+
+              {/* Display */}
+              <div className="flex-1 flex items-end justify-end p-8">
+                <div className="text-6xl font-light text-right">
+                  {displayValue}
+                </div>
+              </div>
+
+              {/* Calculator Keypad */}
+              <div className="p-4">
+                <div className="grid grid-cols-4 gap-3">
+                  {/* Row 1: AC, +/-, %, ÷ */}
+                  <Button
+                    onClick={handleClear}
+                    variant="ghost"
+                    className="h-20 text-xl font-medium bg-gray-500 hover:bg-gray-400 text-black rounded-full"
+                  >
+                    AC
+                  </Button>
+                  <Button
+                    onClick={handleBackspace}
+                    variant="ghost"
+                    className="h-20 text-xl font-medium bg-gray-500 hover:bg-gray-400 text-black rounded-full"
+                  >
+                    ±
+                  </Button>
+                  <Button
+                    onClick={handlePercentage}
+                    variant="ghost"
+                    className="h-20 text-xl font-medium bg-gray-500 hover:bg-gray-400 text-black rounded-full"
+                  >
+                    %
+                  </Button>
+                  <Button
+                    onClick={() => handleOperatorClick("÷")}
+                    variant="ghost"
+                    className={`h-20 text-xl font-medium rounded-full ${
+                      operator === "÷"
+                        ? "bg-white text-orange-500"
+                        : "bg-orange-500 hover:bg-orange-400 text-white"
+                    }`}
+                  >
+                    ÷
+                  </Button>
+
+                  {/* Row 2: 7, 8, 9, × */}
+                  <Button
+                    onClick={() => handleNumberClick("7")}
+                    variant="ghost"
+                    className="h-20 text-xl font-medium bg-gray-700 hover:bg-gray-600 text-white rounded-full"
+                  >
+                    7
+                  </Button>
+                  <Button
+                    onClick={() => handleNumberClick("8")}
+                    variant="ghost"
+                    className="h-20 text-xl font-medium bg-gray-700 hover:bg-gray-600 text-white rounded-full"
+                  >
+                    8
+                  </Button>
+                  <Button
+                    onClick={() => handleNumberClick("9")}
+                    variant="ghost"
+                    className="h-20 text-xl font-medium bg-gray-700 hover:bg-gray-600 text-white rounded-full"
+                  >
+                    9
+                  </Button>
+                  <Button
+                    onClick={() => handleOperatorClick("×")}
+                    variant="ghost"
+                    className={`h-20 text-xl font-medium rounded-full ${
+                      operator === "×"
+                        ? "bg-white text-orange-500"
+                        : "bg-orange-500 hover:bg-orange-400 text-white"
+                    }`}
+                  >
+                    ×
+                  </Button>
+
+                  {/* Row 3: 4, 5, 6, - */}
+                  <Button
+                    onClick={() => handleNumberClick("4")}
+                    variant="ghost"
+                    className="h-20 text-xl font-medium bg-gray-700 hover:bg-gray-600 text-white rounded-full"
+                  >
+                    4
+                  </Button>
+                  <Button
+                    onClick={() => handleNumberClick("5")}
+                    variant="ghost"
+                    className="h-20 text-xl font-medium bg-gray-700 hover:bg-gray-600 text-white rounded-full"
+                  >
+                    5
+                  </Button>
+                  <Button
+                    onClick={() => handleNumberClick("6")}
+                    variant="ghost"
+                    className="h-20 text-xl font-medium bg-gray-700 hover:bg-gray-600 text-white rounded-full"
+                  >
+                    6
+                  </Button>
+                  <Button
+                    onClick={() => handleOperatorClick("-")}
+                    variant="ghost"
+                    className={`h-20 text-xl font-medium rounded-full ${
+                      operator === "-"
+                        ? "bg-white text-orange-500"
+                        : "bg-orange-500 hover:bg-orange-400 text-white"
+                    }`}
+                  >
+                    −
+                  </Button>
+
+                  {/* Row 4: 1, 2, 3, + */}
+                  <Button
+                    onClick={() => handleNumberClick("1")}
+                    variant="ghost"
+                    className="h-20 text-xl font-medium bg-gray-700 hover:bg-gray-600 text-white rounded-full"
+                  >
+                    1
+                  </Button>
+                  <Button
+                    onClick={() => handleNumberClick("2")}
+                    variant="ghost"
+                    className="h-20 text-xl font-medium bg-gray-700 hover:bg-gray-600 text-white rounded-full"
+                  >
+                    2
+                  </Button>
+                  <Button
+                    onClick={() => handleNumberClick("3")}
+                    variant="ghost"
+                    className="h-20 text-xl font-medium bg-gray-700 hover:bg-gray-600 text-white rounded-full"
+                  >
+                    3
+                  </Button>
+                  <Button
+                    onClick={() => handleOperatorClick("+")}
+                    variant="ghost"
+                    className={`h-20 text-xl font-medium rounded-full ${
+                      operator === "+"
+                        ? "bg-white text-orange-500"
+                        : "bg-orange-500 hover:bg-orange-400 text-white"
+                    }`}
+                  >
+                    +
+                  </Button>
+
+                  {/* Row 5: 0 (spans 2 columns), ., = */}
+                  <Button
+                    onClick={() => handleNumberClick("0")}
+                    variant="ghost"
+                    className="h-20 text-xl font-medium bg-gray-700 hover:bg-gray-600 text-white rounded-full col-span-2"
+                  >
+                    0
+                  </Button>
+                  <Button
+                    onClick={handleDecimal}
+                    variant="ghost"
+                    className="h-20 text-xl font-medium bg-gray-700 hover:bg-gray-600 text-white rounded-full"
+                  >
+                    .
+                  </Button>
+                  <Button
+                    onClick={handleCalculatorDone}
+                    variant="ghost"
+                    className="h-20 text-xl font-medium bg-orange-500 hover:bg-orange-400 text-white rounded-full"
+                  >
+                    DONE
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </DialogContent>
+        </Dialog>
       </div>
     </Layout>
   );
