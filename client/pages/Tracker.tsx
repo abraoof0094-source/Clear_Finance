@@ -227,7 +227,7 @@ const allCategories = [
       { name: "PPF & ELSS", icon: "🎯", description: "Tax-saving investments" },
       {
         name: "Real Estate",
-        icon: "��������️",
+        icon: "������️",
         description: "Property investments",
       },
       { name: "Gold", icon: "✨", description: "Physical gold, gold ETFs" },
@@ -754,17 +754,6 @@ export function Tracker() {
                     </div>
                   </div>
 
-                  {/* Account */}
-                  <div>
-                    <div className="text-base text-muted-foreground mb-2">Account</div>
-                    <div className="h-px bg-border"></div>
-                  </div>
-
-                  {/* Note */}
-                  <div>
-                    <div className="text-base text-muted-foreground mb-2">Note</div>
-                    <div className="h-px bg-border"></div>
-                  </div>
                 </div>
 
                 {/* Action Buttons - Always show */}
