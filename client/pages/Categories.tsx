@@ -949,7 +949,7 @@ function SubcategoryItem({
           {showMenu && (
             <>
               <div className="fixed inset-0 z-[9998]" onClick={() => setShowMenu(false)}></div>
-              <div className="fixed bg-card border border-border rounded-md shadow-xl z-[9999] py-1 min-w-[140px] right-2 top-16">
+              <div className="fixed bg-card border border-border rounded-md shadow-xl z-[9999] py-1 min-w-[140px]" style={{right: '8px', top: '120px'}}>
                 <button
                   className="w-full text-left px-3 py-2 hover:bg-muted text-sm flex items-center gap-2"
                   onClick={() => {
