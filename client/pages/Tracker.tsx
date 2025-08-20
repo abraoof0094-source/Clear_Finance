@@ -566,28 +566,28 @@ export function Tracker() {
                     <span className="text-sm text-muted-foreground">Amount</span>
                   </div>
                   <div className="grid grid-cols-4 gap-3">
-                    <Button onClick={() => handleNumberClick("1")} variant="ghost" className="h-12 text-lg">1</Button>
-                    <Button onClick={() => handleNumberClick("2")} variant="ghost" className="h-12 text-lg">2</Button>
-                    <Button onClick={() => handleNumberClick("3")} variant="ghost" className="h-12 text-lg">3</Button>
-                    <Button onClick={handleBackspace} variant="ghost" className="h-12">
-                      <X className="h-5 w-5" />
+                    <Button onClick={() => handleNumberClick("1")} variant="ghost" className="h-14 text-xl font-bold bg-background hover:bg-muted rounded-lg">1</Button>
+                    <Button onClick={() => handleNumberClick("2")} variant="ghost" className="h-14 text-xl font-bold bg-background hover:bg-muted rounded-lg">2</Button>
+                    <Button onClick={() => handleNumberClick("3")} variant="ghost" className="h-14 text-xl font-bold bg-background hover:bg-muted rounded-lg">3</Button>
+                    <Button onClick={handleBackspace} variant="ghost" className="h-14 bg-background hover:bg-muted rounded-lg">
+                      <X className="h-6 w-6" />
                     </Button>
 
-                    <Button onClick={() => handleNumberClick("4")} variant="ghost" className="h-12 text-lg">4</Button>
-                    <Button onClick={() => handleNumberClick("5")} variant="ghost" className="h-12 text-lg">5</Button>
-                    <Button onClick={() => handleNumberClick("6")} variant="ghost" className="h-12 text-lg">6</Button>
-                    <Button onClick={handleClear} variant="ghost" className="h-12 text-lg">-</Button>
+                    <Button onClick={() => handleNumberClick("4")} variant="ghost" className="h-14 text-xl font-bold bg-background hover:bg-muted rounded-lg">4</Button>
+                    <Button onClick={() => handleNumberClick("5")} variant="ghost" className="h-14 text-xl font-bold bg-background hover:bg-muted rounded-lg">5</Button>
+                    <Button onClick={() => handleNumberClick("6")} variant="ghost" className="h-14 text-xl font-bold bg-background hover:bg-muted rounded-lg">6</Button>
+                    <Button onClick={handleClear} variant="ghost" className="h-14 text-xl font-bold bg-background hover:bg-muted rounded-lg">-</Button>
 
-                    <Button onClick={() => handleNumberClick("7")} variant="ghost" className="h-12 text-lg">7</Button>
-                    <Button onClick={() => handleNumberClick("8")} variant="ghost" className="h-12 text-lg">8</Button>
-                    <Button onClick={() => handleNumberClick("9")} variant="ghost" className="h-12 text-lg">9</Button>
-                    <Button onClick={handleClear} variant="ghost" className="h-12">
-                      <Calculator className="h-5 w-5" />
+                    <Button onClick={() => handleNumberClick("7")} variant="ghost" className="h-14 text-xl font-bold bg-background hover:bg-muted rounded-lg">7</Button>
+                    <Button onClick={() => handleNumberClick("8")} variant="ghost" className="h-14 text-xl font-bold bg-background hover:bg-muted rounded-lg">8</Button>
+                    <Button onClick={() => handleNumberClick("9")} variant="ghost" className="h-14 text-xl font-bold bg-background hover:bg-muted rounded-lg">9</Button>
+                    <Button onClick={handleClear} variant="ghost" className="h-14 bg-background hover:bg-muted rounded-lg">
+                      <Calculator className="h-6 w-6" />
                     </Button>
 
                     <div></div>
-                    <Button onClick={() => handleNumberClick("0")} variant="ghost" className="h-12 text-lg">0</Button>
-                    <Button onClick={handleDecimal} variant="ghost" className="h-12 text-lg">.</Button>
+                    <Button onClick={() => handleNumberClick("0")} variant="ghost" className="h-14 text-xl font-bold bg-background hover:bg-muted rounded-lg">0</Button>
+                    <Button onClick={handleDecimal} variant="ghost" className="h-14 text-xl font-bold bg-background hover:bg-muted rounded-lg">.</Button>
                     <Button
                       onClick={handleSave}
                       className={`h-12 text-white ${
