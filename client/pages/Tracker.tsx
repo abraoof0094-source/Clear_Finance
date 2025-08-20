@@ -762,7 +762,7 @@ export function Tracker() {
                 </div>
 
                 {/* Category Selection - Show when category is clicked */}
-                {showCategorySelection && (
+                {(showCategorySelection || true) && (
                   <div className="border-t bg-background">
                     <div className="flex justify-between items-center p-4 border-b">
                       <span className="text-base font-semibold">Category</span>
