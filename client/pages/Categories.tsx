@@ -753,7 +753,7 @@ function ExpandableCategoryItem({
   getBudget,
 }: ExpandableCategoryItemProps) {
   return (
-    <Card className="relative border-0 shadow-sm bg-card/50 backdrop-blur-sm">
+    <Card className="relative border-0 shadow-sm bg-card/50">
       {/* Main Category Header */}
       <div className="p-5">
         <div className="flex items-center justify-between">
