@@ -1,290 +1,250 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Layout } from "../components/Layout";
 import { Card } from "../components/ui/card";
 import { Button } from "../components/ui/button";
 import { Badge } from "../components/ui/badge";
 import {
-  Download,
-  Upload,
-  FileText,
   Settings,
-  FolderOpen,
+  Download,
+  Database,
   Smartphone,
-  Calendar,
-  BarChart3,
-  ChevronRight,
+  Calculator,
+  Users,
+  Lock,
+  MessageSquare,
+  HelpCircle,
+  Heart,
+  Trash2,
+  FileText,
+  PieChart,
+  TrendingUp,
+  Shield,
+  Palette,
+  Bell,
+  Globe,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { phoneStorage } from "../utils/phoneStorage";
 
 export function More() {
   const navigate = useNavigate();
-  const [isExporting, setIsExporting] = useState(false);
-  const [isBackingUp, setIsBackingUp] = useState(false);
+  const [stats, setStats] = useState({
+    transactions: 0,
+    totalIncome: 0,
+    totalExpenses: 0,
+    thisMonth: 0,
+  });
 
-  // Quick export CSV
-  const quickExport = async () => {
-    setIsExporting(true);
-    try {
-      const transactions = phoneStorage.loadTransactions();
-
-      if (transactions.length === 0) {
-        alert("No transactions to export");
-        return;
-      }
-
-      // Create CSV
-      const headers = [
-        "Date",
-        "Time",
-        "Type",
-        "Category",
-        "Subcategory",
-        "Amount",
-        "Notes",
-      ];
-      const csvContent = [
-        headers.join(","),
-        ...transactions.map((t) =>
-          [
-            `"${t.date}"`,
-            `"${t.time}"`,
-            `"${t.type}"`,
-            `"${t.mainCategory}"`,
-            `"${t.subCategory}"`,
-            t.amount,
-            `"${t.notes || ""}"`,
-          ].join(","),
-        ),
-      ].join("\n");
-
-      // Download
-      const blob = new Blob([csvContent], { type: "text/csv" });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = `clear-finance-${new Date().toISOString().split("T")[0]}.csv`;
-      a.click();
-      URL.revokeObjectURL(url);
-    } catch (error) {
-      alert("Export failed");
-    } finally {
-      setIsExporting(false);
-    }
-  };
-
-  // Quick backup
-  const quickBackup = async () => {
-    setIsBackingUp(true);
-    try {
-      const data = {
-        transactions: phoneStorage.loadTransactions(),
-        budgets: phoneStorage.loadBudgets(),
-        categories: JSON.parse(localStorage.getItem("categories") || "[]"),
-        exportedAt: new Date().toISOString(),
-        version: "1.0",
-      };
-
-      const jsonString = JSON.stringify(data, null, 2);
-      const blob = new Blob([jsonString], { type: "application/json" });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = `clear-finance-backup-${new Date().toISOString().split("T")[0]}.mbak`;
-      a.click();
-      URL.revokeObjectURL(url);
-    } catch (error) {
-      alert("Backup failed");
-    } finally {
-      setIsBackingUp(false);
-    }
-  };
-
-  const getDataStats = () => {
+  useEffect(() => {
+    // Get statistics
     const transactions = phoneStorage.loadTransactions();
-    const budgets = phoneStorage.loadBudgets();
-    return {
-      transactions: transactions.length,
-      budgets: Object.keys(budgets).length,
-    };
-  };
+    const currentMonth = new Date().getMonth();
+    const currentYear = new Date().getFullYear();
 
-  const stats = getDataStats();
+    const thisMonthTransactions = transactions.filter((t) => {
+      const transactionDate = new Date(t.date);
+      return (
+        transactionDate.getMonth() === currentMonth &&
+        transactionDate.getFullYear() === currentYear
+      );
+    });
+
+    const totalIncome = transactions
+      .filter((t) => t.type === "income")
+      .reduce((sum, t) => sum + t.amount, 0);
+
+    const totalExpenses = transactions
+      .filter((t) => t.type === "expense")
+      .reduce((sum, t) => sum + t.amount, 0);
+
+    setStats({
+      transactions: transactions.length,
+      totalIncome,
+      totalExpenses,
+      thisMonth: thisMonthTransactions.length,
+    });
+  }, []);
+
+  const tools = [
+    {
+      id: 'preferences',
+      title: 'Configuration',
+      subtitle: 'App settings & themes',
+      icon: Settings,
+      color: 'bg-blue-500/10 text-blue-500',
+      action: () => navigate('/preferences')
+    },
+    {
+      id: 'accounts',
+      title: 'Accounts',
+      subtitle: 'Manage accounts',
+      icon: Users,
+      color: 'bg-green-500/10 text-green-500',
+      action: () => {}
+    },
+    {
+      id: 'passcode',
+      title: 'Passcode',
+      subtitle: 'Security settings',
+      icon: Lock,
+      color: 'bg-orange-500/10 text-orange-500',
+      action: () => {}
+    },
+    {
+      id: 'export',
+      title: 'Export',
+      subtitle: 'Download records',
+      icon: Download,
+      color: 'bg-indigo-500/10 text-indigo-500',
+      action: () => navigate('/export-records')
+    },
+    {
+      id: 'backup',
+      title: 'Backup',
+      subtitle: 'Data backup',
+      icon: Database,
+      color: 'bg-emerald-500/10 text-emerald-500',
+      action: () => navigate('/backup-restore')
+    },
+    {
+      id: 'analytics',
+      title: 'Analytics',
+      subtitle: 'Advanced reports',
+      icon: PieChart,
+      color: 'bg-purple-500/10 text-purple-500',
+      action: () => navigate('/analysis')
+    },
+    {
+      id: 'feedback',
+      title: 'Feedback',
+      subtitle: 'Send feedback',
+      icon: MessageSquare,
+      color: 'bg-pink-500/10 text-pink-500',
+      action: () => {}
+    },
+    {
+      id: 'help',
+      title: 'Help',
+      subtitle: 'Support center',
+      icon: HelpCircle,
+      color: 'bg-amber-500/10 text-amber-500',
+      action: () => {}
+    },
+    {
+      id: 'recommend',
+      title: 'Recommend',
+      subtitle: 'Share with friends',
+      icon: Heart,
+      color: 'bg-rose-500/10 text-rose-500',
+      action: () => {}
+    }
+  ];
 
   return (
     <Layout>
-      <div className="max-w-md mx-auto space-y-6 py-4">
+      <div className="space-y-6 py-4">
         {/* Header */}
         <div className="text-center">
-          <h1 className="text-2xl font-bold section-header mb-2">More</h1>
-          <p className="text-sm text-muted-foreground">
-            Backup, export, and manage your data
-          </p>
+          <h1 className="text-2xl font-bold bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
+            More Options
+          </h1>
+          <p className="text-muted-foreground mt-1">Tools, settings, and quick actions</p>
+        </div>
+
+        {/* Quick Stats */}
+        <div className="grid grid-cols-3 gap-3">
+          <Card className="p-3 text-center">
+            <div className="text-lg font-bold text-primary">{stats.transactions}</div>
+            <div className="text-xs text-muted-foreground">Records</div>
+          </Card>
+          <Card className="p-3 text-center">
+            <div className="text-lg font-bold text-green-500">₹{Math.round(stats.totalIncome/1000)}K</div>
+            <div className="text-xs text-muted-foreground">Income</div>
+          </Card>
+          <Card className="p-3 text-center">
+            <div className="text-lg font-bold text-blue-500">{stats.thisMonth}</div>
+            <div className="text-xs text-muted-foreground">This Month</div>
+          </Card>
+        </div>
+
+        {/* Tools Grid */}
+        <div>
+          <h2 className="text-lg font-semibold mb-4 px-1">Tools & Settings</h2>
+          <div className="grid grid-cols-3 gap-4">
+            {tools.map((tool) => {
+              const IconComponent = tool.icon;
+              return (
+                <Card
+                  key={tool.id}
+                  className="p-4 hover:shadow-md transition-all duration-200 cursor-pointer border-0 bg-card/50 backdrop-blur-sm"
+                  onClick={tool.action}
+                >
+                  <div className="flex flex-col items-center gap-3 text-center">
+                    <div className={`w-12 h-12 rounded-xl ${tool.color} flex items-center justify-center transition-transform hover:scale-110`}>
+                      <IconComponent className="h-6 w-6" />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-sm">{tool.title}</h3>
+                      <p className="text-xs text-muted-foreground mt-1">{tool.subtitle}</p>
+                    </div>
+                  </div>
+                </Card>
+              );
+            })}
+          </div>
         </div>
 
         {/* Quick Actions */}
         <div>
-          <h2 className="text-lg font-semibold section-header mb-4">
-            Quick Actions
-          </h2>
-          <div className="grid grid-cols-2 gap-3">
+          <h2 className="text-lg font-semibold mb-4 px-1">Quick Actions</h2>
+          <div className="space-y-2">
             <Card className="p-4">
-              <div className="text-center space-y-3">
-                <div className="p-3 rounded-full bg-blue-500/20 mx-auto w-fit">
-                  <Download className="h-6 w-6 text-blue-500" />
-                </div>
-                <div>
-                  <div className="font-medium text-sm">Quick Export</div>
-                  <div className="text-xs text-muted-foreground">
-                    {stats.transactions} transactions
-                  </div>
-                </div>
-                <Button
-                  onClick={quickExport}
-                  disabled={isExporting || stats.transactions === 0}
-                  size="sm"
-                  className="w-full"
-                >
-                  {isExporting ? "Exporting..." : "Export CSV"}
-                </Button>
-              </div>
-            </Card>
-
-            <Card className="p-4">
-              <div className="text-center space-y-3">
-                <div className="p-3 rounded-full bg-green-500/20 mx-auto w-fit">
-                  <Upload className="h-6 w-6 text-green-500" />
-                </div>
-                <div>
-                  <div className="font-medium text-sm">Quick Backup</div>
-                  <div className="text-xs text-muted-foreground">
-                    Complete data backup
-                  </div>
-                </div>
-                <Button
-                  onClick={quickBackup}
-                  disabled={isBackingUp}
-                  size="sm"
-                  className="w-full"
-                  variant="outline"
-                >
-                  {isBackingUp ? "Creating..." : "Backup All"}
-                </Button>
-              </div>
-            </Card>
-          </div>
-        </div>
-
-        {/* Data Management */}
-        <div>
-          <h2 className="text-lg font-semibold section-header mb-4">
-            Data Management
-          </h2>
-          <Card className="p-1">
-            <div className="space-y-1">
-              {/* Advanced Export */}
               <button
-                onClick={() => navigate("/export-records")}
-                className="flex items-center justify-between p-4 w-full text-left hover:bg-muted/50 rounded-md transition-colors"
+                onClick={() => navigate('/preferences')}
+                className="flex items-center justify-between w-full text-left"
               >
                 <div className="flex items-center gap-3">
-                  <div className="p-2 rounded-full bg-blue-500/20">
-                    <BarChart3 className="h-4 w-4 text-blue-500" />
-                  </div>
-                  <div>
-                    <div className="font-medium">Advanced Export</div>
-                    <div className="text-sm text-muted-foreground">
-                      Export with date range and filters
-                    </div>
-                  </div>
-                </div>
-                <ChevronRight className="h-4 w-4 text-muted-foreground" />
-              </button>
-
-              {/* Backup & Restore */}
-              <button
-                onClick={() => navigate("/backup-restore")}
-                className="flex items-center justify-between p-4 w-full text-left hover:bg-muted/50 rounded-md transition-colors border-t border-border"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="p-2 rounded-full bg-green-500/20">
-                    <FileText className="h-4 w-4 text-green-500" />
-                  </div>
-                  <div>
-                    <div className="font-medium">Backup & Restore</div>
-                    <div className="text-sm text-muted-foreground">
-                      Complete backup and restore options
-                    </div>
-                  </div>
-                </div>
-                <ChevronRight className="h-4 w-4 text-muted-foreground" />
-              </button>
-            </div>
-          </Card>
-        </div>
-
-        {/* Tools & Settings */}
-        <div>
-          <h2 className="text-lg font-semibold section-header mb-4">
-            Tools & Settings
-          </h2>
-          <Card className="p-1">
-            <div className="space-y-1">
-              {/* Phone Storage */}
-              <button
-                onClick={() => navigate("/preferences")}
-                className="flex items-center justify-between p-4 w-full text-left hover:bg-muted/50 rounded-md transition-colors border-t border-border"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="p-2 rounded-full bg-green-500/20">
-                    <Smartphone className="h-4 w-4 text-green-500" />
+                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                    <Smartphone className="h-5 w-5 text-primary" />
                   </div>
                   <div>
                     <div className="font-medium">Storage & Preferences</div>
                     <div className="text-sm text-muted-foreground">
-                      Storage status, themes, and settings
+                      {stats.transactions} records stored locally
                     </div>
                   </div>
                 </div>
-                <Badge
-                  variant="outline"
-                  className="text-green-500 border-green-500"
-                >
-                  {stats.transactions} saved
+                <Badge variant="outline" className="text-green-500 border-green-500/20">
+                  Active
                 </Badge>
-                <ChevronRight className="h-4 w-4 text-muted-foreground" />
               </button>
-            </div>
-          </Card>
+            </Card>
+
+            <Card className="p-4">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-amber-500/10 flex items-center justify-center">
+                    <TrendingUp className="h-5 w-5 text-amber-500" />
+                  </div>
+                  <div>
+                    <div className="font-medium">Net Balance</div>
+                    <div className="text-sm text-muted-foreground">
+                      Current financial position
+                    </div>
+                  </div>
+                </div>
+                <div className={`font-bold ${stats.totalIncome - stats.totalExpenses >= 0 ? 'text-green-500' : 'text-red-500'}`}>
+                  ₹{(stats.totalIncome - stats.totalExpenses).toLocaleString()}
+                </div>
+              </div>
+            </Card>
+          </div>
         </div>
 
-        {/* Data Summary */}
-        <Card className="p-4 bg-muted/30">
-          <div className="text-center space-y-3">
-            <div className="text-sm font-medium">📱 Your Data</div>
-            <div className="grid grid-cols-2 gap-6">
-              <div>
-                <div className="text-2xl font-bold amount-income">
-                  {stats.transactions}
-                </div>
-                <div className="text-xs text-muted-foreground">
-                  Transactions
-                </div>
-              </div>
-              <div>
-                <div className="text-2xl font-bold theme-accent">
-                  {stats.budgets}
-                </div>
-                <div className="text-xs text-muted-foreground">
-                  Budget entries
-                </div>
-              </div>
-            </div>
-            <div className="text-xs text-muted-foreground">
-              All data is securely stored on your phone
-            </div>
-          </div>
-        </Card>
+        {/* Footer */}
+        <div className="text-center pt-4">
+          <p className="text-xs text-muted-foreground">Clear Finance v5.8 - Free</p>
+        </div>
       </div>
     </Layout>
   );
