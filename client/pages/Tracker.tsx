@@ -230,6 +230,16 @@ export function Tracker() {
     filteredCategories.find((cat) => cat.name === selectedMainCategory)
       ?.subcategories || [];
 
+  // Debug logging
+  console.log("Debug State:", {
+    selectedMainCategory,
+    selectedSubCategory,
+    amount,
+    displayValue,
+    subCategoriesCount: subCategories.length,
+    filteredCategoriesCount: filteredCategories.length
+  });
+
   // Save transaction
   const handleSave = () => {
     if (!selectedMainCategory || !selectedSubCategory || !amount) {
