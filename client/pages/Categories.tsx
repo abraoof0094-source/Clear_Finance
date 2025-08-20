@@ -944,70 +944,69 @@ function SubcategoryItem({
             <span className="text-muted-foreground">⋯</span>
           </Button>
           {showMenu && (
-            <div className="fixed bg-card border border-border rounded-md shadow-xl z-[9999] py-1 min-w-[140px]"
-                 style={{
-                   top: '50px',
-                   right: '20px'
-                 }}>
-              <button
-                className="w-full text-left px-3 py-2 hover:bg-muted text-sm flex items-center gap-2"
-                onClick={() => {
-                  onEdit(subcategory);
-                  setShowMenu(false);
-                }}
-              >
-                <Edit className="h-3 w-3" />
-                Edit
-              </button>
+            <>
+              <div className="fixed inset-0 z-[9998]" onClick={() => setShowMenu(false)}></div>
+              <div className="absolute right-0 top-full mt-1 bg-card border border-border rounded-md shadow-xl z-[9999] py-1 min-w-[140px]">
+                <button
+                  className="w-full text-left px-3 py-2 hover:bg-muted text-sm flex items-center gap-2"
+                  onClick={() => {
+                    onEdit(subcategory);
+                    setShowMenu(false);
+                  }}
+                >
+                  <Edit className="h-3 w-3" />
+                  Edit
+                </button>
 
-              {budget > 0 ? (
-                <>
+                {budget > 0 ? (
+                  <>
+                    <button
+                      className="w-full text-left px-3 py-2 hover:bg-muted text-sm flex items-center gap-2 text-blue-600"
+                      onClick={() => {
+                        onSetBudget(subcategory.name);
+                        setShowMenu(false);
+                      }}
+                    >
+                      <Calculator className="h-3 w-3" />
+                      Edit Budget
+                    </button>
+                    <button
+                      className="w-full text-left px-3 py-2 hover:bg-muted text-sm flex items-center gap-2 text-orange-600"
+                      onClick={() => {
+                        onRemoveBudget(subcategory.name);
+                        setShowMenu(false);
+                      }}
+                    >
+                      <Trash2 className="h-3 w-3" />
+                      Remove Budget
+                    </button>
+                  </>
+                ) : (
                   <button
-                    className="w-full text-left px-3 py-2 hover:bg-muted text-sm flex items-center gap-2 text-blue-600"
+                    className="w-full text-left px-3 py-2 hover:bg-muted text-sm flex items-center gap-2 text-green-600"
                     onClick={() => {
                       onSetBudget(subcategory.name);
                       setShowMenu(false);
                     }}
                   >
                     <Calculator className="h-3 w-3" />
-                    Edit Budget
+                    Set Budget
                   </button>
-                  <button
-                    className="w-full text-left px-3 py-2 hover:bg-muted text-sm flex items-center gap-2 text-orange-600"
-                    onClick={() => {
-                      onRemoveBudget(subcategory.name);
-                      setShowMenu(false);
-                    }}
-                  >
-                    <Trash2 className="h-3 w-3" />
-                    Remove Budget
-                  </button>
-                </>
-              ) : (
+                )}
+
+                <div className="border-t border-border my-1"></div>
                 <button
-                  className="w-full text-left px-3 py-2 hover:bg-muted text-sm flex items-center gap-2 text-green-600"
+                  className="w-full text-left px-3 py-2 hover:bg-muted text-sm flex items-center gap-2 text-red-600"
                   onClick={() => {
-                    onSetBudget(subcategory.name);
+                    onDelete(subcategory);
                     setShowMenu(false);
                   }}
                 >
-                  <Calculator className="h-3 w-3" />
-                  Set Budget
+                  <Trash2 className="h-3 w-3" />
+                  Delete
                 </button>
-              )}
-
-              <div className="border-t border-border my-1"></div>
-              <button
-                className="w-full text-left px-3 py-2 hover:bg-muted text-sm flex items-center gap-2 text-red-600"
-                onClick={() => {
-                  onDelete(subcategory);
-                  setShowMenu(false);
-                }}
-              >
-                <Trash2 className="h-3 w-3" />
-                Delete
-              </button>
-            </div>
+              </div>
+            </>
           )}
         </div>
       </div>
