@@ -738,7 +738,7 @@ export function Tracker() {
                     {/* Category Selection - opens in modal/slide */}
                     <div className="mt-4">
                       <Button
-                        onClick={() => {/* TODO: Open category selection modal */}}
+                        onClick={() => setShowCategoryModal(true)}
                         variant="ghost"
                         className="w-full justify-start text-left p-0 h-auto"
                       >
