@@ -67,7 +67,7 @@ const allCategories = [
   {
     id: 3,
     name: "Family & Personal Living",
-    icon: "👨���👩‍👧‍👦",
+    icon: "👪",
     type: "expense" as const,
     subcategories: [
       { name: "Groceries", icon: "🛒", description: "Daily food & household items" },
