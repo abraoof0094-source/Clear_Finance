@@ -227,7 +227,7 @@ const allCategories = [
       { name: "PPF & ELSS", icon: "🎯", description: "Tax-saving investments" },
       {
         name: "Real Estate",
-        icon: "����️",
+        icon: "������️",
         description: "Property investments",
       },
       { name: "Gold", icon: "✨", description: "Physical gold, gold ETFs" },
@@ -844,7 +844,7 @@ export function Tracker() {
                 </div>
 
                 {/* Full Calculator Keypad */}
-                <div className="p-4 pb-32 bg-muted/30 border-t">
+                <div className="p-4 pb-6 bg-muted/30 border-t">
                   <div className="flex justify-between items-center mb-3">
                     <span className="text-sm text-muted-foreground">
                       Calculator
