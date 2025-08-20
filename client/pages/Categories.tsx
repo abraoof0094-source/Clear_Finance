@@ -673,6 +673,152 @@ export function Categories() {
         </DialogContent>
       </Dialog>
 
+      {/* Edit Main Category Dialog */}
+      <Dialog open={showEditMainDialog} onOpenChange={setShowEditMainDialog}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Edit Category</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <Label>Name</Label>
+              <Input
+                value={newCategoryName}
+                onChange={(e) => setNewCategoryName(e.target.value)}
+                placeholder="Category name"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label>Icon</Label>
+              <Input
+                value={selectedIcon}
+                onChange={(e) => setSelectedIcon(e.target.value)}
+                placeholder="📱"
+              />
+            </div>
+            <div className="flex gap-2 pt-4">
+              <Button
+                variant="outline"
+                onClick={() => setShowEditMainDialog(false)}
+              >
+                Cancel
+              </Button>
+              <Button
+                onClick={() => {
+                  // Save logic here
+                  setShowEditMainDialog(false);
+                }}
+                disabled={!newCategoryName}
+              >
+                Save Changes
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Delete Main Category Dialog */}
+      <Dialog open={showDeleteMainDialog} onOpenChange={setShowDeleteMainDialog}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Delete Category</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <p>Are you sure you want to delete "{selectedMainCategory?.name}"? This will also delete all its subcategories and cannot be undone.</p>
+            <div className="flex gap-2 pt-4">
+              <Button
+                variant="outline"
+                onClick={() => setShowDeleteMainDialog(false)}
+              >
+                Cancel
+              </Button>
+              <Button
+                variant="destructive"
+                onClick={() => {
+                  // Delete logic here
+                  setShowDeleteMainDialog(false);
+                }}
+              >
+                Delete Category
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Edit Subcategory Dialog */}
+      <Dialog open={showEditSubDialog} onOpenChange={setShowEditSubDialog}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Edit Subcategory</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <Label>Name</Label>
+              <Input
+                value={newCategoryName}
+                onChange={(e) => setNewCategoryName(e.target.value)}
+                placeholder="Subcategory name"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label>Icon</Label>
+              <Input
+                value={selectedIcon}
+                onChange={(e) => setSelectedIcon(e.target.value)}
+                placeholder="📱"
+              />
+            </div>
+            <div className="flex gap-2 pt-4">
+              <Button
+                variant="outline"
+                onClick={() => setShowEditSubDialog(false)}
+              >
+                Cancel
+              </Button>
+              <Button
+                onClick={() => {
+                  // Save logic here
+                  setShowEditSubDialog(false);
+                }}
+                disabled={!newCategoryName}
+              >
+                Save Changes
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Delete Subcategory Dialog */}
+      <Dialog open={showDeleteSubDialog} onOpenChange={setShowDeleteSubDialog}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Delete Subcategory</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <p>Are you sure you want to delete "{selectedSubcategory?.name}"? This action cannot be undone.</p>
+            <div className="flex gap-2 pt-4">
+              <Button
+                variant="outline"
+                onClick={() => setShowDeleteSubDialog(false)}
+              >
+                Cancel
+              </Button>
+              <Button
+                variant="destructive"
+                onClick={() => {
+                  // Delete logic here
+                  setShowDeleteSubDialog(false);
+                }}
+              >
+                Delete Subcategory
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
       {/* Set Budget Dialog */}
       <Dialog open={showBudgetDialog} onOpenChange={setShowBudgetDialog}>
         <DialogContent className="sm:max-w-md">
