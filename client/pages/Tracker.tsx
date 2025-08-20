@@ -579,9 +579,15 @@ export function Tracker() {
         const savedTransaction =
           await universalStorage.addTransaction(transactionData);
 
-        // Update local state
-        const updatedTransactions = [savedTransaction, ...transactions];
-        setTransactions(updatedTransactions);
+        // Check if the new transaction belongs to the current month view
+        const transactionDate = new Date(savedTransaction.date);
+        const transactionMonth = new Date(transactionDate.getFullYear(), transactionDate.getMonth(), 1);
+
+        if (transactionMonth.getTime() === currentMonth.getTime()) {
+          // Update local state only if transaction is for current month
+          const updatedTransactions = [savedTransaction, ...transactions];
+          setTransactions(updatedTransactions);
+        }
 
         console.log("Transaction saved successfully to client storage");
       }
