@@ -322,6 +322,13 @@ export class LocalStorageManager {
     );
   }
 
+  // Get monthly transactions
+  getMonthlyTransactions(year: number, month: number): Transaction[] {
+    const monthKey = `${year}-${month.toString().padStart(2, "0")}`;
+
+    return this.getAllTransactions().filter((t) => t.date.startsWith(monthKey));
+  }
+
   // Calculate summary
   getCurrentMonthlySummary(): Summary {
     const transactions = this.getCurrentMonthTransactions();
