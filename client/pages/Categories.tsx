@@ -767,18 +767,23 @@ function ExpandableCategoryItem({
             <div className="flex-1">
               <div className="flex items-center gap-3 mb-1">
                 <span className="font-semibold text-foreground">{category.name}</span>
-                <Badge
-                  variant="secondary"
-                  className={`text-xs font-medium px-3 py-1 rounded-full ${
+                <div
+                  className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold shadow-sm transition-all ${
                     category.type === "income"
-                      ? "bg-green-500/10 text-green-600 border-green-500/20"
+                      ? "bg-gradient-to-r from-green-500 to-emerald-500 text-white"
                       : category.type === "investment"
-                        ? "bg-blue-500/10 text-blue-600 border-blue-500/20"
-                        : "bg-red-500/10 text-red-600 border-red-500/20"
+                        ? "bg-gradient-to-r from-blue-500 to-indigo-500 text-white"
+                        : "bg-gradient-to-r from-red-500 to-rose-500 text-white"
                   }`}
                 >
-                  {category.type.toUpperCase()}
-                </Badge>
+                  {category.type === "income" && "💰"}
+                  {category.type === "investment" && "📈"}
+                  {category.type === "expense" && "💸"}
+                  <span className="tracking-wide">
+                    {category.type === "income" ? "INCOME" :
+                     category.type === "investment" ? "INVEST" : "EXPENSE"}
+                  </span>
+                </div>
               </div>
               <div className="text-sm text-muted-foreground">
                 {category.subcategories.length} subcategories
