@@ -102,7 +102,7 @@ const allCategories = [
       },
       {
         name: "Others",
-        icon: "���️",
+        icon: "🏷️",
         description: "Other fixed household costs",
       },
     ],
@@ -623,7 +623,7 @@ export function Tracker() {
                 <div></div>
               </div>
 
-              <div className="flex-1 flex flex-col">
+              <div className="flex-1 flex flex-col overflow-hidden">
                 {/* Type Selection Tabs */}
                 <div className="grid grid-cols-3 gap-0 m-4 rounded-lg overflow-hidden border">
                   <Button
