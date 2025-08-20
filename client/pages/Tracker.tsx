@@ -268,7 +268,6 @@ export function Tracker() {
   const [currentDate, setCurrentDate] = useState("");
   const [currentTime, setCurrentTime] = useState("");
   const [showCalculator, setShowCalculator] = useState(false);
-  const [showCategoryModal, setShowCategoryModal] = useState(false);
   const [showKeypad, setShowKeypad] = useState(false);
   const [showCategorySelection, setShowCategorySelection] = useState(false);
 
