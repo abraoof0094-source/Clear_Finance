@@ -978,8 +978,8 @@ function ExpandableCategoryItem({
               onMouseDown={(e) => {
                 e.stopPropagation();
                 e.preventDefault();
-                console.log("Main menu button mousedown, isMenuOpen:", isMenuOpen);
-                onToggleMenu();
+                console.log("Main menu button mousedown, localMenuOpen:", localMenuOpen);
+                setLocalMenuOpen(!localMenuOpen);
               }}
               onClick={(e) => {
                 e.stopPropagation();
