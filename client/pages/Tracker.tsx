@@ -515,7 +515,7 @@ export function Tracker() {
                 </div>
 
                 {/* Calculator Keypad */}
-                <div className="p-4 bg-muted/30">
+                <div className="p-4 pb-24 bg-muted/30">
                   <div className="grid grid-cols-4 gap-2">
                     <Button onClick={() => handleNumberClick("1")} variant="ghost" className="h-12 text-lg">1</Button>
                     <Button onClick={() => handleNumberClick("2")} variant="ghost" className="h-12 text-lg">2</Button>
