@@ -120,7 +120,7 @@ const allCategories = [
       },
       {
         name: "Food & Dining",
-        icon: "��️",
+        icon: "🍽️",
         description: "Restaurants, food delivery, cafes",
       },
       {
@@ -912,7 +912,7 @@ export function Tracker() {
                         variant="ghost"
                         className="h-14 bg-background hover:bg-muted rounded-lg"
                       >
-                        <X className="h-6 w-6" />
+                        ⌫
                       </Button>
 
                       {/* Row 2: 4, 5, 6, - */}
