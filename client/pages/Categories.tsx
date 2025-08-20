@@ -158,7 +158,7 @@ const allCategories = [
   {
     id: 4,
     name: "Insurance",
-    icon: "🛡️",
+    icon: "��️",
     type: "expense" as const,
     subcategories: [
       {
@@ -579,17 +579,19 @@ export function Categories() {
                 />
               </div>
             ))}
+
+            {/* Add Main Category Button */}
+            <Card className="border-2 border-dashed border-muted-foreground/20 hover:border-primary/30 transition-colors cursor-pointer">
+              <div
+                className="p-5 flex items-center justify-center gap-3 text-muted-foreground hover:text-primary transition-colors"
+                onClick={() => setShowAddMainDialog(true)}
+              >
+                <Plus className="h-5 w-5" />
+                <span className="font-medium">Add Main Category</span>
+              </div>
+            </Card>
           </div>
         </div>
-
-        {/* Floating Add Button */}
-        <Button
-          size="icon"
-          className="fixed bottom-24 right-6 h-14 w-14 rounded-full shadow-lg"
-          onClick={() => setShowAddMainDialog(true)}
-        >
-          <Plus className="h-6 w-6" />
-        </Button>
       </div>
 
       {/* All Dialogs */}
