@@ -621,66 +621,83 @@ export function Categories() {
       {/* All Dialogs */}
       {/* Add Main Category Dialog */}
       <Dialog open={showAddMainDialog} onOpenChange={setShowAddMainDialog}>
-        <DialogContent className="sm:max-w-md">
+        <DialogContent className="sm:max-w-lg">
           <DialogHeader>
-            <DialogTitle>Add new main category</DialogTitle>
+            <DialogTitle className="text-xl font-semibold">Add New Main Category</DialogTitle>
           </DialogHeader>
-          <div className="space-y-4">
-            <div className="flex gap-4">
-              <Label>Type:</Label>
-              <div className="flex gap-4">
-                <label className="flex items-center gap-2">
-                  <input
-                    type="radio"
-                    value="income"
-                    checked={categoryType === "income"}
-                    onChange={(e) =>
-                      setCategoryType(e.target.value as "income")
-                    }
-                  />
-                  INCOME
-                </label>
-                <label className="flex items-center gap-2">
-                  <input
-                    type="radio"
-                    value="expense"
-                    checked={categoryType === "expense"}
-                    onChange={(e) =>
-                      setCategoryType(e.target.value as "expense")
-                    }
-                  />
-                  ✓ EXPENSE
-                </label>
-                <label className="flex items-center gap-2">
-                  <input
-                    type="radio"
-                    value="investment"
-                    checked={categoryType === "investment"}
-                    onChange={(e) =>
-                      setCategoryType(e.target.value as "investment")
-                    }
-                  />
-                  📈 INVESTMENT
-                </label>
+          <div className="space-y-6">
+            {/* Category Type Selection */}
+            <div className="space-y-3">
+              <Label className="text-sm font-medium">Category Type</Label>
+              <div className="grid grid-cols-3 gap-2">
+                <button
+                  type="button"
+                  className={`p-3 rounded-lg border-2 transition-all text-sm font-medium ${
+                    categoryType === "income"
+                      ? "border-green-500 bg-green-50 text-green-700"
+                      : "border-muted hover:border-green-300"
+                  }`}
+                  onClick={() => setCategoryType("income")}
+                >
+                  <div className="flex flex-col items-center gap-1">
+                    <span className="text-lg">💰</span>
+                    <span>INCOME</span>
+                  </div>
+                </button>
+                <button
+                  type="button"
+                  className={`p-3 rounded-lg border-2 transition-all text-sm font-medium ${
+                    categoryType === "expense"
+                      ? "border-red-500 bg-red-50 text-red-700"
+                      : "border-muted hover:border-red-300"
+                  }`}
+                  onClick={() => setCategoryType("expense")}
+                >
+                  <div className="flex flex-col items-center gap-1">
+                    <span className="text-lg">💸</span>
+                    <span>EXPENSE</span>
+                  </div>
+                </button>
+                <button
+                  type="button"
+                  className={`p-3 rounded-lg border-2 transition-all text-sm font-medium ${
+                    categoryType === "investment"
+                      ? "border-blue-500 bg-blue-50 text-blue-700"
+                      : "border-muted hover:border-blue-300"
+                  }`}
+                  onClick={() => setCategoryType("investment")}
+                >
+                  <div className="flex flex-col items-center gap-1">
+                    <span className="text-lg">📈</span>
+                    <span>INVEST</span>
+                  </div>
+                </button>
               </div>
             </div>
 
+            {/* Category Name */}
             <div className="space-y-2">
-              <Label>Name</Label>
+              <Label className="text-sm font-medium">Category Name</Label>
               <Input
                 value={newCategoryName}
                 onChange={(e) => setNewCategoryName(e.target.value)}
+                placeholder="Enter category name"
+                className="text-base"
               />
             </div>
 
+            {/* Icon Selection */}
             <div className="space-y-2">
-              <Label>Icon</Label>
-              <div className="grid grid-cols-6 gap-2">
+              <Label className="text-sm font-medium">Choose Icon</Label>
+              <div className="grid grid-cols-8 gap-2 max-h-32 overflow-y-auto p-2 border rounded-lg bg-muted/10">
                 {availableIcons.map((icon) => (
                   <Button
                     key={icon}
                     variant={selectedIcon === icon ? "default" : "outline"}
                     size="icon"
+                    className={`h-10 w-10 text-lg ${
+                      selectedIcon === icon ? "ring-2 ring-primary" : ""
+                    }`}
                     onClick={() => setSelectedIcon(icon)}
                   >
                     {icon}
@@ -689,14 +706,22 @@ export function Categories() {
               </div>
             </div>
 
-            <div className="flex gap-2 pt-4">
+            {/* Action Buttons */}
+            <div className="flex gap-3 pt-4">
               <Button
                 variant="outline"
                 onClick={() => setShowAddMainDialog(false)}
+                className="flex-1"
               >
-                CANCEL
+                Cancel
               </Button>
-              <Button onClick={() => setShowAddMainDialog(false)}>SAVE</Button>
+              <Button
+                onClick={handleSaveMainCategory}
+                disabled={!newCategoryName.trim()}
+                className="flex-1"
+              >
+                Save Category
+              </Button>
             </div>
           </div>
         </DialogContent>
