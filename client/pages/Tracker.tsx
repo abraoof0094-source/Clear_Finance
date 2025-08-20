@@ -471,7 +471,10 @@ export function Tracker() {
                                 ? 'bg-muted border border-primary'
                                 : 'bg-muted/20 hover:bg-muted/40'
                             }`}
-                            onClick={() => {
+                            onClick={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              console.log("Category clicked:", category.name, "Current:", selectedMainCategory);
                               if (selectedMainCategory === category.name) {
                                 setSelectedMainCategory("");
                                 setSelectedSubCategory("");
