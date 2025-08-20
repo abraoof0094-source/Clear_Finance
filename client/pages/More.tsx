@@ -6,6 +6,7 @@ import { Badge } from "../components/ui/badge";
 import {
   Settings,
   Download,
+  Upload,
   Database,
   Smartphone,
   Calculator,
