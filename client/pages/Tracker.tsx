@@ -525,13 +525,13 @@ export function Tracker() {
         <div className="grid grid-cols-3 gap-3">
           <Card className="p-4 text-center">
             <div className="text-sm text-muted-foreground">Income</div>
-            <div className="text-lg font-bold text-green-500">
+            <div className="text-lg font-bold" style={{ color: '#22c55e' }}>
               ₹{totalIncome.toLocaleString()}
             </div>
           </Card>
           <Card className="p-4 text-center">
             <div className="text-sm text-muted-foreground">Expense</div>
-            <div className="text-lg font-bold text-red-500">
+            <div className="text-lg font-bold" style={{ color: '#ef4444' }}>
               ₹{totalExpense.toLocaleString()}
             </div>
           </Card>
