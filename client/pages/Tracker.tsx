@@ -382,6 +382,9 @@ export function Tracker() {
       setCurrentOperand("");
       setOperator("");
       setWaitingForOperand(true);
+    } else {
+      // If just pressing equals without operation, set the current display as amount
+      setAmount(displayValue);
     }
   };
 
