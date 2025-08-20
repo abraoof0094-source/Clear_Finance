@@ -230,25 +230,6 @@ export function More() {
           </h2>
           <Card className="p-1">
             <div className="space-y-1">
-              {/* Categories */}
-              <button
-                onClick={() => navigate("/categories")}
-                className="flex items-center justify-between p-4 w-full text-left hover:bg-muted/50 rounded-md transition-colors"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="p-2 rounded-full bg-purple-500/20">
-                    <FolderOpen className="h-4 w-4 text-purple-500" />
-                  </div>
-                  <div>
-                    <div className="font-medium">Categories</div>
-                    <div className="text-sm text-muted-foreground">
-                      Manage expense and income categories
-                    </div>
-                  </div>
-                </div>
-                <ChevronRight className="h-4 w-4 text-muted-foreground" />
-              </button>
-
               {/* Phone Storage */}
               <button
                 onClick={() => navigate("/preferences")}
