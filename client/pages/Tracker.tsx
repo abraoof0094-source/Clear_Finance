@@ -658,10 +658,10 @@ export function Tracker() {
                       setSelectedMainCategory("");
                       setSelectedSubCategory("");
                     }}
-                    className={`h-12 text-sm font-semibold rounded-none border-x ${
+                    className={`h-12 text-sm font-semibold rounded-none ${
                       transactionType === "expense"
-                        ? "bg-red-500 text-white border-red-600"
-                        : "bg-muted text-muted-foreground border-muted hover:bg-muted hover:text-muted-foreground"
+                        ? "bg-red-500 text-white border-l border-r border-red-600"
+                        : "bg-muted text-muted-foreground border-l border-r border-gray-300 hover:bg-muted hover:text-muted-foreground"
                     }`}
                   >
                     Expense
