@@ -971,11 +971,15 @@ function ExpandableCategoryItem({
               variant="ghost"
               size="icon"
               className="h-8 w-8 hover:bg-muted"
+              onMouseDown={(e) => {
+                e.stopPropagation();
+                e.preventDefault();
+                console.log("Main menu button mousedown, isMenuOpen:", isMenuOpen);
+                onToggleMenu();
+              }}
               onClick={(e) => {
                 e.stopPropagation();
                 e.preventDefault();
-                console.log("Main menu button clicked, isMenuOpen:", isMenuOpen);
-                onToggleMenu();
               }}
             >
               <span className="text-foreground font-bold text-lg">⋯</span>
