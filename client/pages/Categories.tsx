@@ -963,7 +963,10 @@ function SubcategoryItem({
               <div className="fixed bg-card border border-border rounded-md shadow-xl z-[9999] py-1 min-w-[140px]" style={{right: '8px', top: '200px'}}>
                 <button
                   className="w-full text-left px-3 py-2 hover:bg-muted text-sm flex items-center gap-2"
-                  onClick={() => {
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    console.log("Edit subcategory clicked:", subcategory);
                     onEdit(subcategory);
                     setShowMenu(false);
                   }}
@@ -976,7 +979,10 @@ function SubcategoryItem({
                   <>
                     <button
                       className="w-full text-left px-3 py-2 hover:bg-muted text-sm flex items-center gap-2 text-blue-600"
-                      onClick={() => {
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        console.log("Edit budget clicked:", subcategory.name);
                         onSetBudget(subcategory.name);
                         setShowMenu(false);
                       }}
@@ -986,7 +992,10 @@ function SubcategoryItem({
                     </button>
                     <button
                       className="w-full text-left px-3 py-2 hover:bg-muted text-sm flex items-center gap-2 text-orange-600"
-                      onClick={() => {
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        console.log("Remove budget clicked:", subcategory.name);
                         onRemoveBudget(subcategory.name);
                         setShowMenu(false);
                       }}
@@ -998,7 +1007,10 @@ function SubcategoryItem({
                 ) : (
                   <button
                     className="w-full text-left px-3 py-2 hover:bg-muted text-sm flex items-center gap-2 text-green-600"
-                    onClick={() => {
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      console.log("Set budget clicked:", subcategory.name);
                       onSetBudget(subcategory.name);
                       setShowMenu(false);
                     }}
@@ -1011,7 +1023,10 @@ function SubcategoryItem({
                 <div className="border-t border-border my-1"></div>
                 <button
                   className="w-full text-left px-3 py-2 hover:bg-muted text-sm flex items-center gap-2 text-red-600"
-                  onClick={() => {
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    console.log("Delete subcategory clicked:", subcategory);
                     onDelete(subcategory);
                     setShowMenu(false);
                   }}
