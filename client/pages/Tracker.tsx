@@ -263,7 +263,8 @@ export function Tracker() {
   const [showKeypad, setShowKeypad] = useState(false);
   const [showCategorySelection, setShowCategorySelection] = useState(false);
   const [openMenuId, setOpenMenuId] = useState<string | null>(null);
-  const [editingTransaction, setEditingTransaction] = useState<Transaction | null>(null);
+  const [editingTransaction, setEditingTransaction] =
+    useState<Transaction | null>(null);
 
   // Load transactions from client-side storage (IndexedDB with localStorage fallback)
   useEffect(() => {
@@ -273,12 +274,15 @@ export function Tracker() {
         await universalStorage.init();
 
         // Load current month transactions
-        const transactions = await universalStorage.getCurrentMonthTransactions();
+        const transactions =
+          await universalStorage.getCurrentMonthTransactions();
         setTransactions(transactions);
 
-        console.log(`Loaded ${transactions.length} transactions from client storage`);
+        console.log(
+          `Loaded ${transactions.length} transactions from client storage`,
+        );
       } catch (error) {
-        console.error('Failed to load transactions:', error);
+        console.error("Failed to load transactions:", error);
         setTransactions([]);
       }
     };
@@ -325,7 +329,8 @@ export function Tracker() {
       setCurrentOperand(num);
       setWaitingForOperand(false);
     } else {
-      const newValue = displayValue === "0" ? (num === "00" ? "0" : num) : displayValue + num;
+      const newValue =
+        displayValue === "0" ? (num === "00" ? "0" : num) : displayValue + num;
       setDisplayValue(newValue);
       setCurrentOperand(newValue);
     }
@@ -348,7 +353,11 @@ export function Tracker() {
     setOperator(nextOperator);
   };
 
-  const performCalculation = (firstOperand: number, secondOperand: number, operator: string): number => {
+  const performCalculation = (
+    firstOperand: number,
+    secondOperand: number,
+    operator: string,
+  ): number => {
     switch (operator) {
       case "+":
         return firstOperand + secondOperand;
@@ -357,7 +366,9 @@ export function Tracker() {
       case "×":
         return firstOperand * secondOperand;
       case "÷":
-        return secondOperand !== 0 ? firstOperand / secondOperand : firstOperand;
+        return secondOperand !== 0
+          ? firstOperand / secondOperand
+          : firstOperand;
       case "=":
         return secondOperand;
       default:
@@ -443,22 +454,27 @@ export function Tracker() {
   };
 
   // Delete transaction
-  const handleDeleteTransaction = async (transactionId: string, date: string) => {
+  const handleDeleteTransaction = async (
+    transactionId: string,
+    date: string,
+  ) => {
     try {
       // Remove from client storage
       const success = await universalStorage.deleteTransaction(transactionId);
 
       if (success) {
         // Update local state
-        const updatedTransactions = transactions.filter(t => t.id !== transactionId);
+        const updatedTransactions = transactions.filter(
+          (t) => t.id !== transactionId,
+        );
         setTransactions(updatedTransactions);
-        console.log('Transaction deleted successfully');
+        console.log("Transaction deleted successfully");
       } else {
-        alert('Transaction not found');
+        alert("Transaction not found");
       }
     } catch (error) {
-      console.error('Failed to delete transaction:', error);
-      alert('Failed to delete transaction. Please try again.');
+      console.error("Failed to delete transaction:", error);
+      alert("Failed to delete transaction. Please try again.");
     }
     setOpenMenuId(null);
   };
@@ -504,15 +520,17 @@ export function Tracker() {
           time: editingTransaction.time, // Keep original time
         };
 
-        const savedTransaction = await universalStorage.addTransaction(updatedTransactionData);
+        const savedTransaction = await universalStorage.addTransaction(
+          updatedTransactionData,
+        );
 
         // Update local state
-        const updatedTransactions = transactions.map(t =>
-          t.id === editingTransaction.id ? savedTransaction : t
+        const updatedTransactions = transactions.map((t) =>
+          t.id === editingTransaction.id ? savedTransaction : t,
         );
         setTransactions(updatedTransactions);
 
-        console.log('Transaction updated successfully');
+        console.log("Transaction updated successfully");
       } else {
         // Create new transaction
         const now = new Date();
@@ -527,13 +545,14 @@ export function Tracker() {
           time: currentTime,
         };
 
-        const savedTransaction = await universalStorage.addTransaction(transactionData);
+        const savedTransaction =
+          await universalStorage.addTransaction(transactionData);
 
         // Update local state
         const updatedTransactions = [savedTransaction, ...transactions];
         setTransactions(updatedTransactions);
 
-        console.log('Transaction saved successfully to client storage');
+        console.log("Transaction saved successfully to client storage");
       }
 
       // Reset form
@@ -544,10 +563,9 @@ export function Tracker() {
       setAmount("");
       setEditingTransaction(null);
       setShowAddDialog(false);
-
     } catch (error) {
-      console.error('Failed to save transaction:', error);
-      alert('Failed to save transaction. Please try again.');
+      console.error("Failed to save transaction:", error);
+      alert("Failed to save transaction. Please try again.");
     }
   };
 
@@ -569,7 +587,6 @@ export function Tracker() {
   return (
     <Layout>
       <div className="space-y-6 py-4 pb-20">
-
         {/* Recent Transactions */}
         <div>
           <h3 className="text-lg font-semibold mb-4">Transactions</h3>
@@ -581,11 +598,12 @@ export function Tracker() {
                     <div
                       className="w-2 h-12 rounded-full"
                       style={{
-                        backgroundColor: transaction.type === "income"
-                          ? "#22c55e"
-                          : transaction.type === "investment"
-                            ? "#3b82f6"
-                            : "#ef4444"
+                        backgroundColor:
+                          transaction.type === "income"
+                            ? "#22c55e"
+                            : transaction.type === "investment"
+                              ? "#3b82f6"
+                              : "#ef4444",
                       }}
                     ></div>
                     <div>
@@ -604,15 +622,20 @@ export function Tracker() {
                     <div
                       className="font-bold text-lg"
                       style={{
-                        color: transaction.type === "income"
-                          ? "#22c55e"
-                          : transaction.type === "investment"
-                            ? "#3b82f6"
-                            : "#ef4444"
+                        color:
+                          transaction.type === "income"
+                            ? "#22c55e"
+                            : transaction.type === "investment"
+                              ? "#3b82f6"
+                              : "#ef4444",
                       }}
                     >
-                      {transaction.type === "income" ? "+" : transaction.type === "investment" ? "+" : "-"}₹
-                      {transaction.amount.toLocaleString()}
+                      {transaction.type === "income"
+                        ? "+"
+                        : transaction.type === "investment"
+                          ? "+"
+                          : "-"}
+                      ₹{transaction.amount.toLocaleString()}
                     </div>
 
                     {/* Three-dot menu */}
@@ -623,10 +646,18 @@ export function Tracker() {
                         className="h-8 w-8 hover:bg-muted"
                         onClick={(e) => {
                           e.stopPropagation();
-                          setOpenMenuId(openMenuId === transaction.id ? null : transaction.id);
+                          setOpenMenuId(
+                            openMenuId === transaction.id
+                              ? null
+                              : transaction.id,
+                          );
                         }}
                       >
-                        <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                        <svg
+                          className="h-4 w-4"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                        >
                           <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
                         </svg>
                       </Button>
@@ -642,17 +673,42 @@ export function Tracker() {
                               className="w-full text-left px-3 py-2 hover:bg-muted text-sm flex items-center gap-2"
                               onClick={() => handleEditTransaction(transaction)}
                             >
-                              <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                              <svg
+                                className="h-4 w-4"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                  d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                                />
                               </svg>
                               Edit
                             </button>
                             <button
                               className="w-full text-left px-3 py-2 hover:bg-muted text-sm flex items-center gap-2 text-red-600 hover:text-red-700"
-                              onClick={() => handleDeleteTransaction(transaction.id, transaction.date)}
+                              onClick={() =>
+                                handleDeleteTransaction(
+                                  transaction.id,
+                                  transaction.date,
+                                )
+                              }
                             >
-                              <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                              <svg
+                                className="h-4 w-4"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                                />
                               </svg>
                               Delete
                             </button>
@@ -711,7 +767,7 @@ export function Tracker() {
 
               <div className="pb-24">
                 {/* Type Selection Tabs */}
-                <div style={{ margin: '16px', display: 'flex' }}>
+                <div style={{ margin: "16px", display: "flex" }}>
                   <button
                     onClick={() => {
                       setTransactionType("income");
@@ -719,17 +775,19 @@ export function Tracker() {
                       setSelectedSubCategory("");
                     }}
                     style={{
-                      height: '48px',
-                      flex: '1',
-                      margin: '0',
-                      padding: '0',
-                      border: 'none',
-                      outline: 'none',
-                      fontSize: '14px',
-                      fontWeight: '600',
-                      backgroundColor: transactionType === "income" ? '#22c55e' : '#000000',
-                      color: transactionType === "income" ? '#ffffff' : '#ffffff',
-                      cursor: 'pointer'
+                      height: "48px",
+                      flex: "1",
+                      margin: "0",
+                      padding: "0",
+                      border: "none",
+                      outline: "none",
+                      fontSize: "14px",
+                      fontWeight: "600",
+                      backgroundColor:
+                        transactionType === "income" ? "#22c55e" : "#000000",
+                      color:
+                        transactionType === "income" ? "#ffffff" : "#ffffff",
+                      cursor: "pointer",
                     }}
                   >
                     Income
@@ -741,17 +799,19 @@ export function Tracker() {
                       setSelectedSubCategory("");
                     }}
                     style={{
-                      height: '48px',
-                      flex: '1',
-                      margin: '0',
-                      padding: '0',
-                      border: 'none',
-                      outline: 'none',
-                      fontSize: '14px',
-                      fontWeight: '600',
-                      backgroundColor: transactionType === "expense" ? '#ef4444' : '#000000',
-                      color: transactionType === "expense" ? '#ffffff' : '#ffffff',
-                      cursor: 'pointer'
+                      height: "48px",
+                      flex: "1",
+                      margin: "0",
+                      padding: "0",
+                      border: "none",
+                      outline: "none",
+                      fontSize: "14px",
+                      fontWeight: "600",
+                      backgroundColor:
+                        transactionType === "expense" ? "#ef4444" : "#000000",
+                      color:
+                        transactionType === "expense" ? "#ffffff" : "#ffffff",
+                      cursor: "pointer",
                     }}
                   >
                     Expense
@@ -763,17 +823,23 @@ export function Tracker() {
                       setSelectedSubCategory("");
                     }}
                     style={{
-                      height: '48px',
-                      flex: '1',
-                      margin: '0',
-                      padding: '0',
-                      border: 'none',
-                      outline: 'none',
-                      fontSize: '14px',
-                      fontWeight: '600',
-                      backgroundColor: transactionType === "investment" ? '#3b82f6' : '#000000',
-                      color: transactionType === "investment" ? '#ffffff' : '#ffffff',
-                      cursor: 'pointer'
+                      height: "48px",
+                      flex: "1",
+                      margin: "0",
+                      padding: "0",
+                      border: "none",
+                      outline: "none",
+                      fontSize: "14px",
+                      fontWeight: "600",
+                      backgroundColor:
+                        transactionType === "investment"
+                          ? "#3b82f6"
+                          : "#000000",
+                      color:
+                        transactionType === "investment"
+                          ? "#ffffff"
+                          : "#ffffff",
+                      cursor: "pointer",
                     }}
                   >
                     Invest
@@ -784,7 +850,9 @@ export function Tracker() {
                 <div className="px-4 space-y-8 flex-1">
                   {/* Date and Time */}
                   <div>
-                    <div className="text-base text-muted-foreground mb-2">Date</div>
+                    <div className="text-base text-muted-foreground mb-2">
+                      Date
+                    </div>
                     <div className="flex items-center justify-between">
                       <span className="text-lg">{currentDate}</span>
                       <span className="text-lg">{currentTime}</span>
@@ -793,7 +861,9 @@ export function Tracker() {
 
                   {/* Amount */}
                   <div>
-                    <div className="text-base text-muted-foreground mb-2">Amount</div>
+                    <div className="text-base text-muted-foreground mb-2">
+                      Amount
+                    </div>
                     <div
                       className="cursor-pointer"
                       onClick={() => {
@@ -802,17 +872,18 @@ export function Tracker() {
                       }}
                     >
                       <div className="text-2xl font-normal">
-                        ₹ {showKeypad ? displayValue : (amount || "0")}
+                        ₹ {showKeypad ? displayValue : amount || "0"}
                       </div>
                     </div>
                     <div
                       className="h-px mt-2"
                       style={{
-                        backgroundColor: transactionType === "income"
-                          ? "#22c55e"
-                          : transactionType === "investment"
-                            ? "#3b82f6"
-                            : "#ef4444"
+                        backgroundColor:
+                          transactionType === "income"
+                            ? "#22c55e"
+                            : transactionType === "investment"
+                              ? "#3b82f6"
+                              : "#ef4444",
                       }}
                     ></div>
                   </div>
@@ -830,8 +901,16 @@ export function Tracker() {
                     >
                       {selectedMainCategory && selectedSubCategory ? (
                         <>
-                          <span>{subCategories.find(s => s.name === selectedSubCategory)?.icon}</span>
-                          <span>{selectedMainCategory}/{selectedSubCategory}</span>
+                          <span>
+                            {
+                              subCategories.find(
+                                (s) => s.name === selectedSubCategory,
+                              )?.icon
+                            }
+                          </span>
+                          <span>
+                            {selectedMainCategory}/{selectedSubCategory}
+                          </span>
                         </>
                       ) : (
                         "Category"
@@ -840,15 +919,15 @@ export function Tracker() {
                     <div
                       className="h-px"
                       style={{
-                        backgroundColor: transactionType === "income"
-                          ? "#22c55e"
-                          : transactionType === "investment"
-                            ? "#3b82f6"
-                            : "#ef4444"
+                        backgroundColor:
+                          transactionType === "income"
+                            ? "#22c55e"
+                            : transactionType === "investment"
+                              ? "#3b82f6"
+                              : "#ef4444",
                       }}
                     ></div>
                   </div>
-
                 </div>
 
                 {/* Category Selection - Show when category is clicked */}
@@ -952,7 +1031,9 @@ export function Tracker() {
                             ) : (
                               <div className="flex items-center justify-center h-full text-muted-foreground">
                                 <div className="text-center">
-                                  <div className="text-sm">Select a category</div>
+                                  <div className="text-sm">
+                                    Select a category
+                                  </div>
                                   <div className="text-xs mt-1">
                                     Choose from the left panel
                                   </div>
@@ -970,7 +1051,9 @@ export function Tracker() {
                 {showKeypad && (
                   <div className="p-4 bg-muted/30 border-t">
                     <div className="flex justify-between items-center mb-3">
-                      <span className="text-sm text-muted-foreground">Amount</span>
+                      <span className="text-sm text-muted-foreground">
+                        Amount
+                      </span>
                       <Button
                         variant="ghost"
                         size="icon"
@@ -1137,7 +1220,6 @@ export function Tracker() {
                     Continue
                   </Button>
                 </div>
-
               </div>
             </div>
           </DialogContent>
@@ -1342,7 +1424,6 @@ export function Tracker() {
             </div>
           </DialogContent>
         </Dialog>
-
       </div>
     </Layout>
   );

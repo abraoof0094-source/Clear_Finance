@@ -19,7 +19,7 @@ export interface Summary {
 }
 
 class ClientStorageManager {
-  private dbName = 'ClearFinanceDB';
+  private dbName = "ClearFinanceDB";
   private version = 1;
   private db: IDBDatabase | null = null;
 
@@ -27,22 +27,22 @@ class ClientStorageManager {
   async init(): Promise<void> {
     return new Promise((resolve, reject) => {
       const request = indexedDB.open(this.dbName, this.version);
-      
+
       request.onerror = () => reject(request.error);
       request.onsuccess = () => {
         this.db = request.result;
         resolve();
       };
-      
+
       request.onupgradeneeded = (event) => {
         const db = (event.target as IDBOpenDBRequest).result;
-        
+
         // Create transactions store
-        if (!db.objectStoreNames.contains('transactions')) {
-          const store = db.createObjectStore('transactions', { keyPath: 'id' });
-          store.createIndex('date', 'date', { unique: false });
-          store.createIndex('type', 'type', { unique: false });
-          store.createIndex('timestamp', 'timestamp', { unique: false });
+        if (!db.objectStoreNames.contains("transactions")) {
+          const store = db.createObjectStore("transactions", { keyPath: "id" });
+          store.createIndex("date", "date", { unique: false });
+          store.createIndex("type", "type", { unique: false });
+          store.createIndex("timestamp", "timestamp", { unique: false });
         }
       };
     });
@@ -57,9 +57,11 @@ class ClientStorageManager {
   }
 
   // Add transaction
-  async addTransaction(transaction: Omit<Transaction, 'id' | 'timestamp'>): Promise<Transaction> {
+  async addTransaction(
+    transaction: Omit<Transaction, "id" | "timestamp">,
+  ): Promise<Transaction> {
     const db = await this.ensureDB();
-    
+
     const newTransaction: Transaction = {
       id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
       timestamp: Date.now(),
@@ -67,10 +69,10 @@ class ClientStorageManager {
     };
 
     return new Promise((resolve, reject) => {
-      const tx = db.transaction(['transactions'], 'readwrite');
-      const store = tx.objectStore('transactions');
+      const tx = db.transaction(["transactions"], "readwrite");
+      const store = tx.objectStore("transactions");
       const request = store.add(newTransaction);
-      
+
       request.onsuccess = () => resolve(newTransaction);
       request.onerror = () => reject(request.error);
     });
@@ -79,12 +81,12 @@ class ClientStorageManager {
   // Get all transactions
   async getAllTransactions(): Promise<Transaction[]> {
     const db = await this.ensureDB();
-    
+
     return new Promise((resolve, reject) => {
-      const tx = db.transaction(['transactions'], 'readonly');
-      const store = tx.objectStore('transactions');
+      const tx = db.transaction(["transactions"], "readonly");
+      const store = tx.objectStore("transactions");
       const request = store.getAll();
-      
+
       request.onsuccess = () => {
         const transactions = request.result || [];
         // Sort by timestamp (newest first)
@@ -105,17 +107,20 @@ class ClientStorageManager {
   async getCurrentMonthTransactions(): Promise<Transaction[]> {
     const now = new Date();
     const currentMonthKey = now.toISOString().slice(0, 7); // YYYY-MM
-    
+
     const allTransactions = await this.getAllTransactions();
-    return allTransactions.filter(t => t.date.startsWith(currentMonthKey));
+    return allTransactions.filter((t) => t.date.startsWith(currentMonthKey));
   }
 
   // Get monthly transactions
-  async getMonthlyTransactions(year: number, month: number): Promise<Transaction[]> {
-    const monthKey = `${year}-${month.toString().padStart(2, '0')}`;
-    
+  async getMonthlyTransactions(
+    year: number,
+    month: number,
+  ): Promise<Transaction[]> {
+    const monthKey = `${year}-${month.toString().padStart(2, "0")}`;
+
     const allTransactions = await this.getAllTransactions();
-    return allTransactions.filter(t => t.date.startsWith(monthKey));
+    return allTransactions.filter((t) => t.date.startsWith(monthKey));
   }
 
   // Calculate summary from transactions
@@ -123,13 +128,13 @@ class ClientStorageManager {
     return transactions.reduce(
       (summary, transaction) => {
         switch (transaction.type) {
-          case 'income':
+          case "income":
             summary.totalIncome += transaction.amount;
             break;
-          case 'expense':
+          case "expense":
             summary.totalExpense += transaction.amount;
             break;
-          case 'investment':
+          case "investment":
             summary.totalInvestment += transaction.amount;
             break;
         }
@@ -142,7 +147,7 @@ class ClientStorageManager {
         totalInvestment: 0,
         balance: 0,
         transactionCount: 0,
-      }
+      },
     );
   }
 
@@ -150,7 +155,8 @@ class ClientStorageManager {
   async getCurrentMonthlySummary(): Promise<Summary> {
     const transactions = await this.getCurrentMonthTransactions();
     const summary = this.calculateSummary(transactions);
-    summary.balance = summary.totalIncome - summary.totalExpense - summary.totalInvestment;
+    summary.balance =
+      summary.totalIncome - summary.totalExpense - summary.totalInvestment;
     return summary;
   }
 
@@ -158,19 +164,20 @@ class ClientStorageManager {
   async getMonthlySummary(year: number, month: number): Promise<Summary> {
     const transactions = await this.getMonthlyTransactions(year, month);
     const summary = this.calculateSummary(transactions);
-    summary.balance = summary.totalIncome - summary.totalExpense - summary.totalInvestment;
+    summary.balance =
+      summary.totalIncome - summary.totalExpense - summary.totalInvestment;
     return summary;
   }
 
   // Delete transaction
   async deleteTransaction(transactionId: string): Promise<boolean> {
     const db = await this.ensureDB();
-    
+
     return new Promise((resolve, reject) => {
-      const tx = db.transaction(['transactions'], 'readwrite');
-      const store = tx.objectStore('transactions');
+      const tx = db.transaction(["transactions"], "readwrite");
+      const store = tx.objectStore("transactions");
       const request = store.delete(transactionId);
-      
+
       request.onsuccess = () => resolve(true);
       request.onerror = () => reject(request.error);
     });
@@ -179,31 +186,35 @@ class ClientStorageManager {
   // Export data (for backup)
   async exportData(): Promise<string> {
     const transactions = await this.getAllTransactions();
-    return JSON.stringify({
-      exportDate: new Date().toISOString(),
-      transactions,
-    }, null, 2);
+    return JSON.stringify(
+      {
+        exportDate: new Date().toISOString(),
+        transactions,
+      },
+      null,
+      2,
+    );
   }
 
   // Import data (from backup)
   async importData(jsonData: string): Promise<void> {
     const data = JSON.parse(jsonData);
     const transactions = data.transactions || [];
-    
+
     const db = await this.ensureDB();
-    
+
     return new Promise((resolve, reject) => {
-      const tx = db.transaction(['transactions'], 'readwrite');
-      const store = tx.objectStore('transactions');
-      
+      const tx = db.transaction(["transactions"], "readwrite");
+      const store = tx.objectStore("transactions");
+
       // Clear existing data
       store.clear();
-      
+
       // Add all transactions
       transactions.forEach((transaction: Transaction) => {
         store.add(transaction);
       });
-      
+
       tx.oncomplete = () => resolve();
       tx.onerror = () => reject(tx.error);
     });
@@ -213,7 +224,9 @@ class ClientStorageManager {
   async migrateFromLocalStorage(): Promise<void> {
     try {
       const currentMonthKey = new Date().toISOString().slice(0, 7);
-      const storedMonthly = localStorage.getItem(`transactions-${currentMonthKey}`);
+      const storedMonthly = localStorage.getItem(
+        `transactions-${currentMonthKey}`,
+      );
       const storedAll = localStorage.getItem("tracker-transactions");
 
       let transactions: any[] = [];
@@ -225,31 +238,33 @@ class ClientStorageManager {
       }
 
       // Add timestamp if missing
-      transactions = transactions.map(t => ({
+      transactions = transactions.map((t) => ({
         ...t,
         timestamp: t.timestamp || Date.now(),
       }));
 
       if (transactions.length > 0) {
         const db = await this.ensureDB();
-        
+
         return new Promise((resolve, reject) => {
-          const tx = db.transaction(['transactions'], 'readwrite');
-          const store = tx.objectStore('transactions');
-          
+          const tx = db.transaction(["transactions"], "readwrite");
+          const store = tx.objectStore("transactions");
+
           transactions.forEach((transaction) => {
             store.add(transaction);
           });
-          
+
           tx.oncomplete = () => {
-            console.log(`Migrated ${transactions.length} transactions from localStorage`);
+            console.log(
+              `Migrated ${transactions.length} transactions from localStorage`,
+            );
             resolve();
           };
           tx.onerror = () => reject(tx.error);
         });
       }
     } catch (error) {
-      console.warn('Migration from localStorage failed:', error);
+      console.warn("Migration from localStorage failed:", error);
     }
   }
 }
@@ -259,10 +274,12 @@ export const clientStorage = new ClientStorageManager();
 
 // Enhanced localStorage fallback for older browsers
 export class LocalStorageManager {
-  private storageKey = 'clearfinance-transactions';
+  private storageKey = "clearfinance-transactions";
 
   // Add transaction
-  addTransaction(transaction: Omit<Transaction, 'id' | 'timestamp'>): Transaction {
+  addTransaction(
+    transaction: Omit<Transaction, "id" | "timestamp">,
+  ): Transaction {
     const newTransaction: Transaction = {
       id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
       timestamp: Date.now(),
@@ -271,7 +288,7 @@ export class LocalStorageManager {
 
     const transactions = this.getAllTransactions();
     transactions.unshift(newTransaction);
-    
+
     localStorage.setItem(this.storageKey, JSON.stringify(transactions));
     return newTransaction;
   }
@@ -285,7 +302,7 @@ export class LocalStorageManager {
       }
       return [];
     } catch (error) {
-      console.error('Error reading from localStorage:', error);
+      console.error("Error reading from localStorage:", error);
       return [];
     }
   }
@@ -299,24 +316,26 @@ export class LocalStorageManager {
   getCurrentMonthTransactions(): Transaction[] {
     const now = new Date();
     const currentMonthKey = now.toISOString().slice(0, 7);
-    
-    return this.getAllTransactions().filter(t => t.date.startsWith(currentMonthKey));
+
+    return this.getAllTransactions().filter((t) =>
+      t.date.startsWith(currentMonthKey),
+    );
   }
 
   // Calculate summary
   getCurrentMonthlySummary(): Summary {
     const transactions = this.getCurrentMonthTransactions();
-    
+
     const summary = transactions.reduce(
       (sum, transaction) => {
         switch (transaction.type) {
-          case 'income':
+          case "income":
             sum.totalIncome += transaction.amount;
             break;
-          case 'expense':
+          case "expense":
             sum.totalExpense += transaction.amount;
             break;
-          case 'investment':
+          case "investment":
             sum.totalInvestment += transaction.amount;
             break;
         }
@@ -329,20 +348,26 @@ export class LocalStorageManager {
         totalInvestment: 0,
         balance: 0,
         transactionCount: 0,
-      }
+      },
     );
 
-    summary.balance = summary.totalIncome - summary.totalExpense - summary.totalInvestment;
+    summary.balance =
+      summary.totalIncome - summary.totalExpense - summary.totalInvestment;
     return summary;
   }
 
   // Delete transaction
   deleteTransaction(transactionId: string): boolean {
     const transactions = this.getAllTransactions();
-    const filteredTransactions = transactions.filter(t => t.id !== transactionId);
-    
+    const filteredTransactions = transactions.filter(
+      (t) => t.id !== transactionId,
+    );
+
     if (filteredTransactions.length < transactions.length) {
-      localStorage.setItem(this.storageKey, JSON.stringify(filteredTransactions));
+      localStorage.setItem(
+        this.storageKey,
+        JSON.stringify(filteredTransactions),
+      );
       return true;
     }
     return false;
@@ -359,16 +384,18 @@ export class UniversalStorage {
       // Try to use IndexedDB
       await clientStorage.init();
       this.useIndexedDB = true;
-      
+
       // Migrate from localStorage if needed
       await clientStorage.migrateFromLocalStorage();
     } catch (error) {
-      console.warn('IndexedDB not available, using localStorage:', error);
+      console.warn("IndexedDB not available, using localStorage:", error);
       this.useIndexedDB = false;
     }
   }
 
-  async addTransaction(transaction: Omit<Transaction, 'id' | 'timestamp'>): Promise<Transaction> {
+  async addTransaction(
+    transaction: Omit<Transaction, "id" | "timestamp">,
+  ): Promise<Transaction> {
     if (this.useIndexedDB) {
       return await clientStorage.addTransaction(transaction);
     } else {

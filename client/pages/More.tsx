@@ -68,84 +68,82 @@ export function More() {
 
   const tools = [
     {
-      id: 'preferences',
-      title: 'Configuration',
-      subtitle: 'App settings & themes',
+      id: "preferences",
+      title: "Configuration",
+      subtitle: "App settings & themes",
       icon: Settings,
-      color: 'bg-blue-500/10 text-blue-500',
-      action: () => navigate('/preferences')
+      color: "bg-blue-500/10 text-blue-500",
+      action: () => navigate("/preferences"),
     },
     {
-      id: 'accounts',
-      title: 'Accounts',
-      subtitle: 'Manage accounts',
+      id: "accounts",
+      title: "Accounts",
+      subtitle: "Manage accounts",
       icon: Users,
-      color: 'bg-green-500/10 text-green-500',
-      action: () => {}
+      color: "bg-green-500/10 text-green-500",
+      action: () => {},
     },
     {
-      id: 'passcode',
-      title: 'Passcode',
-      subtitle: 'Security settings',
+      id: "passcode",
+      title: "Passcode",
+      subtitle: "Security settings",
       icon: Lock,
-      color: 'bg-orange-500/10 text-orange-500',
-      action: () => {}
+      color: "bg-orange-500/10 text-orange-500",
+      action: () => {},
     },
     {
-      id: 'export',
-      title: 'Export',
-      subtitle: 'Download records',
+      id: "export",
+      title: "Export",
+      subtitle: "Download records",
       icon: Download,
-      color: 'bg-indigo-500/10 text-indigo-500',
-      action: () => navigate('/export-records')
+      color: "bg-indigo-500/10 text-indigo-500",
+      action: () => navigate("/export-records"),
     },
     {
-      id: 'backup',
-      title: 'Backup',
-      subtitle: 'Data backup',
+      id: "backup",
+      title: "Backup",
+      subtitle: "Data backup",
       icon: Database,
-      color: 'bg-emerald-500/10 text-emerald-500',
-      action: () => navigate('/backup-restore')
+      color: "bg-emerald-500/10 text-emerald-500",
+      action: () => navigate("/backup-restore"),
     },
     {
-      id: 'analytics',
-      title: 'Analytics',
-      subtitle: 'Advanced reports',
+      id: "analytics",
+      title: "Analytics",
+      subtitle: "Advanced reports",
       icon: PieChart,
-      color: 'bg-purple-500/10 text-purple-500',
-      action: () => navigate('/analysis')
+      color: "bg-purple-500/10 text-purple-500",
+      action: () => navigate("/analysis"),
     },
     {
-      id: 'feedback',
-      title: 'Feedback',
-      subtitle: 'Send feedback',
+      id: "feedback",
+      title: "Feedback",
+      subtitle: "Send feedback",
       icon: MessageSquare,
-      color: 'bg-pink-500/10 text-pink-500',
-      action: () => {}
+      color: "bg-pink-500/10 text-pink-500",
+      action: () => {},
     },
     {
-      id: 'help',
-      title: 'Help',
-      subtitle: 'Support center',
+      id: "help",
+      title: "Help",
+      subtitle: "Support center",
       icon: HelpCircle,
-      color: 'bg-amber-500/10 text-amber-500',
-      action: () => {}
+      color: "bg-amber-500/10 text-amber-500",
+      action: () => {},
     },
     {
-      id: 'recommend',
-      title: 'Recommend',
-      subtitle: 'Share with friends',
+      id: "recommend",
+      title: "Recommend",
+      subtitle: "Share with friends",
       icon: Heart,
-      color: 'bg-rose-500/10 text-rose-500',
-      action: () => {}
-    }
+      color: "bg-rose-500/10 text-rose-500",
+      action: () => {},
+    },
   ];
 
   return (
     <Layout>
       <div className="space-y-6 py-4">
-
-
         {/* Tools Grid */}
         <div>
           <h2 className="text-lg font-semibold mb-4 px-1">Settings</h2>
@@ -159,12 +157,16 @@ export function More() {
                   onClick={tool.action}
                 >
                   <div className="flex flex-col items-center gap-3 text-center">
-                    <div className={`w-12 h-12 rounded-xl ${tool.color} flex items-center justify-center transition-transform hover:scale-110`}>
+                    <div
+                      className={`w-12 h-12 rounded-xl ${tool.color} flex items-center justify-center transition-transform hover:scale-110`}
+                    >
                       <IconComponent className="h-6 w-6" />
                     </div>
                     <div>
                       <h3 className="font-semibold text-sm">{tool.title}</h3>
-                      <p className="text-xs text-muted-foreground mt-1">{tool.subtitle}</p>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        {tool.subtitle}
+                      </p>
                     </div>
                   </div>
                 </Card>

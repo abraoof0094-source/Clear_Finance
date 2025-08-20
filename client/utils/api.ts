@@ -20,22 +20,25 @@ export interface Summary {
 }
 
 // API base URL - adjust based on your setup
-const API_BASE = process.env.NODE_ENV === 'production' ? '/api' : 'http://localhost:3001/api';
+const API_BASE =
+  process.env.NODE_ENV === "production" ? "/api" : "http://localhost:3001/api";
 
 class TransactionAPI {
   // Add a new transaction
-  async addTransaction(transaction: Omit<Transaction, 'id' | 'timestamp'>): Promise<Transaction> {
+  async addTransaction(
+    transaction: Omit<Transaction, "id" | "timestamp">,
+  ): Promise<Transaction> {
     const response = await fetch(`${API_BASE}/transactions`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(transaction),
     });
 
     if (!response.ok) {
       const error = await response.json();
-      throw new Error(error.error || 'Failed to add transaction');
+      throw new Error(error.error || "Failed to add transaction");
     }
 
     const result = await response.json();
@@ -44,10 +47,12 @@ class TransactionAPI {
 
   // Get recent transactions
   async getRecentTransactions(limit: number = 10): Promise<Transaction[]> {
-    const response = await fetch(`${API_BASE}/transactions/recent?limit=${limit}`);
-    
+    const response = await fetch(
+      `${API_BASE}/transactions/recent?limit=${limit}`,
+    );
+
     if (!response.ok) {
-      throw new Error('Failed to get recent transactions');
+      throw new Error("Failed to get recent transactions");
     }
 
     return response.json();
@@ -56,20 +61,23 @@ class TransactionAPI {
   // Get current month transactions
   async getCurrentMonthTransactions(): Promise<Transaction[]> {
     const response = await fetch(`${API_BASE}/transactions/current-month`);
-    
+
     if (!response.ok) {
-      throw new Error('Failed to get current month transactions');
+      throw new Error("Failed to get current month transactions");
     }
 
     return response.json();
   }
 
   // Get transactions for specific month
-  async getMonthlyTransactions(year: number, month: number): Promise<Transaction[]> {
+  async getMonthlyTransactions(
+    year: number,
+    month: number,
+  ): Promise<Transaction[]> {
     const response = await fetch(`${API_BASE}/transactions/${year}/${month}`);
-    
+
     if (!response.ok) {
-      throw new Error('Failed to get monthly transactions');
+      throw new Error("Failed to get monthly transactions");
     }
 
     return response.json();
@@ -78,9 +86,9 @@ class TransactionAPI {
   // Get current month summary
   async getCurrentMonthlySummary(): Promise<Summary> {
     const response = await fetch(`${API_BASE}/summary/current-month`);
-    
+
     if (!response.ok) {
-      throw new Error('Failed to get current month summary');
+      throw new Error("Failed to get current month summary");
     }
 
     return response.json();
@@ -89,9 +97,9 @@ class TransactionAPI {
   // Get monthly summary
   async getMonthlySummary(year: number, month: number): Promise<Summary> {
     const response = await fetch(`${API_BASE}/summary/${year}/${month}`);
-    
+
     if (!response.ok) {
-      throw new Error('Failed to get monthly summary');
+      throw new Error("Failed to get monthly summary");
     }
 
     return response.json();
@@ -100,9 +108,9 @@ class TransactionAPI {
   // Get yearly summary
   async getYearlySummary(year: number): Promise<any> {
     const response = await fetch(`${API_BASE}/summary/year/${year}`);
-    
+
     if (!response.ok) {
-      throw new Error('Failed to get yearly summary');
+      throw new Error("Failed to get yearly summary");
     }
 
     return response.json();
@@ -111,9 +119,9 @@ class TransactionAPI {
   // Get category breakdown for a month
   async getMonthlyCategoryBreakdown(year: number, month: number): Promise<any> {
     const response = await fetch(`${API_BASE}/categories/${year}/${month}`);
-    
+
     if (!response.ok) {
-      throw new Error('Failed to get category breakdown');
+      throw new Error("Failed to get category breakdown");
     }
 
     return response.json();
@@ -121,22 +129,25 @@ class TransactionAPI {
 
   // Delete a transaction
   async deleteTransaction(transactionId: string, date: string): Promise<void> {
-    const response = await fetch(`${API_BASE}/transactions/${transactionId}?date=${encodeURIComponent(date)}`, {
-      method: 'DELETE',
-    });
+    const response = await fetch(
+      `${API_BASE}/transactions/${transactionId}?date=${encodeURIComponent(date)}`,
+      {
+        method: "DELETE",
+      },
+    );
 
     if (!response.ok) {
       const error = await response.json();
-      throw new Error(error.error || 'Failed to delete transaction');
+      throw new Error(error.error || "Failed to delete transaction");
     }
   }
 
   // Get available years
   async getAvailableYears(): Promise<number[]> {
     const response = await fetch(`${API_BASE}/years`);
-    
+
     if (!response.ok) {
-      throw new Error('Failed to get available years');
+      throw new Error("Failed to get available years");
     }
 
     return response.json();
@@ -145,9 +156,9 @@ class TransactionAPI {
   // Get available months for a year
   async getAvailableMonths(year: number): Promise<number[]> {
     const response = await fetch(`${API_BASE}/months/${year}`);
-    
+
     if (!response.ok) {
-      throw new Error('Failed to get available months');
+      throw new Error("Failed to get available months");
     }
 
     return response.json();
@@ -164,7 +175,9 @@ export class DataSync {
     try {
       // Get data from localStorage
       const currentMonthKey = new Date().toISOString().slice(0, 7);
-      const storedMonthly = localStorage.getItem(`transactions-${currentMonthKey}`);
+      const storedMonthly = localStorage.getItem(
+        `transactions-${currentMonthKey}`,
+      );
       const storedAll = localStorage.getItem("tracker-transactions");
 
       let transactions: Transaction[] = [];
@@ -187,13 +200,13 @@ export class DataSync {
             time: transaction.time,
           });
         } catch (error) {
-          console.warn('Failed to sync transaction:', error);
+          console.warn("Failed to sync transaction:", error);
         }
       }
 
       console.log(`Synced ${transactions.length} transactions to server`);
     } catch (error) {
-      console.error('Failed to sync localStorage to server:', error);
+      console.error("Failed to sync localStorage to server:", error);
     }
   }
 
@@ -203,11 +216,16 @@ export class DataSync {
       // Try to get from server first
       return await transactionAPI.getCurrentMonthTransactions();
     } catch (error) {
-      console.warn('Failed to load from server, using localStorage fallback:', error);
-      
+      console.warn(
+        "Failed to load from server, using localStorage fallback:",
+        error,
+      );
+
       // Fallback to localStorage
       const currentMonthKey = new Date().toISOString().slice(0, 7);
-      const storedMonthly = localStorage.getItem(`transactions-${currentMonthKey}`);
+      const storedMonthly = localStorage.getItem(
+        `transactions-${currentMonthKey}`,
+      );
       const storedAll = localStorage.getItem("tracker-transactions");
 
       if (storedMonthly) {
@@ -215,7 +233,7 @@ export class DataSync {
       } else if (storedAll) {
         const allTransactions = JSON.parse(storedAll);
         return allTransactions.filter((t: Transaction) =>
-          t.date.includes(currentMonthKey)
+          t.date.includes(currentMonthKey),
         );
       }
 
@@ -224,25 +242,30 @@ export class DataSync {
   }
 
   // Save transaction with server sync and localStorage backup
-  static async saveTransactionWithSync(transaction: Omit<Transaction, 'id' | 'timestamp'>): Promise<Transaction> {
+  static async saveTransactionWithSync(
+    transaction: Omit<Transaction, "id" | "timestamp">,
+  ): Promise<Transaction> {
     try {
       // Save to server first
       const savedTransaction = await transactionAPI.addTransaction(transaction);
-      
+
       // Also save to localStorage as backup
       const currentMonthKey = new Date().toISOString().slice(0, 7);
       const currentTransactions = await DataSync.loadTransactionsWithFallback();
       const updatedTransactions = [savedTransaction, ...currentTransactions];
-      
+
       localStorage.setItem(
         `transactions-${currentMonthKey}`,
-        JSON.stringify(updatedTransactions)
+        JSON.stringify(updatedTransactions),
       );
 
       return savedTransaction;
     } catch (error) {
-      console.error('Failed to save to server, using localStorage only:', error);
-      
+      console.error(
+        "Failed to save to server, using localStorage only:",
+        error,
+      );
+
       // Fallback: save only to localStorage
       const newTransaction: Transaction = {
         id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
@@ -253,10 +276,10 @@ export class DataSync {
       const currentMonthKey = new Date().toISOString().slice(0, 7);
       const currentTransactions = await DataSync.loadTransactionsWithFallback();
       const updatedTransactions = [newTransaction, ...currentTransactions];
-      
+
       localStorage.setItem(
         `transactions-${currentMonthKey}`,
-        JSON.stringify(updatedTransactions)
+        JSON.stringify(updatedTransactions),
       );
 
       return newTransaction;
