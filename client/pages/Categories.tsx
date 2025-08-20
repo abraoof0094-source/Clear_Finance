@@ -1118,7 +1118,9 @@ function SubcategoryItem({
                 className="fixed inset-0 z-[9998]"
                 onClick={(e) => {
                   e.stopPropagation();
-                  setShowMenu(false);
+                  if (!justOpened) {
+                    setShowMenu(false);
+                  }
                 }}
               ></div>
               <div
