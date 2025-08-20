@@ -173,7 +173,8 @@ export function More() {
           </div>
         </div>
 
-
+        {/* Data Backup Section */}
+        <DataBackup />
       </div>
     </Layout>
   );
