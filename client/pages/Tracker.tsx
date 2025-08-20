@@ -699,18 +699,13 @@ export function Tracker() {
                   {/* Amount */}
                   <div>
                     <div className="text-base text-muted-foreground mb-2">Amount</div>
-                    <div className="flex items-center justify-between">
+                    <div
+                      className="cursor-pointer"
+                      onClick={() => setShowKeypad(true)}
+                    >
                       <div className="text-2xl font-normal">
-                        ₹ {amount || "0.00"}
+                        ₹ {amount || "0"}
                       </div>
-                      <Button
-                        onClick={() => setShowCalculator(true)}
-                        variant="outline"
-                        size="icon"
-                        className="h-10 w-10"
-                      >
-                        <Calculator className="h-5 w-5" />
-                      </Button>
                     </div>
                     <div
                       className={`h-px mt-2 ${
