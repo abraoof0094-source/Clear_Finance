@@ -921,12 +921,10 @@ function SubcategoryItem({
             <div className="flex items-center gap-2 mb-1">
               <span className="font-medium text-sm text-foreground">{subcategory.name}</span>
               {budget > 0 && (
-                <Badge
-                  variant="secondary"
-                  className="text-xs bg-blue-500/10 text-blue-600 border-blue-500/20 font-medium px-2 py-0.5 rounded-full"
-                >
-                  ₹{budget.toLocaleString()}
-                </Badge>
+                <div className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-gradient-to-r from-blue-500 to-indigo-500 text-white text-xs font-semibold shadow-sm">
+                  <span>💰</span>
+                  <span>₹{budget.toLocaleString()}</span>
+                </div>
               )}
             </div>
             <div className="text-xs text-muted-foreground">
