@@ -67,6 +67,9 @@ export function More() {
     });
   }, []);
 
+  const [showImportDialog, setShowImportDialog] = useState(false);
+  const [showBackupDialog, setShowBackupDialog] = useState(false);
+
   const tools = [
     {
       id: "preferences",
@@ -75,14 +78,6 @@ export function More() {
       icon: Settings,
       color: "bg-blue-500/10 text-blue-500",
       action: () => navigate("/preferences"),
-    },
-    {
-      id: "accounts",
-      title: "Accounts",
-      subtitle: "Manage accounts",
-      icon: Users,
-      color: "bg-green-500/10 text-green-500",
-      action: () => {},
     },
     {
       id: "passcode",
@@ -98,7 +93,7 @@ export function More() {
       subtitle: "Load backup file",
       icon: Upload,
       color: "bg-indigo-500/10 text-indigo-500",
-      action: () => navigate("/export-records"),
+      action: () => setShowImportDialog(true),
     },
     {
       id: "backup",
@@ -106,15 +101,7 @@ export function More() {
       subtitle: "Data backup",
       icon: Database,
       color: "bg-emerald-500/10 text-emerald-500",
-      action: () => navigate("/backup-restore"),
-    },
-    {
-      id: "analytics",
-      title: "Analytics",
-      subtitle: "Advanced reports",
-      icon: PieChart,
-      color: "bg-purple-500/10 text-purple-500",
-      action: () => navigate("/analysis"),
+      action: () => setShowBackupDialog(true),
     },
     {
       id: "feedback",
