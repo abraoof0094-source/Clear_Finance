@@ -16,6 +16,7 @@ export function BottomNavigation() {
     { path: "/analysis", icon: PieChart, label: "Analysis" },
     { path: "/tracker", icon: Target, label: "Tracker" },
     { path: "/budgets", icon: Calculator, label: "Budgets" },
+    { path: "/categories", icon: FolderOpen, label: "Categories" },
     { path: "/more", icon: MoreHorizontal, label: "More" },
   ];
 
