@@ -282,9 +282,9 @@ export function Tracker() {
             </div>
           </Card>
           <Card className="p-4 text-center">
-            <div className="text-sm text-muted-foreground">Balance</div>
-            <div className={`text-lg font-bold ${balance >= 0 ? 'text-green-500' : 'text-red-500'}`}>
-              ₹{balance.toLocaleString()}
+            <div className="text-sm text-muted-foreground">Invest</div>
+            <div className="text-lg font-bold text-blue-500">
+              ₹{totalInvestment.toLocaleString()}
             </div>
           </Card>
         </div>
