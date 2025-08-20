@@ -446,48 +446,45 @@ export function Tracker() {
   });
 
   // Save transaction
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!selectedMainCategory || !selectedSubCategory || !amount) {
       alert("Please fill all required fields");
       return;
     }
 
-    const now = new Date();
-    const monthKey = now.toISOString().slice(0, 7); // YYYY-MM format
-    const dateStr = now.toISOString().slice(0, 10); // YYYY-MM-DD format
+    try {
+      const now = new Date();
+      const dateStr = now.toISOString().slice(0, 10); // YYYY-MM-DD format
 
-    const newTransaction: Transaction = {
-      id: Date.now().toString(),
-      type: transactionType,
-      mainCategory: selectedMainCategory,
-      subCategory: selectedSubCategory,
-      amount: parseFloat(amount),
-      date: dateStr,
-      time: currentTime,
-    };
+      const transactionData = {
+        type: transactionType,
+        mainCategory: selectedMainCategory,
+        subCategory: selectedSubCategory,
+        amount: parseFloat(amount),
+        date: dateStr,
+        time: currentTime,
+      };
 
-    const updatedTransactions = [newTransaction, ...transactions];
-    setTransactions(updatedTransactions);
+      // Save to server with localStorage fallback
+      const savedTransaction = await DataSync.saveTransactionWithSync(transactionData);
 
-    // Store by month for better organization
-    localStorage.setItem(
-      `transactions-${monthKey}`,
-      JSON.stringify(updatedTransactions),
-    );
+      // Update local state
+      const updatedTransactions = [savedTransaction, ...transactions];
+      setTransactions(updatedTransactions);
 
-    // Also update the legacy storage for backwards compatibility
-    localStorage.setItem(
-      "tracker-transactions",
-      JSON.stringify(updatedTransactions),
-    );
+      // Reset form
+      setTransactionType("expense");
+      setSelectedMainCategory("");
+      setSelectedSubCategory("");
+      setDisplayValue("0");
+      setAmount("");
+      setShowAddDialog(false);
 
-    // Reset form
-    setTransactionType("expense");
-    setSelectedMainCategory("");
-    setSelectedSubCategory("");
-    setDisplayValue("0");
-    setAmount("");
-    setShowAddDialog(false);
+      console.log('Transaction saved successfully');
+    } catch (error) {
+      console.error('Failed to save transaction:', error);
+      alert('Failed to save transaction. Please try again.');
+    }
   };
 
   // Calculate totals
