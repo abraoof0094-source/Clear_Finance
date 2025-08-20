@@ -937,6 +937,9 @@ function ExpandableCategoryItem({
   onAddSubcategory,
   onEditSubcategory,
   onDeleteSubcategory,
+  onSetBudget,
+  onRemoveBudget,
+  getBudget,
 }: ExpandableCategoryItemProps) {
   return (
     <Card className="relative">
