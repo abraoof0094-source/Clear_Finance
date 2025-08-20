@@ -799,7 +799,7 @@ function ExpandableCategoryItem({
           </div>
 
           {/* Main Category Menu */}
-          <div className="relative ml-2 menu-container">
+          <div className="relative ml-2 menu-container z-[9999]">
             <Button
               variant="ghost"
               size="icon"
@@ -812,7 +812,11 @@ function ExpandableCategoryItem({
               <span className="text-foreground font-bold text-lg">⋯</span>
             </Button>
             {isMenuOpen && (
-              <div className="absolute right-0 top-full mt-1 bg-card border border-border rounded-md shadow-lg z-[100] py-1 min-w-[120px]">
+              <div className="fixed bg-card border border-border rounded-md shadow-xl z-[9999] py-1 min-w-[120px]"
+                   style={{
+                     top: '50px',
+                     right: '20px'
+                   }}>
                 <button
                   className="w-full text-left px-3 py-2 hover:bg-muted text-sm flex items-center gap-2"
                   onClick={() => {
