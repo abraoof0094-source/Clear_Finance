@@ -143,13 +143,6 @@ export function More() {
   return (
     <Layout>
       <div className="space-y-6 py-4">
-        {/* Header */}
-        <div className="text-center">
-          <h1 className="text-2xl font-bold bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
-            More Options
-          </h1>
-          <p className="text-muted-foreground mt-1">Tools, settings, and quick actions</p>
-        </div>
 
 
         {/* Tools Grid */}
