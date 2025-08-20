@@ -216,7 +216,7 @@ const allCategories = [
         icon: "🏦",
         description: "Bank FDs, recurring deposits",
       },
-      { name: "PPF & ELSS", icon: "��", description: "Tax-saving investments" },
+      { name: "PPF & ELSS", icon: "🎯", description: "Tax-saving investments" },
       {
         name: "Real Estate",
         icon: "������️",
@@ -263,27 +263,22 @@ export function Tracker() {
   const [showKeypad, setShowKeypad] = useState(false);
   const [showCategorySelection, setShowCategorySelection] = useState(false);
 
-  // Load transactions from localStorage on component mount
+  // Load transactions from server with localStorage fallback
   useEffect(() => {
-    const currentMonthKey = new Date().toISOString().slice(0, 7); // YYYY-MM format
-    const storedMonthly = localStorage.getItem(
-      `transactions-${currentMonthKey}`,
-    );
-    const storedAll = localStorage.getItem("tracker-transactions"); // Legacy support
+    const loadTransactions = async () => {
+      try {
+        const transactions = await DataSync.loadTransactionsWithFallback();
+        setTransactions(transactions);
+      } catch (error) {
+        console.error('Failed to load transactions:', error);
+        setTransactions([]);
+      }
+    };
 
-    let monthlyTransactions = [];
-    if (storedMonthly) {
-      monthlyTransactions = JSON.parse(storedMonthly);
-    } else if (storedAll) {
-      // Migrate from old storage format
-      const allTransactions = JSON.parse(storedAll);
-      const currentMonth = allTransactions.filter((t) =>
-        t.date.includes(currentMonthKey),
-      );
-      monthlyTransactions = currentMonth;
-    }
+    loadTransactions();
 
-    setTransactions(monthlyTransactions);
+    // Optionally sync localStorage data to server on first load
+    DataSync.syncLocalStorageToServer().catch(console.error);
   }, []);
 
   // Update current date and time
