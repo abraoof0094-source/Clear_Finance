@@ -600,7 +600,7 @@ export function Tracker() {
 
         {/* Add Transaction Dialog */}
         <Dialog open={showAddDialog} onOpenChange={setShowAddDialog}>
-          <DialogContent className="w-full h-full max-w-none max-h-none m-0 rounded-none border-0 bg-background">
+          <DialogContent className="w-full h-full max-w-none max-h-none m-0 rounded-none border-0 bg-background overflow-auto">
             <DialogHeader className="sr-only">
               <DialogTitle>
                 {transactionType === "income"
@@ -610,9 +610,9 @@ export function Tracker() {
                     : "Add Expense"}
               </DialogTitle>
             </DialogHeader>
-            <div className="flex flex-col h-full">
+            <div className="min-h-full">
               {/* Header */}
-              <div className="flex items-center justify-between p-4 border-b">
+              <div className="flex items-center justify-between p-4 border-b sticky top-0 bg-background z-10">
                 <Button
                   variant="ghost"
                   size="icon"
