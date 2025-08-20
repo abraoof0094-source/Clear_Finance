@@ -511,7 +511,12 @@ export function Tracker() {
                                       ? 'bg-primary/20 border border-primary'
                                       : 'hover:bg-muted/20'
                                   }`}
-                                  onClick={() => setSelectedSubCategory(sub.name)}
+                                  onClick={(e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    console.log("Subcategory clicked:", sub.name);
+                                    setSelectedSubCategory(sub.name);
+                                  }}
                                 >
                                   <span className="text-xs">{sub.icon}</span>
                                   <span className="font-medium">{sub.name}</span>
