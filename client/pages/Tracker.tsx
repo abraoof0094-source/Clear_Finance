@@ -338,8 +338,8 @@ export function Tracker() {
                   <ArrowLeft className="h-6 w-6" />
                 </Button>
                 <h2 className="text-xl font-semibold">
-                  {transactionType === "income" ? "Income" : 
-                   transactionType === "transfer" ? "Transfer" : "Expense"}
+                  {transactionType === "income" ? "Income" :
+                   transactionType === "investment" ? "Invest" : "Expense"}
                 </h2>
                 <div></div>
               </div>
