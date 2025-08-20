@@ -732,22 +732,19 @@ export function Tracker() {
                       }`}
                     ></div>
 
-                    {/* Category Selection - opens in modal/slide */}
-                    <div className="mt-4">
-                      <Button
-                        onClick={() => setShowCategoryModal(true)}
-                        variant="ghost"
-                        className="w-full justify-start text-left p-0 h-auto"
-                      >
-                        {selectedSubCategory ? (
-                          <div className="flex items-center gap-2">
-                            <span>{subCategories.find(s => s.name === selectedSubCategory)?.icon}</span>
-                            <span className="text-sm">{selectedSubCategory}</span>
-                          </div>
-                        ) : (
-                          <span className="text-muted-foreground text-sm">Select category</span>
-                        )}
-                      </Button>
+                    {/* Category Selection - shows inline */}
+                    <div
+                      className="mt-4 cursor-pointer"
+                      onClick={() => setShowCategorySelection(true)}
+                    >
+                      {selectedSubCategory ? (
+                        <div className="flex items-center gap-2">
+                          <span>{subCategories.find(s => s.name === selectedSubCategory)?.icon}</span>
+                          <span className="text-sm">{selectedSubCategory}</span>
+                        </div>
+                      ) : (
+                        <span className="text-muted-foreground text-sm">Select category</span>
+                      )}
                     </div>
                   </div>
 
