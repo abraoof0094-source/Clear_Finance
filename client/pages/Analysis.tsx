@@ -14,8 +14,24 @@ type ViewMode = "Weekly" | "Monthly" | "Annually" | "Period";
 
 // Transaction interface imported from clientStorage
 
-// Category colors for pie chart
-const COLORS = ["#FF6B6B", "#4ECDC4", "#45B7D1", "#96CEB4", "#FFEAA7", "#DDA0DD", "#98D8C8", "#F7DC6F", "#BB8FCE"];
+// Category colors for pie chart - More distinct and aesthetically pleasing
+const COLORS = [
+  "#FF6B6B", // Vibrant Red-Pink
+  "#4ECDC4", // Teal
+  "#45B7D1", // Sky Blue
+  "#96CEB4", // Mint Green
+  "#FFEAA7", // Soft Yellow
+  "#DDA0DD", // Plum
+  "#FF8A65", // Coral
+  "#81C784", // Light Green
+  "#9C27B0", // Purple
+  "#FF7043", // Deep Orange
+  "#42A5F5", // Blue
+  "#26A69A", // Teal Green
+  "#FFA726", // Orange
+  "#EF5350", // Red
+  "#AB47BC"  // Violet
+];
 
 // Main categories for analysis
 const mainCategories = [
