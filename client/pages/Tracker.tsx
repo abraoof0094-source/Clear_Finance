@@ -701,7 +701,10 @@ export function Tracker() {
                     <div className="text-base text-muted-foreground mb-2">Amount</div>
                     <div
                       className="cursor-pointer"
-                      onClick={() => setShowKeypad(true)}
+                      onClick={() => {
+                        setShowKeypad(true);
+                        setShowCategorySelection(false);
+                      }}
                     >
                       <div className="text-2xl font-normal">
                         ₹ {amount || "0"}
