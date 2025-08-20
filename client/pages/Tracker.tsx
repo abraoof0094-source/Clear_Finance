@@ -840,72 +840,49 @@ export function Tracker() {
                   </Button>
                 </div>
 
-                {/* Calculator Keypad - Always show */}
+                {/* Full Calculator Keypad */}
                 <div className="p-4 pb-32 bg-muted/30 border-t">
                   <div className="flex justify-between items-center mb-3">
                     <span className="text-sm text-muted-foreground">
-                      Amount
+                      Calculator
                     </span>
                   </div>
-                  <div className="grid grid-cols-4 gap-3">
+                  <div className="grid grid-cols-4 gap-2">
+                    {/* Row 1: Clear, Percentage, Backspace, Divide */}
                     <Button
-                      onClick={() => handleNumberClick("1")}
+                      onClick={handleClear}
                       variant="ghost"
-                      className="h-14 text-xl font-bold bg-background hover:bg-muted rounded-lg"
+                      className="h-14 text-lg font-bold bg-orange-100 hover:bg-orange-200 text-orange-700 rounded-lg"
                     >
-                      1
+                      C
                     </Button>
                     <Button
-                      onClick={() => handleNumberClick("2")}
+                      onClick={handlePercentage}
                       variant="ghost"
-                      className="h-14 text-xl font-bold bg-background hover:bg-muted rounded-lg"
+                      className="h-14 text-lg font-bold bg-orange-100 hover:bg-orange-200 text-orange-700 rounded-lg"
                     >
-                      2
-                    </Button>
-                    <Button
-                      onClick={() => handleNumberClick("3")}
-                      variant="ghost"
-                      className="h-14 text-xl font-bold bg-background hover:bg-muted rounded-lg"
-                    >
-                      3
+                      %
                     </Button>
                     <Button
                       onClick={handleBackspace}
                       variant="ghost"
-                      className="h-14 bg-background hover:bg-muted rounded-lg"
+                      className="h-14 bg-orange-100 hover:bg-orange-200 text-orange-700 rounded-lg"
                     >
-                      <X className="h-6 w-6" />
+                      <X className="h-5 w-5" />
+                    </Button>
+                    <Button
+                      onClick={() => handleOperatorClick("÷")}
+                      variant="ghost"
+                      className={`h-14 text-xl font-bold rounded-lg ${
+                        operator === "÷"
+                          ? "bg-orange-500 text-white"
+                          : "bg-orange-400 hover:bg-orange-500 text-white"
+                      }`}
+                    >
+                      ÷
                     </Button>
 
-                    <Button
-                      onClick={() => handleNumberClick("4")}
-                      variant="ghost"
-                      className="h-14 text-xl font-bold bg-background hover:bg-muted rounded-lg"
-                    >
-                      4
-                    </Button>
-                    <Button
-                      onClick={() => handleNumberClick("5")}
-                      variant="ghost"
-                      className="h-14 text-xl font-bold bg-background hover:bg-muted rounded-lg"
-                    >
-                      5
-                    </Button>
-                    <Button
-                      onClick={() => handleNumberClick("6")}
-                      variant="ghost"
-                      className="h-14 text-xl font-bold bg-background hover:bg-muted rounded-lg"
-                    >
-                      6
-                    </Button>
-                    <Button
-                      onClick={handleClear}
-                      variant="ghost"
-                      className="h-14 text-xl font-bold bg-background hover:bg-muted rounded-lg"
-                    >
-                      -
-                    </Button>
-
+                    {/* Row 2: 7, 8, 9, Multiply */}
                     <Button
                       onClick={() => handleNumberClick("7")}
                       variant="ghost"
@@ -928,18 +905,90 @@ export function Tracker() {
                       9
                     </Button>
                     <Button
-                      onClick={handleClear}
+                      onClick={() => handleOperatorClick("×")}
                       variant="ghost"
-                      className="h-14 bg-background hover:bg-muted rounded-lg"
+                      className={`h-14 text-xl font-bold rounded-lg ${
+                        operator === "×"
+                          ? "bg-orange-500 text-white"
+                          : "bg-orange-400 hover:bg-orange-500 text-white"
+                      }`}
                     >
-                      <Calculator className="h-6 w-6" />
+                      ×
                     </Button>
 
-                    <div></div>
+                    {/* Row 3: 4, 5, 6, Minus */}
+                    <Button
+                      onClick={() => handleNumberClick("4")}
+                      variant="ghost"
+                      className="h-14 text-xl font-bold bg-background hover:bg-muted rounded-lg"
+                    >
+                      4
+                    </Button>
+                    <Button
+                      onClick={() => handleNumberClick("5")}
+                      variant="ghost"
+                      className="h-14 text-xl font-bold bg-background hover:bg-muted rounded-lg"
+                    >
+                      5
+                    </Button>
+                    <Button
+                      onClick={() => handleNumberClick("6")}
+                      variant="ghost"
+                      className="h-14 text-xl font-bold bg-background hover:bg-muted rounded-lg"
+                    >
+                      6
+                    </Button>
+                    <Button
+                      onClick={() => handleOperatorClick("-")}
+                      variant="ghost"
+                      className={`h-14 text-xl font-bold rounded-lg ${
+                        operator === "-"
+                          ? "bg-orange-500 text-white"
+                          : "bg-orange-400 hover:bg-orange-500 text-white"
+                      }`}
+                    >
+                      −
+                    </Button>
+
+                    {/* Row 4: 1, 2, 3, Plus */}
+                    <Button
+                      onClick={() => handleNumberClick("1")}
+                      variant="ghost"
+                      className="h-14 text-xl font-bold bg-background hover:bg-muted rounded-lg"
+                    >
+                      1
+                    </Button>
+                    <Button
+                      onClick={() => handleNumberClick("2")}
+                      variant="ghost"
+                      className="h-14 text-xl font-bold bg-background hover:bg-muted rounded-lg"
+                    >
+                      2
+                    </Button>
+                    <Button
+                      onClick={() => handleNumberClick("3")}
+                      variant="ghost"
+                      className="h-14 text-xl font-bold bg-background hover:bg-muted rounded-lg"
+                    >
+                      3
+                    </Button>
+                    <Button
+                      onClick={() => handleOperatorClick("+")}
+                      variant="ghost"
+                      className={`h-14 text-xl font-bold rounded-lg ${
+                        operator === "+"
+                          ? "bg-orange-500 text-white"
+                          : "bg-orange-400 hover:bg-orange-500 text-white"
+                      }`}
+                    >
+                      +
+                    </Button>
+
+                    {/* Row 5: 0 (spans 2 columns), Decimal, Equals */}
                     <Button
                       onClick={() => handleNumberClick("0")}
                       variant="ghost"
-                      className="h-14 text-xl font-bold bg-background hover:bg-muted rounded-lg"
+                      className="h-14 text-xl font-bold bg-background hover:bg-muted rounded-lg col-span-2"
                     >
                       0
                     </Button>
@@ -951,24 +1000,38 @@ export function Tracker() {
                       .
                     </Button>
                     <Button
-                      onClick={handleSave}
-                      className={`h-14 text-white font-bold rounded-lg ${
+                      onClick={handleEquals}
+                      className={`h-14 text-xl font-bold text-white rounded-lg ${
                         transactionType === "income"
                           ? "bg-green-500 hover:bg-green-600"
                           : transactionType === "investment"
                             ? "bg-blue-500 hover:bg-blue-600"
                             : "bg-red-500 hover:bg-red-600"
                       }`}
-                      disabled={
-                        !selectedMainCategory ||
-                        !selectedSubCategory ||
-                        !amount ||
-                        parseFloat(amount) <= 0
-                      }
                     >
-                      Done
+                      =
                     </Button>
                   </div>
+
+                  {/* Save button */}
+                  <Button
+                    onClick={handleSave}
+                    className={`w-full h-12 mt-4 text-white font-bold rounded-lg ${
+                      transactionType === "income"
+                        ? "bg-green-500 hover:bg-green-600"
+                        : transactionType === "investment"
+                          ? "bg-blue-500 hover:bg-blue-600"
+                          : "bg-red-500 hover:bg-red-600"
+                    }`}
+                    disabled={
+                      !selectedMainCategory ||
+                      !selectedSubCategory ||
+                      !amount ||
+                      parseFloat(amount) <= 0
+                    }
+                  >
+                    Save Transaction
+                  </Button>
                 </div>
               </div>
             </div>
