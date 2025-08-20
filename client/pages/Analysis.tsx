@@ -184,7 +184,7 @@ export function Analysis() {
     });
 
     return categoryData
-      .filter((cat) => cat.total > 0)
+      .filter((cat) => cat.total > 0 && cat.type !== "income") // Exclude income since 100% is redundant
       .sort((a, b) => b.total - a.total);
   };
 
