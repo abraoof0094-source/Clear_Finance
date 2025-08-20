@@ -723,7 +723,17 @@ export function Tracker() {
 
                   {/* Category */}
                   <div>
-                    <div className="text-base text-muted-foreground mb-2">Category</div>
+                    <div
+                      className="text-base text-muted-foreground mb-2 cursor-pointer"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        setShowCategorySelection(!showCategorySelection);
+                        setShowKeypad(false);
+                      }}
+                    >
+                      Category
+                    </div>
                     <div
                       className={`h-px ${
                         transactionType === "income"
@@ -734,29 +744,13 @@ export function Tracker() {
                       }`}
                     ></div>
 
-                    {/* Category Selection - shows inline */}
-                    <div
-                      className="mt-4 cursor-pointer"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        console.log("Category clicked, current state:", showCategorySelection);
-                        setShowCategorySelection(!showCategorySelection);
-                        setShowKeypad(false);
-                        console.log("Setting showCategorySelection to:", !showCategorySelection);
-                      }}
-                    >
-                      {selectedMainCategory && selectedSubCategory ? (
-                        <div className="flex items-center gap-2">
-                          <span>{subCategories.find(s => s.name === selectedSubCategory)?.icon}</span>
-                          <span className="text-sm">{selectedMainCategory}/{selectedSubCategory}</span>
-                        </div>
-                      ) : (
-                        <div className="h-8 flex items-center text-muted-foreground text-sm">
-                          Tap to select category
-                        </div>
-                      )}
-                    </div>
+                    {/* Show selected category if any */}
+                    {selectedMainCategory && selectedSubCategory && (
+                      <div className="mt-2 flex items-center gap-2">
+                        <span>{subCategories.find(s => s.name === selectedSubCategory)?.icon}</span>
+                        <span className="text-sm">{selectedMainCategory}/{selectedSubCategory}</span>
+                      </div>
+                    )}
                   </div>
 
                 </div>
