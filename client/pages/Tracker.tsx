@@ -677,7 +677,7 @@ export function Tracker() {
                     }}
                     className={`h-12 text-sm font-semibold rounded-none ${
                       transactionType === "investment"
-                        ? "bg-blue-500 text-white border border-blue-600"
+                        ? "bg-blue-500 text-white"
                         : "bg-muted text-muted-foreground hover:bg-muted hover:text-muted-foreground"
                     }`}
                   >
