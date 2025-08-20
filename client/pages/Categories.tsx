@@ -581,15 +581,17 @@ export function Categories() {
             ))}
 
             {/* Add Main Category Button */}
-            <Card className="border-2 border-dashed border-muted-foreground/20 hover:border-primary/30 transition-colors cursor-pointer">
-              <div
-                className="p-5 flex items-center justify-center gap-3 text-muted-foreground hover:text-primary transition-colors"
+            <div className="p-2">
+              <Button
+                variant="ghost"
+                size="sm"
+                className="w-full justify-start text-muted-foreground hover:text-foreground"
                 onClick={() => setShowAddMainDialog(true)}
               >
-                <Plus className="h-5 w-5" />
-                <span className="font-medium">Add Main Category</span>
-              </div>
-            </Card>
+                <Plus className="h-4 w-4 mr-2" />
+                Add Main Category
+              </Button>
+            </div>
           </div>
         </div>
       </div>
