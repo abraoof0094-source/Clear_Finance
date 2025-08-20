@@ -2,14 +2,14 @@ import { useState, useEffect, useRef } from "react";
 import { Layout } from "../components/Layout";
 import { Card } from "../components/ui/card";
 import { Button } from "../components/ui/button";
-import { Input } from "../components/ui/input";
 import {
-  Download,
-  Calendar,
+  Upload,
+  FileText,
   Check,
   AlertCircle,
-  ChevronLeft,
-  ChevronRight,
+  Info,
+  FileUp,
+  Database,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { phoneStorage } from "../utils/phoneStorage";
@@ -17,17 +17,11 @@ import { themeManager } from "../utils/themeColors";
 
 export function ExportRecords() {
   const navigate = useNavigate();
-  const [fromMonth, setFromMonth] = useState(() => {
-    const now = new Date();
-    return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
-  });
-  const [toMonth, setToMonth] = useState(() => {
-    const now = new Date();
-    return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
-  });
-  const [isExporting, setIsExporting] = useState(false);
+  const [isImporting, setIsImporting] = useState(false);
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
   const [statusMessage, setStatusMessage] = useState("");
+  const [importData, setImportData] = useState<string>("");
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const startXRef = useRef<number>(0);
   const currentXRef = useRef<number>(0);
@@ -46,7 +40,6 @@ export function ExportRecords() {
     currentXRef.current = e.touches[0].clientX;
     const diff = currentXRef.current - startXRef.current;
 
-    // Only allow swiping to the left (negative diff means swiping left to close)
     if (diff < 0 && containerRef.current) {
       const translateX = Math.max(diff, -window.innerWidth * 0.5);
       containerRef.current.style.transform = `translateX(${translateX}px)`;
@@ -57,18 +50,15 @@ export function ExportRecords() {
     if (!containerRef.current) return;
 
     const diff = currentXRef.current - startXRef.current;
-    const threshold = -window.innerWidth * 0.15; // 15% of screen width (negative for left swipe)
+    const threshold = -window.innerWidth * 0.15;
 
     if (diff < threshold) {
-      // Swipe was far enough, close the page
       navigate(-1);
     } else {
-      // Snap back to original position
       containerRef.current.style.transform = "translateX(0)";
     }
   };
 
-  // Add touch event listeners
   useEffect(() => {
     const container = containerRef.current;
     if (container) {
@@ -84,184 +74,79 @@ export function ExportRecords() {
     }
   }, []);
 
-  const exportToCSV = async () => {
-    setIsExporting(true);
+  // Handle file upload and import
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const content = e.target?.result as string;
+      setImportData(content);
+      setTimeout(() => {
+        handleImportData(content, file.name);
+      }, 100);
+    };
+    reader.onerror = () => {
+      setStatus("error");
+      setStatusMessage("Failed to read file");
+    };
+    reader.readAsText(file);
+  };
+
+  // Import data from backup file
+  const handleImportData = async (content: string, fileName: string) => {
+    setIsImporting(true);
     setStatus("idle");
 
     try {
-      const allTransactions = phoneStorage.loadTransactions();
-      const [fromYear, fromMonthNum] = fromMonth.split("-").map(Number);
-      const [toYear, toMonthNum] = toMonth.split("-").map(Number);
+      const data = JSON.parse(content);
 
-      const filteredTransactions = allTransactions.filter((transaction) => {
-        const transactionDate = new Date(transaction.date);
-        const transactionYear = transactionDate.getFullYear();
-        const transactionMonth = transactionDate.getMonth() + 1;
-
-        const transactionYearMonth = transactionYear * 100 + transactionMonth;
-        const fromYearMonth = fromYear * 100 + fromMonthNum;
-        const toYearMonth = toYear * 100 + toMonthNum;
-
-        return (
-          transactionYearMonth >= fromYearMonth &&
-          transactionYearMonth <= toYearMonth
-        );
-      });
-
-      if (filteredTransactions.length === 0) {
-        setStatus("error");
-        setStatusMessage("No transactions found in selected date range");
-        setTimeout(() => setStatus("idle"), 3000);
-        return;
+      if (!data.transactions || !Array.isArray(data.transactions)) {
+        throw new Error("Invalid backup file format");
       }
 
-      const headers = [
-        "Date",
-        "Time",
-        "Type",
-        "Main Category",
-        "Sub Category",
-        "Amount",
-        "Notes",
-      ];
-      const csvContent = [
-        headers.join(","),
-        ...filteredTransactions.map((transaction) =>
-          [
-            `"${transaction.date}"`,
-            `"${transaction.time}"`,
-            `"${transaction.type}"`,
-            `"${transaction.mainCategory}"`,
-            `"${transaction.subCategory}"`,
-            transaction.amount,
-            `"${transaction.notes || ""}"`,
-          ].join(","),
-        ),
-      ].join("\\n");
+      const currentStats = {
+        transactions: phoneStorage.loadTransactions().length,
+        budgets: Object.keys(phoneStorage.loadBudgets()).length,
+      };
 
-      const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
-      const link = document.createElement("a");
-      const url = URL.createObjectURL(blob);
-      link.setAttribute("href", url);
-      link.setAttribute(
-        "download",
-        `clear-finance-export-${fromMonth}-to-${toMonth}.csv`,
+      const confirmed = window.confirm(
+        `🔄 Import Data from "${fileName}"?\n\n` +
+          `This will replace your current data:\n` +
+          `• Current: ${currentStats.transactions} transactions, ${currentStats.budgets} budgets\n` +
+          `• Backup: ${data.transactions.length} transactions, ${Object.keys(data.budgets || {}).length} budgets\n\n` +
+          `Backup created: ${data.exportedAt ? new Date(data.exportedAt).toLocaleDateString() : "Unknown date"}\n\n` +
+          `⚠️ This action cannot be undone. Continue?`
       );
-      link.style.visibility = "hidden";
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
 
-      setStatus("success");
-      setStatusMessage(
-        `Successfully exported ${filteredTransactions.length} transactions`,
-      );
-      setTimeout(() => setStatus("idle"), 3000);
+      if (confirmed) {
+        phoneStorage.saveTransactions(data.transactions);
+        phoneStorage.saveBudgets(data.budgets || {});
+        if (data.categories) {
+          localStorage.setItem("categories", JSON.stringify(data.categories));
+        }
+        localStorage.setItem("last-import", new Date().toISOString());
+
+        setStatus("success");
+        setStatusMessage(`Successfully imported ${data.transactions.length} transactions! Refreshing...`);
+        setImportData("");
+
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
+      } else {
+        setImportData("");
+      }
     } catch (error) {
       setStatus("error");
-      setStatusMessage("Export failed. Please try again.");
+      setStatusMessage(`Invalid backup file format`);
+      setImportData("");
       setTimeout(() => setStatus("idle"), 3000);
     } finally {
-      setIsExporting(false);
+      setIsImporting(false);
     }
   };
-
-  const getTransactionCount = () => {
-    const allTransactions = phoneStorage.loadTransactions();
-    const [fromYear, fromMonthNum] = fromMonth.split("-").map(Number);
-    const [toYear, toMonthNum] = toMonth.split("-").map(Number);
-
-    return allTransactions.filter((transaction) => {
-      const transactionDate = new Date(transaction.date);
-      const transactionYear = transactionDate.getFullYear();
-      const transactionMonth = transactionDate.getMonth() + 1;
-
-      const transactionYearMonth = transactionYear * 100 + transactionMonth;
-      const fromYearMonth = fromYear * 100 + fromMonthNum;
-      const toYearMonth = toYear * 100 + toMonthNum;
-
-      return (
-        transactionYearMonth >= fromYearMonth &&
-        transactionYearMonth <= toYearMonth
-      );
-    }).length;
-  };
-
-  const setQuickRange = (
-    range: "lastMonth" | "last3" | "last6" | "lastYear",
-  ) => {
-    const now = new Date();
-    let fromYear: number, fromMonth: number, toYear: number, toMonth: number;
-
-    // Set to month to current month for all ranges
-    toYear = now.getFullYear();
-    toMonth = now.getMonth() + 1;
-
-    switch (range) {
-      case "lastMonth":
-        const lastMonth = new Date(now.getFullYear(), now.getMonth() - 1);
-        fromYear = toYear = lastMonth.getFullYear();
-        fromMonth = toMonth = lastMonth.getMonth() + 1;
-        break;
-      case "last3":
-        const threeMonthsAgo = new Date(now.getFullYear(), now.getMonth() - 2);
-        fromYear = threeMonthsAgo.getFullYear();
-        fromMonth = threeMonthsAgo.getMonth() + 1;
-        break;
-      case "last6":
-        const sixMonthsAgo = new Date(now.getFullYear(), now.getMonth() - 5);
-        fromYear = sixMonthsAgo.getFullYear();
-        fromMonth = sixMonthsAgo.getMonth() + 1;
-        break;
-      case "lastYear":
-        const twelveMonthsAgo = new Date(
-          now.getFullYear(),
-          now.getMonth() - 11,
-        );
-        fromYear = twelveMonthsAgo.getFullYear();
-        fromMonth = twelveMonthsAgo.getMonth() + 1;
-        break;
-    }
-
-    setFromMonth(`${fromYear}-${String(fromMonth).padStart(2, "0")}`);
-    setToMonth(`${toYear}-${String(toMonth).padStart(2, "0")}`);
-  };
-
-  // Navigation functions for month arrows
-  const navigateMonth = (
-    direction: "prev" | "next",
-    monthType: "from" | "to",
-  ) => {
-    const currentMonth = monthType === "from" ? fromMonth : toMonth;
-    const [year, month] = currentMonth.split("-").map(Number);
-
-    let newYear = year;
-    let newMonth = month;
-
-    if (direction === "next") {
-      newMonth += 1;
-      if (newMonth > 12) {
-        newMonth = 1;
-        newYear += 1;
-      }
-    } else {
-      newMonth -= 1;
-      if (newMonth < 1) {
-        newMonth = 12;
-        newYear -= 1;
-      }
-    }
-
-    const newMonthStr = `${newYear}-${String(newMonth).padStart(2, "0")}`;
-
-    if (monthType === "from") {
-      setFromMonth(newMonthStr);
-    } else {
-      setToMonth(newMonthStr);
-    }
-  };
-
-  const transactionCount = getTransactionCount();
 
   return (
     <Layout>
@@ -282,163 +167,130 @@ export function ExportRecords() {
         <div className="space-y-4 py-4 px-4">
           {/* Header */}
           <div className="text-center">
-            <h1 className="text-lg font-semibold">Export Records</h1>
+            <div className="w-12 h-12 mx-auto mb-3 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center">
+              <Upload className="h-6 w-6 text-white" />
+            </div>
+            <h1 className="text-lg font-semibold">Import Data</h1>
             <p className="text-xs text-muted-foreground">
-              Export transactions as CSV spreadsheet
+              Restore your financial data from backup
             </p>
           </div>
 
           {/* Status Message */}
           {status !== "idle" && statusMessage && (
             <div
-              className={`flex items-center gap-2 p-2 rounded-lg ${
+              className={`flex items-center gap-2 p-3 rounded-lg ${
                 status === "success"
                   ? "bg-green-500/10 text-green-400 border border-green-500/20"
                   : "bg-red-500/10 text-red-400 border border-red-500/20"
               }`}
             >
               {status === "success" ? (
-                <Check className="h-3 w-3" />
+                <Check className="h-4 w-4" />
               ) : (
-                <AlertCircle className="h-3 w-3" />
+                <AlertCircle className="h-4 w-4" />
               )}
-              <span className="text-xs font-medium">{statusMessage}</span>
+              <span className="text-sm font-medium">{statusMessage}</span>
             </div>
           )}
 
-          {/* Quick Range Buttons */}
-          <div>
-            <h2 className="text-sm font-semibold section-header mb-2">
-              Quick Date Ranges
-            </h2>
-            <div className="grid grid-cols-2 gap-2">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setQuickRange("lastMonth")}
-                className="text-xs"
-              >
-                Last Month
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setQuickRange("last3")}
-                className="text-xs"
-              >
-                Last 3 Months
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setQuickRange("last6")}
-                className="text-xs"
-              >
-                Last 6 Months
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setQuickRange("lastYear")}
-                className="text-xs"
-              >
-                Last Year
-              </Button>
-            </div>
-          </div>
-
-          {/* Date Range Selection */}
-          <Card className="p-3">
-            <div className="space-y-3">
-              <div className="flex items-center gap-2 mb-2">
-                <Calendar className="h-3 w-3 theme-accent" />
-                <span className="text-sm font-medium">Custom Date Range</span>
+          {/* Import Instructions */}
+          <Card className="p-4 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-950/30 dark:to-indigo-950/30 border-blue-200 dark:border-blue-800">
+            <div className="flex items-start gap-3">
+              <div className="p-2 rounded-full bg-blue-500/20">
+                <Info className="h-4 w-4 text-blue-600 dark:text-blue-400" />
               </div>
-
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="text-xs font-medium text-muted-foreground">
-                    From Month
-                  </label>
-                  <div className="flex items-center gap-1 mt-1">
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="h-7 w-7"
-                      onClick={() => navigateMonth("prev", "from")}
-                    >
-                      <ChevronLeft className="h-3 w-3" />
-                    </Button>
-                    <Input
-                      type="month"
-                      value={fromMonth}
-                      onChange={(e) => setFromMonth(e.target.value)}
-                      className="flex-1 h-7 text-xs"
-                    />
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="h-7 w-7"
-                      onClick={() => navigateMonth("next", "from")}
-                    >
-                      <ChevronRight className="h-3 w-3" />
-                    </Button>
-                  </div>
-                </div>
-                <div>
-                  <label className="text-xs font-medium text-muted-foreground">
-                    To Month
-                  </label>
-                  <div className="flex items-center gap-1 mt-1">
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="h-7 w-7"
-                      onClick={() => navigateMonth("prev", "to")}
-                    >
-                      <ChevronLeft className="h-3 w-3" />
-                    </Button>
-                    <Input
-                      type="month"
-                      value={toMonth}
-                      onChange={(e) => setToMonth(e.target.value)}
-                      className="flex-1 h-7 text-xs"
-                    />
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="h-7 w-7"
-                      onClick={() => navigateMonth("next", "to")}
-                    >
-                      <ChevronRight className="h-3 w-3" />
-                    </Button>
-                  </div>
+              <div className="flex-1">
+                <h3 className="text-sm font-semibold text-blue-900 dark:text-blue-100 mb-1">
+                  How to Import
+                </h3>
+                <div className="text-xs text-blue-700 dark:text-blue-300 space-y-1">
+                  <p>• Select a backup file (.mbak or .json)</p>
+                  <p>• Your current data will be replaced</p>
+                  <p>• All transactions and budgets will be restored</p>
+                  <p>• The app will refresh automatically</p>
                 </div>
               </div>
             </div>
           </Card>
 
-          {/* Export Button */}
-          <Button
-            onClick={exportToCSV}
-            disabled={
-              isExporting || !fromMonth || !toMonth || transactionCount === 0
-            }
-            className="w-full py-3 text-sm font-semibold"
-            size="sm"
-          >
-            {isExporting ? (
-              <>
-                <Download className="h-4 w-4 mr-2 animate-spin" />
-                Exporting...
-              </>
-            ) : (
-              <>
-                <Download className="h-4 w-4 mr-2" />
-                Export CSV
-              </>
-            )}
-          </Button>
+          {/* Import Actions */}
+          <div className="space-y-3">
+            {/* Main Import Button */}
+            <Card className="p-4">
+              <div className="flex items-center gap-3 mb-3">
+                <div className="p-2 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600">
+                  <FileUp className="h-4 w-4 text-white" />
+                </div>
+                <div className="flex-1">
+                  <div className="text-sm font-semibold">Select Backup File</div>
+                  <div className="text-xs text-muted-foreground">
+                    Choose .mbak or .json backup file
+                  </div>
+                </div>
+              </div>
+              <Button
+                onClick={() => fileInputRef.current?.click()}
+                disabled={isImporting}
+                className="w-full h-10 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-medium"
+              >
+                {isImporting ? (
+                  <>
+                    <Upload className="h-4 w-4 mr-2 animate-pulse" />
+                    Importing...
+                  </>
+                ) : (
+                  <>
+                    <Upload className="h-4 w-4 mr-2" />
+                    Choose Backup File
+                  </>
+                )}
+              </Button>
+
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept=".mbak,.json"
+                onChange={handleFileUpload}
+                className="hidden"
+              />
+            </Card>
+
+            {/* Supported Formats */}
+            <Card className="p-3 bg-gray-50 dark:bg-gray-900/30">
+              <div className="flex items-center gap-2 mb-2">
+                <FileText className="h-4 w-4 text-gray-600 dark:text-gray-400" />
+                <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                  Supported Formats
+                </span>
+              </div>
+              <div className="grid grid-cols-2 gap-2">
+                <div className="flex items-center gap-2 p-2 bg-white dark:bg-gray-800 rounded border">
+                  <div className="w-2 h-2 rounded-full bg-green-500"></div>
+                  <span className="text-xs font-mono">.mbak</span>
+                </div>
+                <div className="flex items-center gap-2 p-2 bg-white dark:bg-gray-800 rounded border">
+                  <div className="w-2 h-2 rounded-full bg-blue-500"></div>
+                  <span className="text-xs font-mono">.json</span>
+                </div>
+              </div>
+            </Card>
+          </div>
+
+          {/* Safety Note */}
+          <Card className="p-3 bg-amber-50 dark:bg-amber-950/30 border-amber-200 dark:border-amber-800">
+            <div className="flex items-start gap-2">
+              <AlertCircle className="h-4 w-4 text-amber-600 dark:text-amber-400 mt-0.5" />
+              <div className="flex-1">
+                <h4 className="text-xs font-semibold text-amber-800 dark:text-amber-200 mb-1">
+                  Important Note
+                </h4>
+                <p className="text-xs text-amber-700 dark:text-amber-300">
+                  Importing will completely replace your current data. Consider creating a backup of your current data first.
+                </p>
+              </div>
+            </div>
+          </Card>
         </div>
       </div>
     </Layout>
