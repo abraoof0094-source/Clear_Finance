@@ -19,16 +19,7 @@ import {
 import { Plus, ArrowLeft, Calculator, X } from "lucide-react";
 import { transactionAPI, DataSync, Transaction } from "../utils/api";
 
-// Transaction interface
-interface Transaction {
-  id: string;
-  type: "income" | "expense" | "investment";
-  mainCategory: string;
-  subCategory: string;
-  amount: number;
-  date: string;
-  time: string;
-}
+// Transaction interface imported from API utils
 
 // All Categories (Income + Expense + Investment combined)
 const allCategories = [
@@ -225,7 +216,7 @@ const allCategories = [
         icon: "🏦",
         description: "Bank FDs, recurring deposits",
       },
-      { name: "PPF & ELSS", icon: "🎯", description: "Tax-saving investments" },
+      { name: "PPF & ELSS", icon: "��", description: "Tax-saving investments" },
       {
         name: "Real Estate",
         icon: "������️",
