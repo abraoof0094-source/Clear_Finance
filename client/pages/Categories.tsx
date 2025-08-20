@@ -139,7 +139,7 @@ const allCategories = [
       },
       {
         name: "Electronics & Gadgets",
-        icon: "📱",
+        icon: "���",
         description: "Phones, laptops, smartwatches",
       },
       {
@@ -995,7 +995,7 @@ function ExpandableCategoryItem({
                   onClick={(e) => {
                     e.stopPropagation();
                     if (!justOpened) {
-                      onToggleMenu();
+                      setLocalMenuOpen(false);
                     }
                   }}
                 ></div>
