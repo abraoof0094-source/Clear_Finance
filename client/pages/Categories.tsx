@@ -19,7 +19,7 @@ const allCategories = [
   {
     id: 1,
     name: "Income Sources",
-    icon: "��",
+    icon: "💰",
     type: "income" as const,
     subcategories: [
       {
@@ -47,7 +47,7 @@ const allCategories = [
         icon: "📊",
         description: "Dividends, rental income",
       },
-      { name: "Others", icon: "��", description: "ESOPs, stock sales" },
+      { name: "Others", icon: "🎯", description: "ESOPs, stock sales" },
     ],
   },
   {
@@ -85,7 +85,7 @@ const allCategories = [
       },
       {
         name: "House Help / Cook / Maid",
-        icon: "👩���🍳",
+        icon: "👩‍🍳",
         description: "Monthly salaries",
       },
       {
@@ -98,7 +98,7 @@ const allCategories = [
   {
     id: 3,
     name: "Family & Personal Living",
-    icon: "👨‍👩���👧‍👦",
+    icon: "👨‍👩‍👧‍👦",
     type: "expense" as const,
     subcategories: [
       {
@@ -191,7 +191,7 @@ const allCategories = [
     subcategories: [
       {
         name: "Mutual Funds (SIP)",
-        icon: "��",
+        icon: "📊",
         description: "Equity, hybrid, index funds",
       },
       {
@@ -210,7 +210,7 @@ const allCategories = [
         description: "Provident fund contributions",
       },
       { name: "NPS", icon: "👴", description: "Retirement-focused" },
-      { name: "FD / RD", icon: "���", description: "Bank fixed deposits" },
+      { name: "FD / RD", icon: "🏪", description: "Bank fixed deposits" },
       {
         name: "Gold",
         icon: "🥇",
@@ -223,7 +223,7 @@ const allCategories = [
       },
       {
         name: "Real Estate Investment",
-        icon: "��️",
+        icon: "🏘️",
         description: "Plot, apartment",
       },
       {
@@ -240,7 +240,7 @@ const allCategories = [
     type: "expense" as const,
     subcategories: [
       { name: "Home Loan", icon: "🏠", description: "Bank EMI" },
-      { name: "Car Loan", icon: "���", description: "EMI for sedan/SUV" },
+      { name: "Car Loan", icon: "🚗", description: "EMI for sedan/SUV" },
       { name: "Bike Loan", icon: "🏍️", description: "EMI for two-wheeler" },
       {
         name: "Personal Loan",
@@ -431,7 +431,7 @@ export function Categories() {
     if (selectedBudgetSubcategory && budgetAmount) {
       const monthKey = getCurrentMonthKey();
       const amount = parseFloat(budgetAmount) || 0;
-
+      
       setBudgets(prev => ({
         ...prev,
         [monthKey]: {
@@ -585,6 +585,7 @@ export function Categories() {
         </Button>
       </div>
 
+      {/* All Dialogs */}
       {/* Add Main Category Dialog */}
       <Dialog open={showAddMainDialog} onOpenChange={setShowAddMainDialog}>
         <DialogContent className="sm:max-w-md">
@@ -668,233 +669,43 @@ export function Categories() {
         </DialogContent>
       </Dialog>
 
-      {/* Edit Main Category Dialog */}
-      <Dialog open={showEditMainDialog} onOpenChange={setShowEditMainDialog}>
+      {/* Set Budget Dialog */}
+      <Dialog open={showBudgetDialog} onOpenChange={setShowBudgetDialog}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle>Edit main category</DialogTitle>
+            <DialogTitle>Set Budget</DialogTitle>
           </DialogHeader>
           <div className="space-y-4">
-            <div className="flex gap-4">
-              <Label>Type:</Label>
-              <div className="flex gap-4">
-                <label className="flex items-center gap-2">
-                  <input
-                    type="radio"
-                    value="income"
-                    checked={categoryType === "income"}
-                    onChange={(e) =>
-                      setCategoryType(e.target.value as "income")
-                    }
-                  />
-                  INCOME
-                </label>
-                <label className="flex items-center gap-2">
-                  <input
-                    type="radio"
-                    value="expense"
-                    checked={categoryType === "expense"}
-                    onChange={(e) =>
-                      setCategoryType(e.target.value as "expense")
-                    }
-                  />
-                  ✓ EXPENSE
-                </label>
-                <label className="flex items-center gap-2">
-                  <input
-                    type="radio"
-                    value="investment"
-                    checked={categoryType === "investment"}
-                    onChange={(e) =>
-                      setCategoryType(e.target.value as "investment")
-                    }
-                  />
-                  📈 INVESTMENT
-                </label>
+            <div className="space-y-2">
+              <Label>Category</Label>
+              <div className="p-3 bg-muted rounded-md">
+                <span className="font-medium">{selectedBudgetSubcategory}</span>
               </div>
             </div>
 
             <div className="space-y-2">
-              <Label>Name</Label>
-              <Input
-                value={newCategoryName}
-                onChange={(e) => setNewCategoryName(e.target.value)}
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label>Icon</Label>
-              <div className="grid grid-cols-6 gap-2">
-                {availableIcons.map((icon) => (
-                  <Button
-                    key={icon}
-                    variant={selectedIcon === icon ? "default" : "outline"}
-                    size="icon"
-                    onClick={() => setSelectedIcon(icon)}
-                  >
-                    {icon}
-                  </Button>
-                ))}
+              <Label>Monthly Budget Amount (₹)</Label>
+              <div className="relative">
+                <IndianRupee className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Input
+                  type="number"
+                  value={budgetAmount}
+                  onChange={(e) => setBudgetAmount(e.target.value)}
+                  placeholder="0"
+                  className="pl-10"
+                />
               </div>
             </div>
 
             <div className="flex gap-2 pt-4">
               <Button
                 variant="outline"
-                onClick={() => setShowEditMainDialog(false)}
+                onClick={() => setShowBudgetDialog(false)}
               >
-                CANCEL
+                Cancel
               </Button>
-              <Button onClick={() => setShowEditMainDialog(false)}>SAVE</Button>
-            </div>
-          </div>
-        </DialogContent>
-      </Dialog>
-
-      {/* Delete Main Category Dialog */}
-      <Dialog
-        open={showDeleteMainDialog}
-        onOpenChange={setShowDeleteMainDialog}
-      >
-        <DialogContent className="sm:max-w-md">
-          <DialogHeader>
-            <DialogTitle>Delete this main category?</DialogTitle>
-          </DialogHeader>
-          <div className="space-y-4">
-            <p>
-              Deleting this main category will also delete all its
-              subcategories, records, and budgets. Are you sure?
-            </p>
-            <div className="flex gap-2 pt-4">
-              <Button
-                variant="outline"
-                onClick={() => setShowDeleteMainDialog(false)}
-              >
-                NO
-              </Button>
-              <Button
-                variant="destructive"
-                onClick={() => setShowDeleteMainDialog(false)}
-              >
-                YES
-              </Button>
-            </div>
-          </div>
-        </DialogContent>
-      </Dialog>
-
-      {/* Add Subcategory Dialog */}
-      <Dialog open={showAddSubDialog} onOpenChange={setShowAddSubDialog}>
-        <DialogContent className="sm:max-w-md">
-          <DialogHeader>
-            <DialogTitle>Add new subcategory</DialogTitle>
-          </DialogHeader>
-          <div className="space-y-4">
-            <div className="space-y-2">
-              <Label>Name</Label>
-              <Input
-                value={newCategoryName}
-                onChange={(e) => setNewCategoryName(e.target.value)}
-                placeholder="Enter subcategory name"
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label>Icon</Label>
-              <div className="grid grid-cols-6 gap-2">
-                {availableIcons.map((icon) => (
-                  <Button
-                    key={icon}
-                    variant={selectedIcon === icon ? "default" : "outline"}
-                    size="icon"
-                    onClick={() => setSelectedIcon(icon)}
-                  >
-                    {icon}
-                  </Button>
-                ))}
-              </div>
-            </div>
-
-            <div className="flex gap-2 pt-4">
-              <Button
-                variant="outline"
-                onClick={() => setShowAddSubDialog(false)}
-              >
-                CANCEL
-              </Button>
-              <Button onClick={() => setShowAddSubDialog(false)}>SAVE</Button>
-            </div>
-          </div>
-        </DialogContent>
-      </Dialog>
-
-      {/* Edit Subcategory Dialog */}
-      <Dialog open={showEditSubDialog} onOpenChange={setShowEditSubDialog}>
-        <DialogContent className="sm:max-w-md">
-          <DialogHeader>
-            <DialogTitle>Edit subcategory</DialogTitle>
-          </DialogHeader>
-          <div className="space-y-4">
-            <div className="space-y-2">
-              <Label>Name</Label>
-              <Input
-                value={newCategoryName}
-                onChange={(e) => setNewCategoryName(e.target.value)}
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label>Icon</Label>
-              <div className="grid grid-cols-6 gap-2">
-                {availableIcons.map((icon) => (
-                  <Button
-                    key={icon}
-                    variant={selectedIcon === icon ? "default" : "outline"}
-                    size="icon"
-                    onClick={() => setSelectedIcon(icon)}
-                  >
-                    {icon}
-                  </Button>
-                ))}
-              </div>
-            </div>
-
-            <div className="flex gap-2 pt-4">
-              <Button
-                variant="outline"
-                onClick={() => setShowEditSubDialog(false)}
-              >
-                CANCEL
-              </Button>
-              <Button onClick={() => setShowEditSubDialog(false)}>SAVE</Button>
-            </div>
-          </div>
-        </DialogContent>
-      </Dialog>
-
-      {/* Delete Subcategory Dialog */}
-      <Dialog open={showDeleteSubDialog} onOpenChange={setShowDeleteSubDialog}>
-        <DialogContent className="sm:max-w-md">
-          <DialogHeader>
-            <DialogTitle>Delete this subcategory?</DialogTitle>
-          </DialogHeader>
-          <div className="space-y-4">
-            <p>
-              Deleting this subcategory will also delete all records and budgets
-              for this subcategory. Are you sure?
-            </p>
-            <div className="flex gap-2 pt-4">
-              <Button
-                variant="outline"
-                onClick={() => setShowDeleteSubDialog(false)}
-              >
-                NO
-              </Button>
-              <Button
-                variant="destructive"
-                onClick={() => setShowDeleteSubDialog(false)}
-              >
-                YES
+              <Button onClick={handleSaveBudget} disabled={!budgetAmount}>
+                {getBudget(selectedBudgetSubcategory) > 0 ? "Update Budget" : "Set Budget"}
               </Button>
             </div>
           </div>
@@ -1134,7 +945,7 @@ function SubcategoryItem({
                 <Edit className="h-3 w-3" />
                 Edit
               </button>
-
+              
               {budget > 0 ? (
                 <>
                   <button
@@ -1170,7 +981,7 @@ function SubcategoryItem({
                   Set Budget
                 </button>
               )}
-
+              
               <div className="border-t border-border my-1"></div>
               <button
                 className="w-full text-left px-3 py-2 hover:bg-muted text-sm flex items-center gap-2 text-red-600"
@@ -1186,49 +997,6 @@ function SubcategoryItem({
           )}
         </div>
       </div>
-
-      {/* Set Budget Dialog */}
-      <Dialog open={showBudgetDialog} onOpenChange={setShowBudgetDialog}>
-        <DialogContent className="sm:max-w-md">
-          <DialogHeader>
-            <DialogTitle>Set Budget</DialogTitle>
-          </DialogHeader>
-          <div className="space-y-4">
-            <div className="space-y-2">
-              <Label>Category</Label>
-              <div className="p-3 bg-muted rounded-md">
-                <span className="font-medium">{selectedBudgetSubcategory}</span>
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              <Label>Monthly Budget Amount (₹)</Label>
-              <div className="relative">
-                <IndianRupee className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <Input
-                  type="number"
-                  value={budgetAmount}
-                  onChange={(e) => setBudgetAmount(e.target.value)}
-                  placeholder="0"
-                  className="pl-10"
-                />
-              </div>
-            </div>
-
-            <div className="flex gap-2 pt-4">
-              <Button
-                variant="outline"
-                onClick={() => setShowBudgetDialog(false)}
-              >
-                Cancel
-              </Button>
-              <Button onClick={handleSaveBudget} disabled={!budgetAmount}>
-                {getBudget(selectedBudgetSubcategory) > 0 ? "Update Budget" : "Set Budget"}
-              </Button>
-            </div>
-          </div>
-        </DialogContent>
-      </Dialog>
     </div>
   );
 }
