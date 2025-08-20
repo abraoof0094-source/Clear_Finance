@@ -1099,6 +1099,7 @@ function SubcategoryItem({
             size="sm"
             onClick={(e) => {
               e.stopPropagation();
+              console.log("Subcategory menu button clicked, showMenu:", showMenu);
               setShowMenu(!showMenu);
             }}
           >
