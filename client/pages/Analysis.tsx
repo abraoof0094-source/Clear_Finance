@@ -132,6 +132,10 @@ export function Analysis() {
     .filter((t) => t.type === "expense")
     .reduce((sum, t) => sum + t.amount, 0);
 
+  const totalInvestment = periodTransactions
+    .filter((t) => t.type === "investment")
+    .reduce((sum, t) => sum + t.amount, 0);
+
   // Calculate category-wise spending
   const getCategoryAnalysis = () => {
     const categoryData = mainCategories.map((category) => {
