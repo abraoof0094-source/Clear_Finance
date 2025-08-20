@@ -67,7 +67,7 @@ const allCategories = [
   {
     id: 3,
     name: "Family & Personal Living",
-    icon: "👨‍👩‍👧‍👦",
+    icon: "👨‍👩‍👧‍��",
     type: "expense" as const,
     subcategories: [
       { name: "Groceries", icon: "🛒", description: "Daily food & household items" },
@@ -415,7 +415,10 @@ export function Tracker() {
                   <div className="space-y-2">
                     <label className="text-base text-muted-foreground">Amount</label>
                     <div className="text-3xl font-bold">₹ {displayValue}</div>
-                    <div className="h-px bg-red-500"></div>
+                    <div className={`h-px ${
+                      transactionType === 'income' ? 'bg-green-500' :
+                      transactionType === 'investment' ? 'bg-blue-500' : 'bg-red-500'
+                    }`}></div>
                   </div>
 
                   {/* Category */}
