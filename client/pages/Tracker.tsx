@@ -246,7 +246,7 @@ const allCategories = [
     type: "expense" as const,
     subcategories: [
       { name: "Home Loan", icon: "🏠", description: "House purchase loan EMI" },
-      { name: "Car Loan", icon: "����", description: "Vehicle loan EMI" },
+      { name: "Car Loan", icon: "🚗", description: "Vehicle loan EMI" },
       { name: "Personal Loan", icon: "💰", description: "Personal loan EMI" },
       { name: "Credit Card", icon: "💳", description: "Credit card payments" },
       { name: "Education Loan", icon: "🎓", description: "Study loan EMI" },
@@ -429,6 +429,11 @@ export function Tracker() {
     setDisplayValue(result.toString());
     setCurrentOperand(result.toString());
     setAmount(result.toString());
+  };
+
+  const handleCalculatorDone = () => {
+    setAmount(displayValue);
+    setShowCalculator(false);
   };
 
   // Get filtered categories based on transaction type
