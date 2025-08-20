@@ -31,7 +31,7 @@ const allCategories = [
     subcategories: [
       {
         name: "Fixed Salary",
-        icon: "��",
+        icon: "💵",
         description: "Monthly take-home salary",
       },
       {
@@ -618,6 +618,21 @@ export function Tracker() {
   return (
     <Layout>
       <div className="space-y-6 py-4 pb-20">
+        {/* Header with Month Navigation */}
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <Button variant="ghost" size="icon" onClick={goToPreviousMonth}>
+              <ChevronLeft className="h-5 w-5" />
+            </Button>
+            <h2 className="text-xl font-semibold">
+              {formatMonth(currentMonth)}
+            </h2>
+            <Button variant="ghost" size="icon" onClick={goToNextMonth}>
+              <ChevronRight className="h-5 w-5" />
+            </Button>
+          </div>
+        </div>
+
         {/* Recent Transactions */}
         <div>
           <h3 className="text-lg font-semibold mb-4">Transactions</h3>
