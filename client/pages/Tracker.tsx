@@ -737,9 +737,13 @@ export function Tracker() {
                     {/* Category Selection - shows inline */}
                     <div
                       className="mt-4 cursor-pointer"
-                      onClick={() => {
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        console.log("Category clicked, current state:", showCategorySelection);
                         setShowCategorySelection(!showCategorySelection);
                         setShowKeypad(false);
+                        console.log("Setting showCategorySelection to:", !showCategorySelection);
                       }}
                     >
                       {selectedMainCategory && selectedSubCategory ? (
