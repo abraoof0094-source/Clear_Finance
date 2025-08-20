@@ -16,7 +16,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../components/ui/select";
-import { Plus, ArrowLeft, Calculator, X } from "lucide-react";
+import { Plus, ArrowLeft, Calculator, X, ChevronLeft, ChevronRight } from "lucide-react";
 import { universalStorage, Transaction, Summary } from "../utils/clientStorage";
 
 // Transaction interface imported from API utils
