@@ -262,6 +262,8 @@ export function Tracker() {
   const [showCalculator, setShowCalculator] = useState(false);
   const [showKeypad, setShowKeypad] = useState(false);
   const [showCategorySelection, setShowCategorySelection] = useState(false);
+  const [openMenuId, setOpenMenuId] = useState<string | null>(null);
+  const [editingTransaction, setEditingTransaction] = useState<Transaction | null>(null);
 
   // Load transactions from client-side storage (IndexedDB with localStorage fallback)
   useEffect(() => {
