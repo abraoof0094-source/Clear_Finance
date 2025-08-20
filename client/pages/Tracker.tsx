@@ -419,7 +419,12 @@ export function Tracker() {
                   {/* Amount */}
                   <div className="space-y-2">
                     <label className="text-base text-muted-foreground">Amount</label>
-                    <div className="text-3xl font-bold">₹ {displayValue}</div>
+                    <div
+                      className="text-3xl font-bold cursor-pointer py-2"
+                      onClick={() => setShowKeypad(true)}
+                    >
+                      ₹ {displayValue}
+                    </div>
                     <div className={`h-px ${
                       transactionType === 'income' ? 'bg-green-500' :
                       transactionType === 'investment' ? 'bg-blue-500' : 'bg-red-500'
