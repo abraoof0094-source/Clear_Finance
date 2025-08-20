@@ -1,7 +1,8 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Layout } from "../components/Layout";
 import { Card } from "../components/ui/card";
 import { Button } from "../components/ui/button";
+import { Input } from "../components/ui/input";
 import {
   Dialog,
   DialogContent,
@@ -15,12 +16,25 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../components/ui/select";
+import {
+  Plus,
+  ArrowLeft,
+  Calculator,
+  X,
+} from "lucide-react";
 
-import { ChevronLeft, ChevronRight, Plus, X } from "lucide-react";
-import { phoneStorage } from "../utils/phoneStorage";
-import { themeManager } from "../utils/themeColors";
+// Transaction interface
+interface Transaction {
+  id: string;
+  type: "income" | "expense" | "transfer";
+  mainCategory: string;
+  subCategory: string;
+  amount: number;
+  date: string;
+  time: string;
+}
 
-// All Categories (from Categories page)
+// All Categories (Income + Expense + Investment combined)
 const allCategories = [
   {
     id: 1,
@@ -28,12 +42,12 @@ const allCategories = [
     icon: "💰",
     type: "income" as const,
     subcategories: [
-      { name: "Fixed Salary", icon: "💵" },
-      { name: "Variable Pay", icon: "📈" },
-      { name: "Reimbursements", icon: "🧾" },
-      { name: "Freelance/Side Income", icon: "💻" },
-      { name: "Passive Income", icon: "📊" },
-      { name: "Others", icon: "🎯" },
+      { name: "Fixed Salary", icon: "💵", description: "Monthly take-home salary" },
+      { name: "Variable Pay", icon: "💎", description: "Performance bonus, annual bonus" },
+      { name: "Reimbursements", icon: "📄", description: "Travel allowance, food coupons" },
+      { name: "Freelance/Side Income", icon: "💻", description: "Consulting, online gigs" },
+      { name: "Passive Income", icon: "📊", description: "Dividends, rental income" },
+      { name: "Others", icon: "💡", description: "Gifts, lottery, miscellaneous income" },
     ],
   },
   {
@@ -42,15 +56,12 @@ const allCategories = [
     icon: "🏠",
     type: "expense" as const,
     subcategories: [
-      { name: "Rent / Home Loan EMI", icon: "🏡" },
-      { name: "Maintenance / Society Charges", icon: "🏢" },
-      { name: "Utilities", icon: "⚡" },
-      { name: "Internet / Broadband", icon: "����" },
-      { name: "Mobile Bills", icon: "���" },
-      { name: "DTH / OTT Subscriptions", icon: "📺" },
-      { name: "Groceries & Daily Essentials", icon: "🛒" },
-      { name: "House Help / Cook / Maid", icon: "👩‍🍳" },
-      { name: "Child Care / Nanny", icon: "👶" },
+      { name: "Rent/EMI", icon: "🏡", description: "House rent or home loan EMI" },
+      { name: "Utilities", icon: "💡", description: "Electricity, water, gas bills" },
+      { name: "Internet & Mobile", icon: "📱", description: "Broadband, mobile plans" },
+      { name: "Maintenance", icon: "🔧", description: "Society charges, repairs" },
+      { name: "Domestic Help", icon: "👥", description: "Maid, cook, driver salaries" },
+      { name: "Others", icon: "🏷️", description: "Other fixed household costs" },
     ],
   },
   {
@@ -59,17 +70,17 @@ const allCategories = [
     icon: "👨‍👩‍👧‍👦",
     type: "expense" as const,
     subcategories: [
-      { name: "Food & Dining", icon: "🍽️" },
-      { name: "Weekend Chills / Drinks", icon: "🍻" },
-      { name: "Travel & Commute", icon: "🚗" },
-      { name: "Medical / Healthcare", icon: "⚕️" },
-      { name: "Fitness / Gym / Swimming", icon: "💪" },
-      { name: "Indoor Play / Recreation", icon: "🎳" },
-      { name: "Shopping & Clothing", icon: "👕" },
-      { name: "Electronics & Gadgets", icon: "📱" },
-      { name: "Education / Courses", icon: "📚" },
-      { name: "Kids' Education", icon: "🎓" },
-      { name: "Pets", icon: "🐕" },
+      { name: "Groceries", icon: "🛒", description: "Daily food & household items" },
+      { name: "Food & Dining", icon: "🍽️", description: "Restaurants, food delivery, cafes" },
+      { name: "Transportation", icon: "🚗", description: "Fuel, public transport, taxi" },
+      { name: "Healthcare", icon: "🏥", description: "Doctor visits, medicines, checkups" },
+      { name: "Personal Care", icon: "💄", description: "Salon, cosmetics, hygiene" },
+      { name: "Clothing", icon: "👗", description: "Apparel, footwear, accessories" },
+      { name: "Education", icon: "📚", description: "School fees, courses, books" },
+      { name: "Entertainment", icon: "🎬", description: "Movies, games, subscriptions" },
+      { name: "Travel & Vacation", icon: "✈️", description: "Holidays, weekend trips" },
+      { name: "Gifts & Donations", icon: "🎁", description: "Presents, charity, festivals" },
+      { name: "Others", icon: "🏷️", description: "Miscellaneous family expenses" },
     ],
   },
   {
@@ -78,29 +89,27 @@ const allCategories = [
     icon: "🛡️",
     type: "expense" as const,
     subcategories: [
-      { name: "Term Insurance", icon: "📋" },
-      { name: "Health Insurance", icon: "❤️" },
-      { name: "Vehicle Insurance", icon: "🚗" },
-      { name: "Gadget Insurance", icon: "📱" },
-      { name: "Accidental / Disability Cover", icon: "🏥" },
+      { name: "Life Insurance", icon: "❤️", description: "Term, whole life policies" },
+      { name: "Health Insurance", icon: "🏥", description: "Medical, family health plans" },
+      { name: "Vehicle Insurance", icon: "🚗", description: "Car, bike insurance" },
+      { name: "Home Insurance", icon: "🏠", description: "Property, contents insurance" },
+      { name: "Others", icon: "🛡️", description: "Travel, other insurance types" },
     ],
   },
   {
     id: 5,
     name: "Investments",
     icon: "📈",
-    type: "expense" as const,
+    type: "investment" as const,
     subcategories: [
-      { name: "Mutual Funds (SIP)", icon: "📊" },
-      { name: "Mutual Funds (Lumpsum)", icon: "💹" },
-      { name: "Stocks / ETFs", icon: "📈" },
-      { name: "PPF / EPF / VPF", icon: "🏛️" },
-      { name: "NPS", icon: "👴" },
-      { name: "FD / RD", icon: "🏪" },
-      { name: "Gold", icon: "🥇" },
-      { name: "Crypto / Alternative Assets", icon: "₿" },
-      { name: "Real Estate Investment", icon: "🏘️" },
-      { name: "Children's Education Fund", icon: "🎓" },
+      { name: "Mutual Funds", icon: "📊", description: "SIP, lump sum investments" },
+      { name: "Stocks & Shares", icon: "📈", description: "Direct equity investments" },
+      { name: "Fixed Deposits", icon: "🏦", description: "Bank FDs, recurring deposits" },
+      { name: "PPF & ELSS", icon: "🎯", description: "Tax-saving investments" },
+      { name: "Real Estate", icon: "🏘️", description: "Property investments" },
+      { name: "Gold", icon: "✨", description: "Physical gold, gold ETFs" },
+      { name: "Crypto", icon: "₿", description: "Bitcoin, other cryptocurrencies" },
+      { name: "Others", icon: "💰", description: "Bonds, other investments" },
     ],
   },
   {
@@ -109,314 +118,112 @@ const allCategories = [
     icon: "💳",
     type: "expense" as const,
     subcategories: [
-      { name: "Home Loan", icon: "🏠" },
-      { name: "Car Loan", icon: "🚗" },
-      { name: "Bike Loan", icon: "🏍️" },
-      { name: "Personal Loan", icon: "💰" },
-      { name: "Credit Card Bill", icon: "💳" },
-      { name: "Consumer Durable Loan", icon: "📺" },
-    ],
-  },
-  {
-    id: 7,
-    name: "Lifestyle & Discretionary",
-    icon: "🎪",
-    type: "expense" as const,
-    subcategories: [
-      { name: "Weekend Getaways", icon: "🏔️" },
-      { name: "Vacations / Travel Abroad", icon: "✈️" },
-      { name: "Social Gatherings / Parties", icon: "🎉" },
-      { name: "Events / Concerts", icon: "🎵" },
-      { name: "Hobbies", icon: "���" },
-      { name: "Gaming / Indoor Entertainment", icon: "🎮" },
-      { name: "Luxury Purchases", icon: "💎" },
-    ],
-  },
-  {
-    id: 8,
-    name: "Savings & Emergency Funds",
-    icon: "🏦",
-    type: "expense" as const,
-    subcategories: [
-      { name: "Emergency Fund", icon: "🚨" },
-      { name: "Opportunity Fund", icon: "💡" },
-      { name: "Short-Term Goals", icon: "🎯" },
-      { name: "Child Education Lumpsum", icon: "🎓" },
-    ],
-  },
-  {
-    id: 9,
-    name: "Miscellaneous / One-Time",
-    icon: "📦",
-    type: "expense" as const,
-    subcategories: [
-      { name: "Festivals / Gifts", icon: "🎁" },
-      { name: "Charity / Donations", icon: "❤️" },
-      { name: "Home Interiors / Furnishing", icon: "🛋️" },
-      { name: "Vehicle Maintenance", icon: "🔧" },
-      { name: "Household Appliances", icon: "❄️" },
-      { name: "Memberships", icon: "🏃" },
+      { name: "Home Loan", icon: "🏠", description: "House purchase loan EMI" },
+      { name: "Car Loan", icon: "🚗", description: "Vehicle loan EMI" },
+      { name: "Personal Loan", icon: "💰", description: "Personal loan EMI" },
+      { name: "Credit Card", icon: "💳", description: "Credit card payments" },
+      { name: "Education Loan", icon: "🎓", description: "Study loan EMI" },
+      { name: "Others", icon: "💸", description: "Other loan repayments" },
     ],
   },
 ];
 
-interface Transaction {
-  id: string;
-  type: "income" | "expense";
-  mainCategory: string;
-  subCategory: string;
-  amount: number;
-  notes: string;
-  date: string;
-  time: string;
-}
-
 export function Tracker() {
-  const [currentMonth, setCurrentMonth] = useState(new Date()); // Current month
-  const [showAddDialog, setShowAddDialog] = useState(false);
   const [transactions, setTransactions] = useState<Transaction[]>([]);
-  const [budgets, setBudgets] = useState<
-    Record<string, Record<string, number>>
-  >({});
-
-  // Form states
-  const [transactionType, setTransactionType] = useState<"income" | "expense">(
-    "expense",
-  );
+  const [showAddDialog, setShowAddDialog] = useState(false);
+  const [transactionType, setTransactionType] = useState<"income" | "expense" | "transfer">("expense");
   const [selectedMainCategory, setSelectedMainCategory] = useState("");
   const [selectedSubCategory, setSelectedSubCategory] = useState("");
-  const [amount, setAmount] = useState("0");
-
-  // Calculator states
+  const [amount, setAmount] = useState("");
   const [displayValue, setDisplayValue] = useState("0");
-  const [operation, setOperation] = useState<string | null>(null);
-  const [previousValue, setPreviousValue] = useState<string | null>(null);
-  const [waitingForOperand, setWaitingForOperand] = useState(false);
+  const [currentDate, setCurrentDate] = useState("");
+  const [currentTime, setCurrentTime] = useState("");
 
-  const filteredCategories = allCategories.filter(
-    (cat) => cat.type === transactionType,
-  );
-  const selectedCategory = allCategories.find(
-    (cat) => cat.name === selectedMainCategory,
-  );
-  const subCategories = selectedCategory?.subcategories || [];
-
-  // Navigate months
-  const goToPreviousMonth = () => {
-    setCurrentMonth(
-      new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1),
-    );
-  };
-
-  const goToNextMonth = () => {
-    setCurrentMonth(
-      new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1),
-    );
-  };
-
-  // Format month display
-  const formatMonth = (date: Date) => {
-    return date.toLocaleString("default", { month: "long", year: "numeric" });
-  };
-
-  // Get current month key for filtering transactions
-  const getCurrentMonthKey = () => {
-    return `${currentMonth.getFullYear()}-${currentMonth.getMonth()}`;
-  };
-
-  // Load stored data on component mount from phone storage
+  // Load transactions from localStorage on component mount
   useEffect(() => {
-    console.log("📱 Loading data from phone storage...");
-    const storedTransactions = phoneStorage.loadTransactions();
-    const storedBudgets = phoneStorage.loadBudgets();
-
-    setTransactions(storedTransactions);
-    setBudgets(storedBudgets);
-
-    console.log(
-      `✅ Loaded ${storedTransactions.length} transactions and ${Object.keys(storedBudgets).length} budget entries from phone storage`,
-    );
+    const stored = localStorage.getItem("tracker-transactions");
+    if (stored) {
+      setTransactions(JSON.parse(stored));
+    }
   }, []);
 
-  // Save transactions to phone storage whenever transactions change
+  // Update current date and time
   useEffect(() => {
-    if (transactions.length > 0) {
-      const saved = phoneStorage.saveTransactions(transactions);
-      if (saved) {
-        console.log("💾 Transactions automatically saved to phone storage");
-      } else {
-        console.error("❌ Failed to save transactions to phone storage");
-      }
-    }
-  }, [transactions]);
+    const updateDateTime = () => {
+      const now = new Date();
+      const date = now.toLocaleDateString("en-GB", { 
+        day: "2-digit", 
+        month: "2-digit", 
+        year: "2-digit",
+        weekday: "short"
+      });
+      const time = now.toLocaleTimeString("en-US", { 
+        hour: "numeric", 
+        minute: "2-digit",
+        hour12: true 
+      });
+      
+      setCurrentDate(date);
+      setCurrentTime(time);
+    };
 
-  // Get budget for a specific subcategory and month
-  const getBudgetForSubcategory = (subcategory: string, monthKey?: string) => {
-    const targetMonth = monthKey || getCurrentMonthKey();
-    return budgets[targetMonth]?.[subcategory] || 0;
-  };
+    updateDateTime();
+    const interval = setInterval(updateDateTime, 1000);
+    
+    return () => clearInterval(interval);
+  }, []);
 
-  // Get total expenses for a subcategory in current month
-  const getExpensesForSubcategory = (subcategory: string) => {
-    return currentMonthTransactions
-      .filter((t) => t.type === "expense" && t.subCategory === subcategory)
-      .reduce((sum, t) => sum + t.amount, 0);
-  };
-
-  // Check if subcategory budget is exceeded
-  const isBudgetExceeded = (subcategory: string) => {
-    const budget = getBudgetForSubcategory(subcategory);
-    const expenses = getExpensesForSubcategory(subcategory);
-    return budget > 0 && expenses > budget;
-  };
-
-  // Get budget utilization percentage
-  const getBudgetUtilization = (subcategory: string) => {
-    const budget = getBudgetForSubcategory(subcategory);
-    const expenses = getExpensesForSubcategory(subcategory);
-    return budget > 0 ? Math.round((expenses / budget) * 100) : 0;
-  };
-
-  // Filter transactions for current month
-  const currentMonthTransactions = transactions.filter((t) => {
-    const transactionDate = new Date(t.date);
-    return (
-      transactionDate.getMonth() === currentMonth.getMonth() &&
-      transactionDate.getFullYear() === currentMonth.getFullYear()
-    );
-  });
-
-  const totalIncome = currentMonthTransactions
-    .filter((t) => t.type === "income")
-    .reduce((sum, t) => sum + t.amount, 0);
-
-  const totalExpense = currentMonthTransactions
-    .filter((t) => t.type === "expense")
-    .reduce((sum, t) => sum + t.amount, 0);
-
-  const calculate = (
-    firstOperand: string,
-    secondOperand: string,
-    operation: string,
-  ): string => {
-    const first = parseFloat(firstOperand);
-    const second = parseFloat(secondOperand);
-
-    switch (operation) {
-      case "+":
-        return String(first + second);
-      case "-":
-        return String(first - second);
-      case "*":
-        return String(first * second);
-      case "÷":
-        return second !== 0 ? String(first / second) : "Error";
-      case "%":
-        return String(first * (second / 100));
-      case "=":
-        return secondOperand;
-      default:
-        return secondOperand;
-    }
-  };
-
-  const addDecimal = () => {
-    if (waitingForOperand) {
-      setDisplayValue("0.");
-      setWaitingForOperand(false);
-    } else if (displayValue.indexOf(".") === -1) {
-      setDisplayValue(displayValue + ".");
-    }
-  };
-
-  const inputNumber = (num: string) => {
-    if (waitingForOperand) {
+  // Calculator functions
+  const handleNumberClick = (num: string) => {
+    if (displayValue === "0") {
       setDisplayValue(num);
-      setWaitingForOperand(false);
+      setAmount(num);
     } else {
-      setDisplayValue(displayValue === "0" ? num : displayValue + num);
+      const newValue = displayValue + num;
+      setDisplayValue(newValue);
+      setAmount(newValue);
     }
   };
 
-  const inputOperation = (nextOperation: string) => {
-    const inputValue = displayValue;
-
-    if (previousValue === null) {
-      setPreviousValue(inputValue);
-    } else if (operation) {
-      const currentValue = previousValue || "0";
-      const newValue = calculate(currentValue, inputValue, operation);
-
-      setDisplayValue(String(newValue));
-      setPreviousValue(String(newValue));
-    }
-
-    setWaitingForOperand(true);
-    setOperation(nextOperation);
-  };
-
-  const inputEquals = () => {
-    const inputValue = displayValue;
-
-    if (previousValue !== null && operation) {
-      const newValue = calculate(previousValue, inputValue, operation);
-      setDisplayValue(String(newValue));
-      setPreviousValue(null);
-      setOperation(null);
-      setWaitingForOperand(true);
-      setAmount(String(newValue));
-    }
-  };
-
-  const clearCalculator = () => {
+  const handleClear = () => {
     setDisplayValue("0");
-    setPreviousValue(null);
-    setOperation(null);
-    setWaitingForOperand(false);
+    setAmount("");
   };
 
-  const backspace = () => {
+  const handleBackspace = () => {
     if (displayValue.length > 1) {
-      setDisplayValue(displayValue.slice(0, -1));
+      const newValue = displayValue.slice(0, -1);
+      setDisplayValue(newValue);
+      setAmount(newValue);
     } else {
       setDisplayValue("0");
+      setAmount("");
     }
   };
 
-  const handleSave = () => {
-    if (
-      !selectedMainCategory ||
-      !selectedSubCategory ||
-      parseFloat(displayValue) <= 0
-    ) {
-      return;
+  const handleDecimal = () => {
+    if (!displayValue.includes(".")) {
+      const newValue = displayValue + ".";
+      setDisplayValue(newValue);
+      setAmount(newValue);
     }
+  };
 
-    const amount = parseFloat(displayValue);
+  // Get filtered categories based on transaction type
+  const filteredCategories = allCategories.filter(
+    (cat) => cat.type === transactionType
+  );
 
-    // Check budget before saving (only for expenses)
-    if (transactionType === "expense") {
-      const currentExpenses = getExpensesForSubcategory(selectedSubCategory);
-      const budget = getBudgetForSubcategory(selectedSubCategory);
-      const newTotal = currentExpenses + amount;
+  // Get subcategories for selected main category
+  const subCategories =
+    filteredCategories.find((cat) => cat.name === selectedMainCategory)
+      ?.subcategories || [];
 
-      if (budget > 0 && newTotal > budget) {
-        const exceededAmount = newTotal - budget;
-        const confirmed = window.confirm(
-          `⚠️ Budget Alert!\n\n` +
-            `Category: ${selectedSubCategory}\n` +
-            `Budget: ₹${budget.toLocaleString()}\n` +
-            `Current Spent: ₹${currentExpenses.toLocaleString()}\n` +
-            `New Entry: ₹${amount.toLocaleString()}\n` +
-            `Total: ₹${newTotal.toLocaleString()}\n\n` +
-            `This will exceed your budget by ₹${exceededAmount.toLocaleString()}!\n\n` +
-            `Do you want to continue?`,
-        );
-
-        if (!confirmed) {
-          return; // Don't save if user cancels
-        }
-      }
+  // Save transaction
+  const handleSave = () => {
+    if (!selectedMainCategory || !selectedSubCategory || !amount) {
+      alert("Please fill all required fields");
+      return;
     }
 
     const newTransaction: Transaction = {
@@ -424,399 +231,95 @@ export function Tracker() {
       type: transactionType,
       mainCategory: selectedMainCategory,
       subCategory: selectedSubCategory,
-      amount: amount,
-      notes: "",
-      date: new Date().toLocaleDateString("en-GB", {
-        day: "2-digit",
-        month: "short",
-        year: "numeric",
-      }),
-      time: new Date().toLocaleTimeString("en-US", {
-        hour: "2-digit",
-        minute: "2-digit",
-        hour12: true,
-      }),
+      amount: parseFloat(amount),
+      date: currentDate,
+      time: currentTime,
     };
 
-    setTransactions([...transactions, newTransaction]);
+    const updatedTransactions = [newTransaction, ...transactions];
+    setTransactions(updatedTransactions);
+    localStorage.setItem("tracker-transactions", JSON.stringify(updatedTransactions));
 
-    // Show brief success message
-    console.log("✅ Transaction added and saved to phone storage");
-
-    handleCancel();
-  };
-
-  const handleCancel = () => {
-    setShowAddDialog(false);
+    // Reset form
     setTransactionType("expense");
     setSelectedMainCategory("");
     setSelectedSubCategory("");
-    clearCalculator();
+    setDisplayValue("0");
+    setAmount("");
+    setShowAddDialog(false);
   };
+
+  // Calculate totals
+  const totalIncome = transactions
+    .filter((t) => t.type === "income")
+    .reduce((sum, t) => sum + t.amount, 0);
+
+  const totalExpense = transactions
+    .filter((t) => t.type === "expense")
+    .reduce((sum, t) => sum + t.amount, 0);
+
+  const balance = totalIncome - totalExpense;
 
   return (
     <Layout>
-      <div className="space-y-6 py-4">
-        {/* Month Navigation */}
-        <div className="flex items-center justify-between">
-          <Button variant="ghost" size="icon" onClick={goToPreviousMonth}>
-            <ChevronLeft className="h-5 w-5" />
-          </Button>
-          <h2 className="text-lg font-semibold">{formatMonth(currentMonth)}</h2>
-          <Button variant="ghost" size="icon" onClick={goToNextMonth}>
-            <ChevronRight className="h-5 w-5" />
-          </Button>
+      <div className="space-y-6 py-4 pb-20">
+        {/* Summary Cards */}
+        <div className="grid grid-cols-3 gap-3">
+          <Card className="p-4 text-center">
+            <div className="text-sm text-muted-foreground">Income</div>
+            <div className="text-lg font-bold text-green-500">
+              ₹{totalIncome.toLocaleString()}
+            </div>
+          </Card>
+          <Card className="p-4 text-center">
+            <div className="text-sm text-muted-foreground">Expense</div>
+            <div className="text-lg font-bold text-red-500">
+              ₹{totalExpense.toLocaleString()}
+            </div>
+          </Card>
+          <Card className="p-4 text-center">
+            <div className="text-sm text-muted-foreground">Balance</div>
+            <div className={`text-lg font-bold ${balance >= 0 ? 'text-green-500' : 'text-red-500'}`}>
+              ₹{balance.toLocaleString()}
+            </div>
+          </Card>
         </div>
-
-        {/* Financial Summary */}
-        <Card className="p-6">
-          <div className="grid grid-cols-3 gap-4 text-center">
-            <div>
-              <div className="text-sm text-muted-foreground">INCOME</div>
-              <div className="text-lg font-bold amount-income">
-                ₹{totalIncome.toLocaleString()}
-              </div>
-            </div>
-            <div>
-              <div className="text-sm text-muted-foreground">EXPENSE</div>
-              <div className="text-lg font-bold amount-expense">
-                ₹{totalExpense.toLocaleString()}
-              </div>
-            </div>
-            <div>
-              <div className="text-sm text-muted-foreground">BALANCE</div>
-              <div
-                className={`text-lg font-bold ${totalIncome - totalExpense >= 0 ? "amount-income" : "amount-expense"}`}
-              >
-                ₹{(totalIncome - totalExpense).toLocaleString()}
-              </div>
-            </div>
-          </div>
-
-          {/* Budget Alerts */}
-          {(() => {
-            const exceededCategories = allCategories
-              .filter((cat) => cat.type === "expense")
-              .flatMap((cat) => cat.subcategories)
-              .filter((sub) => isBudgetExceeded(sub.name));
-
-            if (exceededCategories.length > 0) {
-              return (
-                <div className="mt-4 p-3 bg-red-500/10 border border-red-500/20 rounded-lg">
-                  <div className="text-sm font-medium text-red-400 mb-2">
-                    ⚠️ Budget Exceeded ({exceededCategories.length} categories)
-                  </div>
-                  <div className="text-xs text-red-300 space-y-1">
-                    {exceededCategories.slice(0, 3).map((sub) => (
-                      <div key={sub.name}>
-                        {sub.name}: {getBudgetUtilization(sub.name)}% used
-                      </div>
-                    ))}
-                    {exceededCategories.length > 3 && (
-                      <div>...and {exceededCategories.length - 3} more</div>
-                    )}
-                  </div>
-                </div>
-              );
-            }
-            return null;
-          })()}
-        </Card>
 
         {/* Recent Transactions */}
         <div>
-          <h3 className="text-lg font-semibold section-header mb-4">
-            Recent Transactions
-          </h3>
+          <h3 className="text-lg font-semibold mb-4">Recent Transactions</h3>
           <div className="space-y-3">
-            {currentMonthTransactions.length === 0 ? (
-              <Card className="p-6 text-center text-muted-foreground">
-                No transactions for {formatMonth(currentMonth)}. Click the +
-                button to add your first transaction.
+            {transactions.slice(0, 10).map((transaction) => (
+              <Card key={transaction.id} className="p-4">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className={`w-2 h-12 rounded-full ${
+                      transaction.type === "income" ? "bg-green-500" : 
+                      transaction.type === "investment" ? "bg-blue-500" : "bg-red-500"
+                    }`}></div>
+                    <div>
+                      <div className="font-medium">{transaction.subCategory}</div>
+                      <div className="text-sm text-muted-foreground">
+                        {transaction.mainCategory}
+                      </div>
+                      <div className="text-xs text-muted-foreground">
+                        {transaction.date} • {transaction.time}
+                      </div>
+                    </div>
+                  </div>
+                  <div className={`font-bold text-lg ${
+                    transaction.type === "income" ? "text-green-500" : 
+                    transaction.type === "investment" ? "text-blue-500" : "text-red-500"
+                  }`}>
+                    {transaction.type === "income" ? "+" : "-"}₹{transaction.amount.toLocaleString()}
+                  </div>
+                </div>
               </Card>
-            ) : (
-              currentMonthTransactions
-                .slice(-5)
-                .reverse()
-                .map((transaction) => (
-                  <TransactionItem
-                    key={transaction.id}
-                    transaction={transaction}
-                  />
-                ))
-            )}
+            ))}
           </div>
         </div>
 
-        {/* Add Transaction Dialog */}
-        <Dialog open={showAddDialog} onOpenChange={setShowAddDialog}>
-          <DialogContent className="max-w-sm mx-auto bg-card border-2 border-primary/20">
-            <DialogHeader>
-              <DialogTitle className="sr-only">Add Transaction</DialogTitle>
-            </DialogHeader>
-            <div className="space-y-2 pt-2">
-              {/* Income/Expense Toggle - Full Width Split */}
-              <div className="grid grid-cols-2 gap-0 rounded-lg overflow-hidden border">
-                <Button
-                  variant={transactionType === "income" ? "default" : "ghost"}
-                  onClick={() => {
-                    setTransactionType("income");
-                    setSelectedMainCategory("");
-                    setSelectedSubCategory("");
-                  }}
-                  className={`h-10 text-sm font-semibold rounded-none ${
-                    transactionType === "income"
-                      ? "bg-green-600 hover:bg-green-700 text-white"
-                      : "bg-muted hover:bg-muted/80"
-                  }`}
-                >
-                  💰 INCOME
-                </Button>
-                <Button
-                  variant={transactionType === "expense" ? "default" : "ghost"}
-                  onClick={() => {
-                    setTransactionType("expense");
-                    setSelectedMainCategory("");
-                    setSelectedSubCategory("");
-                  }}
-                  className={`h-10 text-sm font-semibold rounded-none ${
-                    transactionType === "expense"
-                      ? "bg-red-600 hover:bg-red-700 text-white"
-                      : "bg-muted hover:bg-muted/80"
-                  }`}
-                >
-                  💸 EXPENSE
-                </Button>
-              </div>
-
-              {/* Category Selection */}
-              <div className="space-y-2">
-                {/* Main Category Dropdown */}
-                <Select
-                  value={selectedMainCategory}
-                  onValueChange={(value) => {
-                    setSelectedMainCategory(value);
-                    setSelectedSubCategory("");
-                  }}
-                >
-                  <SelectTrigger className="bg-muted h-10 text-sm text-left w-full">
-                    <SelectValue placeholder="🏷️ Select main category..." />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {filteredCategories.map((category) => (
-                      <SelectItem key={category.id} value={category.name}>
-                        {category.icon} {category.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-
-                {/* Sub Category Dropdown */}
-                <Select
-                  value={selectedSubCategory}
-                  onValueChange={setSelectedSubCategory}
-                  disabled={!selectedMainCategory}
-                >
-                  <SelectTrigger className="bg-muted h-10 text-sm text-left w-full">
-                    <SelectValue placeholder="📂 Select sub category..." />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {subCategories.map((sub, index) => (
-                      <SelectItem key={index} value={sub.name}>
-                        {sub.icon} {sub.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              {/* Amount Display - More Prominent */}
-              <div className="bg-gradient-to-r from-muted to-muted/50 rounded-xl p-2 border-2 border-primary/20">
-                <div className="text-center">
-                  <div className="text-xs text-muted-foreground mb-1">
-                    Amount
-                  </div>
-                  <div
-                    className={`text-2xl font-bold font-mono ${
-                      transactionType === "income"
-                        ? "amount-income"
-                        : "amount-expense"
-                    }`}
-                  >
-                    ₹{displayValue}
-                  </div>
-                </div>
-              </div>
-
-              {/* Calculator - Standard 4x4 Layout */}
-              <div className="bg-black/20 p-1 rounded-xl">
-                <div className="grid grid-cols-4 gap-1">
-                  {/* Row 1: C, ⌫, %, ÷ */}
-                  <Button
-                    variant="ghost"
-                    onClick={clearCalculator}
-                    className="h-10 text-base font-medium bg-gray-600 hover:bg-gray-500 text-orange-400 rounded-3xl border-0"
-                  >
-                    C
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    onClick={backspace}
-                    className="h-10 text-lg font-medium bg-gray-600 hover:bg-gray-500 text-orange-400 rounded-3xl border-0"
-                  >
-                    ⌫
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    onClick={() => inputOperation("%")}
-                    className="h-10 text-lg font-medium bg-gray-600 hover:bg-gray-500 text-orange-400 rounded-3xl border-0"
-                  >
-                    %
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    onClick={() => inputOperation("÷")}
-                    className="h-10 text-lg font-medium bg-gray-600 hover:bg-gray-500 text-orange-400 rounded-3xl border-0"
-                  >
-                    ÷
-                  </Button>
-
-                  {/* Row 2: 7, 8, 9, × */}
-                  <Button
-                    variant="ghost"
-                    onClick={() => inputNumber("7")}
-                    className="h-10 text-lg font-medium bg-gray-800 hover:bg-gray-700 text-white rounded-3xl border-0"
-                  >
-                    7
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    onClick={() => inputNumber("8")}
-                    className="h-10 text-lg font-medium bg-gray-800 hover:bg-gray-700 text-white rounded-3xl border-0"
-                  >
-                    8
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    onClick={() => inputNumber("9")}
-                    className="h-10 text-lg font-medium bg-gray-800 hover:bg-gray-700 text-white rounded-3xl border-0"
-                  >
-                    9
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    onClick={() => inputOperation("*")}
-                    className="h-10 text-lg font-medium bg-gray-600 hover:bg-gray-500 text-orange-400 rounded-3xl border-0"
-                  >
-                    ×
-                  </Button>
-
-                  {/* Row 3: 4, 5, 6, - */}
-                  <Button
-                    variant="ghost"
-                    onClick={() => inputNumber("4")}
-                    className="h-10 text-lg font-medium bg-gray-800 hover:bg-gray-700 text-white rounded-3xl border-0"
-                  >
-                    4
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    onClick={() => inputNumber("5")}
-                    className="h-10 text-lg font-medium bg-gray-800 hover:bg-gray-700 text-white rounded-3xl border-0"
-                  >
-                    5
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    onClick={() => inputNumber("6")}
-                    className="h-10 text-lg font-medium bg-gray-800 hover:bg-gray-700 text-white rounded-3xl border-0"
-                  >
-                    6
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    onClick={() => inputOperation("-")}
-                    className="h-10 text-lg font-medium bg-gray-600 hover:bg-gray-500 text-orange-400 rounded-3xl border-0"
-                  >
-                    -
-                  </Button>
-
-                  {/* Row 4: 1, 2, 3, + */}
-                  <Button
-                    variant="ghost"
-                    onClick={() => inputNumber("1")}
-                    className="h-10 text-lg font-medium bg-gray-800 hover:bg-gray-700 text-white rounded-3xl border-0"
-                  >
-                    1
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    onClick={() => inputNumber("2")}
-                    className="h-10 text-lg font-medium bg-gray-800 hover:bg-gray-700 text-white rounded-3xl border-0"
-                  >
-                    2
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    onClick={() => inputNumber("3")}
-                    className="h-10 text-lg font-medium bg-gray-800 hover:bg-gray-700 text-white rounded-3xl border-0"
-                  >
-                    3
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    onClick={() => inputOperation("+")}
-                    className="h-10 text-lg font-medium bg-gray-600 hover:bg-gray-500 text-orange-400 rounded-3xl border-0"
-                  >
-                    +
-                  </Button>
-
-                  {/* Row 5: Save, 0, ., = */}
-                  <Button
-                    variant="ghost"
-                    onClick={handleSave}
-                    className="h-10 text-sm font-medium bg-green-600 hover:bg-green-500 text-white rounded-3xl border-0"
-                  >
-                    Save
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    onClick={() => inputNumber("0")}
-                    className="h-10 text-lg font-medium bg-gray-800 hover:bg-gray-700 text-white rounded-3xl border-0"
-                  >
-                    0
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    onClick={addDecimal}
-                    className="h-10 text-lg font-medium bg-gray-800 hover:bg-gray-700 text-white rounded-3xl border-0"
-                  >
-                    .
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    onClick={inputEquals}
-                    className="h-10 text-lg font-medium bg-orange-500 hover:bg-orange-400 text-white rounded-3xl border-0"
-                  >
-                    =
-                  </Button>
-                </div>
-              </div>
-
-              {/* Date/Time */}
-              <div className="text-center text-xs font-medium text-muted-foreground border-t border-border pt-1 mt-2">
-                📅 {formatMonth(currentMonth)} • 🕐{" "}
-                {new Date().toLocaleTimeString("en-US", {
-                  hour: "2-digit",
-                  minute: "2-digit",
-                  hour12: true,
-                })}
-              </div>
-            </div>
-          </DialogContent>
-        </Dialog>
-
-        {/* Floating Add Button */}
+        {/* Add Transaction Button */}
         <Button
           size="icon"
           className="fixed bottom-24 right-6 h-14 w-14 rounded-full shadow-lg"
@@ -824,54 +327,193 @@ export function Tracker() {
         >
           <Plus className="h-6 w-6" />
         </Button>
+
+        {/* Add Transaction Dialog */}
+        <Dialog open={showAddDialog} onOpenChange={setShowAddDialog}>
+          <DialogContent className="w-full h-full max-w-none max-h-none m-0 rounded-none border-0 bg-background">
+            <div className="flex flex-col h-full">
+              {/* Header */}
+              <div className="flex items-center justify-between p-4 border-b">
+                <Button variant="ghost" size="icon" onClick={() => setShowAddDialog(false)}>
+                  <ArrowLeft className="h-6 w-6" />
+                </Button>
+                <h2 className="text-xl font-semibold">
+                  {transactionType === "income" ? "Income" : 
+                   transactionType === "transfer" ? "Transfer" : "Expense"}
+                </h2>
+                <div></div>
+              </div>
+
+              <div className="flex-1 flex flex-col">
+                {/* Type Selection Tabs */}
+                <div className="grid grid-cols-3 gap-0 m-4 rounded-lg overflow-hidden border">
+                  <Button
+                    variant={transactionType === "income" ? "default" : "ghost"}
+                    onClick={() => {
+                      setTransactionType("income");
+                      setSelectedMainCategory("");
+                      setSelectedSubCategory("");
+                    }}
+                    className={`h-12 text-sm font-semibold rounded-none ${
+                      transactionType === "income"
+                        ? "bg-background text-foreground border border-border"
+                        : "bg-muted text-muted-foreground"
+                    }`}
+                  >
+                    Income
+                  </Button>
+                  <Button
+                    variant={transactionType === "expense" ? "default" : "ghost"}
+                    onClick={() => {
+                      setTransactionType("expense");
+                      setSelectedMainCategory("");
+                      setSelectedSubCategory("");
+                    }}
+                    className={`h-12 text-sm font-semibold rounded-none border-x ${
+                      transactionType === "expense"
+                        ? "bg-red-500 text-white border-red-600"
+                        : "bg-muted text-muted-foreground border-border"
+                    }`}
+                  >
+                    Expense
+                  </Button>
+                  <Button
+                    variant={transactionType === "transfer" ? "default" : "ghost"}
+                    onClick={() => {
+                      setTransactionType("transfer");
+                      setSelectedMainCategory("");
+                      setSelectedSubCategory("");
+                    }}
+                    className={`h-12 text-sm font-semibold rounded-none ${
+                      transactionType === "transfer"
+                        ? "bg-background text-foreground border border-border"
+                        : "bg-muted text-muted-foreground"
+                    }`}
+                  >
+                    Transfer
+                  </Button>
+                </div>
+
+                {/* Form Fields */}
+                <div className="px-4 space-y-6 flex-1">
+                  {/* Date and Time */}
+                  <div className="space-y-2">
+                    <label className="text-base text-muted-foreground">Date</label>
+                    <div className="flex items-center justify-between">
+                      <span className="text-lg">{currentDate}</span>
+                      <span className="text-lg">{currentTime}</span>
+                    </div>
+                  </div>
+
+                  {/* Amount */}
+                  <div className="space-y-2">
+                    <label className="text-base text-muted-foreground">Amount</label>
+                    <div className="text-3xl font-bold">₹ {displayValue}</div>
+                    <div className="h-px bg-red-500"></div>
+                  </div>
+
+                  {/* Category */}
+                  <div className="space-y-2">
+                    <label className="text-base text-muted-foreground">Category</label>
+                    <div className="space-y-3">
+                      <Select
+                        value={selectedMainCategory}
+                        onValueChange={(value) => {
+                          setSelectedMainCategory(value);
+                          setSelectedSubCategory("");
+                        }}
+                      >
+                        <SelectTrigger className="h-12 text-base border-0 border-b border-muted-foreground rounded-none bg-transparent">
+                          <SelectValue placeholder="Select main category" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {filteredCategories.map((category) => (
+                            <SelectItem key={category.id} value={category.name}>
+                              {category.icon} {category.name}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+
+                      {selectedMainCategory && (
+                        <Select
+                          value={selectedSubCategory}
+                          onValueChange={setSelectedSubCategory}
+                        >
+                          <SelectTrigger className="h-12 text-base border-0 border-b border-muted-foreground rounded-none bg-transparent">
+                            <SelectValue placeholder="Select sub category" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {subCategories.map((sub, index) => (
+                              <SelectItem key={index} value={sub.name}>
+                                {sub.icon} {sub.name}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      )}
+                    </div>
+                    <div className="h-px bg-red-500"></div>
+                  </div>
+                </div>
+
+                {/* Action Buttons */}
+                <div className="p-4 grid grid-cols-2 gap-4">
+                  <Button 
+                    onClick={handleSave} 
+                    className="h-12 bg-red-500 hover:bg-red-600 text-white rounded-lg"
+                    disabled={!selectedMainCategory || !selectedSubCategory || !amount}
+                  >
+                    Save
+                  </Button>
+                  <Button 
+                    variant="outline" 
+                    className="h-12 rounded-lg"
+                    onClick={() => setShowAddDialog(false)}
+                  >
+                    Continue
+                  </Button>
+                </div>
+
+                {/* Calculator Keypad */}
+                <div className="p-4 bg-muted/30">
+                  <div className="grid grid-cols-4 gap-2">
+                    <Button onClick={() => handleNumberClick("1")} variant="ghost" className="h-12 text-lg">1</Button>
+                    <Button onClick={() => handleNumberClick("2")} variant="ghost" className="h-12 text-lg">2</Button>
+                    <Button onClick={() => handleNumberClick("3")} variant="ghost" className="h-12 text-lg">3</Button>
+                    <Button onClick={handleBackspace} variant="ghost" className="h-12">
+                      <X className="h-5 w-5" />
+                    </Button>
+                    
+                    <Button onClick={() => handleNumberClick("4")} variant="ghost" className="h-12 text-lg">4</Button>
+                    <Button onClick={() => handleNumberClick("5")} variant="ghost" className="h-12 text-lg">5</Button>
+                    <Button onClick={() => handleNumberClick("6")} variant="ghost" className="h-12 text-lg">6</Button>
+                    <Button onClick={handleClear} variant="ghost" className="h-12 text-lg">-</Button>
+                    
+                    <Button onClick={() => handleNumberClick("7")} variant="ghost" className="h-12 text-lg">7</Button>
+                    <Button onClick={() => handleNumberClick("8")} variant="ghost" className="h-12 text-lg">8</Button>
+                    <Button onClick={() => handleNumberClick("9")} variant="ghost" className="h-12 text-lg">9</Button>
+                    <Button onClick={handleClear} variant="ghost" className="h-12">
+                      <Calculator className="h-5 w-5" />
+                    </Button>
+                    
+                    <div></div>
+                    <Button onClick={() => handleNumberClick("0")} variant="ghost" className="h-12 text-lg">0</Button>
+                    <Button onClick={handleDecimal} variant="ghost" className="h-12 text-lg">.</Button>
+                    <Button 
+                      onClick={handleSave} 
+                      className="h-12 bg-red-500 hover:bg-red-600 text-white"
+                      disabled={!selectedMainCategory || !selectedSubCategory || !amount}
+                    >
+                      Done
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </DialogContent>
+        </Dialog>
       </div>
     </Layout>
-  );
-}
-
-interface TransactionItemProps {
-  transaction: Transaction;
-}
-
-function TransactionItem({ transaction }: TransactionItemProps) {
-  const category = allCategories.find(
-    (cat) => cat.name === transaction.mainCategory,
-  );
-  const subCategory = category?.subcategories.find(
-    (sub) => sub.name === transaction.subCategory,
-  );
-
-  return (
-    <Card className="p-4">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-primary/20 rounded-full flex items-center justify-center text-lg">
-            {subCategory?.icon || category?.icon || "💰"}
-          </div>
-          <div>
-            <div className="font-medium">{transaction.subCategory}</div>
-            <div className="text-sm text-muted-foreground">
-              {transaction.mainCategory}
-            </div>
-            {transaction.notes && (
-              <div className="text-xs text-muted-foreground">
-                {transaction.notes}
-              </div>
-            )}
-            <div className="text-xs text-muted-foreground">
-              {transaction.date} • {transaction.time}
-            </div>
-          </div>
-        </div>
-        <div className="text-right">
-          <div
-            className={`font-semibold ${transaction.type === "income" ? "amount-income" : "amount-expense"}`}
-          >
-            {transaction.type === "income" ? "+" : "-"}₹
-            {transaction.amount.toLocaleString()}
-          </div>
-        </div>
-      </div>
-    </Card>
   );
 }
