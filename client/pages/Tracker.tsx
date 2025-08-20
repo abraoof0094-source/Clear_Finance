@@ -752,7 +752,9 @@ export function Tracker() {
                           <span className="text-sm">{selectedMainCategory}/{selectedSubCategory}</span>
                         </div>
                       ) : (
-                        <div className="h-4"></div>
+                        <div className="h-8 flex items-center text-muted-foreground text-sm">
+                          Tap to select category
+                        </div>
                       )}
                     </div>
                   </div>
