@@ -936,7 +936,7 @@ function SubcategoryItem({
             </div>
           </div>
         </div>
-        <div className="relative submenu-container">
+        <div className="relative submenu-container z-[9999]">
           <Button
             variant="ghost"
             size="sm"
@@ -945,7 +945,11 @@ function SubcategoryItem({
             <span className="text-muted-foreground">⋯</span>
           </Button>
           {showMenu && (
-            <div className="absolute right-0 top-full mt-1 bg-card border border-border rounded-md shadow-lg z-[100] py-1 min-w-[140px]">
+            <div className="fixed bg-card border border-border rounded-md shadow-xl z-[9999] py-1 min-w-[140px]"
+                 style={{
+                   top: '50px',
+                   right: '20px'
+                 }}>
               <button
                 className="w-full text-left px-3 py-2 hover:bg-muted text-sm flex items-center gap-2"
                 onClick={() => {
