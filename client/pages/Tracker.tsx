@@ -331,7 +331,7 @@ export function Tracker() {
       setCurrentOperand(num);
       setWaitingForOperand(false);
     } else {
-      const newValue = displayValue === "0" ? num : displayValue + num;
+      const newValue = displayValue === "0" ? (num === "00" ? "0" : num) : displayValue + num;
       setDisplayValue(newValue);
       setCurrentOperand(newValue);
     }
