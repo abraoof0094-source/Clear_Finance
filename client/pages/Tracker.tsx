@@ -227,7 +227,7 @@ const allCategories = [
       { name: "PPF & ELSS", icon: "🎯", description: "Tax-saving investments" },
       {
         name: "Real Estate",
-        icon: "������️",
+        icon: "����️",
         description: "Property investments",
       },
       { name: "Gold", icon: "✨", description: "Physical gold, gold ETFs" },
@@ -246,7 +246,7 @@ const allCategories = [
     type: "expense" as const,
     subcategories: [
       { name: "Home Loan", icon: "🏠", description: "House purchase loan EMI" },
-      { name: "Car Loan", icon: "🚗", description: "Vehicle loan EMI" },
+      { name: "Car Loan", icon: "����", description: "Vehicle loan EMI" },
       { name: "Personal Loan", icon: "💰", description: "Personal loan EMI" },
       { name: "Credit Card", icon: "💳", description: "Credit card payments" },
       { name: "Education Loan", icon: "🎓", description: "Study loan EMI" },
@@ -267,6 +267,7 @@ export function Tracker() {
   const [displayValue, setDisplayValue] = useState("0");
   const [currentDate, setCurrentDate] = useState("");
   const [currentTime, setCurrentTime] = useState("");
+  const [showCalculator, setShowCalculator] = useState(false);
 
   // Load transactions from localStorage on component mount
   useEffect(() => {
