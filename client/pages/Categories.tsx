@@ -921,6 +921,9 @@ interface ExpandableCategoryItemProps {
   onAddSubcategory: () => void;
   onEditSubcategory: (subcategory: any) => void;
   onDeleteSubcategory: (subcategory: any) => void;
+  onSetBudget: (subcategoryName: string) => void;
+  onRemoveBudget: (subcategoryName: string) => void;
+  getBudget: (subcategoryName: string) => number;
 }
 
 function ExpandableCategoryItem({
