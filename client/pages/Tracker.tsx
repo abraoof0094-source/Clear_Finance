@@ -544,14 +544,6 @@ export function Tracker() {
                 <div className="p-4 pb-24 bg-muted/30 border-t">
                   <div className="flex justify-between items-center mb-3">
                     <span className="text-sm text-muted-foreground">Amount</span>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => setShowKeypad(false)}
-                      className="h-8 w-8 p-0"
-                    >
-                      <X className="h-4 w-4" />
-                    </Button>
                   </div>
                   <div className="grid grid-cols-4 gap-2">
                     <Button onClick={() => handleNumberClick("1")} variant="ghost" className="h-12 text-lg">1</Button>
