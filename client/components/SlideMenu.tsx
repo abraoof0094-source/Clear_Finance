@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Button } from "./ui/button";
 import { Switch } from "./ui/switch";
+import { Badge } from "./ui/badge";
 import {
   Settings as SettingsIcon,
   Download,
@@ -13,6 +14,8 @@ import {
   Sun,
   X,
   ChevronRight,
+  User,
+  Palette,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
@@ -99,124 +102,221 @@ export function SlideMenu({ isOpen, onClose }: SlideMenuProps) {
     <>
       {/* Backdrop */}
       <div
-        className="fixed inset-0 bg-black/50 z-40 transition-opacity duration-300"
+        className="fixed inset-0 bg-black/60 z-40 transition-opacity duration-300 backdrop-blur-sm"
         onClick={onClose}
       />
 
       {/* Slide Menu */}
       <div
         ref={menuRef}
-        className="fixed top-0 left-0 h-full w-1/2 bg-background border-r border-border z-50 transform transition-transform duration-300 ease-out overflow-y-auto"
+        className="fixed top-0 left-0 h-full w-80 bg-background/95 backdrop-blur-xl border-r border-border/50 z-50 transform transition-all duration-300 ease-out shadow-2xl"
         style={{
           transform: isOpen ? "translateX(0)" : "translateX(-100%)",
         }}
       >
         {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b border-border">
-          <Button variant="ghost" size="icon" onClick={onClose}>
-            <X className="h-5 w-5" />
-          </Button>
-          <div className="text-right">
-            <h1 className="text-xl font-bold text-primary">Clear Finance</h1>
-            <p className="text-sm text-muted-foreground">5.8-free</p>
+        <div className="relative bg-gradient-to-r from-primary/10 to-primary/5 backdrop-blur-sm">
+          <div className="flex items-center justify-between p-6 pb-4">
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              onClick={onClose}
+              className="hover:bg-primary/10 rounded-full transition-colors"
+            >
+              <X className="h-5 w-5" />
+            </Button>
+            <div className="text-right">
+              <h1 className="text-xl font-bold bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
+                Clear Finance
+              </h1>
+              <div className="flex items-center gap-2 justify-end mt-1">
+                <Badge variant="secondary" className="text-xs font-medium">
+                  v5.8
+                </Badge>
+                <Badge variant="outline" className="text-xs border-green-500/20 text-green-400">
+                  Free
+                </Badge>
+              </div>
+            </div>
+          </div>
+          
+          {/* User Section */}
+          <div className="px-6 pb-6">
+            <div className="flex items-center gap-3 p-3 rounded-xl bg-card/50 border border-border/50">
+              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center">
+                <User className="h-5 w-5 text-primary" />
+              </div>
+              <div className="flex-1">
+                <p className="font-medium text-sm">Personal Account</p>
+                <p className="text-xs text-muted-foreground">Free Plan</p>
+              </div>
+            </div>
           </div>
         </div>
 
         {/* Menu Content */}
-        <div className="p-4 space-y-6">
-          {/* Preferences Section */}
+        <div className="px-6 py-2 space-y-6 overflow-y-auto h-full pb-32">
+          {/* Quick Actions */}
           <div>
-            <div className="rounded-lg border bg-card p-1">
+            <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3 px-2">
+              Quick Actions
+            </h3>
+            <div className="space-y-1">
               <Button
                 variant="ghost"
-                className="w-full justify-between p-4 h-auto"
+                className="w-full justify-start h-12 px-4 rounded-xl hover:bg-primary/5 group transition-all duration-200"
                 onClick={() => {
                   navigate("/preferences");
                   onClose();
                 }}
               >
-                <div className="flex items-center gap-3">
-                  <SettingsIcon className="h-5 w-5 text-muted-foreground" />
+                <div className="flex items-center gap-4 w-full">
+                  <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center group-hover:bg-primary/15 transition-colors">
+                    <SettingsIcon className="h-4 w-4 text-primary" />
+                  </div>
                   <span className="font-medium">Preferences</span>
+                  <ChevronRight className="h-4 w-4 text-muted-foreground ml-auto group-hover:translate-x-1 transition-transform" />
                 </div>
-                <ChevronRight className="h-4 w-4 text-muted-foreground" />
               </Button>
             </div>
           </div>
 
-          {/* Management Section */}
+          {/* Data Management */}
           <div>
-            <h3 className="text-sm font-medium text-muted-foreground mb-3 px-1">
-              Management
+            <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3 px-2">
+              Data Management
             </h3>
-            <div className="rounded-lg border bg-card p-1">
-              <div className="space-y-1">
-                <Button
-                  variant="ghost"
-                  className="w-full justify-start p-3 h-auto"
-                  onClick={() => {
-                    navigate("/export-records");
-                    onClose();
-                  }}
-                >
-                  <Download className="h-5 w-5 mr-3 text-muted-foreground" />
-                  <span>Export records</span>
-                </Button>
+            <div className="space-y-1">
+              <Button
+                variant="ghost"
+                className="w-full justify-start h-12 px-4 rounded-xl hover:bg-blue-500/5 group transition-all duration-200"
+                onClick={() => {
+                  navigate("/export-records");
+                  onClose();
+                }}
+              >
+                <div className="flex items-center gap-4 w-full">
+                  <div className="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center group-hover:bg-blue-500/15 transition-colors">
+                    <Download className="h-4 w-4 text-blue-500" />
+                  </div>
+                  <div className="flex-1 text-left">
+                    <p className="font-medium">Export Records</p>
+                    <p className="text-xs text-muted-foreground">Download as CSV</p>
+                  </div>
+                </div>
+              </Button>
 
-                <Button
-                  variant="ghost"
-                  className="w-full justify-start p-3 h-auto"
-                  onClick={() => {
-                    navigate("/backup-restore");
-                    onClose();
-                  }}
-                >
-                  <Database className="h-5 w-5 mr-3 text-muted-foreground" />
-                  <span>Backup & Restore</span>
-                </Button>
+              <Button
+                variant="ghost"
+                className="w-full justify-start h-12 px-4 rounded-xl hover:bg-green-500/5 group transition-all duration-200"
+                onClick={() => {
+                  navigate("/backup-restore");
+                  onClose();
+                }}
+              >
+                <div className="flex items-center gap-4 w-full">
+                  <div className="w-8 h-8 rounded-lg bg-green-500/10 flex items-center justify-center group-hover:bg-green-500/15 transition-colors">
+                    <Database className="h-4 w-4 text-green-500" />
+                  </div>
+                  <div className="flex-1 text-left">
+                    <p className="font-medium">Backup & Restore</p>
+                    <p className="text-xs text-muted-foreground">Secure data backup</p>
+                  </div>
+                </div>
+              </Button>
 
-                <Button
-                  variant="ghost"
-                  className="w-full justify-start p-3 h-auto"
-                >
-                  <Trash2 className="h-5 w-5 mr-3 text-muted-foreground" />
-                  <span>Delete & Reset</span>
-                </Button>
+              <Button
+                variant="ghost"
+                className="w-full justify-start h-12 px-4 rounded-xl hover:bg-red-500/5 group transition-all duration-200"
+              >
+                <div className="flex items-center gap-4 w-full">
+                  <div className="w-8 h-8 rounded-lg bg-red-500/10 flex items-center justify-center group-hover:bg-red-500/15 transition-colors">
+                    <Trash2 className="h-4 w-4 text-red-500" />
+                  </div>
+                  <div className="flex-1 text-left">
+                    <p className="font-medium">Delete & Reset</p>
+                    <p className="text-xs text-muted-foreground">Clear all data</p>
+                  </div>
+                </div>
+              </Button>
+            </div>
+          </div>
+
+          {/* Theme Toggle */}
+          <div>
+            <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3 px-2">
+              Appearance
+            </h3>
+            <div className="space-y-1">
+              <div className="flex items-center justify-between p-4 rounded-xl bg-card/50 border border-border/50">
+                <div className="flex items-center gap-4">
+                  <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-amber-500/20 to-amber-500/10 flex items-center justify-center">
+                    <Palette className="h-4 w-4 text-amber-500" />
+                  </div>
+                  <div>
+                    <p className="font-medium text-sm">Dark Mode</p>
+                    <p className="text-xs text-muted-foreground">Toggle theme</p>
+                  </div>
+                </div>
+                <Switch 
+                  checked={isDarkMode} 
+                  onCheckedChange={handleThemeToggle}
+                  className="data-[state=checked]:bg-primary"
+                />
               </div>
             </div>
           </div>
 
-          {/* Application Section */}
+          {/* Support & Feedback */}
           <div>
-            <h3 className="text-sm font-medium text-muted-foreground mb-3 px-1">
-              Application
+            <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3 px-2">
+              Support & Feedback
             </h3>
-            <div className="rounded-lg border bg-card p-1">
-              <div className="space-y-1">
-                <Button
-                  variant="ghost"
-                  className="w-full justify-start p-3 h-auto"
-                >
-                  <Heart className="h-5 w-5 mr-3 text-muted-foreground" />
-                  <span>Like Clear Finance</span>
-                </Button>
+            <div className="space-y-1">
+              <Button
+                variant="ghost"
+                className="w-full justify-start h-12 px-4 rounded-xl hover:bg-pink-500/5 group transition-all duration-200"
+              >
+                <div className="flex items-center gap-4 w-full">
+                  <div className="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center group-hover:bg-pink-500/15 transition-colors">
+                    <Heart className="h-4 w-4 text-pink-500" />
+                  </div>
+                  <div className="flex-1 text-left">
+                    <p className="font-medium">Like Clear Finance</p>
+                    <p className="text-xs text-muted-foreground">Rate & review</p>
+                  </div>
+                </div>
+              </Button>
 
-                <Button
-                  variant="ghost"
-                  className="w-full justify-start p-3 h-auto"
-                >
-                  <HelpCircle className="h-5 w-5 mr-3 text-muted-foreground" />
-                  <span>Help</span>
-                </Button>
+              <Button
+                variant="ghost"
+                className="w-full justify-start h-12 px-4 rounded-xl hover:bg-violet-500/5 group transition-all duration-200"
+              >
+                <div className="flex items-center gap-4 w-full">
+                  <div className="w-8 h-8 rounded-lg bg-violet-500/10 flex items-center justify-center group-hover:bg-violet-500/15 transition-colors">
+                    <HelpCircle className="h-4 w-4 text-violet-500" />
+                  </div>
+                  <div className="flex-1 text-left">
+                    <p className="font-medium">Help & Support</p>
+                    <p className="text-xs text-muted-foreground">Get assistance</p>
+                  </div>
+                </div>
+              </Button>
 
-                <Button
-                  variant="ghost"
-                  className="w-full justify-start p-3 h-auto"
-                >
-                  <MessageSquare className="h-5 w-5 mr-3 text-muted-foreground" />
-                  <span>Feedback</span>
-                </Button>
-              </div>
+              <Button
+                variant="ghost"
+                className="w-full justify-start h-12 px-4 rounded-xl hover:bg-orange-500/5 group transition-all duration-200"
+              >
+                <div className="flex items-center gap-4 w-full">
+                  <div className="w-8 h-8 rounded-lg bg-orange-500/10 flex items-center justify-center group-hover:bg-orange-500/15 transition-colors">
+                    <MessageSquare className="h-4 w-4 text-orange-500" />
+                  </div>
+                  <div className="flex-1 text-left">
+                    <p className="font-medium">Send Feedback</p>
+                    <p className="text-xs text-muted-foreground">Share your thoughts</p>
+                  </div>
+                </div>
+              </Button>
             </div>
           </div>
         </div>
