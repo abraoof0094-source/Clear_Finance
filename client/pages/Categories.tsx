@@ -1049,12 +1049,18 @@ interface SubcategoryItemProps {
   subcategory: { name: string; icon: string; description: string };
   onEdit: (subcategory: any) => void;
   onDelete: (subcategory: any) => void;
+  onSetBudget: (subcategoryName: string) => void;
+  onRemoveBudget: (subcategoryName: string) => void;
+  budget: number;
 }
 
 function SubcategoryItem({
   subcategory,
   onEdit,
   onDelete,
+  onSetBudget,
+  onRemoveBudget,
+  budget,
 }: SubcategoryItemProps) {
   const [showMenu, setShowMenu] = useState(false);
 
@@ -1078,12 +1084,19 @@ function SubcategoryItem({
   return (
     <div className="bg-background rounded-md p-3 relative ml-6">
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 flex-1">
           <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center text-sm">
             {subcategory.icon}
           </div>
           <div className="flex-1">
-            <div className="font-medium text-sm">{subcategory.name}</div>
+            <div className="flex items-center gap-2">
+              <span className="font-medium text-sm">{subcategory.name}</span>
+              {budget > 0 && (
+                <Badge variant="outline" className="text-xs border-blue-500/20 text-blue-400">
+                  ₹{budget.toLocaleString()}
+                </Badge>
+              )}
+            </div>
             <div className="text-xs text-muted-foreground">
               {subcategory.description}
             </div>
@@ -1098,7 +1111,7 @@ function SubcategoryItem({
             <span className="text-muted-foreground">⋯</span>
           </Button>
           {showMenu && (
-            <div className="absolute right-0 top-full mt-1 bg-card border border-border rounded-md shadow-lg z-50 py-1 min-w-[100px]">
+            <div className="absolute right-0 top-full mt-1 bg-card border border-border rounded-md shadow-lg z-50 py-1 min-w-[140px]">
               <button
                 className="w-full text-left px-3 py-2 hover:bg-muted text-sm flex items-center gap-2"
                 onClick={() => {
@@ -1109,6 +1122,44 @@ function SubcategoryItem({
                 <Edit className="h-3 w-3" />
                 Edit
               </button>
+
+              {budget > 0 ? (
+                <>
+                  <button
+                    className="w-full text-left px-3 py-2 hover:bg-muted text-sm flex items-center gap-2 text-blue-600"
+                    onClick={() => {
+                      onSetBudget(subcategory.name);
+                      setShowMenu(false);
+                    }}
+                  >
+                    <Calculator className="h-3 w-3" />
+                    Edit Budget
+                  </button>
+                  <button
+                    className="w-full text-left px-3 py-2 hover:bg-muted text-sm flex items-center gap-2 text-orange-600"
+                    onClick={() => {
+                      onRemoveBudget(subcategory.name);
+                      setShowMenu(false);
+                    }}
+                  >
+                    <Trash2 className="h-3 w-3" />
+                    Remove Budget
+                  </button>
+                </>
+              ) : (
+                <button
+                  className="w-full text-left px-3 py-2 hover:bg-muted text-sm flex items-center gap-2 text-green-600"
+                  onClick={() => {
+                    onSetBudget(subcategory.name);
+                    setShowMenu(false);
+                  }}
+                >
+                  <Calculator className="h-3 w-3" />
+                  Set Budget
+                </button>
+              )}
+
+              <div className="border-t border-border my-1"></div>
               <button
                 className="w-full text-left px-3 py-2 hover:bg-muted text-sm flex items-center gap-2 text-red-600"
                 onClick={() => {
