@@ -463,7 +463,7 @@ export function Categories() {
   const availableIcons = [
     "💰",
     "🏠",
-    "🍽️",
+    "��️",
     "🚗",
     "📱",
     "❤️",
@@ -960,13 +960,20 @@ function ExpandableCategoryItem({
           </div>
 
           {/* Main Category Menu */}
-          <div className="relative ml-2 menu-container z-[9999]">
+          <div
+            className="relative ml-2 menu-container z-[9999]"
+            onClick={(e) => {
+              e.stopPropagation();
+              e.preventDefault();
+            }}
+          >
             <Button
               variant="ghost"
               size="icon"
               className="h-8 w-8 hover:bg-muted"
               onClick={(e) => {
                 e.stopPropagation();
+                e.preventDefault();
                 console.log("Main menu button clicked, isMenuOpen:", isMenuOpen);
                 onToggleMenu();
               }}
