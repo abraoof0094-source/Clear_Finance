@@ -581,7 +581,7 @@ export function Tracker() {
                           : "text-red-500"
                     }`}
                   >
-                    {transaction.type === "income" ? "+" : "-"}���
+                    {transaction.type === "income" ? "+" : "-"}₹
                     {transaction.amount.toLocaleString()}
                   </div>
                 </div>
@@ -707,7 +707,7 @@ export function Tracker() {
                       }}
                     >
                       <div className="text-2xl font-normal">
-                        ₹ {amount || "0"}
+                        ₹ {showKeypad ? displayValue : (amount || "0")}
                       </div>
                     </div>
                     <div
