@@ -988,7 +988,7 @@ function ExpandableCategoryItem({
             >
               <span className="text-foreground font-bold text-lg">⋯</span>
             </Button>
-            {isMenuOpen && createPortal(
+            {localMenuOpen && createPortal(
               <>
                 <div
                   className="fixed inset-0 z-[9998]"
