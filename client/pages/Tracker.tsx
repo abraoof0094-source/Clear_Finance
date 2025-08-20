@@ -72,7 +72,7 @@ const allCategories = [
   {
     id: 2,
     name: "Fixed Household Expenses",
-    icon: "��",
+    icon: "🏠",
     type: "expense" as const,
     subcategories: [
       {
@@ -270,6 +270,7 @@ export function Tracker() {
   const [showCalculator, setShowCalculator] = useState(false);
   const [showCategoryModal, setShowCategoryModal] = useState(false);
   const [showKeypad, setShowKeypad] = useState(false);
+  const [showCategorySelection, setShowCategorySelection] = useState(false);
 
   // Load transactions from localStorage on component mount
   useEffect(() => {
