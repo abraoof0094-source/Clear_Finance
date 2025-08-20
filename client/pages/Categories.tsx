@@ -812,32 +812,31 @@ function ExpandableCategoryItem({
               <span className="text-foreground font-bold text-lg">⋯</span>
             </Button>
             {isMenuOpen && (
-              <div className="fixed bg-card border border-border rounded-md shadow-xl z-[9999] py-1 min-w-[120px]"
-                   style={{
-                     top: '50px',
-                     right: '20px'
-                   }}>
-                <button
-                  className="w-full text-left px-3 py-2 hover:bg-muted text-sm flex items-center gap-2"
-                  onClick={() => {
-                    onEditMain();
-                    onToggleMenu();
-                  }}
-                >
-                  <Edit className="h-3 w-3" />
-                  Edit Category
-                </button>
-                <button
-                  className="w-full text-left px-3 py-2 hover:bg-muted text-sm flex items-center gap-2 text-red-600"
-                  onClick={() => {
-                    onDeleteMain();
-                    onToggleMenu();
-                  }}
-                >
-                  <Trash2 className="h-3 w-3" />
-                  Delete Category
-                </button>
-              </div>
+              <>
+                <div className="fixed inset-0 z-[9998]" onClick={onToggleMenu}></div>
+                <div className="absolute right-0 top-full mt-1 bg-card border border-border rounded-md shadow-xl z-[9999] py-1 min-w-[120px]">
+                  <button
+                    className="w-full text-left px-3 py-2 hover:bg-muted text-sm flex items-center gap-2"
+                    onClick={() => {
+                      onEditMain();
+                      onToggleMenu();
+                    }}
+                  >
+                    <Edit className="h-3 w-3" />
+                    Edit Category
+                  </button>
+                  <button
+                    className="w-full text-left px-3 py-2 hover:bg-muted text-sm flex items-center gap-2 text-red-600"
+                    onClick={() => {
+                      onDeleteMain();
+                      onToggleMenu();
+                    }}
+                  >
+                    <Trash2 className="h-3 w-3" />
+                    Delete Category
+                  </button>
+                </div>
+              </>
             )}
           </div>
         </div>
