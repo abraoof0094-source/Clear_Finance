@@ -581,7 +581,7 @@ export function Tracker() {
                           : "text-red-500"
                     }`}
                   >
-                    {transaction.type === "income" ? "+" : "-"}₹
+                    {transaction.type === "income" ? "+" : transaction.type === "investment" ? "+" : "-"}₹
                     {transaction.amount.toLocaleString()}
                   </div>
                 </div>
