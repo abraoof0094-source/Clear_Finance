@@ -468,8 +468,8 @@ export function Tracker() {
         time: currentTime,
       };
 
-      // Save to server with localStorage fallback
-      const savedTransaction = await DataSync.saveTransactionWithSync(transactionData);
+      // Save to client-side storage (IndexedDB or localStorage)
+      const savedTransaction = await universalStorage.addTransaction(transactionData);
 
       // Update local state
       const updatedTransactions = [savedTransaction, ...transactions];
@@ -483,7 +483,7 @@ export function Tracker() {
       setAmount("");
       setShowAddDialog(false);
 
-      console.log('Transaction saved successfully');
+      console.log('Transaction saved successfully to client storage');
     } catch (error) {
       console.error('Failed to save transaction:', error);
       alert('Failed to save transaction. Please try again.');
