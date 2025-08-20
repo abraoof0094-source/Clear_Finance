@@ -3,25 +3,15 @@ import { Layout } from "../components/Layout";
 import { Card } from "../components/ui/card";
 import { Button } from "../components/ui/button";
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "../components/ui/dialog";
-import {
   ChevronLeft,
   ChevronRight,
-  Menu,
-  Check,
-  TrendingUp,
-  TrendingDown,
-  DollarSign,
-  PieChart,
+  ChevronDown,
 } from "lucide-react";
+import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 
-type ViewMode = "MONTHLY" | "3_MONTHS" | "6_MONTHS" | "YEARLY";
+type ViewMode = "Weekly" | "Monthly" | "Annually" | "Period";
 
-// Transaction interface (matching Tracker)
+// Transaction interface
 interface Transaction {
   id: string;
   type: "income" | "expense";
@@ -32,6 +22,9 @@ interface Transaction {
   date: string;
   time: string;
 }
+
+// Category colors for pie chart
+const COLORS = ["#FF6B6B", "#4ECDC4", "#45B7D1", "#96CEB4", "#FFEAA7", "#DDA0DD", "#98D8C8", "#F7DC6F", "#BB8FCE"];
 
 // Main categories for analysis
 const mainCategories = [
@@ -47,26 +40,16 @@ const mainCategories = [
 ];
 
 export function Analysis() {
-  const [currentMonth, setCurrentMonth] = useState(new Date()); // Current month
-  const [showDisplayOptions, setShowDisplayOptions] = useState(false);
-  const [viewMode, setViewMode] = useState<ViewMode>("MONTHLY");
-  const [carryOver, setCarryOver] = useState(false);
+  const [currentMonth, setCurrentMonth] = useState(new Date());
+  const [viewMode, setViewMode] = useState<ViewMode>("Monthly");
+  const [showPeriodDropdown, setShowPeriodDropdown] = useState(false);
   const [transactions, setTransactions] = useState<Transaction[]>([]);
-  const [budgets, setBudgets] = useState<
-    Record<string, Record<string, number>>
-  >({});
 
   // Load stored data on component mount
   useEffect(() => {
     const storedTransactions = localStorage.getItem("tracker-transactions");
-    const storedBudgets = localStorage.getItem("budgets");
-
     if (storedTransactions) {
       setTransactions(JSON.parse(storedTransactions));
-    }
-
-    if (storedBudgets) {
-      setBudgets(JSON.parse(storedBudgets));
     }
   }, []);
 
@@ -85,7 +68,7 @@ export function Analysis() {
 
   // Format month display
   const formatMonth = (date: Date) => {
-    return date.toLocaleString("default", { month: "long", year: "numeric" });
+    return date.toLocaleString("default", { month: "short", year: "numeric" });
   };
 
   // Get date range based on view mode
@@ -98,34 +81,25 @@ export function Analysis() {
     let startDate: Date;
 
     switch (viewMode) {
-      case "3_MONTHS":
+      case "Weekly":
+        // Get current week
+        const today = new Date();
+        const dayOfWeek = today.getDay();
+        startDate = new Date(today);
+        startDate.setDate(today.getDate() - dayOfWeek);
+        break;
+      case "Annually":
+        startDate = new Date(currentMonth.getFullYear(), 0, 1);
+        break;
+      case "Period":
+        // Last 3 months
         startDate = new Date(
           currentMonth.getFullYear(),
           currentMonth.getMonth() - 2,
           1,
         );
         break;
-      case "6_MONTHS":
-        startDate = new Date(
-          currentMonth.getFullYear(),
-          currentMonth.getMonth() - 5,
-          1,
-        );
-        break;
-      case "YEARLY":
-        // Financial year: April to March
-        const currentYear = currentMonth.getFullYear();
-        const currentMonthNum = currentMonth.getMonth();
-
-        // If current month is Jan, Feb, or Mar - we're in the second half of financial year
-        if (currentMonthNum < 3) {
-          // Jan=0, Feb=1, Mar=2
-          startDate = new Date(currentYear - 1, 3, 1); // April of previous calendar year
-        } else {
-          startDate = new Date(currentYear, 3, 1); // April of current calendar year
-        }
-        break;
-      default: // MONTHLY
+      default: // Monthly
         startDate = new Date(
           currentMonth.getFullYear(),
           currentMonth.getMonth(),
@@ -141,7 +115,7 @@ export function Analysis() {
     const { startDate, endDate } = getDateRange();
 
     return transactions.filter((t) => {
-      const transactionDate = new Date(t.date.split("/").reverse().join("-")); // Convert DD/MMM/YYYY to YYYY-MMM-DD
+      const transactionDate = new Date(t.date.split("/").reverse().join("-"));
       return transactionDate >= startDate && transactionDate <= endDate;
     });
   };
@@ -157,18 +131,15 @@ export function Analysis() {
     .filter((t) => t.type === "expense")
     .reduce((sum, t) => sum + t.amount, 0);
 
-  const surplus = totalIncome - totalExpense;
-
   // Calculate category-wise spending
   const getCategoryAnalysis = () => {
     const categoryData = mainCategories.map((category) => {
       const categoryTransactions = periodTransactions.filter(
-        (t) => t.mainCategory === category.name,
+        (t) => t.mainCategory === category.name && t.type === "expense"
       );
 
       const total = categoryTransactions.reduce((sum, t) => sum + t.amount, 0);
-      const percentage =
-        totalIncome > 0 ? Math.round((total / totalIncome) * 100) : 0;
+      const percentage = totalExpense > 0 ? Math.round((total / totalExpense) * 100) : 0;
 
       return {
         ...category,
@@ -185,286 +156,163 @@ export function Analysis() {
 
   const categoryAnalysis = getCategoryAnalysis();
 
-  // Get period title
-  const getPeriodTitle = () => {
-    const { startDate, endDate } = getDateRange();
-
-    switch (viewMode) {
-      case "3_MONTHS":
-        return `${formatMonth(startDate)} - ${formatMonth(currentMonth)}`;
-      case "6_MONTHS":
-        return `${formatMonth(startDate)} - ${formatMonth(currentMonth)}`;
-      case "YEARLY":
-        // Financial year display: FY 2024-25 format
-        const fyStartYear = startDate.getFullYear();
-        const fyEndYear = endDate.getFullYear();
-        return `FY ${fyStartYear}-${fyEndYear.toString().slice(-2)}`;
-      default:
-        return formatMonth(currentMonth);
-    }
-  };
-
-  // Calculate average monthly values for multi-month views
-  const getAverageMonthly = (amount: number) => {
-    const months = {
-      MONTHLY: 1,
-      "3_MONTHS": 3,
-      "6_MONTHS": 6,
-      YEARLY: 12,
-    }[viewMode];
-
-    return amount / months;
-  };
-
-  // Calendar data for current month
-  const year = currentMonth.getFullYear();
-  const month = currentMonth.getMonth();
-  const daysInMonth = new Date(year, month + 1, 0).getDate();
-  const calendarDays = Array.from({ length: daysInMonth }, (_, i) => i + 1);
-  const startDay = new Date(year, month, 1).getDay(); // First day of month (0=Sunday, 1=Monday, etc.)
+  // Prepare pie chart data
+  const pieChartData = categoryAnalysis.map((category, index) => ({
+    name: category.name,
+    value: category.total,
+    percentage: category.percentage,
+    icon: category.icon,
+    color: COLORS[index % COLORS.length]
+  }));
 
   return (
     <Layout>
-      <div className="space-y-6 py-4">
-        {/* Month Navigation */}
+      <div className="space-y-6 py-4 pb-20">
+        {/* Header with Month Navigation and Period Dropdown */}
         <div className="flex items-center justify-between">
-          <Button variant="ghost" size="icon" onClick={goToPreviousMonth}>
-            <ChevronLeft className="h-5 w-5" />
-          </Button>
-          <h2 className="text-lg font-semibold">{getPeriodTitle()}</h2>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
+            <Button variant="ghost" size="icon" onClick={goToPreviousMonth}>
+              <ChevronLeft className="h-5 w-5" />
+            </Button>
+            <h2 className="text-xl font-semibold">{formatMonth(currentMonth)}</h2>
             <Button variant="ghost" size="icon" onClick={goToNextMonth}>
               <ChevronRight className="h-5 w-5" />
             </Button>
+          </div>
+          
+          {/* Period Dropdown */}
+          <div className="relative">
             <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setShowDisplayOptions(true)}
+              variant="outline"
+              onClick={() => setShowPeriodDropdown(!showPeriodDropdown)}
+              className="gap-2"
             >
-              <Menu className="h-5 w-5" />
+              {viewMode}
+              <ChevronDown className="h-4 w-4" />
             </Button>
-          </div>
-        </div>
-
-        {/* Financial Overview */}
-        <Card className="p-6">
-          <div className="grid grid-cols-3 gap-4 text-center">
-            <div>
-              <div className="text-sm text-muted-foreground">INCOME</div>
-              <div className="text-xl font-bold text-green-400">
-                ₹{totalIncome.toLocaleString()}
-              </div>
-              {viewMode !== "MONTHLY" && (
-                <div className="text-xs text-muted-foreground">
-                  Avg: ₹
-                  {Math.round(getAverageMonthly(totalIncome)).toLocaleString()}
-                  /mo
-                </div>
-              )}
-            </div>
-            <div>
-              <div className="text-sm text-muted-foreground">EXPENSE</div>
-              <div className="text-xl font-bold text-red-400">
-                ₹{totalExpense.toLocaleString()}
-              </div>
-              {viewMode !== "MONTHLY" && (
-                <div className="text-xs text-muted-foreground">
-                  Avg: ₹
-                  {Math.round(getAverageMonthly(totalExpense)).toLocaleString()}
-                  /mo
-                </div>
-              )}
-            </div>
-            <div>
-              <div className="text-sm text-muted-foreground">SURPLUS</div>
-              <div
-                className={`text-xl font-bold ${
-                  surplus >= 0 ? "text-green-400" : "text-red-400"
-                }`}
-              >
-                ₹{surplus.toLocaleString()}
-              </div>
-              {viewMode !== "MONTHLY" && (
-                <div className="text-xs text-muted-foreground">
-                  Avg: ₹
-                  {Math.round(getAverageMonthly(surplus)).toLocaleString()}/mo
-                </div>
-              )}
-            </div>
-          </div>
-        </Card>
-
-        {/* Key Insights */}
-        <div className="grid grid-cols-2 gap-4">
-          <Card className="p-4">
-            <div className="flex items-center gap-2 mb-2">
-              <DollarSign className="h-5 w-5 text-blue-500" />
-              <h4 className="font-semibold">Savings Rate</h4>
-            </div>
-            <div className="text-2xl font-bold">
-              {totalIncome > 0 ? Math.round((surplus / totalIncome) * 100) : 0}%
-            </div>
-            <div className="text-sm text-muted-foreground">
-              {surplus >= 0 ? "You're saving well!" : "Spending exceeds income"}
-            </div>
-          </Card>
-
-          <Card className="p-4">
-            <div className="flex items-center gap-2 mb-2">
-              <PieChart className="h-5 w-5 text-purple-500" />
-              <h4 className="font-semibold">Categories</h4>
-            </div>
-            <div className="text-2xl font-bold">{categoryAnalysis.length}</div>
-            <div className="text-sm text-muted-foreground">
-              Active spending categories
-            </div>
-          </Card>
-        </div>
-
-        {/* Category Analysis */}
-        {periodTransactions.length > 0 ? (
-          <div>
-            <h3 className="text-lg font-semibold text-yellow-500 mb-4">
-              Category Breakdown
-            </h3>
-            <div className="space-y-3">
-              {categoryAnalysis.map((category) => (
-                <Card key={category.name} className="p-4">
-                  <div className="flex items-center justify-between mb-3">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 bg-primary/20 rounded-full flex items-center justify-center text-lg">
-                        {category.icon}
-                      </div>
-                      <div>
-                        <div className="font-medium">{category.name}</div>
-                        <div className="text-sm text-muted-foreground">
-                          {category.transactions} transaction
-                          {category.transactions !== 1 ? "s" : ""}
-                        </div>
-                      </div>
-                    </div>
-                    <div className="text-right">
-                      <div
-                        className={`font-semibold text-lg ${
-                          category.type === "income"
-                            ? "text-green-400"
-                            : "text-red-400"
-                        }`}
-                      >
-                        ₹{category.total.toLocaleString()}
-                      </div>
-                      <div className="text-sm text-muted-foreground">
-                        {category.percentage}% of income
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Progress bar */}
-                  <div className="w-full bg-muted rounded-full h-2">
-                    <div
-                      className={`h-2 rounded-full ${
-                        category.type === "income"
-                          ? "bg-green-400"
-                          : "bg-red-400"
-                      }`}
-                      style={{
-                        width: `${Math.min(category.percentage, 100)}%`,
+            
+            {showPeriodDropdown && (
+              <>
+                <div 
+                  className="fixed inset-0 z-[9998]" 
+                  onClick={() => setShowPeriodDropdown(false)}
+                ></div>
+                <div className="absolute right-0 top-full mt-1 bg-card border border-border rounded-md shadow-xl z-[9999] py-1 min-w-[120px]">
+                  {["Weekly", "Monthly", "Annually", "Period"].map((mode) => (
+                    <button
+                      key={mode}
+                      className="w-full text-left px-3 py-2 hover:bg-muted text-sm"
+                      onClick={() => {
+                        setViewMode(mode as ViewMode);
+                        setShowPeriodDropdown(false);
                       }}
-                    ></div>
+                    >
+                      {mode}
+                    </button>
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+
+        {/* Income Display */}
+        <div className="text-left">
+          <div className="text-muted-foreground text-sm mb-1">Income</div>
+          <div className="text-2xl font-bold">₹ {totalIncome.toLocaleString()}</div>
+        </div>
+
+        {/* Pie Chart and Category Breakdown */}
+        {totalExpense > 0 ? (
+          <div className="space-y-6">
+            {/* Pie Chart */}
+            <div className="h-80 relative">
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie
+                    data={pieChartData}
+                    cx="50%"
+                    cy="50%"
+                    outerRadius={100}
+                    innerRadius={40}
+                    paddingAngle={2}
+                    dataKey="value"
+                  >
+                    {pieChartData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={entry.color} />
+                    ))}
+                  </Pie>
+                </PieChart>
+              </ResponsiveContainer>
+              
+              {/* Floating Labels */}
+              {pieChartData.slice(0, 3).map((category, index) => (
+                <div
+                  key={category.name}
+                  className="absolute bg-card border border-border rounded-lg p-2 text-sm shadow-lg"
+                  style={{
+                    left: `${20 + index * 25}%`,
+                    top: `${30 + index * 20}%`,
+                  }}
+                >
+                  <div className="flex items-center gap-2">
+                    <span>{category.icon}</span>
+                    <div>
+                      <div className="font-medium text-xs">
+                        {category.name.length > 15 
+                          ? category.name.substring(0, 15) + "..." 
+                          : category.name}
+                      </div>
+                      <div className="text-xs text-muted-foreground">
+                        {category.percentage}%
+                      </div>
+                    </div>
                   </div>
-                </Card>
+                  <div className="text-xs font-medium mt-1">
+                    ₹ {category.value.toLocaleString()}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Category List */}
+            <div className="space-y-3">
+              {categoryAnalysis.map((category, index) => (
+                <div
+                  key={category.name}
+                  className="flex items-center justify-between p-4 bg-card border border-border rounded-lg"
+                >
+                  <div className="flex items-center gap-3">
+                    <div 
+                      className="w-8 h-8 rounded text-white text-xs font-bold flex items-center justify-center"
+                      style={{ backgroundColor: COLORS[index % COLORS.length] }}
+                    >
+                      {category.percentage}%
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-lg">{category.icon}</span>
+                      <span className="font-medium text-sm">{category.name}</span>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <div className="font-semibold">₹ {category.total.toLocaleString()}</div>
+                  </div>
+                </div>
               ))}
             </div>
           </div>
         ) : (
-          <Card className="p-6 text-center text-muted-foreground">
-            <PieChart className="h-12 w-12 mx-auto mb-4 opacity-50" />
-            <h3 className="font-medium mb-2">No Data Available</h3>
+          <Card className="p-8 text-center text-muted-foreground">
+            <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-muted flex items-center justify-center">
+              <span className="text-2xl">📊</span>
+            </div>
+            <h3 className="font-medium mb-2">No Expense Data</h3>
             <p className="text-sm">
-              No transactions found for {getPeriodTitle()}.
-              <br />
-              Add transactions in the Tracker to see analytics here.
+              Add expense transactions in the Tracker to see the analysis.
             </p>
           </Card>
         )}
       </div>
-
-      {/* Display Options Dialog */}
-      <Dialog open={showDisplayOptions} onOpenChange={setShowDisplayOptions}>
-        <DialogContent className="max-w-md">
-          <DialogHeader>
-            <DialogTitle>Display options</DialogTitle>
-          </DialogHeader>
-          <div className="space-y-6">
-            {/* View Mode */}
-            <div className="space-y-3">
-              <div className="text-sm font-medium text-muted-foreground">
-                View mode:
-              </div>
-              <div className="space-y-2">
-                {[
-                  { key: "MONTHLY", label: "MONTHLY" },
-                  { key: "3_MONTHS", label: "3 MONTHS" },
-                  { key: "6_MONTHS", label: "6 MONTHS" },
-                  { key: "YEARLY", label: "YEARLY" },
-                ].map((option) => (
-                  <button
-                    key={option.key}
-                    onClick={() => setViewMode(option.key as ViewMode)}
-                    className="w-full flex items-center justify-between p-3 text-left hover:bg-muted/50 rounded-lg transition-colors"
-                  >
-                    <span className="text-sm font-medium text-muted-foreground">
-                      {option.label}
-                    </span>
-                    {viewMode === option.key && (
-                      <Check className="h-4 w-4 text-primary" />
-                    )}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Carry Over */}
-            <div className="space-y-3">
-              <div className="text-sm font-medium text-muted-foreground">
-                Carry over:
-              </div>
-              <div className="space-y-2">
-                {[
-                  { key: true, label: "ON" },
-                  { key: false, label: "OFF" },
-                ].map((option) => (
-                  <button
-                    key={option.label}
-                    onClick={() => setCarryOver(option.key)}
-                    className="w-full flex items-center justify-between p-3 text-left hover:bg-muted/50 rounded-lg transition-colors"
-                  >
-                    <span className="text-sm font-medium text-muted-foreground">
-                      {option.label}
-                    </span>
-                    {carryOver === option.key && (
-                      <Check className="h-4 w-4 text-primary" />
-                    )}
-                  </button>
-                ))}
-              </div>
-
-              {/* Carry Over Explanation */}
-              {carryOver && (
-                <div className="flex items-start gap-2 p-3 bg-muted/30 rounded-lg">
-                  <div className="w-5 h-5 bg-blue-500/20 rounded-full flex items-center justify-center mt-0.5 flex-shrink-0">
-                    <span className="text-xs font-bold text-blue-600">i</span>
-                  </div>
-                  <p className="text-xs text-muted-foreground">
-                    With Carry over enabled, monthly surplus will be added to
-                    the next month.
-                  </p>
-                </div>
-              )}
-            </div>
-          </div>
-        </DialogContent>
-      </Dialog>
     </Layout>
   );
 }
