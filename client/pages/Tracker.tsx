@@ -762,13 +762,14 @@ export function Tracker() {
                       )}
                     </div>
                     <div
-                      className={`h-px ${
-                        transactionType === "income"
-                          ? "bg-green-500"
+                      className="h-px"
+                      style={{
+                        backgroundColor: transactionType === "income"
+                          ? "#22c55e"
                           : transactionType === "investment"
-                            ? "bg-blue-500"
-                            : "bg-red-500"
-                      }`}
+                            ? "#3b82f6"
+                            : "#ef4444"
+                      }}
                     ></div>
                   </div>
 
