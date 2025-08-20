@@ -335,6 +335,12 @@ export function Tracker() {
         {/* Add Transaction Dialog */}
         <Dialog open={showAddDialog} onOpenChange={setShowAddDialog}>
           <DialogContent className="w-full h-full max-w-none max-h-none m-0 rounded-none border-0 bg-background">
+            <DialogHeader className="sr-only">
+              <DialogTitle>
+                {transactionType === "income" ? "Add Income" :
+                 transactionType === "investment" ? "Add Investment" : "Add Expense"}
+              </DialogTitle>
+            </DialogHeader>
             <div className="flex flex-col h-full">
               {/* Header */}
               <div className="flex items-center justify-between p-4 border-b">
