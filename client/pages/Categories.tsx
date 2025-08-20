@@ -964,8 +964,18 @@ function ExpandableCategoryItem({
             </Button>
             {isMenuOpen && createPortal(
               <>
-                <div className="fixed inset-0 z-[9998]" onClick={onToggleMenu}></div>
-                <div className="fixed bg-card border border-border rounded-md shadow-xl z-[9999] py-1 min-w-[120px]" style={{right: '8px', top: '120px'}}>
+                <div
+                  className="fixed inset-0 z-[9998]"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onToggleMenu();
+                  }}
+                ></div>
+                <div
+                  className="fixed bg-card border border-border rounded-md shadow-xl z-[9999] py-1 min-w-[120px]"
+                  style={{right: '8px', top: '120px'}}
+                  onClick={(e) => e.stopPropagation()}
+                >
                   <button
                     className="w-full text-left px-3 py-2 hover:bg-muted text-sm flex items-center gap-2"
                     onClick={(e) => {
@@ -1107,8 +1117,18 @@ function SubcategoryItem({
           </Button>
           {showMenu && createPortal(
             <>
-              <div className="fixed inset-0 z-[9998]" onClick={() => setShowMenu(false)}></div>
-              <div className="fixed bg-card border border-border rounded-md shadow-xl z-[9999] py-1 min-w-[140px]" style={{right: '8px', top: '200px'}}>
+              <div
+                className="fixed inset-0 z-[9998]"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setShowMenu(false);
+                }}
+              ></div>
+              <div
+                className="fixed bg-card border border-border rounded-md shadow-xl z-[9999] py-1 min-w-[140px]"
+                style={{right: '8px', top: '200px'}}
+                onClick={(e) => e.stopPropagation()}
+              >
                 <button
                   className="w-full text-left px-3 py-2 hover:bg-muted text-sm flex items-center gap-2"
                   onClick={(e) => {
