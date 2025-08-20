@@ -1023,6 +1023,9 @@ function ExpandableCategoryItem({
                 subcategory={subcategory}
                 onEdit={onEditSubcategory}
                 onDelete={onDeleteSubcategory}
+                onSetBudget={onSetBudget}
+                onRemoveBudget={onRemoveBudget}
+                budget={getBudget(subcategory.name)}
               />
             ))}
 
