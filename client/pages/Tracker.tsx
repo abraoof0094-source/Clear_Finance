@@ -438,16 +438,8 @@ export function Tracker() {
 
                   {/* Amount */}
                   <div className="space-y-2">
-                    <label className="text-base text-muted-foreground">Amount (Tap to enter)</label>
-                    <div
-                      className="text-3xl font-bold cursor-pointer py-2 px-2 rounded border-2 border-dashed border-muted hover:border-primary"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        console.log("Amount clicked, showKeypad:", showKeypad);
-                        setShowKeypad(true);
-                      }}
-                    >
+                    <label className="text-base text-muted-foreground">Amount</label>
+                    <div className="text-3xl font-bold py-2">
                       ₹ {displayValue}
                     </div>
                     <div className={`h-px ${
