@@ -147,7 +147,7 @@ export function More() {
 
         {/* Tools Grid */}
         <div>
-          <h2 className="text-lg font-semibold mb-4 px-1">Tools & Settings</h2>
+          <h2 className="text-lg font-semibold mb-4 px-1">Settings</h2>
           <div className="grid grid-cols-3 gap-4">
             {tools.map((tool) => {
               const IconComponent = tool.icon;
