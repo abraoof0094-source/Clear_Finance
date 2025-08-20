@@ -633,7 +633,7 @@ export function Tracker() {
 
               <div className="pb-24">
                 {/* Type Selection Tabs */}
-                <div className="m-4 flex rounded-lg overflow-hidden">
+                <div style={{ margin: '16px', display: 'flex' }}>
                   <button
                     onClick={() => {
                       setTransactionType("income");
