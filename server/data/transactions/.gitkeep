@@ -1,0 +1,12 @@
+# Transaction Data Storage
+
+This directory stores all transaction data organized by year and month.
+
+Structure:
+- 2024/
+  - 01.json (January transactions)
+  - 02.json (February transactions)
+  - ...
+- 2025/
+  - 01.json
+  - ...
