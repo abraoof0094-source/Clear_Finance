@@ -338,9 +338,9 @@ function ImportDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (op
   );
 }
 
-// Modern Backup Dialog Component
-function BackupDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (open: boolean) => void }) {
-  const [isBackingUp, setIsBackingUp] = useState(false);
+// Modern Export Dialog Component
+function ExportDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (open: boolean) => void }) {
+  const [isExporting, setIsExporting] = useState(false);
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
   const [statusMessage, setStatusMessage] = useState("");
   const [stats, setStats] = useState({
@@ -363,8 +363,8 @@ function BackupDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (op
     }
   }, [open]);
 
-  const handleCreateBackup = async () => {
-    setIsBackingUp(true);
+  const handleCreateExport = async () => {
+    setIsExporting(true);
     setStatus("idle");
 
     try {
@@ -392,14 +392,14 @@ function BackupDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (op
       URL.revokeObjectURL(url);
 
       setStatus("success");
-      setStatusMessage(`Backup created successfully!`);
+      setStatusMessage(`Backup file created successfully!`);
       setTimeout(() => setStatus("idle"), 3000);
     } catch (error) {
       setStatus("error");
-      setStatusMessage("Failed to create backup. Please try again.");
+      setStatusMessage("Failed to create backup file. Please try again.");
       setTimeout(() => setStatus("idle"), 3000);
     } finally {
-      setIsBackingUp(false);
+      setIsExporting(false);
     }
   };
 
@@ -409,9 +409,9 @@ function BackupDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (op
         <DialogHeader>
           <DialogTitle className="flex items-center gap-3">
             <div className="p-2 rounded-full bg-gradient-to-br from-emerald-500 to-teal-600">
-              <Shield className="h-5 w-5 text-white" />
+              <Download className="h-5 w-5 text-white" />
             </div>
-            Create Backup
+            Export Data
           </DialogTitle>
         </DialogHeader>
 
@@ -439,7 +439,7 @@ function BackupDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (op
             <div className="flex items-center gap-2 mb-3">
               <HardDrive className="h-4 w-4 text-green-600 dark:text-green-400" />
               <span className="text-sm font-semibold text-green-900 dark:text-green-100">
-                Ready to Backup
+                Ready to Export
               </span>
             </div>
 
@@ -471,38 +471,38 @@ function BackupDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (op
             </div>
           </Card>
 
-          {/* Backup Information */}
+          {/* Export Information */}
           <Card className="p-3 bg-blue-50 dark:bg-blue-950/30 border-blue-200 dark:border-blue-800">
             <div className="flex items-start gap-2">
               <Info className="h-4 w-4 text-blue-600 dark:text-blue-400 mt-0.5" />
               <div className="text-sm text-blue-700 dark:text-blue-300">
-                Backup includes all transactions, budgets, categories, and app settings. File will be saved to your Downloads folder.
+                Export includes all transactions, budgets, categories, and app settings. Backup file will be saved to your Downloads folder.
               </div>
             </div>
           </Card>
 
-          {/* Backup Button */}
+          {/* Export Button */}
           <Button
-            onClick={handleCreateBackup}
-            disabled={isBackingUp || stats.transactions === 0}
+            onClick={handleCreateExport}
+            disabled={isExporting || stats.transactions === 0}
             className="w-full h-12 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-medium"
           >
-            {isBackingUp ? (
+            {isExporting ? (
               <>
                 <Download className="h-4 w-4 mr-2 animate-bounce" />
-                Creating Backup...
+                Creating Backup File...
               </>
             ) : (
               <>
                 <Download className="h-4 w-4 mr-2" />
-                Create Backup
+                Create Backup File
               </>
             )}
           </Button>
 
           {stats.transactions === 0 && (
             <p className="text-xs text-muted-foreground text-center">
-              No data to backup. Add some transactions first.
+              No data to export. Add some transactions first.
             </p>
           )}
         </div>
