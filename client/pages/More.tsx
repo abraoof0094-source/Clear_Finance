@@ -173,10 +173,6 @@ export function More() {
         </div>
 
 
-        {/* Footer */}
-        <div className="text-center pt-4">
-          <p className="text-xs text-muted-foreground">Clear Finance v5.8 - Free</p>
-        </div>
       </div>
     </Layout>
   );
