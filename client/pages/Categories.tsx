@@ -506,14 +506,17 @@ export function Categories() {
   };
 
   const toggleMenu = (categoryId: number) => {
-    const newOpenMenus = new Set(openMenus);
-    if (openMenus.has(categoryId)) {
-      newOpenMenus.delete(categoryId);
-    } else {
-      newOpenMenus.clear();
-      newOpenMenus.add(categoryId);
-    }
-    setOpenMenus(newOpenMenus);
+    console.log("toggleMenu called for categoryId:", categoryId, "current openMenus:", openMenus);
+    setOpenMenus(prev => {
+      const newOpenMenus = new Set();
+      if (!prev.has(categoryId)) {
+        newOpenMenus.add(categoryId);
+        console.log("Opening menu for:", categoryId);
+      } else {
+        console.log("Closing menu for:", categoryId);
+      }
+      return newOpenMenus;
+    });
   };
 
   const handleEditMainCategory = (category: any) => {
