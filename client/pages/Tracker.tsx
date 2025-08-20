@@ -131,7 +131,7 @@ const allCategories = [
 export function Tracker() {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [showAddDialog, setShowAddDialog] = useState(false);
-  const [transactionType, setTransactionType] = useState<"income" | "expense" | "transfer">("expense");
+  const [transactionType, setTransactionType] = useState<"income" | "expense" | "investment">("expense");
   const [selectedMainCategory, setSelectedMainCategory] = useState("");
   const [selectedSubCategory, setSelectedSubCategory] = useState("");
   const [amount, setAmount] = useState("");
