@@ -115,7 +115,7 @@ const allCategories = [
   {
     id: 6,
     name: "Loans & EMI Payments",
-    icon: "��",
+    icon: "💳",
     type: "expense" as const,
     subcategories: [
       { name: "Home Loan", icon: "🏠", description: "House purchase loan EMI" },
@@ -138,7 +138,6 @@ export function Tracker() {
   const [displayValue, setDisplayValue] = useState("0");
   const [currentDate, setCurrentDate] = useState("");
   const [currentTime, setCurrentTime] = useState("");
-  const [showKeypad, setShowKeypad] = useState(true); // Temporarily true for testing
 
   // Load transactions from localStorage on component mount
   useEffect(() => {
