@@ -20,5 +20,8 @@ export function createServer() {
 
   app.get("/api/demo", handleDemo);
 
+  // Transaction routes
+  app.use("/api", transactionRoutes);
+
   return app;
 }
