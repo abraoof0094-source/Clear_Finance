@@ -935,7 +935,7 @@ function SubcategoryItem({
             </div>
           </div>
         </div>
-        <div className="relative submenu-container">
+        <div className="relative">
           <Button
             variant="ghost"
             size="sm"
@@ -949,13 +949,7 @@ function SubcategoryItem({
           {showMenu && (
             <>
               <div className="fixed inset-0 z-[9998]" onClick={() => setShowMenu(false)}></div>
-              <div
-                className="fixed bg-card border border-border rounded-md shadow-xl z-[9999] py-1 min-w-[140px]"
-                style={{
-                  left: `${Math.max(10, window.innerWidth - 160)}px`,
-                  top: `${(document.querySelector('.submenu-container') as HTMLElement)?.getBoundingClientRect().bottom + 4 || 0}px`
-                }}
-              >
+              <div className="fixed bg-card border border-border rounded-md shadow-xl z-[9999] py-1 min-w-[140px] right-2 top-16">
                 <button
                   className="w-full text-left px-3 py-2 hover:bg-muted text-sm flex items-center gap-2"
                   onClick={() => {
