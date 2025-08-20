@@ -49,7 +49,7 @@ const allCategories = [
       },
       {
         name: "Reimbursements",
-        icon: "📄",
+        icon: "���",
         description: "Travel allowance, food coupons",
       },
       {
@@ -155,7 +155,7 @@ const allCategories = [
       },
       {
         name: "Travel & Vacation",
-        icon: "✈️",
+        icon: "✈���",
         description: "Holidays, weekend trips",
       },
       {
@@ -211,7 +211,7 @@ const allCategories = [
     subcategories: [
       {
         name: "Mutual Funds",
-        icon: "📊",
+        icon: "��",
         description: "SIP, lump sum investments",
       },
       {
@@ -644,7 +644,7 @@ export function Tracker() {
                     className={`h-12 text-sm font-semibold rounded-none ${
                       transactionType === "income"
                         ? "bg-green-500 text-white border-green-600"
-                        : "bg-muted text-muted-foreground"
+                        : "bg-muted text-muted-foreground hover:bg-muted hover:text-muted-foreground"
                     }`}
                   >
                     Income
