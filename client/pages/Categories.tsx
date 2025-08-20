@@ -1010,7 +1010,8 @@ function SubcategoryItem({
                   Delete
                 </button>
               </div>
-            </>
+            </>,
+            document.body
           )}
         </div>
       </div>
