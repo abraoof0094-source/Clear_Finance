@@ -362,7 +362,7 @@ export function Tracker() {
                     }}
                     className={`h-12 text-sm font-semibold rounded-none ${
                       transactionType === "income"
-                        ? "bg-background text-foreground border border-border"
+                        ? "bg-green-500 text-white border-green-600"
                         : "bg-muted text-muted-foreground"
                     }`}
                   >
