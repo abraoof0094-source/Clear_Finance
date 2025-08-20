@@ -17,27 +17,67 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../components/ui/select";
-import { ArrowLeft, ChevronRight } from "lucide-react";
+import { 
+  ArrowLeft, 
+  ChevronRight, 
+  DollarSign, 
+  Palette, 
+  RotateCcw,
+  Sun,
+  Moon,
+  Monitor,
+  Check
+} from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { PhoneStorageStatus } from "../components/PhoneStorageStatus";
 import { ThemePreview } from "../components/ThemePreview";
 
 export function Preferences() {
   const navigate = useNavigate();
 
-  // State for various preferences
-  const [currencyPosition, setCurrencyPosition] = useState("start");
-  const [decimalPlaces, setDecimalPlaces] = useState("2");
-  const [theme, setTheme] = useState(() => {
+  // Currency Settings
+  const [currency, setCurrency] = useState(() => {
+    return localStorage.getItem("app-currency") || "INR";
+  });
+  const [currencyPosition, setCurrencyPosition] = useState(() => {
+    return localStorage.getItem("currency-position") || "start";
+  });
+  const [decimalPlaces, setDecimalPlaces] = useState(() => {
+    return localStorage.getItem("decimal-places") || "2";
+  });
+
+  // Theme Settings
+  const [colorTheme, setColorTheme] = useState(() => {
     return localStorage.getItem("selected-theme") || "original";
   });
-  const [uiMode, setUiMode] = useState("system");
-  const [currencySign, setCurrencySign] = useState("inr");
-  const [remindEveryday, setRemindEveryday] = useState(true);
-  const [crashReporting, setCrashReporting] = useState(false);
+  const [darkMode, setDarkMode] = useState(() => {
+    return localStorage.getItem("dark-mode") || "system";
+  });
+
+  // Carry Over Settings
+  const [carryOverBudgets, setCarryOverBudgets] = useState(() => {
+    return localStorage.getItem("carry-over-budgets") === "true";
+  });
+  const [carryOverCategories, setCarryOverCategories] = useState(() => {
+    return localStorage.getItem("carry-over-categories") === "true";
+  });
+
+  // Dialog states
+  const [showCurrencyDialog, setShowCurrencyDialog] = useState(false);
   const [showThemeDialog, setShowThemeDialog] = useState(false);
-  const [showUIModeDialog, setShowUIModeDialog] = useState(false);
-  const [showDecimalPlacesDialog, setShowDecimalPlacesDialog] = useState(false);
+  const [showDarkModeDialog, setShowDarkModeDialog] = useState(false);
+  const [showDecimalDialog, setShowDecimalDialog] = useState(false);
+
+  // Currency options
+  const currencies = [
+    { code: "INR", name: "Indian Rupee", symbol: "₹" },
+    { code: "USD", name: "US Dollar", symbol: "$" },
+    { code: "EUR", name: "Euro", symbol: "€" },
+    { code: "GBP", name: "British Pound", symbol: "£" },
+    { code: "JPY", name: "Japanese Yen", symbol: "¥" },
+    { code: "CAD", name: "Canadian Dollar", symbol: "C$" },
+    { code: "AUD", name: "Australian Dollar", symbol: "A$" },
+    { code: "CHF", name: "Swiss Franc", symbol: "Fr" },
+  ];
 
   // Theme options
   const themes = [
@@ -47,37 +87,77 @@ export function Preferences() {
     { id: "nature", name: "Nature", description: "Green and earth tones" },
   ];
 
-  // UI mode options
-  const uiModes = [
-    { id: "light", name: "Light" },
-    { id: "dark", name: "Dark" },
-    { id: "system", name: "System default" },
+  // Dark mode options
+  const darkModeOptions = [
+    { id: "light", name: "Light", icon: Sun },
+    { id: "dark", name: "Dark", icon: Moon },
+    { id: "system", name: "System", icon: Monitor },
   ];
 
-  // Decimal places options
+  // Decimal options
   const decimalOptions = [
-    { id: "0", name: "0 (eg. 10)" },
-    { id: "1", name: "1 (eg. 10.1)" },
-    { id: "2", name: "2 (eg. 10.45)" },
+    { id: "0", name: "No decimals", example: "₹100" },
+    { id: "1", name: "1 decimal place", example: "₹100.0" },
+    { id: "2", name: "2 decimal places", example: "₹100.00" },
   ];
 
-  const currentTheme = themes.find((t) => t.id === theme) || themes[0];
-  const currentUIMode = uiModes.find((m) => m.id === uiMode) || uiModes[2];
-  const currentDecimalPlaces =
-    decimalOptions.find((d) => d.id === decimalPlaces) || decimalOptions[2];
+  const currentCurrency = currencies.find((c) => c.code === currency) || currencies[0];
+  const currentTheme = themes.find((t) => t.id === colorTheme) || themes[0];
+  const currentDarkMode = darkModeOptions.find((m) => m.id === darkMode) || darkModeOptions[2];
+  const currentDecimal = decimalOptions.find((d) => d.id === decimalPlaces) || decimalOptions[2];
 
   const handleBack = () => {
     navigate(-1);
   };
 
   const handleThemeChange = (newTheme: string) => {
-    setTheme(newTheme);
+    setColorTheme(newTheme);
+    localStorage.setItem("selected-theme", newTheme);
     themeManager.setTheme(newTheme);
+  };
+
+  const handleCurrencyChange = (newCurrency: string) => {
+    setCurrency(newCurrency);
+    localStorage.setItem("app-currency", newCurrency);
+  };
+
+  const handleDarkModeChange = (newMode: string) => {
+    setDarkMode(newMode);
+    localStorage.setItem("dark-mode", newMode);
+    // Apply dark mode logic here
+    if (newMode === "dark") {
+      document.documentElement.classList.add("dark");
+    } else if (newMode === "light") {
+      document.documentElement.classList.remove("dark");
+    } else {
+      // System preference
+      const isDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      if (isDark) {
+        document.documentElement.classList.add("dark");
+      } else {
+        document.documentElement.classList.remove("dark");
+      }
+    }
+  };
+
+  const handleDecimalChange = (newDecimal: string) => {
+    setDecimalPlaces(newDecimal);
+    localStorage.setItem("decimal-places", newDecimal);
+  };
+
+  const handleCarryOverBudgetsChange = (checked: boolean) => {
+    setCarryOverBudgets(checked);
+    localStorage.setItem("carry-over-budgets", checked.toString());
+  };
+
+  const handleCarryOverCategoriesChange = (checked: boolean) => {
+    setCarryOverCategories(checked);
+    localStorage.setItem("carry-over-categories", checked.toString());
   };
 
   // Initialize theme on component mount
   useEffect(() => {
-    themeManager.setTheme(theme);
+    themeManager.setTheme(colorTheme);
   }, []);
 
   return (
@@ -88,23 +168,86 @@ export function Preferences() {
           <Button variant="ghost" size="icon" onClick={handleBack}>
             <ArrowLeft className="h-5 w-5" />
           </Button>
-          <h1 className="text-xl font-semibold">Preferences</h1>
+          <h1 className="text-xl font-semibold">Configuration</h1>
         </div>
 
-        {/* Appearance Section */}
+        {/* Currency Settings Section */}
         <div>
-          <h2 className="text-lg font-semibold section-header mb-4">
-            Appearance
-          </h2>
+          <div className="flex items-center gap-3 mb-4">
+            <div className="p-2 rounded-full bg-gradient-to-br from-green-500 to-emerald-600">
+              <DollarSign className="h-5 w-5 text-white" />
+            </div>
+            <h2 className="text-lg font-semibold">Currency Settings</h2>
+          </div>
           <Card className="p-1">
             <div className="space-y-1">
-              {/* Theme */}
+              {/* Currency */}
+              <button
+                className="flex items-center justify-between p-4 w-full text-left hover:bg-muted/50 rounded-md transition-colors"
+                onClick={() => setShowCurrencyDialog(true)}
+              >
+                <div>
+                  <div className="font-medium">Currency</div>
+                  <div className="text-sm text-muted-foreground">
+                    {currentCurrency.name} ({currentCurrency.symbol})
+                  </div>
+                </div>
+                <ChevronRight className="h-4 w-4 text-muted-foreground" />
+              </button>
+
+              {/* Currency Position */}
+              <div className="flex items-center justify-between p-4 border-t border-border">
+                <div>
+                  <div className="font-medium">Currency Position</div>
+                  <div className="text-sm text-muted-foreground">
+                    {currencyPosition === "start" ? "Start of amount" : "End of amount"}
+                  </div>
+                </div>
+                <Select value={currencyPosition} onValueChange={setCurrencyPosition}>
+                  <SelectTrigger className="w-32">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="start">Start</SelectItem>
+                    <SelectItem value="end">End</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              {/* Decimal Places */}
+              <button
+                className="flex items-center justify-between p-4 w-full text-left hover:bg-muted/50 rounded-md transition-colors border-t border-border"
+                onClick={() => setShowDecimalDialog(true)}
+              >
+                <div>
+                  <div className="font-medium">Decimal Places</div>
+                  <div className="text-sm text-muted-foreground">
+                    {currentDecimal.name}
+                  </div>
+                </div>
+                <ChevronRight className="h-4 w-4 text-muted-foreground" />
+              </button>
+            </div>
+          </Card>
+        </div>
+
+        {/* Theme Settings Section */}
+        <div>
+          <div className="flex items-center gap-3 mb-4">
+            <div className="p-2 rounded-full bg-gradient-to-br from-purple-500 to-pink-600">
+              <Palette className="h-5 w-5 text-white" />
+            </div>
+            <h2 className="text-lg font-semibold">Theme Settings</h2>
+          </div>
+          <Card className="p-1">
+            <div className="space-y-1">
+              {/* Color Theme */}
               <button
                 className="flex items-center justify-between p-4 w-full text-left hover:bg-muted/50 rounded-md transition-colors"
                 onClick={() => setShowThemeDialog(true)}
               >
                 <div>
-                  <div className="font-medium">Theme</div>
+                  <div className="font-medium">Color Theme</div>
                   <div className="text-sm text-muted-foreground">
                     {currentTheme.name}
                   </div>
@@ -112,51 +255,15 @@ export function Preferences() {
                 <ChevronRight className="h-4 w-4 text-muted-foreground" />
               </button>
 
-              {/* UI Mode */}
+              {/* Dark Mode */}
               <button
                 className="flex items-center justify-between p-4 w-full text-left hover:bg-muted/50 rounded-md transition-colors border-t border-border"
-                onClick={() => setShowUIModeDialog(true)}
+                onClick={() => setShowDarkModeDialog(true)}
               >
                 <div>
-                  <div className="font-medium">UI mode</div>
+                  <div className="font-medium">Appearance Mode</div>
                   <div className="text-sm text-muted-foreground">
-                    {currentUIMode.name}
-                  </div>
-                </div>
-                <ChevronRight className="h-4 w-4 text-muted-foreground" />
-              </button>
-
-              {/* Currency Sign */}
-              <div className="flex items-center justify-between p-4 border-t border-border">
-                <div>
-                  <div className="font-medium">Currency sign</div>
-                  <div className="text-sm text-muted-foreground">
-                    Indian Rupee - INR
-                  </div>
-                </div>
-                <ChevronRight className="h-4 w-4 text-muted-foreground" />
-              </div>
-
-              {/* Currency Position */}
-              <div className="flex items-center justify-between p-4 border-t border-border">
-                <div>
-                  <div className="font-medium">Currency position</div>
-                  <div className="text-sm text-muted-foreground">
-                    At start of amount
-                  </div>
-                </div>
-                <ChevronRight className="h-4 w-4 text-muted-foreground" />
-              </div>
-
-              {/* Decimal Places */}
-              <button
-                className="flex items-center justify-between p-4 w-full text-left hover:bg-muted/50 rounded-md transition-colors border-t border-border"
-                onClick={() => setShowDecimalPlacesDialog(true)}
-              >
-                <div>
-                  <div className="font-medium">Decimal places</div>
-                  <div className="text-sm text-muted-foreground">
-                    {currentDecimalPlaces.name}
+                    {currentDarkMode.name}
                   </div>
                 </div>
                 <ChevronRight className="h-4 w-4 text-muted-foreground" />
@@ -165,105 +272,88 @@ export function Preferences() {
           </Card>
         </div>
 
-        {/* Security Section */}
+        {/* Carry Over Settings Section */}
         <div>
-          <h2 className="text-lg font-semibold section-header mb-4">
-            Security
-          </h2>
-          <Card className="p-1">
-            <div className="p-4">
-              <div className="font-medium">
-                Passcode protection (Pro version)
-              </div>
-              <div className="text-sm text-muted-foreground mt-1">
-                Requires a Passcode to enter Clear Finance app
-              </div>
+          <div className="flex items-center gap-3 mb-4">
+            <div className="p-2 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600">
+              <RotateCcw className="h-5 w-5 text-white" />
             </div>
-          </Card>
-        </div>
-
-        {/* Notification Section */}
-        <div>
-          <h2 className="text-lg font-semibold section-header mb-4">
-            Notification
-          </h2>
+            <h2 className="text-lg font-semibold">Carry Over Settings</h2>
+          </div>
           <Card className="p-1">
             <div className="space-y-1">
-              {/* Remind Everyday */}
+              {/* Carry Over Budgets */}
               <div className="flex items-center justify-between p-4">
                 <div>
-                  <div className="font-medium">Remind everyday</div>
+                  <div className="font-medium">Carry Over Budgets</div>
                   <div className="text-sm text-muted-foreground">
-                    Remind to add expenses occasionally
+                    Continue budget limits to next month
                   </div>
                 </div>
                 <Switch
-                  checked={remindEveryday}
-                  onCheckedChange={setRemindEveryday}
+                  checked={carryOverBudgets}
+                  onCheckedChange={handleCarryOverBudgetsChange}
                 />
               </div>
 
-              {/* Notification Settings */}
+              {/* Carry Over Categories */}
               <div className="flex items-center justify-between p-4 border-t border-border">
-                <div className="font-medium">Notification settings</div>
-                <ChevronRight className="h-4 w-4 text-muted-foreground" />
-              </div>
-            </div>
-          </Card>
-        </div>
-
-        {/* Phone Storage Status Section */}
-        <div>
-          <h2 className="text-lg font-semibold section-header mb-4">
-            Phone Storage
-          </h2>
-          <PhoneStorageStatus />
-        </div>
-
-        {/* About Section */}
-        <div>
-          <h2 className="text-lg font-semibold section-header mb-4">About</h2>
-          <Card className="p-1">
-            <div className="space-y-1">
-              {/* Crash and Usage Statistics */}
-              <div className="flex items-center justify-between p-4">
                 <div>
-                  <div className="font-medium">
-                    Send crash and usage statistics
-                  </div>
+                  <div className="font-medium">Carry Over Categories</div>
                   <div className="text-sm text-muted-foreground">
-                    Automatically send crash and usage report to improve Clear
-                    Finance.
+                    Keep custom categories for new periods
                   </div>
                 </div>
                 <Switch
-                  checked={crashReporting}
-                  onCheckedChange={setCrashReporting}
+                  checked={carryOverCategories}
+                  onCheckedChange={handleCarryOverCategoriesChange}
                 />
-              </div>
-
-              {/* Privacy Policy */}
-              <div className="flex items-center justify-between p-4 border-t border-border">
-                <div className="font-medium">Privacy policy</div>
-                <ChevronRight className="h-4 w-4 text-muted-foreground" />
-              </div>
-
-              {/* App Version */}
-              <div className="p-4 border-t border-border">
-                <div className="font-medium">Clear Finance: 1.0</div>
-                <div className="text-sm text-muted-foreground mt-1">
-                  Developed by Adam Asher
-                </div>
               </div>
             </div>
           </Card>
         </div>
+
+        {/* Currency Selection Dialog */}
+        <Dialog open={showCurrencyDialog} onOpenChange={setShowCurrencyDialog}>
+          <DialogContent className="max-w-md">
+            <DialogHeader>
+              <DialogTitle>Select Currency</DialogTitle>
+            </DialogHeader>
+            <div className="space-y-2 max-h-96 overflow-y-auto">
+              {currencies.map((currencyOption) => (
+                <button
+                  key={currencyOption.code}
+                  onClick={() => {
+                    handleCurrencyChange(currencyOption.code);
+                    setShowCurrencyDialog(false);
+                  }}
+                  className="w-full flex items-center justify-between p-3 text-left hover:bg-muted/50 rounded-lg transition-colors"
+                >
+                  <div className="flex items-center gap-3">
+                    <span className="text-lg font-mono">
+                      {currencyOption.symbol}
+                    </span>
+                    <div>
+                      <div className="font-medium">{currencyOption.name}</div>
+                      <div className="text-sm text-muted-foreground">
+                        {currencyOption.code}
+                      </div>
+                    </div>
+                  </div>
+                  {currency === currencyOption.code && (
+                    <Check className="h-4 w-4 text-primary" />
+                  )}
+                </button>
+              ))}
+            </div>
+          </DialogContent>
+        </Dialog>
 
         {/* Theme Selection Dialog */}
         <Dialog open={showThemeDialog} onOpenChange={setShowThemeDialog}>
           <DialogContent className="max-w-md">
             <DialogHeader>
-              <DialogTitle>Select Theme</DialogTitle>
+              <DialogTitle>Select Color Theme</DialogTitle>
             </DialogHeader>
             <div className="space-y-3">
               {themes.map((themeOption) => (
@@ -272,7 +362,7 @@ export function Preferences() {
                   themeId={themeOption.id}
                   themeName={themeOption.name}
                   themeDescription={themeOption.description}
-                  isSelected={theme === themeOption.id}
+                  isSelected={colorTheme === themeOption.id}
                   onClick={() => {
                     handleThemeChange(themeOption.id);
                     setShowThemeDialog(false);
@@ -283,99 +373,65 @@ export function Preferences() {
           </DialogContent>
         </Dialog>
 
-        {/* UI Mode Selection Dialog */}
-        <Dialog open={showUIModeDialog} onOpenChange={setShowUIModeDialog}>
+        {/* Dark Mode Selection Dialog */}
+        <Dialog open={showDarkModeDialog} onOpenChange={setShowDarkModeDialog}>
           <DialogContent className="max-w-md">
             <DialogHeader>
-              <DialogTitle>UI mode</DialogTitle>
+              <DialogTitle>Appearance Mode</DialogTitle>
             </DialogHeader>
-            <div className="space-y-4">
-              {uiModes.map((modeOption) => (
-                <button
-                  key={modeOption.id}
-                  onClick={() => {
-                    setUiMode(modeOption.id);
-                    setShowUIModeDialog(false);
-                  }}
-                  className="w-full flex items-center gap-4 p-4 text-left hover:bg-muted/50 rounded-lg transition-colors"
-                >
-                  <div className="relative">
-                    <div
-                      className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
-                        uiMode === modeOption.id
-                          ? "border-primary bg-primary"
-                          : "border-muted-foreground"
-                      }`}
-                    >
-                      {uiMode === modeOption.id && (
-                        <div className="w-2 h-2 rounded-full bg-primary-foreground"></div>
-                      )}
+            <div className="space-y-3">
+              {darkModeOptions.map((modeOption) => {
+                const IconComponent = modeOption.icon;
+                return (
+                  <button
+                    key={modeOption.id}
+                    onClick={() => {
+                      handleDarkModeChange(modeOption.id);
+                      setShowDarkModeDialog(false);
+                    }}
+                    className="w-full flex items-center gap-4 p-4 text-left hover:bg-muted/50 rounded-lg transition-colors"
+                  >
+                    <IconComponent className="h-5 w-5 text-muted-foreground" />
+                    <div className="flex-1">
+                      <div className="font-medium">{modeOption.name}</div>
                     </div>
-                  </div>
-                  <div className="font-medium">{modeOption.name}</div>
-                </button>
-              ))}
-
-              {/* Cancel Button */}
-              <div className="flex justify-end pt-4">
-                <Button
-                  variant="outline"
-                  onClick={() => setShowUIModeDialog(false)}
-                  className="px-8"
-                >
-                  CANCEL
-                </Button>
-              </div>
+                    {darkMode === modeOption.id && (
+                      <Check className="h-4 w-4 text-primary" />
+                    )}
+                  </button>
+                );
+              })}
             </div>
           </DialogContent>
         </Dialog>
 
         {/* Decimal Places Selection Dialog */}
-        <Dialog
-          open={showDecimalPlacesDialog}
-          onOpenChange={setShowDecimalPlacesDialog}
-        >
+        <Dialog open={showDecimalDialog} onOpenChange={setShowDecimalDialog}>
           <DialogContent className="max-w-md">
             <DialogHeader>
-              <DialogTitle>Decimal places</DialogTitle>
+              <DialogTitle>Decimal Places</DialogTitle>
             </DialogHeader>
-            <div className="space-y-4">
+            <div className="space-y-3">
               {decimalOptions.map((decimalOption) => (
                 <button
                   key={decimalOption.id}
                   onClick={() => {
-                    setDecimalPlaces(decimalOption.id);
-                    setShowDecimalPlacesDialog(false);
+                    handleDecimalChange(decimalOption.id);
+                    setShowDecimalDialog(false);
                   }}
-                  className="w-full flex items-center gap-4 p-4 text-left hover:bg-muted/50 rounded-lg transition-colors"
+                  className="w-full flex items-center justify-between p-4 text-left hover:bg-muted/50 rounded-lg transition-colors"
                 >
-                  <div className="relative">
-                    <div
-                      className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
-                        decimalPlaces === decimalOption.id
-                          ? "border-primary bg-primary"
-                          : "border-muted-foreground"
-                      }`}
-                    >
-                      {decimalPlaces === decimalOption.id && (
-                        <div className="w-2 h-2 rounded-full bg-primary-foreground"></div>
-                      )}
+                  <div>
+                    <div className="font-medium">{decimalOption.name}</div>
+                    <div className="text-sm text-muted-foreground">
+                      Example: {decimalOption.example}
                     </div>
                   </div>
-                  <div className="font-medium">{decimalOption.name}</div>
+                  {decimalPlaces === decimalOption.id && (
+                    <Check className="h-4 w-4 text-primary" />
+                  )}
                 </button>
               ))}
-
-              {/* Cancel Button */}
-              <div className="flex justify-end pt-4">
-                <Button
-                  variant="outline"
-                  onClick={() => setShowDecimalPlacesDialog(false)}
-                  className="px-8"
-                >
-                  CANCEL
-                </Button>
-              </div>
             </div>
           </DialogContent>
         </Dialog>
