@@ -661,7 +661,7 @@ export function Tracker() {
                     className={`h-12 text-sm font-semibold rounded-none border-x ${
                       transactionType === "expense"
                         ? "bg-red-500 text-white border-red-600"
-                        : "bg-muted text-muted-foreground border-border hover:bg-muted hover:text-muted-foreground"
+                        : "bg-muted text-muted-foreground border-muted hover:bg-muted hover:text-muted-foreground"
                     }`}
                   >
                     Expense
