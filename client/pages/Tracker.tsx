@@ -269,6 +269,7 @@ export function Tracker() {
   const [currentTime, setCurrentTime] = useState("");
   const [showCalculator, setShowCalculator] = useState(false);
   const [showCategoryModal, setShowCategoryModal] = useState(false);
+  const [showKeypad, setShowKeypad] = useState(false);
 
   // Load transactions from localStorage on component mount
   useEffect(() => {
