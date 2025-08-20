@@ -905,16 +905,17 @@ function ExpandableCategoryItem({
   onRemoveBudget,
   getBudget,
 }: ExpandableCategoryItemProps) {
+  const [localMenuOpen, setLocalMenuOpen] = useState(false);
   const [justOpened, setJustOpened] = useState(false);
 
   // Prevent immediate closure when menu just opened
   useEffect(() => {
-    if (isMenuOpen) {
+    if (localMenuOpen) {
       setJustOpened(true);
       const timer = setTimeout(() => setJustOpened(false), 100);
       return () => clearTimeout(timer);
     }
-  }, [isMenuOpen]);
+  }, [localMenuOpen]);
 
   return (
     <Card className="relative border-0 shadow-sm bg-card/50">
