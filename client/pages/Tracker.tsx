@@ -633,7 +633,7 @@ export function Tracker() {
 
               <div className="pb-24">
                 {/* Type Selection Tabs */}
-                <div className="grid grid-cols-3 gap-0 m-4 rounded-lg overflow-hidden border">
+                <div className="grid grid-cols-3 gap-0 m-4 rounded-lg overflow-hidden">
                   <Button
                     variant={transactionType === "income" ? "default" : "ghost"}
                     onClick={() => {
