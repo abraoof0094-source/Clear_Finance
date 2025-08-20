@@ -10,7 +10,9 @@ import {
 } from "../components/ui/dialog";
 import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
-import { Plus, ChevronDown, ChevronRight, Edit, Trash2 } from "lucide-react";
+import { Badge } from "../components/ui/badge";
+import { Plus, ChevronDown, ChevronRight, Edit, Trash2, Calculator, IndianRupee } from "lucide-react";
+import { phoneStorage } from "../utils/phoneStorage";
 
 // All Categories (Income + Expense combined)
 const allCategories = [
