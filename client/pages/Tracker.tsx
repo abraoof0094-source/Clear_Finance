@@ -227,7 +227,7 @@ const allCategories = [
       { name: "PPF & ELSS", icon: "🎯", description: "Tax-saving investments" },
       {
         name: "Real Estate",
-        icon: "������️",
+        icon: "��������️",
         description: "Property investments",
       },
       { name: "Gold", icon: "✨", description: "Physical gold, gold ETFs" },
@@ -630,7 +630,7 @@ export function Tracker() {
                 <div></div>
               </div>
 
-              <div className="flex-1 overflow-y-auto pb-8">
+              <div className="pb-24">
                 {/* Type Selection Tabs */}
                 <div className="grid grid-cols-3 gap-0 m-4 rounded-lg overflow-hidden border">
                   <Button
