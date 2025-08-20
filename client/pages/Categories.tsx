@@ -174,7 +174,7 @@ const allCategories = [
       { name: "Vehicle Insurance", icon: "🚗", description: "Bike, car" },
       {
         name: "Gadget Insurance",
-        icon: "����",
+        icon: "📱",
         description: "Mobile/laptop protection",
       },
       {
@@ -979,7 +979,9 @@ function ExpandableCategoryItem({
                   className="fixed inset-0 z-[9998]"
                   onClick={(e) => {
                     e.stopPropagation();
-                    onToggleMenu();
+                    if (!justOpened) {
+                      onToggleMenu();
+                    }
                   }}
                 ></div>
                 <div
