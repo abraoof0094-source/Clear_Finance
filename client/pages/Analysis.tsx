@@ -255,7 +255,7 @@ export function Analysis() {
         </div>
 
         {/* Pie Chart and Category Breakdown */}
-        {totalExpense > 0 ? (
+        {(totalIncome > 0 || totalExpense > 0 || totalInvestment > 0) ? (
           <div className="space-y-6">
             {/* Pie Chart */}
             <div className="h-80 relative">
