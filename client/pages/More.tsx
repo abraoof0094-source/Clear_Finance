@@ -194,7 +194,13 @@ export function More() {
 }
 
 // Modern Import Dialog Component
-function ImportDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (open: boolean) => void }) {
+function ImportDialog({
+  open,
+  onOpenChange,
+}: {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+}) {
   const [isImporting, setIsImporting] = useState(false);
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
   const [statusMessage, setStatusMessage] = useState("");
@@ -239,7 +245,7 @@ function ImportDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (op
           `This will replace your current data:\n` +
           `• Current: ${currentStats.transactions} transactions, ${currentStats.budgets} budgets\n` +
           `• Backup: ${data.transactions.length} transactions, ${Object.keys(data.budgets || {}).length} budgets\n\n` +
-          `⚠️ This action cannot be undone. Continue?`
+          `⚠️ This action cannot be undone. Continue?`,
       );
 
       if (confirmed) {
@@ -250,7 +256,9 @@ function ImportDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (op
         }
 
         setStatus("success");
-        setStatusMessage(`Successfully imported ${data.transactions.length} transactions!`);
+        setStatusMessage(
+          `Successfully imported ${data.transactions.length} transactions!`,
+        );
 
         setTimeout(() => {
           window.location.reload();
@@ -301,7 +309,8 @@ function ImportDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (op
             <div className="flex items-start gap-3">
               <Info className="h-4 w-4 text-blue-600 dark:text-blue-400 mt-0.5" />
               <div className="text-sm text-blue-700 dark:text-blue-300">
-                Select a backup file (.mbak or .json) to restore your data. This will replace all current transactions and settings.
+                Select a backup file (.mbak or .json) to restore your data. This
+                will replace all current transactions and settings.
               </div>
             </div>
           </Card>
@@ -339,7 +348,13 @@ function ImportDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (op
 }
 
 // Modern Export Dialog Component
-function ExportDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (open: boolean) => void }) {
+function ExportDialog({
+  open,
+  onOpenChange,
+}: {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+}) {
   const [isExporting, setIsExporting] = useState(false);
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
   const [statusMessage, setStatusMessage] = useState("");
@@ -476,7 +491,8 @@ function ExportDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (op
             <div className="flex items-start gap-2">
               <Info className="h-4 w-4 text-blue-600 dark:text-blue-400 mt-0.5" />
               <div className="text-sm text-blue-700 dark:text-blue-300">
-                Export includes all transactions, budgets, categories, and app settings. Backup file will be saved to your Downloads folder.
+                Export includes all transactions, budgets, categories, and app
+                settings. Backup file will be saved to your Downloads folder.
               </div>
             </div>
           </Card>

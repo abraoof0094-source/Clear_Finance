@@ -117,7 +117,7 @@ export function ExportRecords() {
           `• Current: ${currentStats.transactions} transactions, ${currentStats.budgets} budgets\n` +
           `• Backup: ${data.transactions.length} transactions, ${Object.keys(data.budgets || {}).length} budgets\n\n` +
           `Backup created: ${data.exportedAt ? new Date(data.exportedAt).toLocaleDateString() : "Unknown date"}\n\n` +
-          `⚠️ This action cannot be undone. Continue?`
+          `⚠️ This action cannot be undone. Continue?`,
       );
 
       if (confirmed) {
@@ -129,7 +129,9 @@ export function ExportRecords() {
         localStorage.setItem("last-import", new Date().toISOString());
 
         setStatus("success");
-        setStatusMessage(`Successfully imported ${data.transactions.length} transactions! Refreshing...`);
+        setStatusMessage(
+          `Successfully imported ${data.transactions.length} transactions! Refreshing...`,
+        );
         setImportData("");
 
         setTimeout(() => {
@@ -223,7 +225,9 @@ export function ExportRecords() {
                   <FileUp className="h-4 w-4 text-white" />
                 </div>
                 <div className="flex-1">
-                  <div className="text-sm font-semibold">Select Backup File</div>
+                  <div className="text-sm font-semibold">
+                    Select Backup File
+                  </div>
                   <div className="text-xs text-muted-foreground">
                     Choose .mbak or .json backup file
                   </div>
@@ -286,7 +290,8 @@ export function ExportRecords() {
                   Important Note
                 </h4>
                 <p className="text-xs text-amber-700 dark:text-amber-300">
-                  Importing will completely replace your current data. Consider creating a backup of your current data first.
+                  Importing will completely replace your current data. Consider
+                  creating a backup of your current data first.
                 </p>
               </div>
             </div>

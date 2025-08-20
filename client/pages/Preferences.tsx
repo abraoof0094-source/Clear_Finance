@@ -17,16 +17,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../components/ui/select";
-import { 
-  ArrowLeft, 
-  ChevronRight, 
-  DollarSign, 
-  Palette, 
+import {
+  ArrowLeft,
+  ChevronRight,
+  DollarSign,
+  Palette,
   RotateCcw,
   Sun,
   Moon,
   Monitor,
-  Check
+  Check,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { ThemePreview } from "../components/ThemePreview";
@@ -101,10 +101,13 @@ export function Preferences() {
     { id: "2", name: "2 decimal places", example: "₹100.00" },
   ];
 
-  const currentCurrency = currencies.find((c) => c.code === currency) || currencies[0];
+  const currentCurrency =
+    currencies.find((c) => c.code === currency) || currencies[0];
   const currentTheme = themes.find((t) => t.id === colorTheme) || themes[0];
-  const currentDarkMode = darkModeOptions.find((m) => m.id === darkMode) || darkModeOptions[2];
-  const currentDecimal = decimalOptions.find((d) => d.id === decimalPlaces) || decimalOptions[2];
+  const currentDarkMode =
+    darkModeOptions.find((m) => m.id === darkMode) || darkModeOptions[2];
+  const currentDecimal =
+    decimalOptions.find((d) => d.id === decimalPlaces) || decimalOptions[2];
 
   const handleBack = () => {
     navigate(-1);
@@ -200,10 +203,15 @@ export function Preferences() {
                 <div>
                   <div className="font-medium">Currency Position</div>
                   <div className="text-sm text-muted-foreground">
-                    {currencyPosition === "start" ? "Start of amount" : "End of amount"}
+                    {currencyPosition === "start"
+                      ? "Start of amount"
+                      : "End of amount"}
                   </div>
                 </div>
-                <Select value={currencyPosition} onValueChange={setCurrencyPosition}>
+                <Select
+                  value={currencyPosition}
+                  onValueChange={setCurrencyPosition}
+                >
                   <SelectTrigger className="w-32">
                     <SelectValue />
                   </SelectTrigger>

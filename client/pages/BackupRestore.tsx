@@ -32,12 +32,12 @@ export function BackupRestore() {
 
   useEffect(() => {
     themeManager.setTheme(localStorage.getItem("selected-theme") || "original");
-    
+
     // Load current data stats
     const transactions = phoneStorage.loadTransactions();
     const budgets = phoneStorage.loadBudgets();
     const categories = JSON.parse(localStorage.getItem("categories") || "[]");
-    
+
     setStats({
       transactions: transactions.length,
       budgets: Object.keys(budgets).length,
@@ -101,7 +101,9 @@ export function BackupRestore() {
         appInfo: {
           name: "Clear Finance",
           version: "2.0",
-          platform: navigator.userAgent.includes("Mobile") ? "Mobile" : "Desktop",
+          platform: navigator.userAgent.includes("Mobile")
+            ? "Mobile"
+            : "Desktop",
         },
         data: {
           transactions: phoneStorage.loadTransactions(),
@@ -117,12 +119,24 @@ export function BackupRestore() {
           totalBudgets: stats.budgets,
           totalCategories: stats.categories,
           dateRange: {
-            earliest: phoneStorage.loadTransactions().length > 0 
-              ? phoneStorage.loadTransactions().sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())[0].date
-              : null,
-            latest: phoneStorage.loadTransactions().length > 0
-              ? phoneStorage.loadTransactions().sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())[0].date
-              : null,
+            earliest:
+              phoneStorage.loadTransactions().length > 0
+                ? phoneStorage
+                    .loadTransactions()
+                    .sort(
+                      (a, b) =>
+                        new Date(a.date).getTime() - new Date(b.date).getTime(),
+                    )[0].date
+                : null,
+            latest:
+              phoneStorage.loadTransactions().length > 0
+                ? phoneStorage
+                    .loadTransactions()
+                    .sort(
+                      (a, b) =>
+                        new Date(b.date).getTime() - new Date(a.date).getTime(),
+                    )[0].date
+                : null,
           },
         },
       };
@@ -140,7 +154,9 @@ export function BackupRestore() {
       URL.revokeObjectURL(url);
 
       setStatus("success");
-      setStatusMessage(`Backup created successfully! Saved as clear-finance-backup-${timestamp}.mbak`);
+      setStatusMessage(
+        `Backup created successfully! Saved as clear-finance-backup-${timestamp}.mbak`,
+      );
       setTimeout(() => setStatus("idle"), 5000);
     } catch (error) {
       setStatus("error");
@@ -220,7 +236,7 @@ export function BackupRestore() {
                 </p>
               </div>
             </div>
-            
+
             <div className="grid grid-cols-3 gap-3">
               <div className="text-center p-2 bg-white/60 dark:bg-gray-800/60 rounded-lg">
                 <div className="text-lg font-bold text-blue-900 dark:text-blue-100">
@@ -300,7 +316,7 @@ export function BackupRestore() {
                   </>
                 )}
               </Button>
-              
+
               {stats.transactions === 0 && (
                 <p className="text-xs text-muted-foreground mt-2 text-center">
                   No data to backup. Add some transactions first.
@@ -334,7 +350,8 @@ export function BackupRestore() {
                   Secure & Private
                 </h4>
                 <p className="text-xs text-amber-700 dark:text-amber-300">
-                  Your backup file is created locally on your device. No data is sent to external servers.
+                  Your backup file is created locally on your device. No data is
+                  sent to external servers.
                 </p>
               </div>
             </div>

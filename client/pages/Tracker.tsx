@@ -16,7 +16,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../components/ui/select";
-import { Plus, ArrowLeft, Calculator, X, ChevronLeft, ChevronRight } from "lucide-react";
+import {
+  Plus,
+  ArrowLeft,
+  Calculator,
+  X,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
 import { universalStorage, Transaction, Summary } from "../utils/clientStorage";
 
 // Transaction interface imported from API utils
@@ -276,12 +283,12 @@ export function Tracker() {
   const formatMonth = (date: Date) => {
     return date.toLocaleDateString("en-US", {
       month: "short",
-      year: "numeric"
+      year: "numeric",
     });
   };
 
   const goToPreviousMonth = () => {
-    setCurrentMonth(prev => {
+    setCurrentMonth((prev) => {
       const newDate = new Date(prev);
       newDate.setMonth(newDate.getMonth() - 1);
       return newDate;
@@ -289,7 +296,7 @@ export function Tracker() {
   };
 
   const goToNextMonth = () => {
-    setCurrentMonth(prev => {
+    setCurrentMonth((prev) => {
       const newDate = new Date(prev);
       newDate.setMonth(newDate.getMonth() + 1);
       return newDate;
@@ -306,7 +313,10 @@ export function Tracker() {
         // Load transactions for current month
         const year = currentMonth.getFullYear();
         const month = currentMonth.getMonth() + 1; // JavaScript months are 0-indexed
-        const transactions = await universalStorage.getTransactionsByMonth(year, month);
+        const transactions = await universalStorage.getTransactionsByMonth(
+          year,
+          month,
+        );
         setTransactions(transactions);
 
         console.log(
@@ -581,7 +591,11 @@ export function Tracker() {
 
         // Check if the new transaction belongs to the current month view
         const transactionDate = new Date(savedTransaction.date);
-        const transactionMonth = new Date(transactionDate.getFullYear(), transactionDate.getMonth(), 1);
+        const transactionMonth = new Date(
+          transactionDate.getFullYear(),
+          transactionDate.getMonth(),
+          1,
+        );
 
         if (transactionMonth.getTime() === currentMonth.getTime()) {
           // Update local state only if transaction is for current month

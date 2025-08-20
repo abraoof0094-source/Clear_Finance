@@ -442,7 +442,10 @@ export class UniversalStorage {
     }
   }
 
-  async getTransactionsByMonth(year: number, month: number): Promise<Transaction[]> {
+  async getTransactionsByMonth(
+    year: number,
+    month: number,
+  ): Promise<Transaction[]> {
     if (this.useIndexedDB) {
       return await clientStorage.getMonthlyTransactions(year, month);
     } else {
