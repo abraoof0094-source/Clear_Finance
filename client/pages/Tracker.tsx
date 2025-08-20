@@ -266,6 +266,12 @@ export function Tracker() {
   const [editingTransaction, setEditingTransaction] =
     useState<Transaction | null>(null);
 
+  // Month navigation state
+  const [currentMonth, setCurrentMonth] = useState(() => {
+    const now = new Date();
+    return new Date(now.getFullYear(), now.getMonth(), 1);
+  });
+
   // Load transactions from client-side storage (IndexedDB with localStorage fallback)
   useEffect(() => {
     const loadTransactions = async () => {
