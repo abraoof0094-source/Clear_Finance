@@ -112,7 +112,7 @@ const allCategories = [
       },
       {
         name: "Food & Dining",
-        icon: "����️",
+        icon: "🍽️",
         description: "Restaurants, food delivery, cafes",
       },
       {
@@ -572,7 +572,7 @@ export function Tracker() {
 
         {/* Recent Transactions */}
         <div>
-          <h3 className="text-lg font-semibold mb-4">Recent Transactions</h3>
+          <h3 className="text-lg font-semibold mb-4">Transactions</h3>
           <div className="space-y-3">
             {transactions.slice(0, 10).map((transaction) => (
               <Card key={transaction.id} className="p-4">
