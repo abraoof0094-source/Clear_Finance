@@ -421,43 +421,13 @@ export function Tracker() {
                   {/* Category */}
                   <div className="space-y-2">
                     <label className="text-base text-muted-foreground">Category</label>
-                    <div className="space-y-3">
-                      <Select
-                        value={selectedMainCategory}
-                        onValueChange={(value) => {
-                          setSelectedMainCategory(value);
-                          setSelectedSubCategory("");
-                        }}
-                      >
-                        <SelectTrigger className="h-12 text-base border-0 border-b border-muted-foreground rounded-none bg-transparent">
-                          <SelectValue placeholder="Select main category" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {filteredCategories.map((category) => (
-                            <SelectItem key={category.id} value={category.name}>
-                              {category.icon} {category.name}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-
-                      {selectedMainCategory && (
-                        <Select
-                          value={selectedSubCategory}
-                          onValueChange={setSelectedSubCategory}
-                        >
-                          <SelectTrigger className="h-12 text-base border-0 border-b border-muted-foreground rounded-none bg-transparent">
-                            <SelectValue placeholder="Select sub category" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {subCategories.map((sub, index) => (
-                              <SelectItem key={index} value={sub.name}>
-                                {sub.icon} {sub.name}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      )}
+                    <div
+                      className="h-12 flex items-center justify-between cursor-pointer"
+                      onClick={() => setShowCategoryModal(true)}
+                    >
+                      <span className="text-base">
+                        {selectedMainCategory || "Select main category"}
+                      </span>
                     </div>
                     <div className="h-px bg-red-500"></div>
                   </div>
