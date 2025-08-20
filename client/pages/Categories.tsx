@@ -551,6 +551,28 @@ export function Categories() {
     setShowDeleteSubDialog(true);
   };
 
+  const handleSaveMainCategory = () => {
+    if (!newCategoryName.trim()) return;
+
+    // Here you would typically save to your storage/database
+    // For now, I'll just show console log as the categories are static
+    console.log("Saving new main category:", {
+      name: newCategoryName,
+      icon: selectedIcon,
+      type: categoryType,
+      subcategories: []
+    });
+
+    // Reset form and close dialog
+    setNewCategoryName("Untitled");
+    setSelectedIcon("🏷️");
+    setCategoryType("expense");
+    setShowAddMainDialog(false);
+
+    // You could add to allCategories array here if it was state-managed
+    alert(`Category "${newCategoryName}" would be added here. Currently categories are static in the demo.`);
+  };
+
   return (
     <Layout>
       <div className="space-y-6 py-4">
