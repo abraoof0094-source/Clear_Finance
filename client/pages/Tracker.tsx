@@ -430,6 +430,39 @@ export function Tracker() {
     setShowCalculator(false);
   };
 
+  // Edit transaction
+  const handleEditTransaction = (transaction: Transaction) => {
+    setEditingTransaction(transaction);
+    setTransactionType(transaction.type);
+    setSelectedMainCategory(transaction.mainCategory);
+    setSelectedSubCategory(transaction.subCategory);
+    setAmount(transaction.amount.toString());
+    setDisplayValue(transaction.amount.toString());
+    setShowAddDialog(true);
+    setOpenMenuId(null);
+  };
+
+  // Delete transaction
+  const handleDeleteTransaction = async (transactionId: string, date: string) => {
+    try {
+      // Remove from client storage
+      const success = await universalStorage.deleteTransaction(transactionId);
+
+      if (success) {
+        // Update local state
+        const updatedTransactions = transactions.filter(t => t.id !== transactionId);
+        setTransactions(updatedTransactions);
+        console.log('Transaction deleted successfully');
+      } else {
+        alert('Transaction not found');
+      }
+    } catch (error) {
+      console.error('Failed to delete transaction:', error);
+      alert('Failed to delete transaction. Please try again.');
+    }
+    setOpenMenuId(null);
+  };
+
   // Get filtered categories based on transaction type
   const filteredCategories = allCategories.filter(
     (cat) => cat.type === transactionType,
