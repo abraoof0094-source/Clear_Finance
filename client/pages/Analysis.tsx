@@ -12,17 +12,7 @@ import { universalStorage, Transaction } from "../utils/clientStorage";
 
 type ViewMode = "Weekly" | "Monthly" | "Annually" | "Period";
 
-// Transaction interface
-interface Transaction {
-  id: string;
-  type: "income" | "expense";
-  mainCategory: string;
-  subCategory: string;
-  amount: number;
-  notes: string;
-  date: string;
-  time: string;
-}
+// Transaction interface imported from clientStorage
 
 // Category colors for pie chart
 const COLORS = ["#FF6B6B", "#4ECDC4", "#45B7D1", "#96CEB4", "#FFEAA7", "#DDA0DD", "#98D8C8", "#F7DC6F", "#BB8FCE"];
