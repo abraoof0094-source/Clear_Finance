@@ -99,7 +99,7 @@ const allCategories = [
   {
     id: 5,
     name: "Investments",
-    icon: "���",
+    icon: "📈",
     type: "investment" as const,
     subcategories: [
       { name: "Mutual Funds", icon: "📊", description: "SIP, lump sum investments" },
@@ -138,7 +138,7 @@ export function Tracker() {
   const [displayValue, setDisplayValue] = useState("0");
   const [currentDate, setCurrentDate] = useState("");
   const [currentTime, setCurrentTime] = useState("");
-  const [showKeypad, setShowKeypad] = useState(false);
+  const [showKeypad, setShowKeypad] = useState(true); // Temporarily true for testing
 
   // Load transactions from localStorage on component mount
   useEffect(() => {
