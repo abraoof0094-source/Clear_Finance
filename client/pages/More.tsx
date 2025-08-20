@@ -179,52 +179,6 @@ export function More() {
           </div>
         </div>
 
-        {/* Quick Actions */}
-        <div>
-          <h2 className="text-lg font-semibold mb-4 px-1">Quick Actions</h2>
-          <div className="space-y-2">
-            <Card className="p-4">
-              <button
-                onClick={() => navigate('/preferences')}
-                className="flex items-center justify-between w-full text-left"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-                    <Smartphone className="h-5 w-5 text-primary" />
-                  </div>
-                  <div>
-                    <div className="font-medium">Storage & Preferences</div>
-                    <div className="text-sm text-muted-foreground">
-                      {stats.transactions} records stored locally
-                    </div>
-                  </div>
-                </div>
-                <Badge variant="outline" className="text-green-500 border-green-500/20">
-                  Active
-                </Badge>
-              </button>
-            </Card>
-
-            <Card className="p-4">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-amber-500/10 flex items-center justify-center">
-                    <TrendingUp className="h-5 w-5 text-amber-500" />
-                  </div>
-                  <div>
-                    <div className="font-medium">Net Balance</div>
-                    <div className="text-sm text-muted-foreground">
-                      Current financial position
-                    </div>
-                  </div>
-                </div>
-                <div className={`font-bold ${stats.totalIncome - stats.totalExpenses >= 0 ? 'text-green-500' : 'text-red-500'}`}>
-                  ₹{(stats.totalIncome - stats.totalExpenses).toLocaleString()}
-                </div>
-              </div>
-            </Card>
-          </div>
-        </div>
 
         {/* Footer */}
         <div className="text-center pt-4">
