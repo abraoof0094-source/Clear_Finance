@@ -67,7 +67,7 @@ const allCategories = [
   {
     id: 3,
     name: "Family & Personal Living",
-    icon: "👨‍👩‍👧‍��",
+    icon: "👨‍👩‍👧‍👦",
     type: "expense" as const,
     subcategories: [
       { name: "Groceries", icon: "🛒", description: "Daily food & household items" },
@@ -138,8 +138,6 @@ export function Tracker() {
   const [displayValue, setDisplayValue] = useState("0");
   const [currentDate, setCurrentDate] = useState("");
   const [currentTime, setCurrentTime] = useState("");
-  const [showCategoryModal, setShowCategoryModal] = useState(false);
-  const [showSubCategoryModal, setShowSubCategoryModal] = useState(false);
 
   // Load transactions from localStorage on component mount
   useEffect(() => {
