@@ -223,7 +223,7 @@ const allCategories = [
       },
       {
         name: "Real Estate Investment",
-        icon: "🏘️",
+        icon: "��️",
         description: "Plot, apartment",
       },
       {
@@ -1186,6 +1186,49 @@ function SubcategoryItem({
           )}
         </div>
       </div>
+
+      {/* Set Budget Dialog */}
+      <Dialog open={showBudgetDialog} onOpenChange={setShowBudgetDialog}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Set Budget</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <Label>Category</Label>
+              <div className="p-3 bg-muted rounded-md">
+                <span className="font-medium">{selectedBudgetSubcategory}</span>
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <Label>Monthly Budget Amount (₹)</Label>
+              <div className="relative">
+                <IndianRupee className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Input
+                  type="number"
+                  value={budgetAmount}
+                  onChange={(e) => setBudgetAmount(e.target.value)}
+                  placeholder="0"
+                  className="pl-10"
+                />
+              </div>
+            </div>
+
+            <div className="flex gap-2 pt-4">
+              <Button
+                variant="outline"
+                onClick={() => setShowBudgetDialog(false)}
+              >
+                Cancel
+              </Button>
+              <Button onClick={handleSaveBudget} disabled={!budgetAmount}>
+                {getBudget(selectedBudgetSubcategory) > 0 ? "Update Budget" : "Set Budget"}
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
