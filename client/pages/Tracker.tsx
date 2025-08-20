@@ -49,7 +49,7 @@ const allCategories = [
       },
       {
         name: "Reimbursements",
-        icon: "���",
+        icon: "📄",
         description: "Travel allowance, food coupons",
       },
       {
@@ -155,7 +155,7 @@ const allCategories = [
       },
       {
         name: "Travel & Vacation",
-        icon: "✈���",
+        icon: "✈️",
         description: "Holidays, weekend trips",
       },
       {
@@ -211,7 +211,7 @@ const allCategories = [
     subcategories: [
       {
         name: "Mutual Funds",
-        icon: "��",
+        icon: "📊",
         description: "SIP, lump sum investments",
       },
       {
@@ -661,7 +661,7 @@ export function Tracker() {
                     className={`h-12 text-sm font-semibold rounded-none border-x ${
                       transactionType === "expense"
                         ? "bg-red-500 text-white border-red-600"
-                        : "bg-muted text-muted-foreground border-border"
+                        : "bg-muted text-muted-foreground border-border hover:bg-muted hover:text-muted-foreground"
                     }`}
                   >
                     Expense
