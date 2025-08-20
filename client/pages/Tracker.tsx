@@ -263,12 +263,18 @@ export function Tracker() {
   const [showKeypad, setShowKeypad] = useState(false);
   const [showCategorySelection, setShowCategorySelection] = useState(false);
 
-  // Load transactions from server with localStorage fallback
+  // Load transactions from client-side storage (IndexedDB with localStorage fallback)
   useEffect(() => {
     const loadTransactions = async () => {
       try {
-        const transactions = await DataSync.loadTransactionsWithFallback();
+        // Initialize client storage (IndexedDB or localStorage)
+        await universalStorage.init();
+
+        // Load current month transactions
+        const transactions = await universalStorage.getCurrentMonthTransactions();
         setTransactions(transactions);
+
+        console.log(`Loaded ${transactions.length} transactions from client storage`);
       } catch (error) {
         console.error('Failed to load transactions:', error);
         setTransactions([]);
@@ -276,9 +282,6 @@ export function Tracker() {
     };
 
     loadTransactions();
-
-    // Optionally sync localStorage data to server on first load
-    DataSync.syncLocalStorageToServer().catch(console.error);
   }, []);
 
   // Update current date and time
