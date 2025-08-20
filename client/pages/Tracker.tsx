@@ -573,13 +573,14 @@ export function Tracker() {
                     </div>
                   </div>
                   <div
-                    className={`font-bold text-lg ${
-                      transaction.type === "income"
-                        ? "text-green-500"
+                    className="font-bold text-lg"
+                    style={{
+                      color: transaction.type === "income"
+                        ? "#22c55e"
                         : transaction.type === "investment"
-                          ? "text-blue-500"
-                          : "text-red-500"
-                    }`}
+                          ? "#3b82f6"
+                          : "#ef4444"
+                    }}
                   >
                     {transaction.type === "income" ? "+" : transaction.type === "investment" ? "+" : "-"}₹
                     {transaction.amount.toLocaleString()}
