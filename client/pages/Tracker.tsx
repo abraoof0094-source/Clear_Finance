@@ -494,15 +494,19 @@ export function Tracker() {
 
                 {/* Action Buttons */}
                 <div className="p-4 grid grid-cols-2 gap-4">
-                  <Button 
-                    onClick={handleSave} 
-                    className="h-12 bg-red-500 hover:bg-red-600 text-white rounded-lg"
+                  <Button
+                    onClick={handleSave}
+                    className={`h-12 text-white rounded-lg ${
+                      transactionType === 'income' ? 'bg-green-500 hover:bg-green-600' :
+                      transactionType === 'investment' ? 'bg-blue-500 hover:bg-blue-600' :
+                      'bg-red-500 hover:bg-red-600'
+                    }`}
                     disabled={!selectedMainCategory || !selectedSubCategory || !amount}
                   >
                     Save
                   </Button>
-                  <Button 
-                    variant="outline" 
+                  <Button
+                    variant="outline"
                     className="h-12 rounded-lg"
                     onClick={() => setShowAddDialog(false)}
                   >
