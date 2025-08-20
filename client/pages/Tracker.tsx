@@ -649,8 +649,8 @@ export function Tracker() {
                       outline: 'none',
                       fontSize: '14px',
                       fontWeight: '600',
-                      backgroundColor: transactionType === "income" ? '#22c55e' : '#f1f5f9',
-                      color: transactionType === "income" ? '#ffffff' : '#64748b',
+                      backgroundColor: transactionType === "income" ? '#22c55e' : '#000000',
+                      color: transactionType === "income" ? '#ffffff' : '#ffffff',
                       cursor: 'pointer'
                     }}
                   >
