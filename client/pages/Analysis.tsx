@@ -38,10 +38,20 @@ export function Analysis() {
 
   // Load stored data on component mount
   useEffect(() => {
-    const storedTransactions = localStorage.getItem("tracker-transactions");
-    if (storedTransactions) {
-      setTransactions(JSON.parse(storedTransactions));
-    }
+    const loadTransactions = async () => {
+      try {
+        // Initialize storage and load all transactions
+        await universalStorage.init();
+        const allTransactions = await universalStorage.getCurrentMonthTransactions();
+        setTransactions(allTransactions);
+        console.log(`Analysis: Loaded ${allTransactions.length} transactions`);
+      } catch (error) {
+        console.error('Failed to load transactions for analysis:', error);
+        setTransactions([]);
+      }
+    };
+
+    loadTransactions();
   }, []);
 
   // Navigate months
