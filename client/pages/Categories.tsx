@@ -1024,7 +1024,7 @@ function ExpandableCategoryItem({
                       e.stopPropagation();
                       console.log("Delete main category clicked");
                       onDeleteMain();
-                      onToggleMenu();
+                      setLocalMenuOpen(false);
                     }}
                   >
                     <Trash2 className="h-3 w-3" />
