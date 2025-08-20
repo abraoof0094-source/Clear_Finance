@@ -633,18 +633,26 @@ export function Tracker() {
 
               <div className="pb-24">
                 {/* Type Selection Tabs */}
-                <div className="grid grid-cols-3 gap-0 m-4 rounded-lg overflow-hidden">
+                <div className="m-4 flex rounded-lg overflow-hidden">
                   <button
                     onClick={() => {
                       setTransactionType("income");
                       setSelectedMainCategory("");
                       setSelectedSubCategory("");
                     }}
-                    className={`h-12 text-sm font-semibold rounded-none border-0 outline-none focus:outline-none ${
-                      transactionType === "income"
-                        ? "bg-green-500 text-white"
-                        : "bg-muted text-muted-foreground hover:bg-muted hover:text-muted-foreground"
-                    }`}
+                    style={{
+                      height: '48px',
+                      flex: '1',
+                      margin: '0',
+                      padding: '0',
+                      border: 'none',
+                      outline: 'none',
+                      fontSize: '14px',
+                      fontWeight: '600',
+                      backgroundColor: transactionType === "income" ? '#22c55e' : '#f1f5f9',
+                      color: transactionType === "income" ? '#ffffff' : '#64748b',
+                      cursor: 'pointer'
+                    }}
                   >
                     Income
                   </button>
@@ -654,11 +662,19 @@ export function Tracker() {
                       setSelectedMainCategory("");
                       setSelectedSubCategory("");
                     }}
-                    className={`h-12 text-sm font-semibold rounded-none border-0 outline-none focus:outline-none ${
-                      transactionType === "expense"
-                        ? "bg-red-500 text-white"
-                        : "bg-muted text-muted-foreground hover:bg-muted hover:text-muted-foreground"
-                    }`}
+                    style={{
+                      height: '48px',
+                      flex: '1',
+                      margin: '0',
+                      padding: '0',
+                      border: 'none',
+                      outline: 'none',
+                      fontSize: '14px',
+                      fontWeight: '600',
+                      backgroundColor: transactionType === "expense" ? '#ef4444' : '#f1f5f9',
+                      color: transactionType === "expense" ? '#ffffff' : '#64748b',
+                      cursor: 'pointer'
+                    }}
                   >
                     Expense
                   </button>
@@ -668,11 +684,19 @@ export function Tracker() {
                       setSelectedMainCategory("");
                       setSelectedSubCategory("");
                     }}
-                    className={`h-12 text-sm font-semibold rounded-none border-0 outline-none focus:outline-none ${
-                      transactionType === "investment"
-                        ? "bg-blue-500 text-white"
-                        : "bg-muted text-muted-foreground hover:bg-muted hover:text-muted-foreground"
-                    }`}
+                    style={{
+                      height: '48px',
+                      flex: '1',
+                      margin: '0',
+                      padding: '0',
+                      border: 'none',
+                      outline: 'none',
+                      fontSize: '14px',
+                      fontWeight: '600',
+                      backgroundColor: transactionType === "investment" ? '#3b82f6' : '#f1f5f9',
+                      color: transactionType === "investment" ? '#ffffff' : '#64748b',
+                      cursor: 'pointer'
+                    }}
                   >
                     Invest
                   </button>
