@@ -935,18 +935,27 @@ function SubcategoryItem({
             </div>
           </div>
         </div>
-        <div className="relative submenu-container z-[9999]">
+        <div className="relative submenu-container">
           <Button
             variant="ghost"
             size="sm"
-            onClick={() => setShowMenu(!showMenu)}
+            onClick={(e) => {
+              e.stopPropagation();
+              setShowMenu(!showMenu);
+            }}
           >
             <span className="text-muted-foreground">⋯</span>
           </Button>
           {showMenu && (
             <>
               <div className="fixed inset-0 z-[9998]" onClick={() => setShowMenu(false)}></div>
-              <div className="absolute right-0 top-full mt-1 bg-card border border-border rounded-md shadow-xl z-[9999] py-1 min-w-[140px]">
+              <div
+                className="fixed bg-card border border-border rounded-md shadow-xl z-[9999] py-1 min-w-[140px]"
+                style={{
+                  left: `${Math.max(10, window.innerWidth - 160)}px`,
+                  top: `${(document.querySelector('.submenu-container') as HTMLElement)?.getBoundingClientRect().bottom + 4 || 0}px`
+                }}
+              >
                 <button
                   className="w-full text-left px-3 py-2 hover:bg-muted text-sm flex items-center gap-2"
                   onClick={() => {
