@@ -106,7 +106,7 @@ const allCategories = [
       { name: "Stocks & Shares", icon: "📈", description: "Direct equity investments" },
       { name: "Fixed Deposits", icon: "🏦", description: "Bank FDs, recurring deposits" },
       { name: "PPF & ELSS", icon: "🎯", description: "Tax-saving investments" },
-      { name: "Real Estate", icon: "🏘️", description: "Property investments" },
+      { name: "Real Estate", icon: "����️", description: "Property investments" },
       { name: "Gold", icon: "✨", description: "Physical gold, gold ETFs" },
       { name: "Crypto", icon: "₿", description: "Bitcoin, other cryptocurrencies" },
       { name: "Others", icon: "💰", description: "Bonds, other investments" },
@@ -590,7 +590,7 @@ export function Tracker() {
                     <Button onClick={handleDecimal} variant="ghost" className="h-14 text-xl font-bold bg-background hover:bg-muted rounded-lg">.</Button>
                     <Button
                       onClick={handleSave}
-                      className={`h-12 text-white ${
+                      className={`h-14 text-white font-bold rounded-lg ${
                         transactionType === 'income' ? 'bg-green-500 hover:bg-green-600' :
                         transactionType === 'investment' ? 'bg-blue-500 hover:bg-blue-600' :
                         'bg-red-500 hover:bg-red-600'
