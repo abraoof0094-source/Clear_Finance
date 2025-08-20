@@ -139,7 +139,7 @@ const allCategories = [
       },
       {
         name: "Electronics & Gadgets",
-        icon: "���",
+        icon: "📱",
         description: "Phones, laptops, smartwatches",
       },
       {
@@ -1011,7 +1011,7 @@ function ExpandableCategoryItem({
                       e.stopPropagation();
                       console.log("Edit main category clicked");
                       onEditMain();
-                      onToggleMenu();
+                      setLocalMenuOpen(false);
                     }}
                   >
                     <Edit className="h-3 w-3" />
