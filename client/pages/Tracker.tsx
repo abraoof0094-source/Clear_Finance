@@ -693,8 +693,8 @@ export function Tracker() {
                       outline: 'none',
                       fontSize: '14px',
                       fontWeight: '600',
-                      backgroundColor: transactionType === "investment" ? '#3b82f6' : '#f1f5f9',
-                      color: transactionType === "investment" ? '#ffffff' : '#64748b',
+                      backgroundColor: transactionType === "investment" ? '#3b82f6' : '#000000',
+                      color: transactionType === "investment" ? '#ffffff' : '#ffffff',
                       cursor: 'pointer'
                     }}
                   >
