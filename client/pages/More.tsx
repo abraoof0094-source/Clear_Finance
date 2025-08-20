@@ -151,21 +151,6 @@ export function More() {
           <p className="text-muted-foreground mt-1">Tools, settings, and quick actions</p>
         </div>
 
-        {/* Quick Stats */}
-        <div className="grid grid-cols-3 gap-3">
-          <Card className="p-3 text-center">
-            <div className="text-lg font-bold text-primary">{stats.transactions}</div>
-            <div className="text-xs text-muted-foreground">Records</div>
-          </Card>
-          <Card className="p-3 text-center">
-            <div className="text-lg font-bold text-green-500">₹{Math.round(stats.totalIncome/1000)}K</div>
-            <div className="text-xs text-muted-foreground">Income</div>
-          </Card>
-          <Card className="p-3 text-center">
-            <div className="text-lg font-bold text-blue-500">{stats.thisMonth}</div>
-            <div className="text-xs text-muted-foreground">This Month</div>
-          </Card>
-        </div>
 
         {/* Tools Grid */}
         <div>
