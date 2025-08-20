@@ -697,12 +697,22 @@ export function Tracker() {
                   </div>
 
                   {/* Amount */}
-                  <div className="space-y-2">
+                  <div className="space-y-3">
                     <label className="text-base text-muted-foreground">
                       Amount
                     </label>
-                    <div className="text-3xl font-bold py-2">
-                      ₹ {displayValue}
+                    <div className="flex items-center justify-between">
+                      <div className="text-3xl font-bold py-2">
+                        ₹ {amount || "0"}
+                      </div>
+                      <Button
+                        onClick={() => setShowCalculator(true)}
+                        variant="outline"
+                        size="icon"
+                        className="h-12 w-12"
+                      >
+                        <Calculator className="h-6 w-6" />
+                      </Button>
                     </div>
                     <div
                       className={`h-px ${
