@@ -552,13 +552,14 @@ export function Tracker() {
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <div
-                      className={`w-2 h-12 rounded-full ${
-                        transaction.type === "income"
-                          ? "bg-green-500"
+                      className="w-2 h-12 rounded-full"
+                      style={{
+                        backgroundColor: transaction.type === "income"
+                          ? "#22c55e"
                           : transaction.type === "investment"
-                            ? "bg-blue-500"
-                            : "bg-red-500"
-                      }`}
+                            ? "#3b82f6"
+                            : "#ef4444"
+                      }}
                     ></div>
                     <div>
                       <div className="font-medium">
