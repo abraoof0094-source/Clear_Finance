@@ -561,7 +561,7 @@ export function Tracker() {
                 </div>
 
                 {/* Calculator Keypad - Always show */}
-                <div className="p-4 pb-24 bg-muted/30 border-t">
+                <div className="p-4 pb-32 bg-muted/30 border-t">
                   <div className="flex justify-between items-center mb-3">
                     <span className="text-sm text-muted-foreground">Amount</span>
                   </div>
