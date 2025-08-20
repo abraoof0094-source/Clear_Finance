@@ -527,7 +527,7 @@ export function Tracker() {
                       transactionType === 'investment' ? 'bg-blue-500 hover:bg-blue-600' :
                       'bg-red-500 hover:bg-red-600'
                     }`}
-                    disabled={!selectedMainCategory || !selectedSubCategory || !amount}
+                    disabled={!selectedMainCategory || !selectedSubCategory || !amount || parseFloat(amount) <= 0}
                   >
                     Save
                   </Button>
@@ -575,7 +575,7 @@ export function Tracker() {
                         transactionType === 'investment' ? 'bg-blue-500 hover:bg-blue-600' :
                         'bg-red-500 hover:bg-red-600'
                       }`}
-                      disabled={!selectedMainCategory || !selectedSubCategory || !amount}
+                      disabled={!selectedMainCategory || !selectedSubCategory || !amount || parseFloat(amount) <= 0}
                     >
                       Done
                     </Button>
