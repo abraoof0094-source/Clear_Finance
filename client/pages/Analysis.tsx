@@ -238,10 +238,20 @@ export function Analysis() {
           </div>
         </div>
 
-        {/* Income Display */}
-        <div className="text-left">
-          <div className="text-muted-foreground text-sm mb-1">Income</div>
-          <div className="text-2xl font-bold">₹ {totalIncome.toLocaleString()}</div>
+        {/* Summary Cards */}
+        <div className="grid grid-cols-3 gap-4">
+          <div className="text-center">
+            <div className="text-muted-foreground text-sm mb-1">Income</div>
+            <div className="text-xl font-bold text-green-600">₹ {totalIncome.toLocaleString()}</div>
+          </div>
+          <div className="text-center">
+            <div className="text-muted-foreground text-sm mb-1">Expense</div>
+            <div className="text-xl font-bold text-red-600">₹ {totalExpense.toLocaleString()}</div>
+          </div>
+          <div className="text-center">
+            <div className="text-muted-foreground text-sm mb-1">Investment</div>
+            <div className="text-xl font-bold text-blue-600">₹ {totalInvestment.toLocaleString()}</div>
+          </div>
         </div>
 
         {/* Pie Chart and Category Breakdown */}
