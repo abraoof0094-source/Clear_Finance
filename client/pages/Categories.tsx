@@ -693,7 +693,7 @@ export function Categories() {
               <Input
                 value={selectedIcon}
                 onChange={(e) => setSelectedIcon(e.target.value)}
-                placeholder="��"
+                placeholder="📱"
               />
             </div>
             <div className="flex gap-2 pt-4">
@@ -1103,7 +1103,11 @@ function SubcategoryItem({
             onClick={(e) => {
               e.stopPropagation();
               console.log("Subcategory menu button clicked, showMenu:", showMenu);
-              setShowMenu(!showMenu);
+              if (!showMenu) {
+                setShowMenu(true);
+              } else {
+                setShowMenu(false);
+              }
             }}
           >
             <span className="text-muted-foreground">⋯</span>
