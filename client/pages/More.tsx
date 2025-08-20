@@ -25,6 +25,7 @@ import {
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { phoneStorage } from "../utils/phoneStorage";
+import { DataBackup } from "../components/DataBackup";
 
 export function More() {
   const navigate = useNavigate();
