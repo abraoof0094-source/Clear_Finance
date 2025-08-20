@@ -702,7 +702,7 @@ export function Tracker() {
                     <div
                       className="cursor-pointer"
                       onClick={() => {
-                        setShowKeypad(true);
+                        setShowKeypad(!showKeypad);
                         setShowCategorySelection(false);
                       }}
                     >
