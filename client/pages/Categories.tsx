@@ -566,6 +566,9 @@ export function Categories() {
                   onAddSubcategory={() => handleAddSubcategory(category.id)}
                   onEditSubcategory={handleEditSubcategory}
                   onDeleteSubcategory={handleDeleteSubcategory}
+                  onSetBudget={handleSetBudget}
+                  onRemoveBudget={handleRemoveBudget}
+                  getBudget={getBudget}
                 />
               </div>
             ))}
