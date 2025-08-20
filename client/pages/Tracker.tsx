@@ -684,12 +684,10 @@ export function Tracker() {
                 </div>
 
                 {/* Form Fields */}
-                <div className="px-4 space-y-6 flex-1">
+                <div className="px-4 space-y-8 flex-1">
                   {/* Date and Time */}
-                  <div className="space-y-2">
-                    <label className="text-base text-muted-foreground">
-                      Date
-                    </label>
+                  <div>
+                    <div className="text-base text-muted-foreground mb-2">Date</div>
                     <div className="flex items-center justify-between">
                       <span className="text-lg">{currentDate}</span>
                       <span className="text-lg">{currentTime}</span>
@@ -697,25 +695,23 @@ export function Tracker() {
                   </div>
 
                   {/* Amount */}
-                  <div className="space-y-3">
-                    <label className="text-base text-muted-foreground">
-                      Amount
-                    </label>
+                  <div>
+                    <div className="text-base text-muted-foreground mb-2">Amount</div>
                     <div className="flex items-center justify-between">
-                      <div className="text-3xl font-bold py-2">
-                        ₹ {amount || "0"}
+                      <div className="text-2xl font-normal">
+                        ₹ {amount || "0.00"}
                       </div>
                       <Button
                         onClick={() => setShowCalculator(true)}
                         variant="outline"
                         size="icon"
-                        className="h-12 w-12"
+                        className="h-10 w-10"
                       >
-                        <Calculator className="h-6 w-6" />
+                        <Calculator className="h-5 w-5" />
                       </Button>
                     </div>
                     <div
-                      className={`h-px ${
+                      className={`h-px mt-2 ${
                         transactionType === "income"
                           ? "bg-green-500"
                           : transactionType === "investment"
