@@ -1064,22 +1064,7 @@ function SubcategoryItem({
 }: SubcategoryItemProps) {
   const [showMenu, setShowMenu] = useState(false);
 
-  // Close menu when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      const target = event.target as Element;
-      if (!target.closest(".submenu-container")) {
-        setShowMenu(false);
-      }
-    };
-
-    if (showMenu) {
-      document.addEventListener("mousedown", handleClickOutside);
-      return () => {
-        document.removeEventListener("mousedown", handleClickOutside);
-      };
-    }
-  }, [showMenu]);
+  // Menu state is handled by portal backdrop click
 
   return (
     <div className="bg-background/80 backdrop-blur-sm rounded-lg p-4 relative ml-6 border border-border/30 hover:border-border/60 transition-colors">
