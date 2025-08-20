@@ -72,7 +72,7 @@ const allCategories = [
   {
     id: 2,
     name: "Fixed Household Expenses",
-    icon: "🏠",
+    icon: "��",
     type: "expense" as const,
     subcategories: [
       {
@@ -751,6 +751,146 @@ export function Tracker() {
                   </div>
 
                 </div>
+
+                {/* Keypad - Show when amount is clicked */}
+                {showKeypad && (
+                  <div className="p-4 bg-muted/30 border-t">
+                    <div className="flex justify-between items-center mb-3">
+                      <span className="text-sm text-muted-foreground">Amount</span>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => setShowKeypad(false)}
+                        className="h-8 w-8"
+                      >
+                        <X className="h-4 w-4" />
+                      </Button>
+                    </div>
+                    <div className="grid grid-cols-4 gap-2">
+                      {/* Row 1: 1, 2, 3, Backspace */}
+                      <Button
+                        onClick={() => handleNumberClick("1")}
+                        variant="ghost"
+                        className="h-14 text-xl font-bold bg-background hover:bg-muted rounded-lg"
+                      >
+                        1
+                      </Button>
+                      <Button
+                        onClick={() => handleNumberClick("2")}
+                        variant="ghost"
+                        className="h-14 text-xl font-bold bg-background hover:bg-muted rounded-lg"
+                      >
+                        2
+                      </Button>
+                      <Button
+                        onClick={() => handleNumberClick("3")}
+                        variant="ghost"
+                        className="h-14 text-xl font-bold bg-background hover:bg-muted rounded-lg"
+                      >
+                        3
+                      </Button>
+                      <Button
+                        onClick={handleBackspace}
+                        variant="ghost"
+                        className="h-14 bg-background hover:bg-muted rounded-lg"
+                      >
+                        <X className="h-6 w-6" />
+                      </Button>
+
+                      {/* Row 2: 4, 5, 6, - */}
+                      <Button
+                        onClick={() => handleNumberClick("4")}
+                        variant="ghost"
+                        className="h-14 text-xl font-bold bg-background hover:bg-muted rounded-lg"
+                      >
+                        4
+                      </Button>
+                      <Button
+                        onClick={() => handleNumberClick("5")}
+                        variant="ghost"
+                        className="h-14 text-xl font-bold bg-background hover:bg-muted rounded-lg"
+                      >
+                        5
+                      </Button>
+                      <Button
+                        onClick={() => handleNumberClick("6")}
+                        variant="ghost"
+                        className="h-14 text-xl font-bold bg-background hover:bg-muted rounded-lg"
+                      >
+                        6
+                      </Button>
+                      <Button
+                        onClick={() => handleOperatorClick("-")}
+                        variant="ghost"
+                        className="h-14 text-xl font-bold bg-background hover:bg-muted rounded-lg"
+                      >
+                        −
+                      </Button>
+
+                      {/* Row 3: 7, 8, 9, Calculator */}
+                      <Button
+                        onClick={() => handleNumberClick("7")}
+                        variant="ghost"
+                        className="h-14 text-xl font-bold bg-background hover:bg-muted rounded-lg"
+                      >
+                        7
+                      </Button>
+                      <Button
+                        onClick={() => handleNumberClick("8")}
+                        variant="ghost"
+                        className="h-14 text-xl font-bold bg-background hover:bg-muted rounded-lg"
+                      >
+                        8
+                      </Button>
+                      <Button
+                        onClick={() => handleNumberClick("9")}
+                        variant="ghost"
+                        className="h-14 text-xl font-bold bg-background hover:bg-muted rounded-lg"
+                      >
+                        9
+                      </Button>
+                      <Button
+                        onClick={() => setShowCalculator(true)}
+                        variant="ghost"
+                        className="h-14 bg-background hover:bg-muted rounded-lg"
+                      >
+                        <Calculator className="h-6 w-6" />
+                      </Button>
+
+                      {/* Row 4: Empty, 0, ., Done */}
+                      <div></div>
+                      <Button
+                        onClick={() => handleNumberClick("0")}
+                        variant="ghost"
+                        className="h-14 text-xl font-bold bg-background hover:bg-muted rounded-lg"
+                      >
+                        0
+                      </Button>
+                      <Button
+                        onClick={handleDecimal}
+                        variant="ghost"
+                        className="h-14 text-xl font-bold bg-background hover:bg-muted rounded-lg"
+                      >
+                        .
+                      </Button>
+                      <Button
+                        onClick={() => {
+                          setAmount(displayValue);
+                          setShowKeypad(false);
+                        }}
+                        className={`h-14 text-white font-bold rounded-lg ${
+                          transactionType === "income"
+                            ? "bg-green-500 hover:bg-green-600"
+                            : transactionType === "investment"
+                              ? "bg-blue-500 hover:bg-blue-600"
+                              : "bg-red-500 hover:bg-red-600"
+                        }`}
+                      >
+                        Done
+                      </Button>
+                    </div>
+                  </div>
+                )}
 
                 {/* Action Buttons - Always show */}
                 <div className="p-4 grid grid-cols-2 gap-4">
