@@ -53,7 +53,7 @@ const allCategories = [
   {
     id: 2,
     name: "Fixed Household Expenses",
-    icon: "��",
+    icon: "🏠",
     type: "expense" as const,
     subcategories: [
       {
@@ -98,7 +98,7 @@ const allCategories = [
   {
     id: 3,
     name: "Family & Personal Living",
-    icon: "👨‍👩‍👧‍��",
+    icon: "👨‍👩‍👧‍👦",
     type: "expense" as const,
     subcategories: [
       {
@@ -916,7 +916,10 @@ function SubcategoryItem({
             <div className="flex items-center gap-2">
               <span className="font-medium text-sm">{subcategory.name}</span>
               {budget > 0 && (
-                <Badge variant="outline" className="text-xs border-blue-500/20 text-blue-400">
+                <Badge
+                  variant="secondary"
+                  className="text-xs bg-blue-500/10 text-blue-500 border-blue-500/20 font-medium"
+                >
                   ₹{budget.toLocaleString()}
                 </Badge>
               )}
