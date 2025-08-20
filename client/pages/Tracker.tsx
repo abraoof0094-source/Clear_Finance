@@ -738,7 +738,7 @@ export function Tracker() {
                     <div
                       className="mt-4 cursor-pointer"
                       onClick={() => {
-                        setShowCategorySelection(true);
+                        setShowCategorySelection(!showCategorySelection);
                         setShowKeypad(false);
                       }}
                     >
