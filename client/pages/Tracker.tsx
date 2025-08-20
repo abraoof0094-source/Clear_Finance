@@ -26,7 +26,7 @@ import {
 // Transaction interface
 interface Transaction {
   id: string;
-  type: "income" | "expense" | "transfer";
+  type: "income" | "expense" | "investment";
   mainCategory: string;
   subCategory: string;
   amount: number;
