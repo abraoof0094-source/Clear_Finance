@@ -262,7 +262,7 @@ const allCategories = [
   {
     id: 7,
     name: "Lifestyle & Discretionary",
-    icon: "����",
+    icon: "🎪",
     type: "expense" as const,
     subcategories: [
       {
@@ -906,19 +906,19 @@ function SubcategoryItem({
   }, [showMenu]);
 
   return (
-    <div className="bg-background rounded-md p-3 relative ml-6">
+    <div className="bg-background/80 backdrop-blur-sm rounded-lg p-4 relative ml-6 border border-border/30 hover:border-border/60 transition-colors">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3 flex-1">
-          <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center text-sm">
+          <div className="w-9 h-9 bg-gradient-to-br from-primary/15 to-primary/5 rounded-lg flex items-center justify-center text-sm shadow-sm">
             {subcategory.icon}
           </div>
           <div className="flex-1">
-            <div className="flex items-center gap-2">
-              <span className="font-medium text-sm">{subcategory.name}</span>
+            <div className="flex items-center gap-2 mb-1">
+              <span className="font-medium text-sm text-foreground">{subcategory.name}</span>
               {budget > 0 && (
                 <Badge
                   variant="secondary"
-                  className="text-xs bg-blue-500/10 text-blue-500 border-blue-500/20 font-medium"
+                  className="text-xs bg-blue-500/10 text-blue-600 border-blue-500/20 font-medium px-2 py-0.5 rounded-full"
                 >
                   ₹{budget.toLocaleString()}
                 </Badge>
