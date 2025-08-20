@@ -491,24 +491,50 @@ export function Tracker() {
     }
 
     try {
-      const now = new Date();
-      const dateStr = now.toISOString().slice(0, 10); // YYYY-MM-DD format
+      if (editingTransaction) {
+        // Update existing transaction
+        await universalStorage.deleteTransaction(editingTransaction.id);
 
-      const transactionData = {
-        type: transactionType,
-        mainCategory: selectedMainCategory,
-        subCategory: selectedSubCategory,
-        amount: parseFloat(amount),
-        date: dateStr,
-        time: currentTime,
-      };
+        const updatedTransactionData = {
+          type: transactionType,
+          mainCategory: selectedMainCategory,
+          subCategory: selectedSubCategory,
+          amount: parseFloat(amount),
+          date: editingTransaction.date, // Keep original date
+          time: editingTransaction.time, // Keep original time
+        };
 
-      // Save to client-side storage (IndexedDB or localStorage)
-      const savedTransaction = await universalStorage.addTransaction(transactionData);
+        const savedTransaction = await universalStorage.addTransaction(updatedTransactionData);
 
-      // Update local state
-      const updatedTransactions = [savedTransaction, ...transactions];
-      setTransactions(updatedTransactions);
+        // Update local state
+        const updatedTransactions = transactions.map(t =>
+          t.id === editingTransaction.id ? savedTransaction : t
+        );
+        setTransactions(updatedTransactions);
+
+        console.log('Transaction updated successfully');
+      } else {
+        // Create new transaction
+        const now = new Date();
+        const dateStr = now.toISOString().slice(0, 10); // YYYY-MM-DD format
+
+        const transactionData = {
+          type: transactionType,
+          mainCategory: selectedMainCategory,
+          subCategory: selectedSubCategory,
+          amount: parseFloat(amount),
+          date: dateStr,
+          time: currentTime,
+        };
+
+        const savedTransaction = await universalStorage.addTransaction(transactionData);
+
+        // Update local state
+        const updatedTransactions = [savedTransaction, ...transactions];
+        setTransactions(updatedTransactions);
+
+        console.log('Transaction saved successfully to client storage');
+      }
 
       // Reset form
       setTransactionType("expense");
@@ -516,9 +542,9 @@ export function Tracker() {
       setSelectedSubCategory("");
       setDisplayValue("0");
       setAmount("");
+      setEditingTransaction(null);
       setShowAddDialog(false);
 
-      console.log('Transaction saved successfully to client storage');
     } catch (error) {
       console.error('Failed to save transaction:', error);
       alert('Failed to save transaction. Please try again.');
