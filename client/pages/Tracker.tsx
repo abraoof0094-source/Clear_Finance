@@ -102,7 +102,7 @@ const allCategories = [
       },
       {
         name: "Others",
-        icon: "🏷️",
+        icon: "���️",
         description: "Other fixed household costs",
       },
     ],
@@ -593,7 +593,7 @@ export function Tracker() {
 
         {/* Add Transaction Dialog */}
         <Dialog open={showAddDialog} onOpenChange={setShowAddDialog}>
-          <DialogContent className="w-full h-full max-w-none max-h-none m-0 rounded-none border-0 bg-background">
+          <DialogContent className="w-full h-full max-w-none max-h-none m-0 rounded-none border-0 bg-background overflow-hidden">
             <DialogHeader className="sr-only">
               <DialogTitle>
                 {transactionType === "income"
@@ -603,7 +603,7 @@ export function Tracker() {
                     : "Add Expense"}
               </DialogTitle>
             </DialogHeader>
-            <div className="flex flex-col h-full">
+            <div className="flex flex-col h-full overflow-hidden">
               {/* Header */}
               <div className="flex items-center justify-between p-4 border-b">
                 <Button
