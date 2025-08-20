@@ -67,7 +67,7 @@ const allCategories = [
   {
     id: 3,
     name: "Family & Personal Living",
-    icon: "👨‍👩‍👧‍👦",
+    icon: "👨���👩‍👧‍👦",
     type: "expense" as const,
     subcategories: [
       { name: "Groceries", icon: "🛒", description: "Daily food & household items" },
@@ -539,9 +539,13 @@ export function Tracker() {
                     <div></div>
                     <Button onClick={() => handleNumberClick("0")} variant="ghost" className="h-12 text-lg">0</Button>
                     <Button onClick={handleDecimal} variant="ghost" className="h-12 text-lg">.</Button>
-                    <Button 
-                      onClick={handleSave} 
-                      className="h-12 bg-red-500 hover:bg-red-600 text-white"
+                    <Button
+                      onClick={handleSave}
+                      className={`h-12 text-white ${
+                        transactionType === 'income' ? 'bg-green-500 hover:bg-green-600' :
+                        transactionType === 'investment' ? 'bg-blue-500 hover:bg-blue-600' :
+                        'bg-red-500 hover:bg-red-600'
+                      }`}
                       disabled={!selectedMainCategory || !selectedSubCategory || !amount}
                     >
                       Done
