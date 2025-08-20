@@ -276,7 +276,6 @@ export function Tracker() {
     setSelectedSubCategory("");
     setDisplayValue("0");
     setAmount("");
-    setShowKeypad(false);
     setShowAddDialog(false);
   };
 
