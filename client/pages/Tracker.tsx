@@ -142,10 +142,21 @@ export function Tracker() {
 
   // Load transactions from localStorage on component mount
   useEffect(() => {
-    const stored = localStorage.getItem("tracker-transactions");
-    if (stored) {
-      setTransactions(JSON.parse(stored));
+    const currentMonthKey = new Date().toISOString().slice(0, 7); // YYYY-MM format
+    const storedMonthly = localStorage.getItem(`transactions-${currentMonthKey}`);
+    const storedAll = localStorage.getItem("tracker-transactions"); // Legacy support
+
+    let monthlyTransactions = [];
+    if (storedMonthly) {
+      monthlyTransactions = JSON.parse(storedMonthly);
+    } else if (storedAll) {
+      // Migrate from old storage format
+      const allTransactions = JSON.parse(storedAll);
+      const currentMonth = allTransactions.filter(t => t.date.includes(currentMonthKey));
+      monthlyTransactions = currentMonth;
     }
+
+    setTransactions(monthlyTransactions);
   }, []);
 
   // Update current date and time
