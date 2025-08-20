@@ -31,7 +31,7 @@ const allCategories = [
     subcategories: [
       {
         name: "Fixed Salary",
-        icon: "💵",
+        icon: "��",
         description: "Monthly take-home salary",
       },
       {
@@ -272,6 +272,30 @@ export function Tracker() {
     return new Date(now.getFullYear(), now.getMonth(), 1);
   });
 
+  // Month navigation functions
+  const formatMonth = (date: Date) => {
+    return date.toLocaleDateString("en-US", {
+      month: "short",
+      year: "numeric"
+    });
+  };
+
+  const goToPreviousMonth = () => {
+    setCurrentMonth(prev => {
+      const newDate = new Date(prev);
+      newDate.setMonth(newDate.getMonth() - 1);
+      return newDate;
+    });
+  };
+
+  const goToNextMonth = () => {
+    setCurrentMonth(prev => {
+      const newDate = new Date(prev);
+      newDate.setMonth(newDate.getMonth() + 1);
+      return newDate;
+    });
+  };
+
   // Load transactions from client-side storage (IndexedDB with localStorage fallback)
   useEffect(() => {
     const loadTransactions = async () => {
@@ -279,13 +303,14 @@ export function Tracker() {
         // Initialize client storage (IndexedDB or localStorage)
         await universalStorage.init();
 
-        // Load current month transactions
-        const transactions =
-          await universalStorage.getCurrentMonthTransactions();
+        // Load transactions for current month
+        const year = currentMonth.getFullYear();
+        const month = currentMonth.getMonth() + 1; // JavaScript months are 0-indexed
+        const transactions = await universalStorage.getTransactionsByMonth(year, month);
         setTransactions(transactions);
 
         console.log(
-          `Loaded ${transactions.length} transactions from client storage`,
+          `Loaded ${transactions.length} transactions for ${formatMonth(currentMonth)} from client storage`,
         );
       } catch (error) {
         console.error("Failed to load transactions:", error);
@@ -294,7 +319,7 @@ export function Tracker() {
     };
 
     loadTransactions();
-  }, []);
+  }, [currentMonth]); // Re-load when currentMonth changes
 
   // Update current date and time
   useEffect(() => {
