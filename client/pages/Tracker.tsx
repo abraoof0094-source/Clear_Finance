@@ -16,12 +16,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../components/ui/select";
-import {
-  Plus,
-  ArrowLeft,
-  Calculator,
-  X,
-} from "lucide-react";
+import { Plus, ArrowLeft, Calculator, X } from "lucide-react";
 
 // Transaction interface
 interface Transaction {
@@ -42,12 +37,36 @@ const allCategories = [
     icon: "💰",
     type: "income" as const,
     subcategories: [
-      { name: "Fixed Salary", icon: "💵", description: "Monthly take-home salary" },
-      { name: "Variable Pay", icon: "💎", description: "Performance bonus, annual bonus" },
-      { name: "Reimbursements", icon: "📄", description: "Travel allowance, food coupons" },
-      { name: "Freelance/Side Income", icon: "💻", description: "Consulting, online gigs" },
-      { name: "Passive Income", icon: "📊", description: "Dividends, rental income" },
-      { name: "Others", icon: "💡", description: "Gifts, lottery, miscellaneous income" },
+      {
+        name: "Fixed Salary",
+        icon: "💵",
+        description: "Monthly take-home salary",
+      },
+      {
+        name: "Variable Pay",
+        icon: "💎",
+        description: "Performance bonus, annual bonus",
+      },
+      {
+        name: "Reimbursements",
+        icon: "📄",
+        description: "Travel allowance, food coupons",
+      },
+      {
+        name: "Freelance/Side Income",
+        icon: "💻",
+        description: "Consulting, online gigs",
+      },
+      {
+        name: "Passive Income",
+        icon: "📊",
+        description: "Dividends, rental income",
+      },
+      {
+        name: "Others",
+        icon: "💡",
+        description: "Gifts, lottery, miscellaneous income",
+      },
     ],
   },
   {
@@ -56,12 +75,36 @@ const allCategories = [
     icon: "🏠",
     type: "expense" as const,
     subcategories: [
-      { name: "Rent/EMI", icon: "🏡", description: "House rent or home loan EMI" },
-      { name: "Utilities", icon: "💡", description: "Electricity, water, gas bills" },
-      { name: "Internet & Mobile", icon: "📱", description: "Broadband, mobile plans" },
-      { name: "Maintenance", icon: "🔧", description: "Society charges, repairs" },
-      { name: "Domestic Help", icon: "👥", description: "Maid, cook, driver salaries" },
-      { name: "Others", icon: "🏷️", description: "Other fixed household costs" },
+      {
+        name: "Rent/EMI",
+        icon: "🏡",
+        description: "House rent or home loan EMI",
+      },
+      {
+        name: "Utilities",
+        icon: "💡",
+        description: "Electricity, water, gas bills",
+      },
+      {
+        name: "Internet & Mobile",
+        icon: "📱",
+        description: "Broadband, mobile plans",
+      },
+      {
+        name: "Maintenance",
+        icon: "🔧",
+        description: "Society charges, repairs",
+      },
+      {
+        name: "Domestic Help",
+        icon: "👥",
+        description: "Maid, cook, driver salaries",
+      },
+      {
+        name: "Others",
+        icon: "🏷️",
+        description: "Other fixed household costs",
+      },
     ],
   },
   {
@@ -70,17 +113,61 @@ const allCategories = [
     icon: "👪",
     type: "expense" as const,
     subcategories: [
-      { name: "Groceries", icon: "🛒", description: "Daily food & household items" },
-      { name: "Food & Dining", icon: "🍽️", description: "Restaurants, food delivery, cafes" },
-      { name: "Transportation", icon: "🚗", description: "Fuel, public transport, taxi" },
-      { name: "Healthcare", icon: "🏥", description: "Doctor visits, medicines, checkups" },
-      { name: "Personal Care", icon: "💄", description: "Salon, cosmetics, hygiene" },
-      { name: "Clothing", icon: "👗", description: "Apparel, footwear, accessories" },
-      { name: "Education", icon: "📚", description: "School fees, courses, books" },
-      { name: "Entertainment", icon: "🎬", description: "Movies, games, subscriptions" },
-      { name: "Travel & Vacation", icon: "✈️", description: "Holidays, weekend trips" },
-      { name: "Gifts & Donations", icon: "🎁", description: "Presents, charity, festivals" },
-      { name: "Others", icon: "🏷️", description: "Miscellaneous family expenses" },
+      {
+        name: "Groceries",
+        icon: "🛒",
+        description: "Daily food & household items",
+      },
+      {
+        name: "Food & Dining",
+        icon: "🍽️",
+        description: "Restaurants, food delivery, cafes",
+      },
+      {
+        name: "Transportation",
+        icon: "🚗",
+        description: "Fuel, public transport, taxi",
+      },
+      {
+        name: "Healthcare",
+        icon: "🏥",
+        description: "Doctor visits, medicines, checkups",
+      },
+      {
+        name: "Personal Care",
+        icon: "💄",
+        description: "Salon, cosmetics, hygiene",
+      },
+      {
+        name: "Clothing",
+        icon: "👗",
+        description: "Apparel, footwear, accessories",
+      },
+      {
+        name: "Education",
+        icon: "📚",
+        description: "School fees, courses, books",
+      },
+      {
+        name: "Entertainment",
+        icon: "🎬",
+        description: "Movies, games, subscriptions",
+      },
+      {
+        name: "Travel & Vacation",
+        icon: "✈️",
+        description: "Holidays, weekend trips",
+      },
+      {
+        name: "Gifts & Donations",
+        icon: "🎁",
+        description: "Presents, charity, festivals",
+      },
+      {
+        name: "Others",
+        icon: "🏷️",
+        description: "Miscellaneous family expenses",
+      },
     ],
   },
   {
@@ -89,11 +176,31 @@ const allCategories = [
     icon: "🛡️",
     type: "expense" as const,
     subcategories: [
-      { name: "Life Insurance", icon: "❤️", description: "Term, whole life policies" },
-      { name: "Health Insurance", icon: "🏥", description: "Medical, family health plans" },
-      { name: "Vehicle Insurance", icon: "����", description: "Car, bike insurance" },
-      { name: "Home Insurance", icon: "🏠", description: "Property, contents insurance" },
-      { name: "Others", icon: "🛡️", description: "Travel, other insurance types" },
+      {
+        name: "Life Insurance",
+        icon: "❤️",
+        description: "Term, whole life policies",
+      },
+      {
+        name: "Health Insurance",
+        icon: "🏥",
+        description: "Medical, family health plans",
+      },
+      {
+        name: "Vehicle Insurance",
+        icon: "����",
+        description: "Car, bike insurance",
+      },
+      {
+        name: "Home Insurance",
+        icon: "🏠",
+        description: "Property, contents insurance",
+      },
+      {
+        name: "Others",
+        icon: "🛡️",
+        description: "Travel, other insurance types",
+      },
     ],
   },
   {
@@ -102,13 +209,33 @@ const allCategories = [
     icon: "📈",
     type: "investment" as const,
     subcategories: [
-      { name: "Mutual Funds", icon: "📊", description: "SIP, lump sum investments" },
-      { name: "Stocks & Shares", icon: "📈", description: "Direct equity investments" },
-      { name: "Fixed Deposits", icon: "🏦", description: "Bank FDs, recurring deposits" },
+      {
+        name: "Mutual Funds",
+        icon: "📊",
+        description: "SIP, lump sum investments",
+      },
+      {
+        name: "Stocks & Shares",
+        icon: "📈",
+        description: "Direct equity investments",
+      },
+      {
+        name: "Fixed Deposits",
+        icon: "🏦",
+        description: "Bank FDs, recurring deposits",
+      },
       { name: "PPF & ELSS", icon: "🎯", description: "Tax-saving investments" },
-      { name: "Real Estate", icon: "����️", description: "Property investments" },
+      {
+        name: "Real Estate",
+        icon: "����️",
+        description: "Property investments",
+      },
       { name: "Gold", icon: "✨", description: "Physical gold, gold ETFs" },
-      { name: "Crypto", icon: "₿", description: "Bitcoin, other cryptocurrencies" },
+      {
+        name: "Crypto",
+        icon: "₿",
+        description: "Bitcoin, other cryptocurrencies",
+      },
       { name: "Others", icon: "💰", description: "Bonds, other investments" },
     ],
   },
@@ -131,7 +258,9 @@ const allCategories = [
 export function Tracker() {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [showAddDialog, setShowAddDialog] = useState(false);
-  const [transactionType, setTransactionType] = useState<"income" | "expense" | "investment">("expense");
+  const [transactionType, setTransactionType] = useState<
+    "income" | "expense" | "investment"
+  >("expense");
   const [selectedMainCategory, setSelectedMainCategory] = useState("");
   const [selectedSubCategory, setSelectedSubCategory] = useState("");
   const [amount, setAmount] = useState("");
@@ -142,7 +271,9 @@ export function Tracker() {
   // Load transactions from localStorage on component mount
   useEffect(() => {
     const currentMonthKey = new Date().toISOString().slice(0, 7); // YYYY-MM format
-    const storedMonthly = localStorage.getItem(`transactions-${currentMonthKey}`);
+    const storedMonthly = localStorage.getItem(
+      `transactions-${currentMonthKey}`,
+    );
     const storedAll = localStorage.getItem("tracker-transactions"); // Legacy support
 
     let monthlyTransactions = [];
@@ -151,7 +282,9 @@ export function Tracker() {
     } else if (storedAll) {
       // Migrate from old storage format
       const allTransactions = JSON.parse(storedAll);
-      const currentMonth = allTransactions.filter(t => t.date.includes(currentMonthKey));
+      const currentMonth = allTransactions.filter((t) =>
+        t.date.includes(currentMonthKey),
+      );
       monthlyTransactions = currentMonth;
     }
 
@@ -162,25 +295,25 @@ export function Tracker() {
   useEffect(() => {
     const updateDateTime = () => {
       const now = new Date();
-      const date = now.toLocaleDateString("en-GB", { 
-        day: "2-digit", 
-        month: "2-digit", 
+      const date = now.toLocaleDateString("en-GB", {
+        day: "2-digit",
+        month: "2-digit",
         year: "2-digit",
-        weekday: "short"
+        weekday: "short",
       });
-      const time = now.toLocaleTimeString("en-US", { 
-        hour: "numeric", 
+      const time = now.toLocaleTimeString("en-US", {
+        hour: "numeric",
         minute: "2-digit",
-        hour12: true 
+        hour12: true,
       });
-      
+
       setCurrentDate(date);
       setCurrentTime(time);
     };
 
     updateDateTime();
     const interval = setInterval(updateDateTime, 1000);
-    
+
     return () => clearInterval(interval);
   }, []);
 
@@ -225,7 +358,7 @@ export function Tracker() {
 
   // Get filtered categories based on transaction type
   const filteredCategories = allCategories.filter(
-    (cat) => cat.type === transactionType
+    (cat) => cat.type === transactionType,
   );
 
   // Get subcategories for selected main category
@@ -240,7 +373,7 @@ export function Tracker() {
     amount,
     displayValue,
     subCategoriesCount: subCategories.length,
-    filteredCategoriesCount: filteredCategories.length
+    filteredCategoriesCount: filteredCategories.length,
   });
 
   // Save transaction
@@ -268,10 +401,16 @@ export function Tracker() {
     setTransactions(updatedTransactions);
 
     // Store by month for better organization
-    localStorage.setItem(`transactions-${monthKey}`, JSON.stringify(updatedTransactions));
+    localStorage.setItem(
+      `transactions-${monthKey}`,
+      JSON.stringify(updatedTransactions),
+    );
 
     // Also update the legacy storage for backwards compatibility
-    localStorage.setItem("tracker-transactions", JSON.stringify(updatedTransactions));
+    localStorage.setItem(
+      "tracker-transactions",
+      JSON.stringify(updatedTransactions),
+    );
 
     // Reset form
     setTransactionType("expense");
@@ -330,12 +469,19 @@ export function Tracker() {
               <Card key={transaction.id} className="p-4">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className={`w-2 h-12 rounded-full ${
-                      transaction.type === "income" ? "bg-green-500" : 
-                      transaction.type === "investment" ? "bg-blue-500" : "bg-red-500"
-                    }`}></div>
+                    <div
+                      className={`w-2 h-12 rounded-full ${
+                        transaction.type === "income"
+                          ? "bg-green-500"
+                          : transaction.type === "investment"
+                            ? "bg-blue-500"
+                            : "bg-red-500"
+                      }`}
+                    ></div>
                     <div>
-                      <div className="font-medium">{transaction.subCategory}</div>
+                      <div className="font-medium">
+                        {transaction.subCategory}
+                      </div>
                       <div className="text-sm text-muted-foreground">
                         {transaction.mainCategory}
                       </div>
@@ -344,11 +490,17 @@ export function Tracker() {
                       </div>
                     </div>
                   </div>
-                  <div className={`font-bold text-lg ${
-                    transaction.type === "income" ? "text-green-500" : 
-                    transaction.type === "investment" ? "text-blue-500" : "text-red-500"
-                  }`}>
-                    {transaction.type === "income" ? "+" : "-"}₹{transaction.amount.toLocaleString()}
+                  <div
+                    className={`font-bold text-lg ${
+                      transaction.type === "income"
+                        ? "text-green-500"
+                        : transaction.type === "investment"
+                          ? "text-blue-500"
+                          : "text-red-500"
+                    }`}
+                  >
+                    {transaction.type === "income" ? "+" : "-"}₹
+                    {transaction.amount.toLocaleString()}
                   </div>
                 </div>
               </Card>
@@ -370,19 +522,29 @@ export function Tracker() {
           <DialogContent className="w-full h-full max-w-none max-h-none m-0 rounded-none border-0 bg-background">
             <DialogHeader className="sr-only">
               <DialogTitle>
-                {transactionType === "income" ? "Add Income" :
-                 transactionType === "investment" ? "Add Investment" : "Add Expense"}
+                {transactionType === "income"
+                  ? "Add Income"
+                  : transactionType === "investment"
+                    ? "Add Investment"
+                    : "Add Expense"}
               </DialogTitle>
             </DialogHeader>
             <div className="flex flex-col h-full">
               {/* Header */}
               <div className="flex items-center justify-between p-4 border-b">
-                <Button variant="ghost" size="icon" onClick={() => setShowAddDialog(false)}>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => setShowAddDialog(false)}
+                >
                   <ArrowLeft className="h-6 w-6" />
                 </Button>
                 <h2 className="text-xl font-semibold">
-                  {transactionType === "income" ? "Income" :
-                   transactionType === "investment" ? "Invest" : "Expense"}
+                  {transactionType === "income"
+                    ? "Income"
+                    : transactionType === "investment"
+                      ? "Invest"
+                      : "Expense"}
                 </h2>
                 <div></div>
               </div>
@@ -406,7 +568,9 @@ export function Tracker() {
                     Income
                   </Button>
                   <Button
-                    variant={transactionType === "expense" ? "default" : "ghost"}
+                    variant={
+                      transactionType === "expense" ? "default" : "ghost"
+                    }
                     onClick={() => {
                       setTransactionType("expense");
                       setSelectedMainCategory("");
@@ -421,7 +585,9 @@ export function Tracker() {
                     Expense
                   </Button>
                   <Button
-                    variant={transactionType === "investment" ? "default" : "ghost"}
+                    variant={
+                      transactionType === "investment" ? "default" : "ghost"
+                    }
                     onClick={() => {
                       setTransactionType("investment");
                       setSelectedMainCategory("");
@@ -441,7 +607,9 @@ export function Tracker() {
                 <div className="px-4 space-y-6 flex-1">
                   {/* Date and Time */}
                   <div className="space-y-2">
-                    <label className="text-base text-muted-foreground">Date</label>
+                    <label className="text-base text-muted-foreground">
+                      Date
+                    </label>
                     <div className="flex items-center justify-between">
                       <span className="text-lg">{currentDate}</span>
                       <span className="text-lg">{currentTime}</span>
@@ -450,19 +618,28 @@ export function Tracker() {
 
                   {/* Amount */}
                   <div className="space-y-2">
-                    <label className="text-base text-muted-foreground">Amount</label>
+                    <label className="text-base text-muted-foreground">
+                      Amount
+                    </label>
                     <div className="text-3xl font-bold py-2">
                       ₹ {displayValue}
                     </div>
-                    <div className={`h-px ${
-                      transactionType === 'income' ? 'bg-green-500' :
-                      transactionType === 'investment' ? 'bg-blue-500' : 'bg-red-500'
-                    }`}></div>
+                    <div
+                      className={`h-px ${
+                        transactionType === "income"
+                          ? "bg-green-500"
+                          : transactionType === "investment"
+                            ? "bg-blue-500"
+                            : "bg-red-500"
+                      }`}
+                    ></div>
                   </div>
 
                   {/* Category */}
                   <div className="space-y-3">
-                    <label className="text-base text-muted-foreground">Category</label>
+                    <label className="text-base text-muted-foreground">
+                      Category
+                    </label>
 
                     {/* Category List - More Compact */}
                     <div className="space-y-1 max-h-48 overflow-y-auto">
@@ -471,13 +648,18 @@ export function Tracker() {
                           <div
                             className={`flex items-center justify-between p-2 rounded cursor-pointer transition-colors ${
                               selectedMainCategory === category.name
-                                ? 'bg-muted border border-primary'
-                                : 'bg-muted/20 hover:bg-muted/40'
+                                ? "bg-muted border border-primary"
+                                : "bg-muted/20 hover:bg-muted/40"
                             }`}
                             onClick={(e) => {
                               e.preventDefault();
                               e.stopPropagation();
-                              console.log("Category clicked:", category.name, "Current:", selectedMainCategory);
+                              console.log(
+                                "Category clicked:",
+                                category.name,
+                                "Current:",
+                                selectedMainCategory,
+                              );
                               if (selectedMainCategory === category.name) {
                                 setSelectedMainCategory("");
                                 setSelectedSubCategory("");
@@ -489,17 +671,26 @@ export function Tracker() {
                           >
                             <div className="flex items-center gap-2">
                               <span className="text-base">{category.icon}</span>
-                              <span className="text-xs font-medium">{category.name}</span>
+                              <span className="text-xs font-medium">
+                                {category.name}
+                              </span>
                             </div>
                             <svg
                               className={`w-3 h-3 text-muted-foreground transition-transform ${
-                                selectedMainCategory === category.name ? 'rotate-90' : ''
+                                selectedMainCategory === category.name
+                                  ? "rotate-90"
+                                  : ""
                               }`}
                               fill="none"
                               stroke="currentColor"
                               viewBox="0 0 24 24"
                             >
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M9 5l7 7-7 7"
+                              />
                             </svg>
                           </div>
 
@@ -511,18 +702,23 @@ export function Tracker() {
                                   key={index}
                                   className={`flex items-center gap-2 p-1.5 rounded text-xs cursor-pointer transition-colors ${
                                     selectedSubCategory === sub.name
-                                      ? 'bg-primary/20 border border-primary'
-                                      : 'hover:bg-muted/20'
+                                      ? "bg-primary/20 border border-primary"
+                                      : "hover:bg-muted/20"
                                   }`}
                                   onClick={(e) => {
                                     e.preventDefault();
                                     e.stopPropagation();
-                                    console.log("Subcategory clicked:", sub.name);
+                                    console.log(
+                                      "Subcategory clicked:",
+                                      sub.name,
+                                    );
                                     setSelectedSubCategory(sub.name);
                                   }}
                                 >
                                   <span className="text-xs">{sub.icon}</span>
-                                  <span className="font-medium">{sub.name}</span>
+                                  <span className="font-medium">
+                                    {sub.name}
+                                  </span>
                                 </div>
                               ))}
                             </div>
@@ -531,10 +727,15 @@ export function Tracker() {
                       ))}
                     </div>
 
-                    <div className={`h-px ${
-                      transactionType === 'income' ? 'bg-green-500' :
-                      transactionType === 'investment' ? 'bg-blue-500' : 'bg-red-500'
-                    }`}></div>
+                    <div
+                      className={`h-px ${
+                        transactionType === "income"
+                          ? "bg-green-500"
+                          : transactionType === "investment"
+                            ? "bg-blue-500"
+                            : "bg-red-500"
+                      }`}
+                    ></div>
                   </div>
                 </div>
 
@@ -543,11 +744,18 @@ export function Tracker() {
                   <Button
                     onClick={handleSave}
                     className={`h-12 text-white rounded-lg ${
-                      transactionType === 'income' ? 'bg-green-500 hover:bg-green-600' :
-                      transactionType === 'investment' ? 'bg-blue-500 hover:bg-blue-600' :
-                      'bg-red-500 hover:bg-red-600'
+                      transactionType === "income"
+                        ? "bg-green-500 hover:bg-green-600"
+                        : transactionType === "investment"
+                          ? "bg-blue-500 hover:bg-blue-600"
+                          : "bg-red-500 hover:bg-red-600"
                     }`}
-                    disabled={!selectedMainCategory || !selectedSubCategory || !amount || parseFloat(amount) <= 0}
+                    disabled={
+                      !selectedMainCategory ||
+                      !selectedSubCategory ||
+                      !amount ||
+                      parseFloat(amount) <= 0
+                    }
                   >
                     Save
                   </Button>
@@ -563,39 +771,128 @@ export function Tracker() {
                 {/* Calculator Keypad - Always show */}
                 <div className="p-4 pb-32 bg-muted/30 border-t">
                   <div className="flex justify-between items-center mb-3">
-                    <span className="text-sm text-muted-foreground">Amount</span>
+                    <span className="text-sm text-muted-foreground">
+                      Amount
+                    </span>
                   </div>
                   <div className="grid grid-cols-4 gap-3">
-                    <Button onClick={() => handleNumberClick("1")} variant="ghost" className="h-14 text-xl font-bold bg-background hover:bg-muted rounded-lg">1</Button>
-                    <Button onClick={() => handleNumberClick("2")} variant="ghost" className="h-14 text-xl font-bold bg-background hover:bg-muted rounded-lg">2</Button>
-                    <Button onClick={() => handleNumberClick("3")} variant="ghost" className="h-14 text-xl font-bold bg-background hover:bg-muted rounded-lg">3</Button>
-                    <Button onClick={handleBackspace} variant="ghost" className="h-14 bg-background hover:bg-muted rounded-lg">
+                    <Button
+                      onClick={() => handleNumberClick("1")}
+                      variant="ghost"
+                      className="h-14 text-xl font-bold bg-background hover:bg-muted rounded-lg"
+                    >
+                      1
+                    </Button>
+                    <Button
+                      onClick={() => handleNumberClick("2")}
+                      variant="ghost"
+                      className="h-14 text-xl font-bold bg-background hover:bg-muted rounded-lg"
+                    >
+                      2
+                    </Button>
+                    <Button
+                      onClick={() => handleNumberClick("3")}
+                      variant="ghost"
+                      className="h-14 text-xl font-bold bg-background hover:bg-muted rounded-lg"
+                    >
+                      3
+                    </Button>
+                    <Button
+                      onClick={handleBackspace}
+                      variant="ghost"
+                      className="h-14 bg-background hover:bg-muted rounded-lg"
+                    >
                       <X className="h-6 w-6" />
                     </Button>
 
-                    <Button onClick={() => handleNumberClick("4")} variant="ghost" className="h-14 text-xl font-bold bg-background hover:bg-muted rounded-lg">4</Button>
-                    <Button onClick={() => handleNumberClick("5")} variant="ghost" className="h-14 text-xl font-bold bg-background hover:bg-muted rounded-lg">5</Button>
-                    <Button onClick={() => handleNumberClick("6")} variant="ghost" className="h-14 text-xl font-bold bg-background hover:bg-muted rounded-lg">6</Button>
-                    <Button onClick={handleClear} variant="ghost" className="h-14 text-xl font-bold bg-background hover:bg-muted rounded-lg">-</Button>
+                    <Button
+                      onClick={() => handleNumberClick("4")}
+                      variant="ghost"
+                      className="h-14 text-xl font-bold bg-background hover:bg-muted rounded-lg"
+                    >
+                      4
+                    </Button>
+                    <Button
+                      onClick={() => handleNumberClick("5")}
+                      variant="ghost"
+                      className="h-14 text-xl font-bold bg-background hover:bg-muted rounded-lg"
+                    >
+                      5
+                    </Button>
+                    <Button
+                      onClick={() => handleNumberClick("6")}
+                      variant="ghost"
+                      className="h-14 text-xl font-bold bg-background hover:bg-muted rounded-lg"
+                    >
+                      6
+                    </Button>
+                    <Button
+                      onClick={handleClear}
+                      variant="ghost"
+                      className="h-14 text-xl font-bold bg-background hover:bg-muted rounded-lg"
+                    >
+                      -
+                    </Button>
 
-                    <Button onClick={() => handleNumberClick("7")} variant="ghost" className="h-14 text-xl font-bold bg-background hover:bg-muted rounded-lg">7</Button>
-                    <Button onClick={() => handleNumberClick("8")} variant="ghost" className="h-14 text-xl font-bold bg-background hover:bg-muted rounded-lg">8</Button>
-                    <Button onClick={() => handleNumberClick("9")} variant="ghost" className="h-14 text-xl font-bold bg-background hover:bg-muted rounded-lg">9</Button>
-                    <Button onClick={handleClear} variant="ghost" className="h-14 bg-background hover:bg-muted rounded-lg">
+                    <Button
+                      onClick={() => handleNumberClick("7")}
+                      variant="ghost"
+                      className="h-14 text-xl font-bold bg-background hover:bg-muted rounded-lg"
+                    >
+                      7
+                    </Button>
+                    <Button
+                      onClick={() => handleNumberClick("8")}
+                      variant="ghost"
+                      className="h-14 text-xl font-bold bg-background hover:bg-muted rounded-lg"
+                    >
+                      8
+                    </Button>
+                    <Button
+                      onClick={() => handleNumberClick("9")}
+                      variant="ghost"
+                      className="h-14 text-xl font-bold bg-background hover:bg-muted rounded-lg"
+                    >
+                      9
+                    </Button>
+                    <Button
+                      onClick={handleClear}
+                      variant="ghost"
+                      className="h-14 bg-background hover:bg-muted rounded-lg"
+                    >
                       <Calculator className="h-6 w-6" />
                     </Button>
 
                     <div></div>
-                    <Button onClick={() => handleNumberClick("0")} variant="ghost" className="h-14 text-xl font-bold bg-background hover:bg-muted rounded-lg">0</Button>
-                    <Button onClick={handleDecimal} variant="ghost" className="h-14 text-xl font-bold bg-background hover:bg-muted rounded-lg">.</Button>
+                    <Button
+                      onClick={() => handleNumberClick("0")}
+                      variant="ghost"
+                      className="h-14 text-xl font-bold bg-background hover:bg-muted rounded-lg"
+                    >
+                      0
+                    </Button>
+                    <Button
+                      onClick={handleDecimal}
+                      variant="ghost"
+                      className="h-14 text-xl font-bold bg-background hover:bg-muted rounded-lg"
+                    >
+                      .
+                    </Button>
                     <Button
                       onClick={handleSave}
                       className={`h-14 text-white font-bold rounded-lg ${
-                        transactionType === 'income' ? 'bg-green-500 hover:bg-green-600' :
-                        transactionType === 'investment' ? 'bg-blue-500 hover:bg-blue-600' :
-                        'bg-red-500 hover:bg-red-600'
+                        transactionType === "income"
+                          ? "bg-green-500 hover:bg-green-600"
+                          : transactionType === "investment"
+                            ? "bg-blue-500 hover:bg-blue-600"
+                            : "bg-red-500 hover:bg-red-600"
                       }`}
-                      disabled={!selectedMainCategory || !selectedSubCategory || !amount || parseFloat(amount) <= 0}
+                      disabled={
+                        !selectedMainCategory ||
+                        !selectedSubCategory ||
+                        !amount ||
+                        parseFloat(amount) <= 0
+                      }
                     >
                       Done
                     </Button>
@@ -605,7 +902,6 @@ export function Tracker() {
             </div>
           </DialogContent>
         </Dialog>
-
       </div>
     </Layout>
   );
