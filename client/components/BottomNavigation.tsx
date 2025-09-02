@@ -12,10 +12,9 @@ export function BottomNavigation() {
   const location = useLocation();
 
   const navItems = [
-    { path: "/", icon: ClipboardList, label: "Records" },
-    { path: "/analysis", icon: PieChart, label: "Analysis" },
     { path: "/tracker", icon: Target, label: "Tracker" },
-    { path: "/categories", icon: FolderOpen, label: "Categories" },
+    { path: "/analysis", icon: PieChart, label: "Analysis" },
+    { path: "/records", icon: ClipboardList, label: "Records" },
     { path: "/more", icon: MoreHorizontal, label: "More" },
   ];
 
