@@ -17,7 +17,8 @@ export default function App() {
     <BrowserRouter>
       <div className="dark">
         <Routes>
-          <Route path="/" element={<Dashboard />} />
+          <Route path="/" element={<Tracker />} />
+          <Route path="/records" element={<Dashboard />} />
           <Route path="/analysis" element={<Analysis />} />
           <Route path="/tracker" element={<Tracker />} />
           <Route path="/budgets" element={<Budgets />} />
