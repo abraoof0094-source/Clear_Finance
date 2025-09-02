@@ -90,6 +90,14 @@ export function More() {
       action: () => navigate("/preferences"),
     },
     {
+      id: "categories",
+      title: "Categories",
+      subtitle: "Manage categories & budgets",
+      icon: FolderOpen,
+      color: "bg-purple-500/10 text-purple-500",
+      action: () => navigate("/categories"),
+    },
+    {
       id: "passcode",
       title: "Passcode",
       subtitle: "Security settings",
