@@ -34,6 +34,7 @@ import {
   Info,
   FileUp,
   HardDrive,
+  FolderOpen,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { phoneStorage } from "../utils/phoneStorage";
