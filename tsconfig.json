@@ -25,9 +25,6 @@
       "@/*": ["./client/*"]
     }
   },
-  "include": [
-    "client/**/*",
-    "vite.config.ts"
-  ],
+  "include": ["client/**/*", "vite.config.ts"],
   "exclude": ["node_modules", "dist"]
 }
