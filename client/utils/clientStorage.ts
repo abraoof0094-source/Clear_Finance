@@ -419,14 +419,18 @@ export class UniversalStorage {
   async addTransaction(
     transaction: Omit<Transaction, "id" | "timestamp">,
   ): Promise<Transaction> {
+    if (this.useSql) {
+      return await sqlStorage.addTransaction(transaction as any);
+    }
     if (this.useIndexedDB) {
       return await clientStorage.addTransaction(transaction);
     } else {
-      return this.localStorageManager.addTransaction(transaction);
+      return this.localStorageManager.addTransaction(transaction as any);
     }
   }
 
   async getCurrentMonthTransactions(): Promise<Transaction[]> {
+    if (this.useSql) return await sqlStorage.getCurrentMonthTransactions();
     if (this.useIndexedDB) {
       return await clientStorage.getCurrentMonthTransactions();
     } else {
@@ -435,6 +439,7 @@ export class UniversalStorage {
   }
 
   async getRecentTransactions(limit: number = 10): Promise<Transaction[]> {
+    if (this.useSql) return await sqlStorage.getRecentTransactions(limit);
     if (this.useIndexedDB) {
       return await clientStorage.getRecentTransactions(limit);
     } else {
@@ -443,6 +448,7 @@ export class UniversalStorage {
   }
 
   async getCurrentMonthlySummary(): Promise<Summary> {
+    if (this.useSql) return await sqlStorage.getCurrentMonthlySummary();
     if (this.useIndexedDB) {
       return await clientStorage.getCurrentMonthlySummary();
     } else {
@@ -451,6 +457,7 @@ export class UniversalStorage {
   }
 
   async deleteTransaction(transactionId: string): Promise<boolean> {
+    if (this.useSql) return await sqlStorage.deleteTransaction(transactionId as any);
     if (this.useIndexedDB) {
       return await clientStorage.deleteTransaction(transactionId);
     } else {
@@ -462,6 +469,7 @@ export class UniversalStorage {
     year: number,
     month: number,
   ): Promise<Transaction[]> {
+    if (this.useSql) return await sqlStorage.getMonthlyTransactions(year, month);
     if (this.useIndexedDB) {
       return await clientStorage.getMonthlyTransactions(year, month);
     } else {
