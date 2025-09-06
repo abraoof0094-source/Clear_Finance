@@ -399,7 +399,10 @@ export class UniversalStorage {
       console.log("Using sql.js client storage");
       return;
     } catch (err) {
-      console.warn("sql.js not available or failed, falling back to IndexedDB/localStorage:", err);
+      console.warn(
+        "sql.js not available or failed, falling back to IndexedDB/localStorage:",
+        err,
+      );
     }
 
     try {
@@ -457,7 +460,8 @@ export class UniversalStorage {
   }
 
   async deleteTransaction(transactionId: string): Promise<boolean> {
-    if (this.useSql) return await sqlStorage.deleteTransaction(transactionId as any);
+    if (this.useSql)
+      return await sqlStorage.deleteTransaction(transactionId as any);
     if (this.useIndexedDB) {
       return await clientStorage.deleteTransaction(transactionId);
     } else {
@@ -469,7 +473,8 @@ export class UniversalStorage {
     year: number,
     month: number,
   ): Promise<Transaction[]> {
-    if (this.useSql) return await sqlStorage.getMonthlyTransactions(year, month);
+    if (this.useSql)
+      return await sqlStorage.getMonthlyTransactions(year, month);
     if (this.useIndexedDB) {
       return await clientStorage.getMonthlyTransactions(year, month);
     } else {

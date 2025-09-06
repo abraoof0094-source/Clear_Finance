@@ -80,7 +80,9 @@ class SqlJsStorage {
       timestamp INTEGER
     );`;
     this.db.run(createTable);
-    this.db.run("CREATE INDEX IF NOT EXISTS idx_timestamp ON transactions(timestamp);");
+    this.db.run(
+      "CREATE INDEX IF NOT EXISTS idx_timestamp ON transactions(timestamp);",
+    );
     this.db.run("CREATE INDEX IF NOT EXISTS idx_date ON transactions(date);");
   }
 
@@ -124,7 +126,9 @@ class SqlJsStorage {
         const result = request.result;
         if (result) {
           // result might already be a Uint8Array
-          resolve(result instanceof Uint8Array ? result : new Uint8Array(result));
+          resolve(
+            result instanceof Uint8Array ? result : new Uint8Array(result),
+          );
         } else {
           resolve(null);
         }
@@ -140,8 +144,19 @@ class SqlJsStorage {
     await this.ensureInit();
     const id = Date.now().toString() + Math.random().toString(36).substr(2, 9);
     const timestamp = Date.now();
-    const stmt = this.db.prepare(`INSERT INTO transactions (id, type, mainCategory, subCategory, amount, date, time, timestamp) VALUES (?, ?, ?, ?, ?, ?, ?, ?);`);
-    stmt.run([id, transaction.type, transaction.mainCategory, transaction.subCategory || "", transaction.amount, transaction.date, transaction.time, timestamp]);
+    const stmt = this.db.prepare(
+      `INSERT INTO transactions (id, type, mainCategory, subCategory, amount, date, time, timestamp) VALUES (?, ?, ?, ?, ?, ?, ?, ?);`,
+    );
+    stmt.run([
+      id,
+      transaction.type,
+      transaction.mainCategory,
+      transaction.subCategory || "",
+      transaction.amount,
+      transaction.date,
+      transaction.time,
+      timestamp,
+    ]);
     stmt.free();
     await this.saveToIndexedDB();
     return { id, timestamp, ...transaction } as Transaction;
@@ -149,7 +164,9 @@ class SqlJsStorage {
 
   async getAllTransactions(): Promise<Transaction[]> {
     await this.ensureInit();
-    const res = this.db.exec("SELECT * FROM transactions ORDER BY timestamp DESC;");
+    const res = this.db.exec(
+      "SELECT * FROM transactions ORDER BY timestamp DESC;",
+    );
     if (!res || res.length === 0) return [];
     const values = res[0];
     const cols = values.columns;
@@ -165,7 +182,9 @@ class SqlJsStorage {
 
   async getRecentTransactions(limit: number = 10): Promise<Transaction[]> {
     await this.ensureInit();
-    const res = this.db.exec(`SELECT * FROM transactions ORDER BY timestamp DESC LIMIT ${limit};`);
+    const res = this.db.exec(
+      `SELECT * FROM transactions ORDER BY timestamp DESC LIMIT ${limit};`,
+    );
     if (!res || res.length === 0) return [];
     const values = res[0];
     const cols = values.columns;
@@ -184,9 +203,13 @@ class SqlJsStorage {
     return await this.getTransactionsByMonthFromKey(key);
   }
 
-  private async getTransactionsByMonthFromKey(monthKey: string): Promise<Transaction[]> {
+  private async getTransactionsByMonthFromKey(
+    monthKey: string,
+  ): Promise<Transaction[]> {
     await this.ensureInit();
-    const res = this.db.exec(`SELECT * FROM transactions WHERE date LIKE '${monthKey}%' ORDER BY timestamp DESC;`);
+    const res = this.db.exec(
+      `SELECT * FROM transactions WHERE date LIKE '${monthKey}%' ORDER BY timestamp DESC;`,
+    );
     if (!res || res.length === 0) return [];
     const values = res[0];
     const cols = values.columns;
@@ -199,7 +222,10 @@ class SqlJsStorage {
     });
   }
 
-  async getMonthlyTransactions(year: number, month: number): Promise<Transaction[]> {
+  async getMonthlyTransactions(
+    year: number,
+    month: number,
+  ): Promise<Transaction[]> {
     const monthKey = `${year}-${month.toString().padStart(2, "0")}`;
     return await this.getTransactionsByMonthFromKey(monthKey);
   }
@@ -234,14 +260,16 @@ class SqlJsStorage {
   async getCurrentMonthlySummary(): Promise<Summary> {
     const transactions = await this.getCurrentMonthTransactions();
     const summary = this.calculateSummary(transactions);
-    summary.balance = summary.totalIncome - summary.totalExpense - summary.totalInvestment;
+    summary.balance =
+      summary.totalIncome - summary.totalExpense - summary.totalInvestment;
     return summary;
   }
 
   async getMonthlySummary(year: number, month: number): Promise<Summary> {
     const transactions = await this.getMonthlyTransactions(year, month);
     const summary = this.calculateSummary(transactions);
-    summary.balance = summary.totalIncome - summary.totalExpense - summary.totalInvestment;
+    summary.balance =
+      summary.totalIncome - summary.totalExpense - summary.totalInvestment;
     return summary;
   }
 
@@ -256,7 +284,11 @@ class SqlJsStorage {
 
   async exportData(): Promise<string> {
     const transactions = await this.getAllTransactions();
-    return JSON.stringify({ exportDate: new Date().toISOString(), transactions }, null, 2);
+    return JSON.stringify(
+      { exportDate: new Date().toISOString(), transactions },
+      null,
+      2,
+    );
   }
 
   async importData(jsonData: string): Promise<void> {
@@ -270,9 +302,20 @@ class SqlJsStorage {
 
     // Clear and insert
     this.db.run("DELETE FROM transactions;");
-    const insert = this.db.prepare(`INSERT INTO transactions (id, type, mainCategory, subCategory, amount, date, time, timestamp) VALUES (?, ?, ?, ?, ?, ?, ?, ?);`);
+    const insert = this.db.prepare(
+      `INSERT INTO transactions (id, type, mainCategory, subCategory, amount, date, time, timestamp) VALUES (?, ?, ?, ?, ?, ?, ?, ?);`,
+    );
     for (const t of transactions) {
-      insert.run([t.id, t.type, t.mainCategory, t.subCategory || "", t.amount, t.date, t.time, t.timestamp]);
+      insert.run([
+        t.id,
+        t.type,
+        t.mainCategory,
+        t.subCategory || "",
+        t.amount,
+        t.date,
+        t.time,
+        t.timestamp,
+      ]);
     }
     insert.free();
 
@@ -287,7 +330,9 @@ class SqlJsStorage {
   async migrateFromLocalStorage(): Promise<void> {
     try {
       const currentMonthKey = new Date().toISOString().slice(0, 7);
-      const storedMonthly = localStorage.getItem(`transactions-${currentMonthKey}`);
+      const storedMonthly = localStorage.getItem(
+        `transactions-${currentMonthKey}`,
+      );
       const storedAll = localStorage.getItem("tracker-transactions");
 
       let transactions: any[] = [];
@@ -298,18 +343,34 @@ class SqlJsStorage {
         transactions = JSON.parse(storedAll);
       }
 
-      transactions = transactions.map((t) => ({ ...t, timestamp: t.timestamp || Date.now() }));
+      transactions = transactions.map((t) => ({
+        ...t,
+        timestamp: t.timestamp || Date.now(),
+      }));
 
       if (transactions.length > 0) {
         this.db.run("BEGIN TRANSACTION;");
-        const insert = this.db.prepare(`INSERT OR REPLACE INTO transactions (id, type, mainCategory, subCategory, amount, date, time, timestamp) VALUES (?, ?, ?, ?, ?, ?, ?, ?);`);
+        const insert = this.db.prepare(
+          `INSERT OR REPLACE INTO transactions (id, type, mainCategory, subCategory, amount, date, time, timestamp) VALUES (?, ?, ?, ?, ?, ?, ?, ?);`,
+        );
         for (const t of transactions) {
-          insert.run([t.id, t.type, t.mainCategory || "", t.subCategory || "", t.amount, t.date, t.time || "", t.timestamp]);
+          insert.run([
+            t.id,
+            t.type,
+            t.mainCategory || "",
+            t.subCategory || "",
+            t.amount,
+            t.date,
+            t.time || "",
+            t.timestamp,
+          ]);
         }
         insert.free();
         this.db.run("COMMIT;");
         await this.saveToIndexedDB();
-        console.log(`Migrated ${transactions.length} transactions from localStorage to sql.js`);
+        console.log(
+          `Migrated ${transactions.length} transactions from localStorage to sql.js`,
+        );
       }
     } catch (error) {
       console.warn("Migration from localStorage to sql.js failed:", error);
