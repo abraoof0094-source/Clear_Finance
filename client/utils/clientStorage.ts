@@ -472,13 +472,24 @@ export class UniversalStorage {
   }
 
   async deleteTransaction(transactionId: string): Promise<boolean> {
-    if (this.useSql)
-      return await sqlStorage.deleteTransaction(transactionId as any);
-    if (this.useIndexedDB) {
-      return await clientStorage.deleteTransaction(transactionId);
-    } else {
-      return this.localStorageManager.deleteTransaction(transactionId);
+    let result: boolean;
+    if (this.useSql) result = await sqlStorage.deleteTransaction(transactionId as any);
+    else if (this.useIndexedDB) result = await clientStorage.deleteTransaction(transactionId);
+    else result = this.localStorageManager.deleteTransaction(transactionId);
+
+    // notify remote
+    try {
+      const { appSync } = await import("./sync");
+      if (appSync.init() && result) {
+        // delete remote row by id
+        await appSync.pullAndMerge();
+        // We choose to perform a full merge after delete to keep consistency
+      }
+    } catch (e) {
+      // ignore
     }
+
+    return result;
   }
 
   async getTransactionsByMonth(
