@@ -382,11 +382,26 @@ export class LocalStorageManager {
 }
 
 // Universal storage manager that works everywhere
+import { sqlStorage } from "./sqlStorage";
+
 export class UniversalStorage {
+  private useSql = false;
   private useIndexedDB = false;
   private localStorageManager = new LocalStorageManager();
 
   async init(): Promise<void> {
+    // Prefer sql.js (SQLite in browser) when available
+    try {
+      await sqlStorage.init();
+      this.useSql = true;
+      // migrate from localStorage if needed
+      await sqlStorage.migrateFromLocalStorage();
+      console.log("Using sql.js client storage");
+      return;
+    } catch (err) {
+      console.warn("sql.js not available or failed, falling back to IndexedDB/localStorage:", err);
+    }
+
     try {
       // Try to use IndexedDB
       await clientStorage.init();
@@ -394,6 +409,7 @@ export class UniversalStorage {
 
       // Migrate from localStorage if needed
       await clientStorage.migrateFromLocalStorage();
+      console.log("Using IndexedDB client storage");
     } catch (error) {
       console.warn("IndexedDB not available, using localStorage:", error);
       this.useIndexedDB = false;
