@@ -33,9 +33,20 @@ class SqlJsStorage {
     if (this.initialized) return;
 
     try {
-      // Dynamically import sql.js. Ensure you install `sql.js` in package.json
-      const initSqlJs = (await import("sql.js")).default;
-      this.SQL = await initSqlJs({ locateFile: (file: string) => file });
+      // Dynamically import the sql.js ESM build and the wasm file URL.
+      // Vite handles the `?url` import for wasm; fall back to default path if that fails.
+      const initModule = await import("sql.js/dist/sql-wasm.js");
+      const initSqlJs = initModule && (initModule.default || initModule);
+      let wasmUrl: string | undefined;
+      try {
+        // @ts-ignore - vite provides ?url imports
+        wasmUrl = (await import("sql.js/dist/sql-wasm.wasm?url")).default;
+      } catch (e) {
+        // Fallback to the package's wasm path; dev server may handle this differently
+        wasmUrl = "/sql-wasm.wasm";
+      }
+
+      this.SQL = await initSqlJs({ locateFile: () => wasmUrl });
 
       // Try to load stored DB binary from IndexedDB
       const stored = await this.loadBinaryFromIndexedDB();
