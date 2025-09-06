@@ -18,7 +18,8 @@
     "typecheck": "tsc"
   },
   "dependencies": {
-    "sql.js": "^1.8.0"
+    "sql.js": "^1.8.0",
+    "@supabase/supabase-js": "^2.30.0"
   },
   "devDependencies": {
     "@hookform/resolvers": "^3.9.0",
