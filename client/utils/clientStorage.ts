@@ -422,14 +422,26 @@ export class UniversalStorage {
   async addTransaction(
     transaction: Omit<Transaction, "id" | "timestamp">,
   ): Promise<Transaction> {
+    let saved: Transaction;
     if (this.useSql) {
-      return await sqlStorage.addTransaction(transaction as any);
-    }
-    if (this.useIndexedDB) {
-      return await clientStorage.addTransaction(transaction);
+      saved = await sqlStorage.addTransaction(transaction as any);
+    } else if (this.useIndexedDB) {
+      saved = await clientStorage.addTransaction(transaction);
     } else {
-      return this.localStorageManager.addTransaction(transaction as any);
+      saved = this.localStorageManager.addTransaction(transaction as any);
     }
+
+    // Fire-and-forget: if sync is enabled, push the new transaction to remote
+    try {
+      const { appSync } = await import("./sync");
+      if (appSync.init()) {
+        appSync.pushTransaction(saved);
+      }
+    } catch (e) {
+      // ignore if sync not configured
+    }
+
+    return saved;
   }
 
   async getCurrentMonthTransactions(): Promise<Transaction[]> {
