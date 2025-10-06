@@ -934,7 +934,7 @@ export function Tracker() {
                       }}
                     >
                       <div className="text-2xl font-normal">
-                        ₹ {showKeypad ? displayValue : amount || "0"}
+                        ₹ {previewAmount}
                       </div>
                     </div>
                     <div
