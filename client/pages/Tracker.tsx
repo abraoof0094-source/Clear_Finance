@@ -1302,12 +1302,17 @@ export function Tracker() {
 
               <div className="p-4">
                 <div className="grid grid-cols-4 gap-3">
-                  <Button onClick={handleCalcClear} variant="ghost" className="h-14 rounded-lg">AC</Button>
-                  <Button onClick={handleCalcBackspace} variant="ghost" className="h-14 rounded-lg">⌫</Button>
-                  <Button onClick={() => handleCalcInput('+')} variant="ghost" className="h-14 rounded-lg">+</Button>
+  <Button onClick={handleMemAdd} variant="ghost" className="h-14 rounded-lg">M+</Button>
+  <Button onClick={handleMemSub} variant="ghost" className="h-14 rounded-lg">M-</Button>
+  <Button onClick={handleMemRecall} variant="ghost" className="h-14 rounded-lg">MR</Button>
+  <Button onClick={handleCalcClear} variant="ghost" className="h-14 rounded-lg">AC</Button>
+
+  <Button onClick={handleCalcBackspace} variant="ghost" className="h-14 rounded-lg">⌫</Button>
+  <Button onClick={handleToggleSign} variant="ghost" className="h-14 rounded-lg">±</Button>
+  <Button onClick={handlePercent} variant="ghost" className="h-14 rounded-lg">%</Button>
   <Button onClick={() => handleCalcInput('/')} variant="ghost" className="h-14 rounded-lg">÷</Button>
 
-                  <Button onClick={() => handleCalcInput('7')} variant="ghost" className="h-14 rounded-lg">7</Button>
+  <Button onClick={() => handleCalcInput('7')} variant="ghost" className="h-14 rounded-lg">7</Button>
                   <Button onClick={() => handleCalcInput('8')} variant="ghost" className="h-14 rounded-lg">8</Button>
                   <Button onClick={() => handleCalcInput('9')} variant="ghost" className="h-14 rounded-lg">9</Button>
                   <Button onClick={() => handleCalcInput('/')} variant="ghost" className="h-14 rounded-lg">÷</Button>
