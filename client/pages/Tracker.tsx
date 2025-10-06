@@ -230,7 +230,7 @@ const allCategories = [
         icon: "������️",
         description: "Property investments",
       },
-      { name: "Gold", icon: "���", description: "Physical gold, gold ETFs" },
+      { name: "Gold", icon: "✨", description: "Physical gold, gold ETFs" },
       {
         name: "Crypto",
         icon: "₿",
@@ -1174,13 +1174,7 @@ export function Tracker() {
                       >
                         6
                       </Button>
-                      <Button
-                        onClick={() => handleOperatorClick("-")}
-                        variant="ghost"
-                        className="h-14 text-xl font-bold bg-background hover:bg-muted rounded-lg"
-                      >
-                        −
-                      </Button>
+                      <div />
 
                       {/* Row 3: 7, 8, 9, Calculator */}
                       <Button
