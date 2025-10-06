@@ -523,7 +523,7 @@ export function Tracker() {
   };
 
   // Get filtered categories based on transaction type
-  const filteredCategories = allCategories.filter(
+  const filteredCategories = sharedCategories.filter(
     (cat) => cat.type === transactionType,
   );
 
