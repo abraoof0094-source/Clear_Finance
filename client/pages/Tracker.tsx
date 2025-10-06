@@ -740,8 +740,9 @@ export function Tracker() {
         {/* Add Transaction Button */}
         <Button
           size="icon"
-          className="fixed bottom-24 right-6 h-14 w-14 rounded-full shadow-lg"
+          className="fixed bottom-24 right-6 h-14 w-14 rounded-full shadow-lg z-[10002] bg-red-500 text-white flex items-center justify-center"
           onClick={() => setShowAddDialog(true)}
+          aria-label="Add transaction"
         >
           <Plus className="h-6 w-6" />
         </Button>
