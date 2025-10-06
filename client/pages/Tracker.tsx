@@ -963,6 +963,10 @@ export function Tracker() {
                       onClick={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
+                        // Commit amount if user entered via keypad but didn't press Done
+                        if (showKeypad && displayValue && displayValue !== "0") {
+                          setAmount(displayValue);
+                        }
                         setShowCategorySelection(!showCategorySelection);
                         setShowKeypad(false);
                       }}
