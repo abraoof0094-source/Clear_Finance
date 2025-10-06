@@ -1258,11 +1258,11 @@ export function Tracker() {
                   </div>
                 )}
 
-                {/* Action Buttons - Always show */}
-                <div className="p-4 grid grid-cols-2 gap-4">
+                {/* Action Buttons - Single Save */}
+                <div className="p-4">
                   <Button
                     onClick={handleSave}
-                    className={`h-12 text-white rounded-lg ${
+                    className={`w-full h-12 text-white rounded-lg ${
                       transactionType === "income"
                         ? "bg-green-500 hover:bg-green-600"
                         : transactionType === "investment"
@@ -1276,15 +1276,7 @@ export function Tracker() {
                       parseFloat(amount) <= 0
                     }
                   >
-                    Save
-                  </Button>
-                  <Button
-                    variant="outline"
-                    className="h-12 rounded-lg"
-                    onClick={() => setShowAddDialog(false)}
-                    disabled={false}
-                  >
-                    Continue
+                    Save Entry
                   </Button>
                 </div>
               </div>
