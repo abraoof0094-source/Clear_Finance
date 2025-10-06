@@ -159,7 +159,7 @@ const allCategories = [
       },
       {
         name: "Gifts & Donations",
-        icon: "🎁",
+        icon: "����",
         description: "Presents, charity, festivals",
       },
       {
@@ -215,7 +215,7 @@ const allCategories = [
       },
       {
         name: "Stocks & Shares",
-        icon: "📈",
+        icon: "���",
         description: "Direct equity investments",
       },
       {
@@ -1015,7 +1015,7 @@ export function Tracker() {
                       <div className="flex h-full min-h-0">
                         {/* Main Categories Panel */}
                         <div className="w-1/2 border-r bg-background min-h-0 h-full overflow-y-auto" style={{ WebkitOverflowScrolling: 'touch', touchAction: 'pan-y' }}>
-                          <div className="h-full">\n
+                          <div className="h-full">
                             {filteredCategories.map((category) => (
                               <div
                                 key={category.id}
@@ -1061,7 +1061,7 @@ export function Tracker() {
 
                         {/* Subcategories Panel */}
                         <div className="w-1/2 bg-muted/20 min-h-0 h-full overflow-y-auto" style={{ WebkitOverflowScrolling: 'touch', touchAction: 'pan-y' }}>
-                          <div className="h-full">\n
+                          <div className="h-full">
                             {selectedMainCategory ? (
                               subCategories.map((sub, index) => (
                                 <div
