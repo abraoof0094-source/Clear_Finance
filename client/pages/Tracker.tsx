@@ -361,6 +361,7 @@ export function Tracker() {
 
   // Simple calculator state and handlers (basic + - * /)
   const [calcExpr, setCalcExpr] = useState("");
+  const [calcMemory, setCalcMemory] = useState<number | null>(null);
 
   // Keypad handlers for amount input (showKeypad)
   const handleNumberClick = (num: string) => {
@@ -420,6 +421,40 @@ export function Tracker() {
 
   const handleCalcClear = () => setCalcExpr("");
   const handleCalcBackspace = () => setCalcExpr((s) => s.slice(0, -1));
+
+  // Memory and utility handlers
+  const handleMemAdd = () => {
+    const val = calcResult && calcResult !== "ERR" ? parseFloat(calcResult) : (calcExpr && /^\s*\d+(?:\.\d+)?\s*$/.test(calcExpr) ? parseFloat(calcExpr) : NaN);
+    if (!isNaN(val)) {
+      setCalcMemory((m) => (m ?? 0) + val);
+    }
+  };
+  const handleMemSub = () => {
+    const val = calcResult && calcResult !== "ERR" ? parseFloat(calcResult) : (calcExpr && /^\s*\d+(?:\.\d+)?\s*$/.test(calcExpr) ? parseFloat(calcExpr) : NaN);
+    if (!isNaN(val)) {
+      setCalcMemory((m) => (m ?? 0) - val);
+    }
+  };
+  const handleMemRecall = () => {
+    if (calcMemory !== null) {
+      setCalcExpr((calcMemory || 0).toString());
+    }
+  };
+  const handleToggleSign = () => {
+    if (!calcExpr) return;
+    if (calcExpr.startsWith("-")) setCalcExpr(calcExpr.slice(1));
+    else setCalcExpr("-" + calcExpr);
+  };
+  const handlePercent = () => {
+    // if expression is a single number, divide by 100; else append /100
+    if (/^\s*\d+(?:\.\d+)?\s*$/.test(calcExpr)) {
+      const val = parseFloat(calcExpr) / 100;
+      setCalcExpr(String(val));
+    } else {
+      setCalcExpr((s) => s + "/100");
+    }
+  };
+
   const handleCalcDone = () => {
     // prefer evaluated result if valid
     if (calcResult && calcResult !== "ERR") {
