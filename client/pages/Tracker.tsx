@@ -269,6 +269,7 @@ export function Tracker() {
   const [showCalculator, setShowCalculator] = useState(false);
   const [showKeypad, setShowKeypad] = useState(false);
   const [showCategorySelection, setShowCategorySelection] = useState(false);
+  const [showAllSubcategories, setShowAllSubcategories] = useState(false);
   const [openMenuId, setOpenMenuId] = useState<string | null>(null);
   const [editingTransaction, setEditingTransaction] =
     useState<Transaction | null>(null);
@@ -1012,49 +1013,102 @@ export function Tracker() {
                     </div>
                     <div className="h-64">
                       <div className="flex h-full">
-                        {/* Main Categories Panel */}
+                        {/* Main Categories Panel (or flattened subcategories) */}
                         <div className="w-1/2 border-r bg-background">
+                          <div className="p-2 flex items-center justify-between border-b">
+                            <div className="text-sm font-medium">Main</div>
+                            <button
+                              className="text-xs text-muted-foreground px-2 py-1 rounded"
+                              onClick={() => setShowAllSubcategories(!showAllSubcategories)}
+                            >
+                              {showAllSubcategories ? "Show main" : "Show all subcategories"}
+                            </button>
+                          </div>
+
                           <div className="h-full overflow-y-auto">
-                            {filteredCategories.map((category) => (
-                              <div
-                                key={category.id}
-                                className={`flex items-center gap-3 p-4 border-b cursor-pointer transition-colors ${
-                                  selectedMainCategory === category.name
-                                    ? transactionType === "income"
-                                      ? "bg-green-50 border-l-4 border-l-green-500 text-green-700"
-                                      : transactionType === "investment"
-                                        ? "bg-blue-50 border-l-4 border-l-blue-500 text-blue-700"
-                                        : "bg-red-50 border-l-4 border-l-red-500 text-red-700"
-                                    : "hover:bg-muted/50"
-                                }`}
-                                onClick={(e) => {
-                                  e.preventDefault();
-                                  e.stopPropagation();
-                                  setSelectedMainCategory(category.name);
-                                  setSelectedSubCategory("");
-                                }}
-                              >
-                                <span className="text-lg">{category.icon}</span>
-                                <div className="flex-1">
-                                  <div className="text-sm font-medium leading-tight">
-                                    {category.name}
+                            {showAllSubcategories ? (
+                              // Flatten and show all subcategories for faster selection
+                              filteredCategories.flatMap((category) =>
+                                category.subcategories.map((sub) => ({
+                                  main: category.name,
+                                  mainIcon: category.icon,
+                                  name: sub.name,
+                                  icon: sub.icon,
+                                  description: sub.description,
+                                })),
+                              ).map((item, idx) => (
+                                <div
+                                  key={`${item.main}-${item.name}-${idx}`}
+                                  className={`flex items-center gap-3 p-3 border-b cursor-pointer transition-colors ${
+                                    selectedMainCategory === item.main && selectedSubCategory === item.name
+                                      ? transactionType === "income"
+                                        ? "bg-green-50 border-l-4 border-l-green-500 text-green-700"
+                                        : transactionType === "investment"
+                                          ? "bg-blue-50 border-l-4 border-l-blue-500 text-blue-700"
+                                          : "bg-red-50 border-l-4 border-l-red-500 text-red-700"
+                                      : "hover:bg-muted/50"
+                                  }`}
+                                  onClick={(e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    setSelectedMainCategory(item.main);
+                                    setSelectedSubCategory(item.name);
+                                    setShowCategorySelection(false);
+                                  }}
+                                >
+                                  <span className="text-lg">{item.icon}</span>
+                                  <div className="flex-1 min-w-0">
+                                    <div className="text-sm font-medium truncate">
+                                      {item.name}
+                                    </div>
+                                    <div className="text-xs text-muted-foreground truncate">
+                                      {item.main}
+                                    </div>
                                   </div>
                                 </div>
-                                <svg
-                                  className="w-4 h-4 text-muted-foreground"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  viewBox="0 0 24 24"
+                              ))
+                            ) : (
+                              filteredCategories.map((category) => (
+                                <div
+                                  key={category.id}
+                                  className={`flex items-center gap-3 p-4 border-b cursor-pointer transition-colors ${
+                                    selectedMainCategory === category.name
+                                      ? transactionType === "income"
+                                        ? "bg-green-50 border-l-4 border-l-green-500 text-green-700"
+                                        : transactionType === "investment"
+                                          ? "bg-blue-50 border-l-4 border-l-blue-500 text-blue-700"
+                                          : "bg-red-50 border-l-4 border-l-red-500 text-red-700"
+                                      : "hover:bg-muted/50"
+                                  }`}
+                                  onClick={(e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    setSelectedMainCategory(category.name);
+                                    setSelectedSubCategory("");
+                                  }}
                                 >
-                                  <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={2}
-                                    d="M9 5l7 7-7 7"
-                                  />
-                                </svg>
-                              </div>
-                            ))}
+                                  <span className="text-lg">{category.icon}</span>
+                                  <div className="flex-1">
+                                    <div className="text-sm font-medium leading-tight">
+                                      {category.name}
+                                    </div>
+                                  </div>
+                                  <svg
+                                    className="w-4 h-4 text-muted-foreground"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                  >
+                                    <path
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                      strokeWidth={2}
+                                      d="M9 5l7 7-7 7"
+                                    />
+                                  </svg>
+                                </div>
+                              ))
+                            )}
                           </div>
                         </div>
 
