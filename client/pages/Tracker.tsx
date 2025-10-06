@@ -25,6 +25,7 @@ import {
   ChevronRight,
 } from "lucide-react";
 import { universalStorage, Transaction, Summary } from "../utils/clientStorage";
+import sharedCategories from "../data/categories";
 
 // Transaction interface imported from API utils
 
