@@ -269,6 +269,7 @@ export function Tracker() {
   const [currentTime, setCurrentTime] = useState("");
   const [showCalculator, setShowCalculator] = useState(false);
   const [showKeypad, setShowKeypad] = useState(false);
+  const [pendingSum, setPendingSum] = useState<number | null>(null);
   const [showCategorySelection, setShowCategorySelection] = useState(false);
   const [showAllSubcategories, setShowAllSubcategories] = useState(false);
   const [openMenuId, setOpenMenuId] = useState<string | null>(null);
