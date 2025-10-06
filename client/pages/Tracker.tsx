@@ -230,7 +230,7 @@ const allCategories = [
         icon: "������️",
         description: "Property investments",
       },
-      { name: "Gold", icon: "✨", description: "Physical gold, gold ETFs" },
+      { name: "Gold", icon: "���", description: "Physical gold, gold ETFs" },
       {
         name: "Crypto",
         icon: "₿",
@@ -1302,35 +1302,30 @@ export function Tracker() {
 
               <div className="p-4">
                 <div className="grid grid-cols-4 gap-3">
-  <Button onClick={handleMemAdd} variant="ghost" className="h-14 rounded-lg">M+</Button>
-  <Button onClick={handleMemSub} variant="ghost" className="h-14 rounded-lg">M-</Button>
-  <Button onClick={handleMemRecall} variant="ghost" className="h-14 rounded-lg">MR</Button>
   <Button onClick={handleCalcClear} variant="ghost" className="h-14 rounded-lg">AC</Button>
-
   <Button onClick={handleCalcBackspace} variant="ghost" className="h-14 rounded-lg">⌫</Button>
   <Button onClick={handleToggleSign} variant="ghost" className="h-14 rounded-lg">±</Button>
   <Button onClick={handlePercent} variant="ghost" className="h-14 rounded-lg">%</Button>
-  <Button onClick={() => handleCalcInput('/')} variant="ghost" className="h-14 rounded-lg">÷</Button>
 
   <Button onClick={() => handleCalcInput('7')} variant="ghost" className="h-14 rounded-lg">7</Button>
-                  <Button onClick={() => handleCalcInput('8')} variant="ghost" className="h-14 rounded-lg">8</Button>
-                  <Button onClick={() => handleCalcInput('9')} variant="ghost" className="h-14 rounded-lg">9</Button>
-                  <Button onClick={() => handleCalcInput('/')} variant="ghost" className="h-14 rounded-lg">÷</Button>
+  <Button onClick={() => handleCalcInput('8')} variant="ghost" className="h-14 rounded-lg">8</Button>
+  <Button onClick={() => handleCalcInput('9')} variant="ghost" className="h-14 rounded-lg">9</Button>
+  <Button onClick={() => handleCalcInput('/')} variant="ghost" className="h-14 rounded-lg">÷</Button>
 
-                  <Button onClick={() => handleCalcInput('4')} variant="ghost" className="h-14 rounded-lg">4</Button>
-                  <Button onClick={() => handleCalcInput('5')} variant="ghost" className="h-14 rounded-lg">5</Button>
-                  <Button onClick={() => handleCalcInput('6')} variant="ghost" className="h-14 rounded-lg">6</Button>
-                  <Button onClick={() => handleCalcInput('*')} variant="ghost" className="h-14 rounded-lg">×</Button>
+  <Button onClick={() => handleCalcInput('4')} variant="ghost" className="h-14 rounded-lg">4</Button>
+  <Button onClick={() => handleCalcInput('5')} variant="ghost" className="h-14 rounded-lg">5</Button>
+  <Button onClick={() => handleCalcInput('6')} variant="ghost" className="h-14 rounded-lg">6</Button>
+  <Button onClick={() => handleCalcInput('*')} variant="ghost" className="h-14 rounded-lg">×</Button>
 
-                  <Button onClick={() => handleCalcInput('1')} variant="ghost" className="h-14 rounded-lg">1</Button>
+  <Button onClick={() => handleCalcInput('1')} variant="ghost" className="h-14 rounded-lg">1</Button>
   <Button onClick={() => handleCalcInput('2')} variant="ghost" className="h-14 rounded-lg">2</Button>
   <Button onClick={() => handleCalcInput('3')} variant="ghost" className="h-14 rounded-lg">3</Button>
   <Button onClick={handleCalcDone} variant="ghost" className="h-14 rounded-lg">=</Button>
 
-                  <Button onClick={() => handleCalcInput('00')} variant="ghost" className="h-14 rounded-lg">00</Button>
-                  <Button onClick={() => handleCalcInput('0')} variant="ghost" className="h-14 rounded-lg">0</Button>
-                  <Button onClick={() => handleCalcInput('.')} variant="ghost" className="h-14 rounded-lg">.</Button>
-                  <Button onClick={handleCalcDone} variant="ghost" className="h-14 bg-orange-500 hover:bg-orange-400 text-white rounded-lg">Done</Button>
+  <Button onClick={() => handleCalcInput('00')} variant="ghost" className="h-14 rounded-lg">00</Button>
+  <Button onClick={() => handleCalcInput('0')} variant="ghost" className="h-14 rounded-lg">0</Button>
+  <Button onClick={() => handleCalcInput('.')} variant="ghost" className="h-14 rounded-lg">.</Button>
+  <Button onClick={handleCalcDone} variant="ghost" className="h-14 bg-orange-500 hover:bg-orange-400 text-white rounded-lg">Done</Button>
                 </div>
               </div>
             </div>
