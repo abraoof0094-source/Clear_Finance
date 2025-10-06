@@ -1220,62 +1220,6 @@ export function Tracker() {
           </DialogContent>
         </Dialog>
 
-        {/* Calculator Modal */}
-        <Dialog open={showCalculator} onOpenChange={setShowCalculator}>
-          <DialogContent className="w-full max-w-none max-h-[90vh] m-0 rounded-none border-0 bg-black text-white overflow-auto">
-            <DialogHeader className="sr-only">
-              <DialogTitle>Calculator</DialogTitle>
-            </DialogHeader>
-            <div className="flex flex-col min-h-0 h-full">
-              <div className="flex items-center justify-end p-4">
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => setShowCalculator(false)}
-                  className="text-white hover:bg-gray-800"
-                >
-                  <X className="h-6 w-6" />
-                </Button>
-              </div>
-
-              <div className="flex-1 flex flex-col items-center justify-center p-6">
-                <div className="w-full max-w-md">
-                  <div className="text-right text-sm text-muted-foreground mb-2 truncate">{calcExpr || "0"}</div>
-                  <div className="text-right text-4xl font-semibold">{calcResult || "0"}</div>
-                </div>
-              </div>
-
-              <div className="p-4">
-                <div className="grid grid-cols-4 gap-3">
-  <Button onClick={handleCalcClear} variant="ghost" className="h-14 rounded-lg">AC</Button>
-  <Button onClick={handleCalcBackspace} variant="ghost" className="h-14 rounded-lg">⌫</Button>
-  <Button onClick={handleToggleSign} variant="ghost" className="h-14 rounded-lg">±</Button>
-  <Button onClick={handlePercent} variant="ghost" className="h-14 rounded-lg">%</Button>
-
-  <Button onClick={() => handleCalcInput('7')} variant="ghost" className="h-14 rounded-lg">7</Button>
-  <Button onClick={() => handleCalcInput('8')} variant="ghost" className="h-14 rounded-lg">8</Button>
-  <Button onClick={() => handleCalcInput('9')} variant="ghost" className="h-14 rounded-lg">9</Button>
-  <Button onClick={() => handleCalcInput('/')} variant="ghost" className="h-14 rounded-lg">÷</Button>
-
-  <Button onClick={() => handleCalcInput('4')} variant="ghost" className="h-14 rounded-lg">4</Button>
-  <Button onClick={() => handleCalcInput('5')} variant="ghost" className="h-14 rounded-lg">5</Button>
-  <Button onClick={() => handleCalcInput('6')} variant="ghost" className="h-14 rounded-lg">6</Button>
-  <Button onClick={() => handleCalcInput('*')} variant="ghost" className="h-14 rounded-lg">×</Button>
-
-  <Button onClick={() => handleCalcInput('1')} variant="ghost" className="h-14 rounded-lg">1</Button>
-  <Button onClick={() => handleCalcInput('2')} variant="ghost" className="h-14 rounded-lg">2</Button>
-  <Button onClick={() => handleCalcInput('3')} variant="ghost" className="h-14 rounded-lg">3</Button>
-  <Button onClick={handleCalcDone} variant="ghost" className="h-14 rounded-lg">=</Button>
-
-  <Button onClick={() => handleCalcInput('00')} variant="ghost" className="h-14 rounded-lg">00</Button>
-  <Button onClick={() => handleCalcInput('0')} variant="ghost" className="h-14 rounded-lg">0</Button>
-  <Button onClick={() => handleCalcInput('.')} variant="ghost" className="h-14 rounded-lg">.</Button>
-  <Button onClick={handleCalcDone} variant="ghost" className="h-14 bg-orange-500 hover:bg-orange-400 text-white rounded-lg">Done</Button>
-                </div>
-              </div>
-            </div>
-          </DialogContent>
-        </Dialog>
       </div>
     </Layout>
   );
