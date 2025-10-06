@@ -72,7 +72,7 @@ const allCategories = [
   {
     id: 2,
     name: "Fixed Household Expenses",
-    icon: "🏠",
+    icon: "����",
     type: "expense" as const,
     subcategories: [
       {
@@ -1241,7 +1241,7 @@ export function Tracker() {
             <DialogHeader className="sr-only">
               <DialogTitle>Calculator</DialogTitle>
             </DialogHeader>
-            <div className="flex flex-col h-full">
+            <div className="flex flex-col min-h-0 h-full">
               <div className="flex items-center justify-end p-4">
                 <Button
                   variant="ghost"
