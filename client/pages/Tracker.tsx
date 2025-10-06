@@ -360,11 +360,7 @@ export function Tracker() {
     return () => clearInterval(interval);
   }, []);
 
-  // Simple calculator state and handlers (basic + - * /)
-  const [calcExpr, setCalcExpr] = useState("");
-  const [calcMemory, setCalcMemory] = useState<number | null>(null);
-
-  // Keypad handlers for amount input (showKeypad)
+  // Keypad handlers for amount input
   const handleNumberClick = (num: string) => {
     const cur = displayValue || "0";
     const next = cur === "0" ? (num === "00" ? "0" : num) : cur + num;
@@ -392,82 +388,7 @@ export function Tracker() {
   const handleClear = () => {
     setDisplayValue("0");
     setAmount("");
-  };
-
-  // Operators on the small keypad are no-ops (calculator modal handles expressions)
-  const handleOperatorClick = (op: string) => {
-    // no-op or you could implement sign toggle
-    return;
-  };
-
-  const calcResult = React.useMemo(() => {
-    if (!calcExpr) return "";
-    // replace unicode operators if any
-    const sanitized = calcExpr.replace(/×/g, "*").replace(/÷/g, "/");
-    // allow digits, operators, parentheses, dot and spaces only
-    if (!/^[0-9+\-*/().\s]+$/.test(sanitized)) return "ERR";
-    try {
-      // eslint-disable-next-line no-new-func
-      const val = Function(`'use strict'; return (${sanitized})`)();
-      if (typeof val === "number" && Number.isFinite(val)) return String(val);
-      return "ERR";
-    } catch (e) {
-      return "ERR";
-    }
-  }, [calcExpr]);
-
-  const handleCalcInput = (token: string) => {
-    setCalcExpr((s) => s + token);
-  };
-
-  const handleCalcClear = () => setCalcExpr("");
-  const handleCalcBackspace = () => setCalcExpr((s) => s.slice(0, -1));
-
-  // Memory and utility handlers
-  const handleMemAdd = () => {
-    const val = calcResult && calcResult !== "ERR" ? parseFloat(calcResult) : (calcExpr && /^\s*\d+(?:\.\d+)?\s*$/.test(calcExpr) ? parseFloat(calcExpr) : NaN);
-    if (!isNaN(val)) {
-      setCalcMemory((m) => (m ?? 0) + val);
-    }
-  };
-  const handleMemSub = () => {
-    const val = calcResult && calcResult !== "ERR" ? parseFloat(calcResult) : (calcExpr && /^\s*\d+(?:\.\d+)?\s*$/.test(calcExpr) ? parseFloat(calcExpr) : NaN);
-    if (!isNaN(val)) {
-      setCalcMemory((m) => (m ?? 0) - val);
-    }
-  };
-  const handleMemRecall = () => {
-    if (calcMemory !== null) {
-      setCalcExpr((calcMemory || 0).toString());
-    }
-  };
-  const handleToggleSign = () => {
-    if (!calcExpr) return;
-    if (calcExpr.startsWith("-")) setCalcExpr(calcExpr.slice(1));
-    else setCalcExpr("-" + calcExpr);
-  };
-  const handlePercent = () => {
-    // if expression is a single number, divide by 100; else append /100
-    if (/^\s*\d+(?:\.\d+)?\s*$/.test(calcExpr)) {
-      const val = parseFloat(calcExpr) / 100;
-      setCalcExpr(String(val));
-    } else {
-      setCalcExpr((s) => s + "/100");
-    }
-  };
-
-  const handleCalcDone = () => {
-    // prefer evaluated result if valid
-    if (calcResult && calcResult !== "ERR") {
-      setAmount(calcResult);
-      setDisplayValue(calcResult);
-    } else if (calcExpr && /^\s*\d+(?:\.\d+)?\s*$/.test(calcExpr)) {
-      const val = calcExpr.trim();
-      setAmount(val);
-      setDisplayValue(val);
-    }
-    setShowCalculator(false);
-    setShowKeypad(false);
+    setPendingSum(null);
   };
 
   // Edit transaction
