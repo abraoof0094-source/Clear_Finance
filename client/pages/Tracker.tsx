@@ -362,6 +362,42 @@ export function Tracker() {
   // Simple calculator state and handlers (basic + - * /)
   const [calcExpr, setCalcExpr] = useState("");
 
+  // Keypad handlers for amount input (showKeypad)
+  const handleNumberClick = (num: string) => {
+    const cur = displayValue || "0";
+    const next = cur === "0" ? (num === "00" ? "0" : num) : cur + num;
+    setDisplayValue(next);
+  };
+
+  const handleBackspace = () => {
+    if (!displayValue || displayValue === "0") {
+      setDisplayValue("0");
+      return;
+    }
+    if (displayValue.length > 1) {
+      setDisplayValue(displayValue.slice(0, -1));
+    } else {
+      setDisplayValue("0");
+    }
+  };
+
+  const handleDecimal = () => {
+    if (!displayValue.includes(".")) {
+      setDisplayValue(displayValue + ".");
+    }
+  };
+
+  const handleClear = () => {
+    setDisplayValue("0");
+    setAmount("");
+  };
+
+  // Operators on the small keypad are no-ops (calculator modal handles expressions)
+  const handleOperatorClick = (op: string) => {
+    // no-op or you could implement sign toggle
+    return;
+  };
+
   const calcResult = React.useMemo(() => {
     if (!calcExpr) return "";
     // replace unicode operators if any
