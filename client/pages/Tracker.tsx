@@ -1011,10 +1011,10 @@ export function Tracker() {
                         <X className="h-4 w-4" />
                       </Button>
                     </div>
-                    <div className="max-h-[70vh]">
+                    <div className="max-h-[70vh] pb-24">
                       <div className="flex h-full min-h-0">
                         {/* Main Categories Panel */}
-                        <div className="w-1/2 border-r bg-background min-h-0">
+                        <div className="w-1/2 border-r bg-background min-h-0 max-h-[50vh] overflow-y-auto" style={{ WebkitOverflowScrolling: 'touch', touchAction: 'pan-y' }}>
                           <div className="h-full overflow-y-auto" style={{ WebkitOverflowScrolling: "touch", touchAction: "pan-y" }}>
                             {filteredCategories.map((category) => (
                               <div
@@ -1060,7 +1060,7 @@ export function Tracker() {
                         </div>
 
                         {/* Subcategories Panel */}
-                        <div className="w-1/2 bg-muted/20 min-h-0">
+                        <div className="w-1/2 bg-muted/20 min-h-0 max-h-[50vh] overflow-y-auto" style={{ WebkitOverflowScrolling: 'touch', touchAction: 'pan-y' }}>
                           <div className="h-full overflow-y-auto" style={{ WebkitOverflowScrolling: "touch", touchAction: "pan-y" }}>
                             {selectedMainCategory ? (
                               subCategories.map((sub, index) => (
