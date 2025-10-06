@@ -528,6 +528,13 @@ export function Tracker() {
     filteredCategoriesCount: filteredCategories.length,
   });
 
+  // Preview amount while using keypad: show pendingSum + current input if present
+  const previewAmount = showKeypad
+    ? String(
+        (pendingSum !== null ? pendingSum : 0) + (parseFloat(displayValue || "0") || 0),
+      )
+    : amount || "0";
+
   // Save transaction
   const handleSave = async () => {
     if (!selectedMainCategory || !selectedSubCategory || !amount) {
