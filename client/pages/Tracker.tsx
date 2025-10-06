@@ -1265,8 +1265,8 @@ export function Tracker() {
                 <div className="grid grid-cols-4 gap-3">
                   <Button onClick={handleCalcClear} variant="ghost" className="h-14 rounded-lg">AC</Button>
                   <Button onClick={handleCalcBackspace} variant="ghost" className="h-14 rounded-lg">⌫</Button>
-                  <Button onClick={() => handleCalcInput('(')} variant="ghost" className="h-14 rounded-lg">(</Button>
-                  <Button onClick={handleCalcDone} variant="ghost" className="h-14 rounded-lg">=</Button>
+                  <Button onClick={() => handleCalcInput('+')} variant="ghost" className="h-14 rounded-lg">+</Button>
+  <Button onClick={() => handleCalcInput('/')} variant="ghost" className="h-14 rounded-lg">÷</Button>
 
                   <Button onClick={() => handleCalcInput('7')} variant="ghost" className="h-14 rounded-lg">7</Button>
                   <Button onClick={() => handleCalcInput('8')} variant="ghost" className="h-14 rounded-lg">8</Button>
@@ -1279,9 +1279,9 @@ export function Tracker() {
                   <Button onClick={() => handleCalcInput('*')} variant="ghost" className="h-14 rounded-lg">×</Button>
 
                   <Button onClick={() => handleCalcInput('1')} variant="ghost" className="h-14 rounded-lg">1</Button>
-                  <Button onClick={() => handleCalcInput('2')} variant="ghost" className="h-14 rounded-lg">2</Button>
-                  <Button onClick={() => handleCalcInput('3')} variant="ghost" className="h-14 rounded-lg">3</Button>
-                  <Button onClick={() => handleCalcInput('-')} variant="ghost" className="h-14 rounded-lg">−</Button>
+  <Button onClick={() => handleCalcInput('2')} variant="ghost" className="h-14 rounded-lg">2</Button>
+  <Button onClick={() => handleCalcInput('3')} variant="ghost" className="h-14 rounded-lg">3</Button>
+  <Button onClick={handleCalcDone} variant="ghost" className="h-14 rounded-lg">=</Button>
 
                   <Button onClick={() => handleCalcInput('00')} variant="ghost" className="h-14 rounded-lg">00</Button>
                   <Button onClick={() => handleCalcInput('0')} variant="ghost" className="h-14 rounded-lg">0</Button>
