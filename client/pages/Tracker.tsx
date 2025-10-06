@@ -1237,7 +1237,7 @@ export function Tracker() {
 
         {/* Calculator Modal */}
         <Dialog open={showCalculator} onOpenChange={setShowCalculator}>
-          <DialogContent className="w-full h-full max-w-none max-h-none m-0 rounded-none border-0 bg-black text-white">
+          <DialogContent className="w-full max-w-none max-h-[90vh] m-0 rounded-none border-0 bg-black text-white overflow-auto">
             <DialogHeader className="sr-only">
               <DialogTitle>Calculator</DialogTitle>
             </DialogHeader>
