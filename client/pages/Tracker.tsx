@@ -424,10 +424,14 @@ export function Tracker() {
     // prefer evaluated result if valid
     if (calcResult && calcResult !== "ERR") {
       setAmount(calcResult);
+      setDisplayValue(calcResult);
     } else if (calcExpr && /^\s*\d+(?:\.\d+)?\s*$/.test(calcExpr)) {
-      setAmount(calcExpr.trim());
+      const val = calcExpr.trim();
+      setAmount(val);
+      setDisplayValue(val);
     }
     setShowCalculator(false);
+    setShowKeypad(false);
   };
 
   // Edit transaction
