@@ -359,128 +359,38 @@ export function Tracker() {
     return () => clearInterval(interval);
   }, []);
 
-  // Calculator state
-  const [calculatorExpression, setCalculatorExpression] = useState("");
-  const [currentOperand, setCurrentOperand] = useState("");
-  const [operator, setOperator] = useState("");
-  const [waitingForOperand, setWaitingForOperand] = useState(false);
+  // Simple calculator state and handlers (basic + - * /)
+  const [calcExpr, setCalcExpr] = useState("");
 
-  // Calculator functions
-  const handleNumberClick = (num: string) => {
-    if (waitingForOperand) {
-      setDisplayValue(num);
-      setCurrentOperand(num);
-      setWaitingForOperand(false);
-    } else {
-      const newValue =
-        displayValue === "0" ? (num === "00" ? "0" : num) : displayValue + num;
-      setDisplayValue(newValue);
-      setCurrentOperand(newValue);
+  const calcResult = React.useMemo(() => {
+    if (!calcExpr) return "";
+    // replace unicode operators if any
+    const sanitized = calcExpr.replace(/×/g, "*").replace(/÷/g, "/");
+    // allow digits, operators, parentheses, dot and spaces only
+    if (!/^[0-9+\-*/().\s]+$/.test(sanitized)) return "ERR";
+    try {
+      // eslint-disable-next-line no-new-func
+      const val = Function(`'use strict'; return (${sanitized})`)();
+      if (typeof val === "number" && Number.isFinite(val)) return String(val);
+      return "ERR";
+    } catch (e) {
+      return "ERR";
     }
+  }, [calcExpr]);
+
+  const handleCalcInput = (token: string) => {
+    setCalcExpr((s) => s + token);
   };
 
-  const handleOperatorClick = (nextOperator: string) => {
-    const inputValue = parseFloat(currentOperand || displayValue);
-
-    if (calculatorExpression === "") {
-      setCalculatorExpression(inputValue.toString());
-    } else if (operator) {
-      const currentValue = parseFloat(calculatorExpression);
-      const newValue = performCalculation(currentValue, inputValue, operator);
-
-      setDisplayValue(newValue.toString());
-      setCalculatorExpression(newValue.toString());
+  const handleCalcClear = () => setCalcExpr("");
+  const handleCalcBackspace = () => setCalcExpr((s) => s.slice(0, -1));
+  const handleCalcDone = () => {
+    // prefer evaluated result if valid
+    if (calcResult && calcResult !== "ERR") {
+      setAmount(calcResult);
+    } else if (calcExpr && /^\s*\d+(?:\.\d+)?\s*$/.test(calcExpr)) {
+      setAmount(calcExpr.trim());
     }
-
-    setWaitingForOperand(true);
-    setOperator(nextOperator);
-  };
-
-  const performCalculation = (
-    firstOperand: number,
-    secondOperand: number,
-    operator: string,
-  ): number => {
-    switch (operator) {
-      case "+":
-        return firstOperand + secondOperand;
-      case "-":
-        return firstOperand - secondOperand;
-      case "×":
-        return firstOperand * secondOperand;
-      case "÷":
-        return secondOperand !== 0
-          ? firstOperand / secondOperand
-          : firstOperand;
-      case "=":
-        return secondOperand;
-      default:
-        return secondOperand;
-    }
-  };
-
-  const handleEquals = () => {
-    if (operator && calculatorExpression !== "" && currentOperand !== "") {
-      const firstOperand = parseFloat(calculatorExpression);
-      const secondOperand = parseFloat(currentOperand);
-      const result = performCalculation(firstOperand, secondOperand, operator);
-
-      setDisplayValue(result.toString());
-      setAmount(result.toString());
-      setCalculatorExpression("");
-      setCurrentOperand("");
-      setOperator("");
-      setWaitingForOperand(true);
-    } else {
-      // If just pressing equals without operation, set the current display as amount
-      setAmount(displayValue);
-    }
-  };
-
-  const handleClear = () => {
-    setDisplayValue("0");
-    setAmount("");
-    setCalculatorExpression("");
-    setCurrentOperand("");
-    setOperator("");
-    setWaitingForOperand(false);
-  };
-
-  const handleBackspace = () => {
-    if (!waitingForOperand) {
-      if (displayValue.length > 1) {
-        const newValue = displayValue.slice(0, -1);
-        setDisplayValue(newValue);
-        setCurrentOperand(newValue);
-      } else {
-        setDisplayValue("0");
-        setCurrentOperand("");
-      }
-    }
-  };
-
-  const handleDecimal = () => {
-    if (waitingForOperand) {
-      setDisplayValue("0.");
-      setCurrentOperand("0.");
-      setWaitingForOperand(false);
-    } else if (!displayValue.includes(".")) {
-      const newValue = displayValue + ".";
-      setDisplayValue(newValue);
-      setCurrentOperand(newValue);
-    }
-  };
-
-  const handlePercentage = () => {
-    const value = parseFloat(displayValue);
-    const result = value / 100;
-    setDisplayValue(result.toString());
-    setCurrentOperand(result.toString());
-    setAmount(result.toString());
-  };
-
-  const handleCalculatorDone = () => {
-    setAmount(displayValue);
     setShowCalculator(false);
   };
 
