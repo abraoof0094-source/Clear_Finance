@@ -1175,7 +1175,17 @@ export function Tracker() {
                       >
                         6
                       </Button>
-                      <div />
+                      <Button
+                        onClick={() => {
+                          const cur = parseFloat(displayValue || "0") || 0;
+                          setPendingSum((s) => (s === null ? -cur : s - cur));
+                          setDisplayValue("0");
+                        }}
+                        variant="ghost"
+                        className="h-14 bg-background hover:bg-muted rounded-lg"
+                      >
+                        −
+                      </Button>
 
                       {/* Row 3: 7, 8, 9, Calculator */}
                       <Button
@@ -1200,15 +1210,25 @@ export function Tracker() {
                         9
                       </Button>
                       <Button
-                        onClick={() => setShowCalculator(true)}
+                        onClick={() => {
+                          const cur = parseFloat(displayValue || "0") || 0;
+                          setPendingSum((s) => (s === null ? cur : s + cur));
+                          setDisplayValue("0");
+                        }}
                         variant="ghost"
                         className="h-14 bg-background hover:bg-muted rounded-lg"
                       >
-                        <Calculator className="h-6 w-6" />
+                        +
                       </Button>
 
                       {/* Row 4: Empty, 0, ., Done */}
-                      <div></div>
+                      <Button
+                        onClick={() => handleNumberClick("00")}
+                        variant="ghost"
+                        className="h-14 text-xl font-bold bg-background hover:bg-muted rounded-lg"
+                      >
+                        00
+                      </Button>
                       <Button
                         onClick={() => handleNumberClick("0")}
                         variant="ghost"
@@ -1225,9 +1245,11 @@ export function Tracker() {
                       </Button>
                       <Button
                         onClick={() => {
-                          if (displayValue && displayValue !== "0") {
-                            setAmount(displayValue);
-                          }
+                          const cur = parseFloat(displayValue || "0") || 0;
+                          const final = pendingSum !== null ? pendingSum + cur : cur;
+                          setAmount(String(final));
+                          setDisplayValue(String(final));
+                          setPendingSum(null);
                           setShowKeypad(false);
                         }}
                         className={`h-14 text-white font-bold rounded-lg ${
