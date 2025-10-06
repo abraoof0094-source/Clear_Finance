@@ -1015,7 +1015,13 @@ export function Tracker() {
                       <div className="flex h-full min-h-0">
                         {/* Main Categories Panel */}
                         <div className="w-1/2 border-r bg-background min-h-0">
-                          <div className="h-full overflow-y-auto" style={{ WebkitOverflowScrolling: 'touch', touchAction: 'pan-y' }}>
+                          <div
+                            className="h-full overflow-y-auto"
+                            style={{
+                              WebkitOverflowScrolling: "touch",
+                              touchAction: "pan-y",
+                            }}
+                          >
                             {filteredCategories.map((category) => (
                               <div
                                 key={category.id}
@@ -1061,7 +1067,13 @@ export function Tracker() {
 
                         {/* Subcategories Panel */}
                         <div className="w-1/2 bg-muted/20 min-h-0">
-                          <div className="h-full overflow-y-auto" style={{ WebkitOverflowScrolling: 'touch', touchAction: 'pan-y' }}>
+                          <div
+                            className="h-full overflow-y-auto"
+                            style={{
+                              WebkitOverflowScrolling: "touch",
+                              touchAction: "pan-y",
+                            }}
+                          >
                             {selectedMainCategory ? (
                               subCategories.map((sub, index) => (
                                 <div
