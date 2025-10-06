@@ -451,7 +451,8 @@ export function Tracker() {
   // Preview amount while using keypad: show pendingSum + current input if present
   const previewAmount = showKeypad
     ? String(
-        (pendingSum !== null ? pendingSum : 0) + (parseFloat(displayValue || "0") || 0),
+        (pendingSum !== null ? pendingSum : 0) +
+          (parseFloat(displayValue || "0") || 0),
       )
     : amount || "0";
 
@@ -878,7 +879,11 @@ export function Tracker() {
                         e.preventDefault();
                         e.stopPropagation();
                         // Commit amount if user entered via keypad but didn't press Done
-                        if (showKeypad && displayValue && displayValue !== "0") {
+                        if (
+                          showKeypad &&
+                          displayValue &&
+                          displayValue !== "0"
+                        ) {
                           setAmount(displayValue);
                         }
                         setShowCategorySelection(!showCategorySelection);
@@ -933,7 +938,13 @@ export function Tracker() {
                     <div className="h-[60vh] pb-24">
                       <div className="flex h-full min-h-0">
                         {/* Main Categories Panel */}
-                        <div className="w-1/2 border-r bg-background min-h-0 h-full overflow-y-auto" style={{ WebkitOverflowScrolling: 'touch', touchAction: 'pan-y' }}>
+                        <div
+                          className="w-1/2 border-r bg-background min-h-0 h-full overflow-y-auto"
+                          style={{
+                            WebkitOverflowScrolling: "touch",
+                            touchAction: "pan-y",
+                          }}
+                        >
                           <div className="h-full">
                             {filteredCategories.map((category) => (
                               <div
@@ -979,7 +990,13 @@ export function Tracker() {
                         </div>
 
                         {/* Subcategories Panel */}
-                        <div className="w-1/2 bg-muted/20 min-h-0 h-full overflow-y-auto" style={{ WebkitOverflowScrolling: 'touch', touchAction: 'pan-y' }}>
+                        <div
+                          className="w-1/2 bg-muted/20 min-h-0 h-full overflow-y-auto"
+                          style={{
+                            WebkitOverflowScrolling: "touch",
+                            touchAction: "pan-y",
+                          }}
+                        >
                           <div className="h-full">
                             {selectedMainCategory ? (
                               subCategories.map((sub, index) => (
@@ -1173,7 +1190,8 @@ export function Tracker() {
                       <Button
                         onClick={() => {
                           const cur = parseFloat(displayValue || "0") || 0;
-                          const final = pendingSum !== null ? pendingSum + cur : cur;
+                          const final =
+                            pendingSum !== null ? pendingSum + cur : cur;
                           setAmount(String(final));
                           setDisplayValue(String(final));
                           setPendingSum(null);
@@ -1218,7 +1236,6 @@ export function Tracker() {
             </div>
           </DialogContent>
         </Dialog>
-
       </div>
     </Layout>
   );
