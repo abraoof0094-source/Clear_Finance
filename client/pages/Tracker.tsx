@@ -177,7 +177,9 @@ export function Tracker() {
     setLastOperator(op);
 
     setExpression((prev) => {
-      const base = prev ? `${prev}${displayValue} ${op} ` : `${displayValue} ${op} `;
+      const base = prev
+        ? `${prev}${displayValue} ${op} `
+        : `${displayValue} ${op} `;
       return base;
     });
 
@@ -254,7 +256,7 @@ export function Tracker() {
   const previewAmount = showKeypad
     ? expression
       ? // Show expression + current input (hide trailing zero input if it's the default)
-        (expression + (displayValue && displayValue !== "0" ? displayValue : ""))
+        expression + (displayValue && displayValue !== "0" ? displayValue : "")
       : String(
           (pendingSum !== null ? pendingSum : 0) +
             (parseFloat(displayValue || "0") || 0),
@@ -684,7 +686,11 @@ export function Tracker() {
                         e.preventDefault();
                         e.stopPropagation();
                         // Commit amount if user entered via keypad but didn't press Done
-                        if (showKeypad && displayValue && displayValue !== "0") {
+                        if (
+                          showKeypad &&
+                          displayValue &&
+                          displayValue !== "0"
+                        ) {
                           if (expression) {
                             const cur = parseFloat(displayValue || "0") || 0;
                             let final: number;
@@ -940,7 +946,7 @@ export function Tracker() {
                         6
                       </Button>
                       <Button
-                        onClick={() => handleOperatorClick('-')}
+                        onClick={() => handleOperatorClick("-")}
                         variant="ghost"
                         className="h-14 bg-background hover:bg-muted rounded-lg"
                       >
@@ -970,7 +976,7 @@ export function Tracker() {
                         9
                       </Button>
                       <Button
-                        onClick={() => handleOperatorClick('+')}
+                        onClick={() => handleOperatorClick("+")}
                         variant="ghost"
                         className="h-14 bg-background hover:bg-muted rounded-lg"
                       >

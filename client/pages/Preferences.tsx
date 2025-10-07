@@ -16,7 +16,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../components/ui/select";
-import { ArrowLeft, ChevronRight, DollarSign, Palette, RotateCcw, Sun, Moon, Check } from "lucide-react";
+import {
+  ArrowLeft,
+  ChevronRight,
+  DollarSign,
+  Palette,
+  RotateCcw,
+  Sun,
+  Moon,
+  Check,
+} from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 export function Preferences() {
@@ -62,7 +71,6 @@ export function Preferences() {
     { code: "CHF", name: "Swiss Franc", symbol: "Fr" },
   ];
 
-
   // Appearance mode options (only Light and Dark)
   const darkModeOptions = [
     { id: "light", name: "Light", icon: Sun },
@@ -87,7 +95,6 @@ export function Preferences() {
     // Prefer explicit navigation to /more to ensure back always works from Configuration
     navigate("/more");
   };
-
 
   const handleCurrencyChange = (newCurrency: string) => {
     setCurrency(newCurrency);
@@ -211,25 +218,26 @@ export function Preferences() {
           </div>
           <Card className="p-1">
             <div className="space-y-1">
-  
               {/* Appearance Mode */}
               <div className="flex items-center justify-between p-4 w-full border-t border-border">
                 <div>
                   <div className="font-medium">Appearance Mode</div>
-                  <div className="text-sm text-muted-foreground">{darkMode === 'dark' ? 'Dark' : 'Light'}</div>
+                  <div className="text-sm text-muted-foreground">
+                    {darkMode === "dark" ? "Dark" : "Light"}
+                  </div>
                 </div>
                 <div className="flex items-center gap-2">
                   <button
-                    onClick={() => handleDarkModeChange('light')}
-                    className={`px-3 py-2 rounded-md border ${darkMode === 'light' ? 'bg-muted/50' : ''}`}
-                    aria-pressed={darkMode === 'light'}
+                    onClick={() => handleDarkModeChange("light")}
+                    className={`px-3 py-2 rounded-md border ${darkMode === "light" ? "bg-muted/50" : ""}`}
+                    aria-pressed={darkMode === "light"}
                   >
                     <Sun className="h-4 w-4" />
                   </button>
                   <button
-                    onClick={() => handleDarkModeChange('dark')}
-                    className={`px-3 py-2 rounded-md border ${darkMode === 'dark' ? 'bg-muted/50' : ''}`}
-                    aria-pressed={darkMode === 'dark'}
+                    onClick={() => handleDarkModeChange("dark")}
+                    className={`px-3 py-2 rounded-md border ${darkMode === "dark" ? "bg-muted/50" : ""}`}
+                    aria-pressed={darkMode === "dark"}
                   >
                     <Moon className="h-4 w-4" />
                   </button>
@@ -315,8 +323,6 @@ export function Preferences() {
             </div>
           </DialogContent>
         </Dialog>
-
-
 
         {/* Decimal Places Selection Dialog */}
         <Dialog open={showDecimalDialog} onOpenChange={setShowDecimalDialog}>

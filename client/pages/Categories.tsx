@@ -12,7 +12,14 @@ import {
 import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
 import { Badge } from "../components/ui/badge";
-import { Plus, ChevronDown, ChevronRight, Edit, Trash2, Calculator } from "lucide-react";
+import {
+  Plus,
+  ChevronDown,
+  ChevronRight,
+  Edit,
+  Trash2,
+  Calculator,
+} from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { phoneStorage } from "../utils/phoneStorage";
 
@@ -46,9 +53,12 @@ export function Categories() {
   >("expense");
 
   // Budget state
-  const [budgets, setBudgets] = useState<Record<string, Record<string, number>>>({});
+  const [budgets, setBudgets] = useState<
+    Record<string, Record<string, number>>
+  >({});
   const [budgetAmount, setBudgetAmount] = useState("");
-  const [selectedBudgetSubcategory, setSelectedBudgetSubcategory] = useState<string>("");
+  const [selectedBudgetSubcategory, setSelectedBudgetSubcategory] =
+    useState<string>("");
 
   // Helper to get current month key
   const getCurrentMonthKey = () => {
@@ -85,13 +95,13 @@ export function Categories() {
     if (selectedBudgetSubcategory && budgetAmount) {
       const monthKey = getCurrentMonthKey();
       const amount = parseFloat(budgetAmount) || 0;
-      
-      setBudgets(prev => ({
+
+      setBudgets((prev) => ({
         ...prev,
         [monthKey]: {
           ...prev[monthKey],
-          [selectedBudgetSubcategory]: amount
-        }
+          [selectedBudgetSubcategory]: amount,
+        },
       }));
     }
     setShowBudgetDialog(false);
@@ -101,7 +111,7 @@ export function Categories() {
 
   const handleRemoveBudget = (subcategoryName: string) => {
     const monthKey = getCurrentMonthKey();
-    setBudgets(prev => {
+    setBudgets((prev) => {
       const newBudgets = { ...prev };
       if (newBudgets[monthKey]) {
         delete newBudgets[monthKey][subcategoryName];
@@ -159,8 +169,13 @@ export function Categories() {
   };
 
   const toggleMenu = (categoryId: number) => {
-    console.log("toggleMenu called for categoryId:", categoryId, "current openMenus:", openMenus);
-    setOpenMenus(prev => {
+    console.log(
+      "toggleMenu called for categoryId:",
+      categoryId,
+      "current openMenus:",
+      openMenus,
+    );
+    setOpenMenus((prev) => {
       const newOpenMenus = new Set();
       if (!prev.has(categoryId)) {
         newOpenMenus.add(categoryId);
@@ -257,7 +272,12 @@ export function Categories() {
       <div className="space-y-6 py-4">
         {/* Header */}
         <div className="flex items-center gap-4 mb-2">
-          <Button variant="ghost" size="icon" onClick={handleBack} aria-label="Back">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={handleBack}
+            aria-label="Back"
+          >
             <ChevronRight className="h-5 w-5 rotate-180" />
           </Button>
           <h2 className="text-xl font-semibold">Categories</h2>
@@ -307,7 +327,9 @@ export function Categories() {
       <Dialog open={showAddMainDialog} onOpenChange={setShowAddMainDialog}>
         <DialogContent className="sm:max-w-lg">
           <DialogHeader>
-            <DialogTitle className="text-xl font-semibold">Add New Main Category</DialogTitle>
+            <DialogTitle className="text-xl font-semibold">
+              Add New Main Category
+            </DialogTitle>
           </DialogHeader>
           <div className="space-y-6">
             {/* Category Type Selection */}
@@ -488,21 +510,37 @@ export function Categories() {
             </div>
 
             <div className="flex gap-2 pt-4">
-              <Button variant="outline" onClick={() => setShowAddSubDialog(false)}>Cancel</Button>
-              <Button onClick={handleSaveSubcategory} disabled={!newCategoryName.trim()}>Save Subcategory</Button>
+              <Button
+                variant="outline"
+                onClick={() => setShowAddSubDialog(false)}
+              >
+                Cancel
+              </Button>
+              <Button
+                onClick={handleSaveSubcategory}
+                disabled={!newCategoryName.trim()}
+              >
+                Save Subcategory
+              </Button>
             </div>
           </div>
         </DialogContent>
       </Dialog>
 
       {/* Delete Main Category Dialog */}
-      <Dialog open={showDeleteMainDialog} onOpenChange={setShowDeleteMainDialog}>
+      <Dialog
+        open={showDeleteMainDialog}
+        onOpenChange={setShowDeleteMainDialog}
+      >
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
             <DialogTitle>Delete Category</DialogTitle>
           </DialogHeader>
           <div className="space-y-4">
-            <p>Are you sure you want to delete "{selectedMainCategory?.name}"? This will also delete all its subcategories and cannot be undone.</p>
+            <p>
+              Are you sure you want to delete "{selectedMainCategory?.name}"?
+              This will also delete all its subcategories and cannot be undone.
+            </p>
             <div className="flex gap-2 pt-4">
               <Button
                 variant="outline"
@@ -518,7 +556,9 @@ export function Categories() {
                     return;
                   }
                   const idToDelete = selectedMainCategory.id;
-                  setCategories((prev) => prev.filter((c) => c.id !== idToDelete));
+                  setCategories((prev) =>
+                    prev.filter((c) => c.id !== idToDelete),
+                  );
                   // Cleanup UI state
                   setExpandedCategories((s) => {
                     const n = new Set(s);
@@ -592,7 +632,10 @@ export function Categories() {
             <DialogTitle>Delete Subcategory</DialogTitle>
           </DialogHeader>
           <div className="space-y-4">
-            <p>Are you sure you want to delete "{selectedSubcategory?.name}"? This action cannot be undone.</p>
+            <p>
+              Are you sure you want to delete "{selectedSubcategory?.name}"?
+              This action cannot be undone.
+            </p>
             <div className="flex gap-2 pt-4">
               <Button
                 variant="outline"
@@ -611,14 +654,27 @@ export function Categories() {
                   const subName = selectedSubcategory.name;
                   if (parentId == null) {
                     // Try to find parent by searching categories
-                    setCategories((prev) => prev.map((c) => ({
-                      ...c,
-                      subcategories: c.subcategories.filter((s) => s.name !== subName),
-                    })));
+                    setCategories((prev) =>
+                      prev.map((c) => ({
+                        ...c,
+                        subcategories: c.subcategories.filter(
+                          (s) => s.name !== subName,
+                        ),
+                      })),
+                    );
                   } else {
-                    setCategories((prev) => prev.map((c) =>
-                      c.id === parentId ? { ...c, subcategories: c.subcategories.filter((s) => s.name !== subName) } : c
-                    ));
+                    setCategories((prev) =>
+                      prev.map((c) =>
+                        c.id === parentId
+                          ? {
+                              ...c,
+                              subcategories: c.subcategories.filter(
+                                (s) => s.name !== subName,
+                              ),
+                            }
+                          : c,
+                      ),
+                    );
                   }
                   setSelectedSubcategory(null);
                   setShowDeleteSubDialog(false);
@@ -648,7 +704,9 @@ export function Categories() {
             <div className="space-y-2">
               <Label>Monthly Budget Amount (₹)</Label>
               <div className="relative">
-                <span className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground">₹</span>
+                <span className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground">
+                  ₹
+                </span>
                 <Input
                   type="number"
                   value={budgetAmount}
@@ -667,7 +725,9 @@ export function Categories() {
                 Cancel
               </Button>
               <Button onClick={handleSaveBudget} disabled={!budgetAmount}>
-                {getBudget(selectedBudgetSubcategory) > 0 ? "Update Budget" : "Set Budget"}
+                {getBudget(selectedBudgetSubcategory) > 0
+                  ? "Update Budget"
+                  : "Set Budget"}
               </Button>
             </div>
           </div>
@@ -740,7 +800,9 @@ function ExpandableCategoryItem({
             </div>
             <div className="flex-1">
               <div className="flex items-center gap-3 mb-1">
-                <span className="font-semibold text-foreground">{category.name}</span>
+                <span className="font-semibold text-foreground">
+                  {category.name}
+                </span>
                 <div
                   className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold shadow-sm transition-all ${
                     category.type === "income"
@@ -754,8 +816,11 @@ function ExpandableCategoryItem({
                   {category.type === "investment" && "📈"}
                   {category.type === "expense" && "💸"}
                   <span className="tracking-wide">
-                    {category.type === "income" ? "INCOME" :
-                     category.type === "investment" ? "INVEST" : "EXPENSE"}
+                    {category.type === "income"
+                      ? "INCOME"
+                      : category.type === "investment"
+                        ? "INVEST"
+                        : "EXPENSE"}
                   </span>
                 </div>
               </div>
@@ -787,7 +852,10 @@ function ExpandableCategoryItem({
               onMouseDown={(e) => {
                 e.stopPropagation();
                 e.preventDefault();
-                console.log("Main menu button mousedown, localMenuOpen:", localMenuOpen);
+                console.log(
+                  "Main menu button mousedown, localMenuOpen:",
+                  localMenuOpen,
+                );
                 setLocalMenuOpen(!localMenuOpen);
               }}
               onClick={(e) => {
@@ -797,52 +865,53 @@ function ExpandableCategoryItem({
             >
               <span className="text-foreground font-bold text-lg">⋯</span>
             </Button>
-            {localMenuOpen && createPortal(
-              <>
-                <div
-                  className="fixed inset-0 z-[9998]"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    if (!justOpened) {
-                      setLocalMenuOpen(false);
-                    }
-                  }}
-                ></div>
-                <div
-                  className="fixed bg-card border border-border rounded-md shadow-xl z-[9999] py-1 min-w-[120px]"
-                  style={{right: '8px', top: '120px'}}
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  <button
-                    className="w-full text-left px-3 py-2 hover:bg-muted text-sm flex items-center gap-2"
+            {localMenuOpen &&
+              createPortal(
+                <>
+                  <div
+                    className="fixed inset-0 z-[9998]"
                     onClick={(e) => {
-                      e.preventDefault();
                       e.stopPropagation();
-                      console.log("Edit main category clicked");
-                      onEditMain();
-                      setLocalMenuOpen(false);
+                      if (!justOpened) {
+                        setLocalMenuOpen(false);
+                      }
                     }}
+                  ></div>
+                  <div
+                    className="fixed bg-card border border-border rounded-md shadow-xl z-[9999] py-1 min-w-[120px]"
+                    style={{ right: "8px", top: "120px" }}
+                    onClick={(e) => e.stopPropagation()}
                   >
-                    <Edit className="h-3 w-3" />
-                    Edit Category
-                  </button>
-                  <button
-                    className="w-full text-left px-3 py-2 hover:bg-muted text-sm flex items-center gap-2 text-red-600"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      console.log("Delete main category clicked");
-                      onDeleteMain();
-                      setLocalMenuOpen(false);
-                    }}
-                  >
-                    <Trash2 className="h-3 w-3" />
-                    Delete Category
-                  </button>
-                </div>
-              </>,
-              document.body
-            )}
+                    <button
+                      className="w-full text-left px-3 py-2 hover:bg-muted text-sm flex items-center gap-2"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        console.log("Edit main category clicked");
+                        onEditMain();
+                        setLocalMenuOpen(false);
+                      }}
+                    >
+                      <Edit className="h-3 w-3" />
+                      Edit Category
+                    </button>
+                    <button
+                      className="w-full text-left px-3 py-2 hover:bg-muted text-sm flex items-center gap-2 text-red-600"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        console.log("Delete main category clicked");
+                        onDeleteMain();
+                        setLocalMenuOpen(false);
+                      }}
+                    >
+                      <Trash2 className="h-3 w-3" />
+                      Delete Category
+                    </button>
+                  </div>
+                </>,
+                document.body,
+              )}
           </div>
         </div>
       </div>
@@ -856,7 +925,9 @@ function ExpandableCategoryItem({
                 key={index}
                 subcategory={subcategory}
                 onEdit={onEditSubcategory}
-                onDelete={(sub) => onDeleteSubcategory({ ...sub, parentId: category.id })}
+                onDelete={(sub) =>
+                  onDeleteSubcategory({ ...sub, parentId: category.id })
+                }
                 onSetBudget={onSetBudget}
                 onRemoveBudget={onRemoveBudget}
                 budget={getBudget(subcategory.name)}
@@ -920,7 +991,9 @@ function SubcategoryItem({
           </div>
           <div className="flex-1">
             <div className="flex items-center gap-2 mb-1">
-              <span className="font-medium text-sm text-foreground">{subcategory.name}</span>
+              <span className="font-medium text-sm text-foreground">
+                {subcategory.name}
+              </span>
               {budget > 0 && (
                 <div className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-gradient-to-r from-blue-500 to-indigo-500 text-white text-xs font-semibold shadow-sm">
                   <span>💰</span>
@@ -939,7 +1012,10 @@ function SubcategoryItem({
             size="sm"
             onClick={(e) => {
               e.stopPropagation();
-              console.log("Subcategory menu button clicked, showMenu:", showMenu);
+              console.log(
+                "Subcategory menu button clicked, showMenu:",
+                showMenu,
+              );
               if (!showMenu) {
                 setShowMenu(true);
               } else {
@@ -949,99 +1025,103 @@ function SubcategoryItem({
           >
             <span className="text-muted-foreground">⋯</span>
           </Button>
-          {showMenu && createPortal(
-            <>
-              <div
-                className="fixed inset-0 z-[9998]"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  if (!justOpened) {
-                    setShowMenu(false);
-                  }
-                }}
-              ></div>
-              <div
-                className="fixed bg-card border border-border rounded-md shadow-xl z-[9999] py-1 min-w-[140px]"
-                style={{right: '8px', top: '200px'}}
-                onClick={(e) => e.stopPropagation()}
-              >
-                <button
-                  className="w-full text-left px-3 py-2 hover:bg-muted text-sm flex items-center gap-2"
+          {showMenu &&
+            createPortal(
+              <>
+                <div
+                  className="fixed inset-0 z-[9998]"
                   onClick={(e) => {
-                    e.preventDefault();
                     e.stopPropagation();
-                    console.log("Edit subcategory clicked:", subcategory);
-                    onEdit(subcategory);
-                    setShowMenu(false);
+                    if (!justOpened) {
+                      setShowMenu(false);
+                    }
                   }}
+                ></div>
+                <div
+                  className="fixed bg-card border border-border rounded-md shadow-xl z-[9999] py-1 min-w-[140px]"
+                  style={{ right: "8px", top: "200px" }}
+                  onClick={(e) => e.stopPropagation()}
                 >
-                  <Edit className="h-3 w-3" />
-                  Edit
-                </button>
+                  <button
+                    className="w-full text-left px-3 py-2 hover:bg-muted text-sm flex items-center gap-2"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      console.log("Edit subcategory clicked:", subcategory);
+                      onEdit(subcategory);
+                      setShowMenu(false);
+                    }}
+                  >
+                    <Edit className="h-3 w-3" />
+                    Edit
+                  </button>
 
-                {budget > 0 ? (
-                  <>
+                  {budget > 0 ? (
+                    <>
+                      <button
+                        className="w-full text-left px-3 py-2 hover:bg-muted text-sm flex items-center gap-2 text-blue-600"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          console.log("Edit budget clicked:", subcategory.name);
+                          onSetBudget(subcategory.name);
+                          setShowMenu(false);
+                        }}
+                      >
+                        <Calculator className="h-3 w-3" />
+                        Edit Budget
+                      </button>
+                      <button
+                        className="w-full text-left px-3 py-2 hover:bg-muted text-sm flex items-center gap-2 text-orange-600"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          console.log(
+                            "Remove budget clicked:",
+                            subcategory.name,
+                          );
+                          onRemoveBudget(subcategory.name);
+                          setShowMenu(false);
+                        }}
+                      >
+                        <Trash2 className="h-3 w-3" />
+                        Remove Budget
+                      </button>
+                    </>
+                  ) : (
                     <button
-                      className="w-full text-left px-3 py-2 hover:bg-muted text-sm flex items-center gap-2 text-blue-600"
+                      className="w-full text-left px-3 py-2 hover:bg-muted text-sm flex items-center gap-2 text-green-600"
                       onClick={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
-                        console.log("Edit budget clicked:", subcategory.name);
+                        console.log("Set budget clicked:", subcategory.name);
                         onSetBudget(subcategory.name);
                         setShowMenu(false);
                       }}
                     >
                       <Calculator className="h-3 w-3" />
-                      Edit Budget
+                      Set Budget
                     </button>
-                    <button
-                      className="w-full text-left px-3 py-2 hover:bg-muted text-sm flex items-center gap-2 text-orange-600"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        console.log("Remove budget clicked:", subcategory.name);
-                        onRemoveBudget(subcategory.name);
-                        setShowMenu(false);
-                      }}
-                    >
-                      <Trash2 className="h-3 w-3" />
-                      Remove Budget
-                    </button>
-                  </>
-                ) : (
+                  )}
+
+                  <div className="border-t border-border my-1"></div>
                   <button
-                    className="w-full text-left px-3 py-2 hover:bg-muted text-sm flex items-center gap-2 text-green-600"
+                    className="w-full text-left px-3 py-2 hover:bg-muted text-sm flex items-center gap-2 text-red-600"
                     onClick={(e) => {
                       e.preventDefault();
                       e.stopPropagation();
-                      console.log("Set budget clicked:", subcategory.name);
-                      onSetBudget(subcategory.name);
+                      console.log("Delete subcategory clicked:", subcategory);
+                      onDelete(subcategory);
                       setShowMenu(false);
                     }}
                   >
-                    <Calculator className="h-3 w-3" />
-                    Set Budget
+                    <Trash2 className="h-3 w-3" />
+                    Delete
                   </button>
-                )}
-
-                <div className="border-t border-border my-1"></div>
-                <button
-                  className="w-full text-left px-3 py-2 hover:bg-muted text-sm flex items-center gap-2 text-red-600"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    console.log("Delete subcategory clicked:", subcategory);
-                    onDelete(subcategory);
-                    setShowMenu(false);
-                  }}
-                >
-                  <Trash2 className="h-3 w-3" />
-                  Delete
-                </button>
-              </div>
-            </>,
-            document.body
-          )}
+                </div>
+              </>,
+              document.body,
+            )}
         </div>
       </div>
     </div>
