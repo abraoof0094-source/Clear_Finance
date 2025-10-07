@@ -204,6 +204,7 @@ export function Categories() {
   const handleAddSubcategory = (mainCategoryId: number) => {
     setActiveMainCategoryId(mainCategoryId);
     setNewCategoryName("");
+    setNewCategoryDescription("");
     setSelectedIcon("🏷️");
     setShowAddSubDialog(true);
   };
@@ -363,7 +364,7 @@ export function Categories() {
                   onClick={() => setCategoryType("expense")}
                 >
                   <div className="flex flex-col items-center gap-1">
-                    <span className="text-lg">💸</span>
+                    <span className="text-lg">����</span>
                     <span>EXPENSE</span>
                   </div>
                 </button>
