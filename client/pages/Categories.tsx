@@ -263,9 +263,37 @@ export function Categories() {
 
     // Reset and close
     setNewCategoryName("Untitled");
+    setNewCategoryDescription("");
     setSelectedIcon("🏷️");
     setActiveMainCategoryId(null);
     setShowAddSubDialog(false);
+  };
+
+  const handleUpdateSubcategory = () => {
+    if (!selectedSubcategory) return;
+    const parentId = (selectedSubcategory as any).parentId || activeMainCategoryId;
+    const originalName = selectedSubcategory.name;
+
+    setCategories((prev) =>
+      prev.map((c) => {
+        if (c.id !== parentId) return c;
+        return {
+          ...c,
+          subcategories: c.subcategories.map((s: any) =>
+            s.name === originalName
+              ? { ...s, name: newCategoryName.trim(), icon: selectedIcon, description: newCategoryDescription }
+              : s,
+          ),
+        };
+      }),
+    );
+
+    setSelectedSubcategory(null);
+    setNewCategoryName("Untitled");
+    setNewCategoryDescription("");
+    setSelectedIcon("🏷️");
+    setActiveMainCategoryId(null);
+    setShowEditSubDialog(false);
   };
 
   const navigate = useNavigate();
@@ -364,7 +392,7 @@ export function Categories() {
                   onClick={() => setCategoryType("expense")}
                 >
                   <div className="flex flex-col items-center gap-1">
-                    <span className="text-lg">����</span>
+                    <span className="text-lg">💸</span>
                     <span>EXPENSE</span>
                   </div>
                 </button>
@@ -513,6 +541,16 @@ export function Categories() {
               </div>
             </div>
 
+            <div className="space-y-2">
+              <Label>Note</Label>
+              <Textarea
+                value={newCategoryDescription}
+                onChange={(e) => setNewCategoryDescription(e.target.value)}
+                placeholder="Add a short note about this subcategory"
+                className="w-full"
+              />
+            </div>
+
             <div className="flex gap-2 pt-4">
               <Button
                 variant="outline"
@@ -608,6 +646,15 @@ export function Categories() {
                 placeholder="📱"
               />
             </div>
+            <div className="space-y-2">
+              <Label>Note</Label>
+              <Textarea
+                value={newCategoryDescription}
+                onChange={(e) => setNewCategoryDescription(e.target.value)}
+                placeholder="Add or edit the note for this subcategory"
+                className="w-full"
+              />
+            </div>
             <div className="flex gap-2 pt-4">
               <Button
                 variant="outline"
@@ -616,10 +663,7 @@ export function Categories() {
                 Cancel
               </Button>
               <Button
-                onClick={() => {
-                  // Save logic here
-                  setShowEditSubDialog(false);
-                }}
+                onClick={handleUpdateSubcategory}
                 disabled={!newCategoryName}
               >
                 Save Changes
