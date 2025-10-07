@@ -207,23 +207,46 @@ export function Categories() {
   const handleSaveMainCategory = () => {
     if (!newCategoryName.trim()) return;
 
-    // Here you would typically save to your storage/database
-    // For now, I'll just show console log as the categories are static
-    console.log("Saving new main category:", {
-      name: newCategoryName,
+    const nextId = Math.max(0, ...categories.map((c) => c.id)) + 1;
+    const newCat = {
+      id: nextId,
+      name: newCategoryName.trim(),
       icon: selectedIcon,
       type: categoryType,
-      subcategories: []
-    });
+      subcategories: [],
+    } as any;
+
+    setCategories((prev) => [...prev, newCat]);
 
     // Reset form and close dialog
     setNewCategoryName("Untitled");
     setSelectedIcon("🏷️");
     setCategoryType("expense");
     setShowAddMainDialog(false);
+  };
 
-    // You could add to allCategories array here if it was state-managed
-    alert(`Category "${newCategoryName}" would be added here. Currently categories are static in the demo.`);
+  const handleSaveSubcategory = () => {
+    if (!newCategoryName.trim() || activeMainCategoryId === null) return;
+
+    const newSub = {
+      name: newCategoryName.trim(),
+      icon: selectedIcon,
+      description: "",
+    };
+
+    setCategories((prev) =>
+      prev.map((c) =>
+        c.id === activeMainCategoryId
+          ? { ...c, subcategories: [...c.subcategories, newSub] }
+          : c,
+      ),
+    );
+
+    // Reset and close
+    setNewCategoryName("Untitled");
+    setSelectedIcon("🏷️");
+    setActiveMainCategoryId(null);
+    setShowAddSubDialog(false);
   };
 
   const navigate = useNavigate();
