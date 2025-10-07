@@ -269,6 +269,7 @@ export function Tracker() {
   const [currentTime, setCurrentTime] = useState("");
   const [showKeypad, setShowKeypad] = useState(false);
   const [pendingSum, setPendingSum] = useState<number | null>(null);
+  const [expression, setExpression] = useState("");
   const [showCategorySelection, setShowCategorySelection] = useState(false);
   const [showAllSubcategories, setShowAllSubcategories] = useState(false);
   const [openMenuId, setOpenMenuId] = useState<string | null>(null);
@@ -384,10 +385,28 @@ export function Tracker() {
     }
   };
 
+  const handleOperatorClick = (op: string) => {
+    const cur = parseFloat(displayValue || "0") || 0;
+    // Update pending sum based on operator and append to expression
+    setPendingSum((s) => {
+      const updated = s === null ? cur : op === "+" ? (s + cur) : (s - cur);
+      return updated;
+    });
+
+    setExpression((prev) => {
+      // Append the current input and operator to the expression string
+      const base = prev ? `${prev}${displayValue} ${op} ` : `${displayValue} ${op} `;
+      return base;
+    });
+
+    setDisplayValue("0");
+  };
+
   const handleClear = () => {
     setDisplayValue("0");
     setAmount("");
     setPendingSum(null);
+    setExpression("");
   };
 
   // Edit transaction
@@ -448,12 +467,15 @@ export function Tracker() {
     filteredCategoriesCount: filteredCategories.length,
   });
 
-  // Preview amount while using keypad: show pendingSum + current input if present
+  // Preview amount while using keypad: show the literal expression if present, otherwise show computed preview
   const previewAmount = showKeypad
-    ? String(
-        (pendingSum !== null ? pendingSum : 0) +
-          (parseFloat(displayValue || "0") || 0),
-      )
+    ? expression
+      ? // Show expression + current input (hide trailing zero input if it's the default)
+        (expression + (displayValue && displayValue !== "0" ? displayValue : ""))
+      : String(
+          (pendingSum !== null ? pendingSum : 0) +
+            (parseFloat(displayValue || "0") || 0),
+        )
     : amount || "0";
 
   // Save transaction
@@ -879,12 +901,17 @@ export function Tracker() {
                         e.preventDefault();
                         e.stopPropagation();
                         // Commit amount if user entered via keypad but didn't press Done
-                        if (
-                          showKeypad &&
-                          displayValue &&
-                          displayValue !== "0"
-                        ) {
-                          setAmount(displayValue);
+                        if (showKeypad && displayValue && displayValue !== "0") {
+                          if (expression) {
+                            const cur = parseFloat(displayValue || "0") || 0;
+                            const final = pendingSum !== null ? pendingSum + cur : cur;
+                            setAmount(String(final));
+                            setDisplayValue(String(final));
+                            setPendingSum(null);
+                            setExpression("");
+                          } else {
+                            setAmount(displayValue);
+                          }
                         }
                         setShowCategorySelection(!showCategorySelection);
                         setShowKeypad(false);
@@ -1120,11 +1147,7 @@ export function Tracker() {
                         6
                       </Button>
                       <Button
-                        onClick={() => {
-                          const cur = parseFloat(displayValue || "0") || 0;
-                          setPendingSum((s) => (s === null ? -cur : s - cur));
-                          setDisplayValue("0");
-                        }}
+                        onClick={() => handleOperatorClick('-')}
                         variant="ghost"
                         className="h-14 bg-background hover:bg-muted rounded-lg"
                       >
@@ -1154,11 +1177,7 @@ export function Tracker() {
                         9
                       </Button>
                       <Button
-                        onClick={() => {
-                          const cur = parseFloat(displayValue || "0") || 0;
-                          setPendingSum((s) => (s === null ? cur : s + cur));
-                          setDisplayValue("0");
-                        }}
+                        onClick={() => handleOperatorClick('+')}
                         variant="ghost"
                         className="h-14 bg-background hover:bg-muted rounded-lg"
                       >
@@ -1195,6 +1214,7 @@ export function Tracker() {
                           setAmount(String(final));
                           setDisplayValue(String(final));
                           setPendingSum(null);
+                          setExpression("");
                           setShowKeypad(false);
                         }}
                         className={`h-14 text-white font-bold rounded-lg ${
