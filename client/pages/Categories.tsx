@@ -249,7 +249,7 @@ export function Categories() {
     const newSub = {
       name: newCategoryName.trim(),
       icon: selectedIcon,
-      description: "",
+      description: newCategoryDescription || "",
     };
 
     setCategories((prev) =>
