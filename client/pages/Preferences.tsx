@@ -16,7 +16,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../components/ui/select";
-import { ArrowLeft, ChevronRight, DollarSign, RotateCcw, Sun, Moon, Check } from "lucide-react";
+import { ArrowLeft, ChevronRight, DollarSign, Palette, RotateCcw, Sun, Moon, Check } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 export function Preferences() {
