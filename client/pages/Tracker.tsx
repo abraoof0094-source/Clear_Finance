@@ -270,6 +270,7 @@ export function Tracker() {
   const [showKeypad, setShowKeypad] = useState(false);
   const [pendingSum, setPendingSum] = useState<number | null>(null);
   const [expression, setExpression] = useState("");
+  const [lastOperator, setLastOperator] = useState<string | null>(null);
   const [showCategorySelection, setShowCategorySelection] = useState(false);
   const [showAllSubcategories, setShowAllSubcategories] = useState(false);
   const [openMenuId, setOpenMenuId] = useState<string | null>(null);
