@@ -388,14 +388,19 @@ export function Tracker() {
 
   const handleOperatorClick = (op: string) => {
     const cur = parseFloat(displayValue || "0") || 0;
-    // Update pending sum based on operator and append to expression
-    setPendingSum((s) => {
-      const updated = s === null ? cur : op === "+" ? (s + cur) : (s - cur);
-      return updated;
-    });
+
+    if (pendingSum === null) {
+      setPendingSum(cur);
+    } else if (lastOperator) {
+      setPendingSum((prev) => {
+        if (prev === null) return cur;
+        return lastOperator === "+" ? prev + cur : prev - cur;
+      });
+    }
+
+    setLastOperator(op);
 
     setExpression((prev) => {
-      // Append the current input and operator to the expression string
       const base = prev ? `${prev}${displayValue} ${op} ` : `${displayValue} ${op} `;
       return base;
     });
