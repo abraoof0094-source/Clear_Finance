@@ -84,7 +84,8 @@ export function Preferences() {
     decimalOptions.find((d) => d.id === decimalPlaces) || decimalOptions[2];
 
   const handleBack = () => {
-    navigate(-1);
+    // Prefer explicit navigation to /more to ensure back always works from Configuration
+    navigate("/more");
   };
 
 
