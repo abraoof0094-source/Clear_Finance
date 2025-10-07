@@ -549,7 +549,7 @@ export function Categories() {
             <div className="space-y-2">
               <Label>Monthly Budget Amount (₹)</Label>
               <div className="relative">
-                <IndianRupee className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <span className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground">₹</span>
                 <Input
                   type="number"
                   value={budgetAmount}
