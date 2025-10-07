@@ -925,7 +925,7 @@ function ExpandableCategoryItem({
               <SubcategoryItem
                 key={index}
                 subcategory={subcategory}
-                onEdit={onEditSubcategory}
+                onEdit={(sub) => onEditSubcategory({ ...sub, parentId: category.id })}
                 onDelete={(sub) =>
                   onDeleteSubcategory({ ...sub, parentId: category.id })
                 }
