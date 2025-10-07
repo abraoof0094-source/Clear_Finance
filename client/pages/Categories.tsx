@@ -243,7 +243,7 @@ export function Categories() {
         {/* All Categories */}
         <div>
           <div className="space-y-3">
-            {allCategories.map((category) => (
+            {categories.map((category) => (
               <div key={category.id}>
                 <ExpandableCategoryItem
                   category={category}
