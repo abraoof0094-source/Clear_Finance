@@ -48,7 +48,6 @@ export function Preferences() {
 
   // Dialog states
   const [showCurrencyDialog, setShowCurrencyDialog] = useState(false);
-  const [showThemeDialog, setShowThemeDialog] = useState(false);
   const [showDarkModeDialog, setShowDarkModeDialog] = useState(false);
   const [showDecimalDialog, setShowDecimalDialog] = useState(false);
 
