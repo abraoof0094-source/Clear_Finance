@@ -272,7 +272,8 @@ export function Categories() {
 
   const handleUpdateSubcategory = () => {
     if (!selectedSubcategory) return;
-    const parentId = (selectedSubcategory as any).parentId || activeMainCategoryId;
+    const parentId =
+      (selectedSubcategory as any).parentId || activeMainCategoryId;
     const originalName = selectedSubcategory.name;
 
     setCategories((prev) =>
@@ -282,7 +283,12 @@ export function Categories() {
           ...c,
           subcategories: c.subcategories.map((s: any) =>
             s.name === originalName
-              ? { ...s, name: newCategoryName.trim(), icon: selectedIcon, description: newCategoryDescription }
+              ? {
+                  ...s,
+                  name: newCategoryName.trim(),
+                  icon: selectedIcon,
+                  description: newCategoryDescription,
+                }
               : s,
           ),
         };
@@ -973,7 +979,9 @@ function ExpandableCategoryItem({
               <SubcategoryItem
                 key={index}
                 subcategory={subcategory}
-                onEdit={(sub) => onEditSubcategory({ ...sub, parentId: category.id })}
+                onEdit={(sub) =>
+                  onEditSubcategory({ ...sub, parentId: category.id })
+                }
                 onDelete={(sub) =>
                   onDeleteSubcategory({ ...sub, parentId: category.id })
                 }
