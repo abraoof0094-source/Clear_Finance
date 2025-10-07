@@ -413,6 +413,7 @@ export function Tracker() {
     setAmount("");
     setPendingSum(null);
     setExpression("");
+    setLastOperator(null);
   };
 
   // Edit transaction
