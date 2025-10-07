@@ -1215,11 +1215,21 @@ export function Tracker() {
                       <Button
                         onClick={() => {
                           const cur = parseFloat(displayValue || "0") || 0;
-                          const final =
-                            pendingSum !== null ? pendingSum + cur : cur;
+                          let final: number;
+                          if (pendingSum === null) {
+                            final = cur;
+                          } else if (lastOperator === "+") {
+                            final = pendingSum + cur;
+                          } else if (lastOperator === "-") {
+                            final = pendingSum - cur;
+                          } else {
+                            final = cur;
+                          }
+
                           setAmount(String(final));
                           setDisplayValue(String(final));
                           setPendingSum(null);
+                          setLastOperator(null);
                           setExpression("");
                           setShowKeypad(false);
                         }}
