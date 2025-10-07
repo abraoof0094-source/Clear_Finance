@@ -114,7 +114,7 @@ export function Categories() {
   const availableIcons = [
     "💰",
     "🏠",
-    "��️",
+    "🏡",
     "🚗",
     "📱",
     "❤️",
