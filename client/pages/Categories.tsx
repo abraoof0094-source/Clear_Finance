@@ -455,6 +455,46 @@ export function Categories() {
         </DialogContent>
       </Dialog>
 
+      {/* Add Subcategory Dialog */}
+      <Dialog open={showAddSubDialog} onOpenChange={setShowAddSubDialog}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Add Subcategory</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <Label>Name</Label>
+              <Input
+                value={newCategoryName}
+                onChange={(e) => setNewCategoryName(e.target.value)}
+                placeholder="Subcategory name"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label>Icon</Label>
+              <div className="grid grid-cols-8 gap-2 max-h-32 overflow-y-auto p-2 border rounded-lg bg-muted/10">
+                {availableIcons.map((icon) => (
+                  <Button
+                    key={icon}
+                    variant={selectedIcon === icon ? "default" : "outline"}
+                    size="icon"
+                    className={`h-10 w-10 text-lg ${selectedIcon === icon ? "ring-2 ring-primary" : ""}`}
+                    onClick={() => setSelectedIcon(icon)}
+                  >
+                    {icon}
+                  </Button>
+                ))}
+              </div>
+            </div>
+
+            <div className="flex gap-2 pt-4">
+              <Button variant="outline" onClick={() => setShowAddSubDialog(false)}>Cancel</Button>
+              <Button onClick={handleSaveSubcategory} disabled={!newCategoryName.trim()}>Save Subcategory</Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
       {/* Delete Main Category Dialog */}
       <Dialog open={showDeleteMainDialog} onOpenChange={setShowDeleteMainDialog}>
         <DialogContent className="sm:max-w-md">
