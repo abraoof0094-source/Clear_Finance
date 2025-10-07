@@ -48,7 +48,6 @@ export function Preferences() {
 
   // Dialog states
   const [showCurrencyDialog, setShowCurrencyDialog] = useState(false);
-  const [showDarkModeDialog, setShowDarkModeDialog] = useState(false);
   const [showDecimalDialog, setShowDecimalDialog] = useState(false);
 
   // Currency options
@@ -212,19 +211,29 @@ export function Preferences() {
           <Card className="p-1">
             <div className="space-y-1">
   
-              {/* Dark Mode */}
-              <button
-                className="flex items-center justify-between p-4 w-full text-left hover:bg-muted/50 rounded-md transition-colors border-t border-border"
-                onClick={() => setShowDarkModeDialog(true)}
-              >
+              {/* Appearance Mode */}
+              <div className="flex items-center justify-between p-4 w-full border-t border-border">
                 <div>
                   <div className="font-medium">Appearance Mode</div>
-                  <div className="text-sm text-muted-foreground">
-                    {currentDarkMode.name}
-                  </div>
+                  <div className="text-sm text-muted-foreground">{darkMode === 'dark' ? 'Dark' : 'Light'}</div>
                 </div>
-                <ChevronRight className="h-4 w-4 text-muted-foreground" />
-              </button>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => handleDarkModeChange('light')}
+                    className={`px-3 py-2 rounded-md border ${darkMode === 'light' ? 'bg-muted/50' : ''}`}
+                    aria-pressed={darkMode === 'light'}
+                  >
+                    <Sun className="h-4 w-4" />
+                  </button>
+                  <button
+                    onClick={() => handleDarkModeChange('dark')}
+                    className={`px-3 py-2 rounded-md border ${darkMode === 'dark' ? 'bg-muted/50' : ''}`}
+                    aria-pressed={darkMode === 'dark'}
+                  >
+                    <Moon className="h-4 w-4" />
+                  </button>
+                </div>
+              </div>
             </div>
           </Card>
         </div>
@@ -307,37 +316,6 @@ export function Preferences() {
         </Dialog>
 
 
-        {/* Dark Mode Selection Dialog */}
-        <Dialog open={showDarkModeDialog} onOpenChange={setShowDarkModeDialog}>
-          <DialogContent className="max-w-md">
-            <DialogHeader>
-              <DialogTitle>Appearance Mode</DialogTitle>
-            </DialogHeader>
-            <div className="space-y-3">
-              {darkModeOptions.map((modeOption) => {
-                const IconComponent = modeOption.icon;
-                return (
-                  <button
-                    key={modeOption.id}
-                    onClick={() => {
-                      handleDarkModeChange(modeOption.id);
-                      setShowDarkModeDialog(false);
-                    }}
-                    className="w-full flex items-center gap-4 p-4 text-left hover:bg-muted/50 rounded-lg transition-colors"
-                  >
-                    <IconComponent className="h-5 w-5 text-muted-foreground" />
-                    <div className="flex-1">
-                      <div className="font-medium">{modeOption.name}</div>
-                    </div>
-                    {darkMode === modeOption.id && (
-                      <Check className="h-4 w-4 text-primary" />
-                    )}
-                  </button>
-                );
-              })}
-            </div>
-          </DialogContent>
-        </Dialog>
 
         {/* Decimal Places Selection Dialog */}
         <Dialog open={showDecimalDialog} onOpenChange={setShowDecimalDialog}>
