@@ -47,6 +47,7 @@ export function Categories() {
   const [categories, setCategories] = useState(() => allCategories);
 
   const [newCategoryName, setNewCategoryName] = useState("Untitled");
+  const [newCategoryDescription, setNewCategoryDescription] = useState("");
   const [selectedIcon, setSelectedIcon] = useState("🏷️");
   const [categoryType, setCategoryType] = useState<
     "income" | "expense" | "investment"
