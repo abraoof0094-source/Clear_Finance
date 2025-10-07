@@ -13,6 +13,7 @@ import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
 import { Badge } from "../components/ui/badge";
 import { Plus, ChevronDown, ChevronRight, Edit, Trash2, Calculator, IndianRupee } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { phoneStorage } from "../utils/phoneStorage";
 
 import allCategories from "../data/categories";
@@ -304,7 +305,7 @@ export function Categories() {
                   onClick={() => setCategoryType("expense")}
                 >
                   <div className="flex flex-col items-center gap-1">
-                    <span className="text-lg">💸</span>
+                    <span className="text-lg">����</span>
                     <span>EXPENSE</span>
                   </div>
                 </button>
@@ -643,7 +644,7 @@ function ExpandableCategoryItem({
                   }`}
                 >
                   {category.type === "income" && "💰"}
-                  {category.type === "investment" && "📈"}
+                  {category.type === "investment" && "��"}
                   {category.type === "expense" && "💸"}
                   <span className="tracking-wide">
                     {category.type === "income" ? "INCOME" :
