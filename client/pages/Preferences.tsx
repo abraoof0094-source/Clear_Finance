@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { Layout } from "../components/Layout";
-import { themeManager } from "../utils/themeColors";
 import { Card } from "../components/ui/card";
 import { Button } from "../components/ui/button";
 import { Switch } from "../components/ui/switch";
@@ -17,19 +16,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../components/ui/select";
-import {
-  ArrowLeft,
-  ChevronRight,
-  DollarSign,
-  Palette,
-  RotateCcw,
-  Sun,
-  Moon,
-  Monitor,
-  Check,
-} from "lucide-react";
+import { ArrowLeft, ChevronRight, DollarSign, RotateCcw, Sun, Moon, Check } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { ThemePreview } from "../components/ThemePreview";
 
 export function Preferences() {
   const navigate = useNavigate();
@@ -46,11 +34,8 @@ export function Preferences() {
   });
 
   // Theme Settings
-  const [colorTheme, setColorTheme] = useState(() => {
-    return localStorage.getItem("selected-theme") || "original";
-  });
   const [darkMode, setDarkMode] = useState(() => {
-    return localStorage.getItem("dark-mode") || "system";
+    return localStorage.getItem("dark-mode") || "light";
   });
 
   // Carry Over Settings
@@ -79,19 +64,11 @@ export function Preferences() {
     { code: "CHF", name: "Swiss Franc", symbol: "Fr" },
   ];
 
-  // Theme options
-  const themes = [
-    { id: "original", name: "Original", description: "Classic dark theme" },
-    { id: "modern", name: "Modern", description: "Clean minimal design" },
-    { id: "vibrant", name: "Vibrant", description: "Colorful and energetic" },
-    { id: "nature", name: "Nature", description: "Green and earth tones" },
-  ];
 
-  // Dark mode options
+  // Appearance mode options (only Light and Dark)
   const darkModeOptions = [
     { id: "light", name: "Light", icon: Sun },
     { id: "dark", name: "Dark", icon: Moon },
-    { id: "system", name: "System", icon: Monitor },
   ];
 
   // Decimal options
@@ -103,9 +80,8 @@ export function Preferences() {
 
   const currentCurrency =
     currencies.find((c) => c.code === currency) || currencies[0];
-  const currentTheme = themes.find((t) => t.id === colorTheme) || themes[0];
   const currentDarkMode =
-    darkModeOptions.find((m) => m.id === darkMode) || darkModeOptions[2];
+    darkModeOptions.find((m) => m.id === darkMode) || darkModeOptions[0];
   const currentDecimal =
     decimalOptions.find((d) => d.id === decimalPlaces) || decimalOptions[2];
 
@@ -113,11 +89,6 @@ export function Preferences() {
     navigate(-1);
   };
 
-  const handleThemeChange = (newTheme: string) => {
-    setColorTheme(newTheme);
-    localStorage.setItem("selected-theme", newTheme);
-    themeManager.setTheme(newTheme);
-  };
 
   const handleCurrencyChange = (newCurrency: string) => {
     setCurrency(newCurrency);
@@ -127,19 +98,11 @@ export function Preferences() {
   const handleDarkModeChange = (newMode: string) => {
     setDarkMode(newMode);
     localStorage.setItem("dark-mode", newMode);
-    // Apply dark mode logic here
+    // Apply dark or light mode by toggling the 'dark' class on <html>
     if (newMode === "dark") {
       document.documentElement.classList.add("dark");
-    } else if (newMode === "light") {
-      document.documentElement.classList.remove("dark");
     } else {
-      // System preference
-      const isDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-      if (isDark) {
-        document.documentElement.classList.add("dark");
-      } else {
-        document.documentElement.classList.remove("dark");
-      }
+      document.documentElement.classList.remove("dark");
     }
   };
 
@@ -158,9 +121,9 @@ export function Preferences() {
     localStorage.setItem("carry-over-categories", checked.toString());
   };
 
-  // Initialize theme on component mount
+  // Initialize appearance mode on component mount
   useEffect(() => {
-    themeManager.setTheme(colorTheme);
+    handleDarkModeChange(darkMode);
   }, []);
 
   return (
@@ -249,20 +212,7 @@ export function Preferences() {
           </div>
           <Card className="p-1">
             <div className="space-y-1">
-              {/* Color Theme */}
-              <button
-                className="flex items-center justify-between p-4 w-full text-left hover:bg-muted/50 rounded-md transition-colors"
-                onClick={() => setShowThemeDialog(true)}
-              >
-                <div>
-                  <div className="font-medium">Color Theme</div>
-                  <div className="text-sm text-muted-foreground">
-                    {currentTheme.name}
-                  </div>
-                </div>
-                <ChevronRight className="h-4 w-4 text-muted-foreground" />
-              </button>
-
+  
               {/* Dark Mode */}
               <button
                 className="flex items-center justify-between p-4 w-full text-left hover:bg-muted/50 rounded-md transition-colors border-t border-border"
@@ -357,29 +307,6 @@ export function Preferences() {
           </DialogContent>
         </Dialog>
 
-        {/* Theme Selection Dialog */}
-        <Dialog open={showThemeDialog} onOpenChange={setShowThemeDialog}>
-          <DialogContent className="max-w-md">
-            <DialogHeader>
-              <DialogTitle>Select Color Theme</DialogTitle>
-            </DialogHeader>
-            <div className="space-y-3">
-              {themes.map((themeOption) => (
-                <ThemePreview
-                  key={themeOption.id}
-                  themeId={themeOption.id}
-                  themeName={themeOption.name}
-                  themeDescription={themeOption.description}
-                  isSelected={colorTheme === themeOption.id}
-                  onClick={() => {
-                    handleThemeChange(themeOption.id);
-                    setShowThemeDialog(false);
-                  }}
-                />
-              ))}
-            </div>
-          </DialogContent>
-        </Dialog>
 
         {/* Dark Mode Selection Dialog */}
         <Dialog open={showDarkModeDialog} onOpenChange={setShowDarkModeDialog}>
