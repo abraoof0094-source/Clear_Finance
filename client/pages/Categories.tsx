@@ -513,7 +513,24 @@ export function Categories() {
               <Button
                 variant="destructive"
                 onClick={() => {
-                  // Delete logic here
+                  if (selectedMainCategory?.id == null) {
+                    setShowDeleteMainDialog(false);
+                    return;
+                  }
+                  const idToDelete = selectedMainCategory.id;
+                  setCategories((prev) => prev.filter((c) => c.id !== idToDelete));
+                  // Cleanup UI state
+                  setExpandedCategories((s) => {
+                    const n = new Set(s);
+                    n.delete(idToDelete);
+                    return n;
+                  });
+                  setOpenMenus((s) => {
+                    const n = new Set(s);
+                    n.delete(idToDelete);
+                    return n;
+                  });
+                  setSelectedMainCategory(null);
                   setShowDeleteMainDialog(false);
                 }}
               >
@@ -586,7 +603,24 @@ export function Categories() {
               <Button
                 variant="destructive"
                 onClick={() => {
-                  // Delete logic here
+                  if (!selectedSubcategory) {
+                    setShowDeleteSubDialog(false);
+                    return;
+                  }
+                  const parentId = (selectedSubcategory as any).parentId;
+                  const subName = selectedSubcategory.name;
+                  if (parentId == null) {
+                    // Try to find parent by searching categories
+                    setCategories((prev) => prev.map((c) => ({
+                      ...c,
+                      subcategories: c.subcategories.filter((s) => s.name !== subName),
+                    })));
+                  } else {
+                    setCategories((prev) => prev.map((c) =>
+                      c.id === parentId ? { ...c, subcategories: c.subcategories.filter((s) => s.name !== subName) } : c
+                    ));
+                  }
+                  setSelectedSubcategory(null);
                   setShowDeleteSubDialog(false);
                 }}
               >
@@ -822,7 +856,7 @@ function ExpandableCategoryItem({
                 key={index}
                 subcategory={subcategory}
                 onEdit={onEditSubcategory}
-                onDelete={onDeleteSubcategory}
+                onDelete={(sub) => onDeleteSubcategory({ ...sub, parentId: category.id })}
                 onSetBudget={onSetBudget}
                 onRemoveBudget={onRemoveBudget}
                 budget={getBudget(subcategory.name)}
