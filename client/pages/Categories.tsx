@@ -37,6 +37,8 @@ export function Categories() {
     number | null
   >(null);
 
+  const [categories, setCategories] = useState(() => allCategories);
+
   const [newCategoryName, setNewCategoryName] = useState("Untitled");
   const [selectedIcon, setSelectedIcon] = useState("🏷️");
   const [categoryType, setCategoryType] = useState<
