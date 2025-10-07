@@ -211,7 +211,9 @@ export function Categories() {
   const handleEditSubcategory = (subcategory: any) => {
     setSelectedSubcategory(subcategory);
     setNewCategoryName(subcategory.name);
+    setNewCategoryDescription(subcategory.description || "");
     setSelectedIcon(subcategory.icon);
+    setActiveMainCategoryId((subcategory && subcategory.parentId) || null);
     setShowEditSubDialog(true);
   };
 
