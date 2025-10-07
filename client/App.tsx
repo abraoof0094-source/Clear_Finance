@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Dashboard } from "./pages/Dashboard";
 import { Analysis } from "./pages/Analysis";
@@ -13,24 +14,31 @@ import { NotFound } from "./pages/NotFound";
 import "./global.css";
 
 export default function App() {
+  useEffect(() => {
+    const saved = localStorage.getItem("dark-mode") || "light";
+    if (saved === "dark") {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, []);
+
   return (
     <BrowserRouter>
-      <div className="dark">
-        <Routes>
-          <Route path="/" element={<Tracker />} />
-          <Route path="/records" element={<Dashboard />} />
-          <Route path="/analysis" element={<Analysis />} />
-          <Route path="/tracker" element={<Tracker />} />
-          <Route path="/budgets" element={<Budgets />} />
-          <Route path="/categories" element={<Categories />} />
-          <Route path="/settings" element={<Settings />} />
-          <Route path="/preferences" element={<Preferences />} />
-          <Route path="/export-records" element={<ExportRecords />} />
-          <Route path="/backup-restore" element={<BackupRestore />} />
-          <Route path="/more" element={<More />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </div>
+      <Routes>
+        <Route path="/" element={<Tracker />} />
+        <Route path="/records" element={<Dashboard />} />
+        <Route path="/analysis" element={<Analysis />} />
+        <Route path="/tracker" element={<Tracker />} />
+        <Route path="/budgets" element={<Budgets />} />
+        <Route path="/categories" element={<Categories />} />
+        <Route path="/settings" element={<Settings />} />
+        <Route path="/preferences" element={<Preferences />} />
+        <Route path="/export-records" element={<ExportRecords />} />
+        <Route path="/backup-restore" element={<BackupRestore />} />
+        <Route path="/more" element={<More />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
     </BrowserRouter>
   );
 }
