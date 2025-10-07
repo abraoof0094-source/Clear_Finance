@@ -224,9 +224,20 @@ export function Categories() {
     alert(`Category "${newCategoryName}" would be added here. Currently categories are static in the demo.`);
   };
 
+  const navigate = useNavigate();
+  const handleBack = () => navigate(-1);
+
   return (
     <Layout>
       <div className="space-y-6 py-4">
+        {/* Header */}
+        <div className="flex items-center gap-4 mb-2">
+          <Button variant="ghost" size="icon" onClick={handleBack} aria-label="Back">
+            <ChevronRight className="h-5 w-5 rotate-180" />
+          </Button>
+          <h2 className="text-xl font-semibold">Categories</h2>
+        </div>
+
         {/* All Categories */}
         <div>
           <h3 className="text-lg font-semibold text-yellow-500 mb-4">
@@ -305,7 +316,7 @@ export function Categories() {
                   onClick={() => setCategoryType("expense")}
                 >
                   <div className="flex flex-col items-center gap-1">
-                    <span className="text-lg">����</span>
+                    <span className="text-lg">💸</span>
                     <span>EXPENSE</span>
                   </div>
                 </button>
@@ -644,7 +655,7 @@ function ExpandableCategoryItem({
                   }`}
                 >
                   {category.type === "income" && "💰"}
-                  {category.type === "investment" && "��"}
+                  {category.type === "investment" && "📈"}
                   {category.type === "expense" && "💸"}
                   <span className="tracking-wide">
                     {category.type === "income" ? "INCOME" :
